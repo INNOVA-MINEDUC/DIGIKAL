@@ -1,0 +1,38 @@
+name: Calidad del Código (CI)
+
+# ¿Cuándo se ejecuta?
+on:
+  push:
+    branches: [ "main", "develop" ] # Se ejecuta al hacer push a estas ramas
+  pull_request:
+    branches: [ "main", "develop" ] # Y en cada Pull Request hacia estas ramas
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Descargar tu código
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    # 2. Configurar el entorno (Ejemplo para Node.js, cámbialo si usas Python/Java)
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    # 3. Instalar dependencias
+    - name: Instalar dependencias
+      run: npm ci
+
+    # 4. Correr Linter (Revisión de estilo)
+    # Si no tienes linter, puedes borrar este paso o comentar la línea 'run'
+    - name: Verificar Estilo (Lint)
+      run: npm run lint --if-present
+
+    # 5. Correr Pruebas Unitarias
+    # Este es el paso CRÍTICO que GitHub esperará ver en verde
+    - name: Ejecutar Pruebas
+      run: npm test
