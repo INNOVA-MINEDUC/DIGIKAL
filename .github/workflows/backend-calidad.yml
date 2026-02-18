@@ -1,10 +1,6 @@
 name: Backend - Calidad del Código (CI)
 
 on:
-  push:
-    branches: [ "main", "develop" ]
-    paths:
-      - 'backend/**' # Solo se ejecuta si hay cambios en la carpeta backend
   pull_request:
     branches: [ "main", "develop" ]
     paths:

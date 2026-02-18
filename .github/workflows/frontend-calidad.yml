@@ -1,10 +1,6 @@
 name: Frontend - Calidad del Código (CI)
 
 on:
-  push:
-    branches: [ "main", "develop" ]
-    paths:
-      - 'frontend/**' # Solo se ejecuta si hay cambios en la carpeta frontend
   pull_request:
     branches: [ "main", "develop" ]
     paths:
