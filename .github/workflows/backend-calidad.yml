@@ -1,0 +1,37 @@
+name: Backend - Calidad del Código (CI)
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+    paths:
+      - 'backend/**' # Solo se ejecuta si hay cambios en la carpeta backend
+  pull_request:
+    branches: [ "main", "develop" ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend # Establece la carpeta de trabajo por defecto
+
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+
+    - name: Instalar dependencias
+      run: npm ci
+
+    # Como actualmente "npm test" da error por defecto, lo dejamos comentado
+    # Descomenta las siguientes líneas cuando configures Jest/Mocha
+    # - name: Ejecutar Pruebas
+    #   run: npm test
