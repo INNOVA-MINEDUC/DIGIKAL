@@ -33,7 +33,7 @@ try {
 // Ruta principal
 
 app.get('/', obtenerEstudiantes);
-app.use('/api/v1/login', loginRoutes);
+app.use('/api/v1/auth', loginRoutes);
 // Usar rutas externas APIS
 app.use('/api/v1/politicas', politicaRoutes);
 app.use('/api/v1/escuelas', escuelaRoutes);

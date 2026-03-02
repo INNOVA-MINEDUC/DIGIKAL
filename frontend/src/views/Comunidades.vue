@@ -1,4 +1,7 @@
 <template>
+    <div class="hero-wrapper">
+    <img src="/comunities/img_1.png" class="hero-bg" alt="Fondo" />
+  </div>
   <v-container class="py-10">
     <v-row class="mb-8">
       <v-col cols="12">
@@ -58,7 +61,7 @@
         </v-row>
       </v-tab-item>
 
-      <!-- <v-tab-item>
+      <v-tab-item>
         <v-row>
           <v-col v-for="evento in eventos" :key="evento.id" cols="12">
             <v-card outlined class="mb-4 pa-2 border-left-primary">
@@ -116,66 +119,90 @@
 </v-card>
 </v-col>
 </v-row>
-</v-tab-item> -->
+</v-tab-item>
     </v-tabs-items>
   </v-container>
+  <HomeFooter />
 </template>
 
-<script>
-export default {
-  data: () => ({
-    tab: null,
-    noticias: [
-      {
-        id: 1,
-        titulo: 'Inauguración de nuevas bibliotecas digitales en zonas rurales',
-        resumen: 'El Ministerio expande la red de conectividad para beneficiar a más de 50,000 estudiantes.',
-        fecha: '15 de Mayo, 2024',
-        categoria: 'INFRAESTRUCTURA',
-        imagen: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=500&q=60'
-      },
-      {
-        id: 2,
-        titulo: 'Presentación de la politica DIGIKAL y avances de innovacción',
-        resumen: 'Nueva convocatoria cerrada para directores departamentales con la finalidad de poder fortalezer alianzas y continuar innovando',
-        fecha: '12 de Mayo, 2024',
-        categoria: 'INSTITUCIONAL',
-        imagen: 'https://preview.atlaq.com/fcd494ea67e944cc8ca14d051ad292e0_guatecompras.gt.png'
-      },
-      {
-        id: 3,
-        titulo: 'Lanzamineto de la plataforma de ASISTO',
-        resumen: 'Se presentan una nueva plataforma educativa totalmente gratuita y plublica con el sin de ayudar a todos los docentes que imparten clases en los grados de primaria',
-        fecha: '10 de Mayo, 2024',
-        categoria: 'NACIONAL',
-        imagen: '/astro2.png'
-      }
-    ],
-    eventos: [
-      {
-        id: 1,
-        dia: '22',
-        mes: 'Mayo',
-        nombre: 'Congreso Nacional de Innovación Educativa',
-        hora: '09:00 AM',
-        lugar: 'Auditorio Central',
-        descripcion: 'Encuentro para discutir el futuro de la IA en las aulas de primaria.'
-      },
-      {
-        id: 2,
-        dia: '05',
-        mes: 'Junio',
-        nombre: 'Taller de Capacitación: Google Classroom',
-        hora: '02:00 PM',
-        lugar: 'Plataforma Virtual (Zoom)',
-        descripcion: 'Sesión técnica para docentes de educación secundaria.'
-      }
-    ]
-  })
-}
+<script setup>
+import { ref } from 'vue'
+import HomeFooter from '@/components/HomeFooter.vue'
+
+// Estado reactivo
+const tab = ref(null)
+
+const noticias = ref([
+  {
+    id: 1,
+    titulo: 'Inauguración de nuevas bibliotecas digitales en zonas rurales',
+    resumen: 'El Ministerio expande la red de conectividad para beneficiar a más de 50,000 estudiantes.',
+    fecha: '15 de Mayo, 2024',
+    categoria: 'INFRAESTRUCTURA',
+    imagen: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=500&q=60'
+  },
+  {
+    id: 2,
+    titulo: 'Presentación de la politica DIGIKAL y avances de innovacción',
+    resumen: 'Nueva convocatoria cerrada para directores departamentales con la finalidad de poder fortalezer alianzas y continuar innovando',
+    fecha: '12 de Mayo, 2024',
+    categoria: 'INSTITUCIONAL',
+    imagen: 'https://preview.atlaq.com/fcd494ea67e944cc8ca14d051ad292e0_guatecompras.gt.png'
+  },
+  {
+    id: 3,
+    titulo: 'Lanzamineto de la plataforma de ASISTO',
+    resumen: 'Se presentan una nueva plataforma educativa totalmente gratuita y plublica con el sin de ayudar a todos los docentes que imparten clases en los grados de primaria',
+    fecha: '10 de Mayo, 2024',
+    categoria: 'NACIONAL',
+    imagen: '/astro2.png'
+  }
+])
+
+const eventos = ref([
+  {
+    id: 1,
+    dia: '22',
+    mes: 'Mayo',
+    nombre: 'Congreso Nacional de Innovación Educativa',
+    hora: '09:00 AM',
+    lugar: 'Auditorio Central',
+    descripcion: 'Encuentro para discutir el futuro de la IA en las aulas de primaria.'
+  },
+  {
+    id: 2,
+    dia: '05',
+    mes: 'Junio',
+    nombre: 'Taller de Capacitación: Google Classroom',
+    hora: '02:00 PM',
+    lugar: 'Plataforma Virtual (Zoom)',
+    descripcion: 'Sesión técnica para docentes de educación secundaria.'
+  }
+])
 </script>
 
 <style scoped>
+.hero-wrapper {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 400px;
+  overflow: hidden;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  /* filter: brightness(0.65); */
+}
+
 .line-height-tight {
   line-height: 1.25 !important;
   margin-bottom: 8px;

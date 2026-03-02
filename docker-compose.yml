@@ -1,15 +1,10 @@
-version: "4.0"
+version: "3.9"
 
 services:
   frontend:
-    build: .
-    container_name: mockup-portal-mineduc
+    build:
+      context: ./frontend
+    container_name: digikal-frontend
     ports:
-      - "5174:5173"
-    volumes:
-      - .:/app
-      - /app/node_modules
-    environment:
-      url: https://ciudadania.mineduc.edu.gt/
-      NODE_ENV: development
-    command: npm run dev -- --host
+      - "5174:80"
+    restart: always

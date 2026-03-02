@@ -86,7 +86,7 @@ async function login(e) {
     error.value = "";
 
     const response = await axios.post(
-      "http://localhost:3000/api/v1/login",
+      "http://localhost:3000/api/v1/auth",
       {
         correoElectronico: user.value,
         clave: password.value
@@ -98,10 +98,11 @@ async function login(e) {
     // 👉 guardar token si viene
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
+      console.log("LOGIN OK:", response.data);
     }
 
     // 👉 redirigir
-    //router.push({ name: "uploaddata" });
+    return router.push({ name: "dashboard" });
 
   } catch (err) {
 

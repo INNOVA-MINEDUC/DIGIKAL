@@ -39,11 +39,11 @@ onMounted(() => {
   departamentosSeries.mapPolygons.template.setAll({
     tooltipText: "{NAME_1}",
     interactive: true,
-    fill: am5.color("#6794DC")
+    fill: am5.color("#0d3b5d")
   })
 
   departamentosSeries.mapPolygons.template.states.create("hover", {
-    fill: am5.color("#2883D1")
+    fill: am5.color("#03bfcb")
   })
 
   // Serie secundaria: Municipios
@@ -54,11 +54,11 @@ onMounted(() => {
   municipiosSeries.mapPolygons.template.setAll({
     tooltipText: "{NAME_2}",
     interactive: true,
-    fill: am5.color("#6794DC")
+    fill: am5.color("#0d3b5d")
   })
 
   municipiosSeries.mapPolygons.template.states.create("hover", {
-    fill: am5.color("#2883D1")
+    fill: am5.color("#03bfcb")
   })
 
   // Serie terciaria: Municipio seleccionado

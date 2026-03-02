@@ -30,7 +30,7 @@
     max-width: 1500px;
     line-height: 1.6;
     margin: 0;
-    text-align: justify;
+    text-align: center;
   ">
       Los resultados de nuestros esfuerzos se reflejan de manera concreta en las mejoras alcanzadas gracias a la
       donación y modernización de equipamiento proporcionada por el Ministerio de Educación (MINEDUC). Esta valiosa

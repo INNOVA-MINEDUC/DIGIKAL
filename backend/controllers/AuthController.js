@@ -47,9 +47,8 @@ export const AuthLogin = async (req, res) => {
 
     const token = response.data.data.iniciarSesion.token;
 
-    console.log(token)
 
-    res.json({
+    return res.json({
       success: true,
       token
     });
@@ -58,7 +57,67 @@ export const AuthLogin = async (req, res) => {
 
     console.error("LOGIN ERROR:", error.response?.data || error.message);
 
-    res.status(500).json({
+    return res.status(500).json({
+      error: "Error al iniciar sesión"
+    });
+
+  }
+};
+
+
+
+export const isAuthenticated = async (req, res) => {
+  try {
+
+    const { correoElectronico, clave } = req.body;
+
+    const isAuthenticated = `
+      query  {
+      usuarioActual {
+   		  nombres
+        apellidos
+        roles {
+          clave
+          nombre
+        }
+      }
+    }
+    `;
+
+    const response = await axios.post(
+      GRAPHQL_ENDPOINT,
+      {
+        query: isAuthenticated
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.TOKEN}`
+        }
+      }
+    );
+
+    // // Manejo errores GraphQL
+    // if (response.errors) {
+    //   return res.status(401).json({
+    //     error: response.errors[0].message
+    //   });
+    // }
+
+    const token = response.data.data.iniciarSesion.token;
+
+
+
+    return res.json({
+      success: true,
+      token
+    });
+
+  } catch (error) {
+
+    console.error("LOGIN ERROR:", error.response?.data || error.message);
+
+    return res.status(500).json({
       error: "Error al iniciar sesión"
     });
 

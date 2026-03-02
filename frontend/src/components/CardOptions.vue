@@ -14,6 +14,7 @@
           <div class="zoom-content">
             <h3 class="title-top">{{ card.top }}</h3>
             <h2 class="title-main">{{ card.title }}</h2>
+            
 
             <v-btn variant="outlined" class="mt-4 text-white" size="small">
               Explorar

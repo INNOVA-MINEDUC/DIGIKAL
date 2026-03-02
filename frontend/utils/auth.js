@@ -1,6 +1,6 @@
 // src/utils/auth.js
 
-import jwt_decode from "jwt-decode"
+import { jwtDecode } from "jwt-decode"
 
 export function getToken() {
   return localStorage.getItem('token')
@@ -19,7 +19,7 @@ export function getUser() {
   if (!token) return null
 
   try {
-    return jwt_decode(token)
+    return jwtDecode(token)
   } catch {
     return null
   }

@@ -3,23 +3,54 @@
     <v-app-bar app color="white" height="90">
       <div class="navigation">
 
-        <!-- Icono (izquierda) -->
         <img src="/icono.png" class="navigation-icon" />
 
-        <!-- Menús + acciones (derecha) -->
         <div class="navigation-right">
-          <v-btn to="/" text>Inicio</v-btn>
-          <v-btn to="/comunidades" text>Novedades</v-btn>
-          <v-btn to="/dashboard" text>Estadísticas</v-btn>
-          <v-btn to="/about" text>Sobre Nosotros</v-btn>
-          <v-btn to="/upload-data" text>Upload Data</v-btn>
-          <v-btn to="/download-data" text>Download Data</v-btn>
 
-          <v-tooltip text="Iniciar Sesión" location="bottom">
+          <v-btn to="/" text>Inicio</v-btn>
+          <v-btn to="/comunities" text>Novedades</v-btn>
+          <v-btn to="/about" text>Sobre Nosotros</v-btn>
+
+          <!-- Solo si está logueado -->
+          <v-btn 
+            to="/dashboard" 
+            text>
+            Estadísticas
+          </v-btn>
+
+          <!-- Solo admin -->
+          <v-btn 
+            v-if="user?.role === 'admin'"
+            to="/upload-data" 
+            text>
+            Upload Data
+          </v-btn>
+
+          <!-- Solo si está logueado -->
+          <v-btn 
+            v-if="logged"
+            to="/download-data" 
+            text>
+            Download Data
+          </v-btn>
+
+          <!-- Si NO está logueado -->
+          <v-tooltip 
+            v-if="!logged"
+            text="Iniciar Sesión"
+            location="bottom">
             <template v-slot:activator="{ props }">
               <v-btn to="/login" v-bind="props" icon="mdi-account"></v-btn>
             </template>
           </v-tooltip>
+
+          <!-- Si está logueado -->
+          <v-btn 
+            v-if="logged"
+            icon="mdi-logout"
+            @click="logout">
+          </v-btn>
+
         </div>
 
       </div>
@@ -32,6 +63,19 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { getUser, isAuthenticated, removeToken } from '../utils/auth'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const user = computed(() => getUser())
+const logged = computed(() => isAuthenticated())
+
+function logout() {
+  removeToken()
+  router.push('/login')
+}
 </script>
 
 <style>

@@ -15,12 +15,14 @@ import DownloadData from './views/DownloadData.vue'
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/about', name: 'about', component: AboutView },
+  { path: '/comunities', name: 'comunities', component: Comunidades },
+  { path: '/details', name: 'details', component: SchoolView },
 
   { 
     path: '/dashboard', 
     name: 'dashboard', 
     component: Dashboard,
-    meta: { requiresAuth: true }
+    // meta: { requiresAuth: true }
   },
 
   { 

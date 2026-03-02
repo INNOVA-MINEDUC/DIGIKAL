@@ -206,7 +206,7 @@
 .footer {
   background:rgba(0, 0, 0, .8);
   color: #aaa;
-  padding: 5rem 0;
+  padding: 10rem 0;
   position: relative;
   z-index: 1;
   width: 100%;
