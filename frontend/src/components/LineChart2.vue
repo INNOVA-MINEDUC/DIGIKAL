@@ -82,7 +82,7 @@ onMounted(() => {
     cornerRadiusTL: 5,
     cornerRadiusTR: 5,
     strokeOpacity: 0,
-    fill: am5.color("#6794DC"),   // 🎨 COLOR CELESTE
+    fill: am5.color("#0d3b5d"),   // 🎨 COLOR CELESTE
     stroke: am5.color("#6794DC")
   });
 

@@ -30,7 +30,7 @@
     max-width: 1500px;
     line-height: 1.6;
     margin: 0;
-    text-align: justify;
+    text-align: center;
   ">
       Los resultados de nuestros esfuerzos se reflejan de manera concreta en las mejoras alcanzadas gracias a la
       donación y modernización de equipamiento proporcionada por el Ministerio de Educación (MINEDUC). Esta valiosa
@@ -131,7 +131,7 @@
 
         <CardOptions :cards="cards" />
       </div>
-           <div style="background-color: #ebf1f5; width: 100vw;">
+           <div style="background-color: #ebf1f5; width: 100vw; padding-bottom: 50px;">
 
           <h2 class="platforms-title"><span>Principales plataformas académicas</span></h2>
           <div class="separator"></div>
@@ -141,7 +141,9 @@
             innovador de la tecnología.
           </p>
 
-          <CardOptions :cards="sistemas" />
+       <div style="width: 50vw; justify-self: center; ">
+           <CardOptions :cards="sistemas" />
+       </div>
         </div>
     </section>
   </main>

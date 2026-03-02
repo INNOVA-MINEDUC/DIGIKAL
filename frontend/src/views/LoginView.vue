@@ -39,7 +39,8 @@
                 prepend-inner-icon="mdi-account" class="mt-1 mb-2" required></v-text-field>
 
               <v-label class="text-caption font-weight-bold">Contraseña</v-label>
-              <v-text-field v-model="password" type="password" placeholder="••••••••" outlined dense
+              <v-text-field v-model="password" 
+              placeholder="••••••••" outlined dense
                 prepend-inner-icon="mdi-lock" class="mt-1" required></v-text-field>
 
               <v-row class="mt-n2">
@@ -69,6 +70,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const router = useRouter()
 
@@ -76,9 +78,42 @@ const router = useRouter()
 const valid = ref(false)
 const user = ref('')
 const password = ref('')
+const error = ref("")
 
-function login(e) {
-  router.push({ name: 'uploaddata' })
+async function login(e) {
+
+  try {
+    error.value = "";
+
+    const response = await axios.post(
+      "http://localhost:3000/api/v1/auth",
+      {
+        correoElectronico: user.value,
+        clave: password.value
+      }
+    );
+
+    console.log("LOGIN OK:", response.data);
+
+    // 👉 guardar token si viene
+    if (response.data.token) {
+      localStorage.setItem("token", response.data.token);
+      console.log("LOGIN OK:", response.data);
+    }
+
+    // 👉 redirigir
+    return router.push({ name: "dashboard" });
+
+  } catch (err) {
+
+    console.error("LOGIN ERROR:", err.response?.data || err.message);
+
+    error.value =
+      err.response?.data?.error ||
+      "Credenciales incorrectas";
+
+  }
+  // router.push({ name: 'uploaddata' })
 }
 
 </script>
