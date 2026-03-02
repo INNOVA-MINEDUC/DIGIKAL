@@ -31,7 +31,7 @@ const handleScroll = () => {
   const scrolled = scrollTop / documentHeight 
 
   // Movemos la cortina hacia arriba (máximo 100vh)
-  const translateY = -scrolled * 420
+  const translateY = -scrolled * 300
   curtain.value.style.transform = `translateY(${translateY}px)`
 }
 
