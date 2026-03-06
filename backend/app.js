@@ -5,6 +5,7 @@ import politicaRoutes from './routes/politica.routes.js';
 import escuelaRoutes from "./routes/escuela.routes.js";
 import entregaRoutes from './routes/entrega.routes.js';
 import loginRoutes from './routes/auth.routes.js';
+import dashboardRoutes from './routes/dashboard.routes.js';
 import { authMiddleware } from './middlewares/auth.middleware.js';
 import { obtenerEstablecimientos, obtenerEstudiantes } from "./services/apiClient.js"
 
@@ -32,12 +33,13 @@ try {
 
 // Ruta principal
 
-app.get('/', obtenerEstudiantes);
+app.get('/', obtenerEstablecimientos);
 app.use('/api/v1/auth', loginRoutes);
 // Usar rutas externas APIS
 app.use('/api/v1/politicas', politicaRoutes);
 app.use('/api/v1/escuelas', escuelaRoutes);
 app.use('/api/v1/entregas', entregaRoutes);
+app.use('/api/v1/dashboard', dashboardRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

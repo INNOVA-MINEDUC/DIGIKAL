@@ -29,14 +29,14 @@ const routes = [
     path: '/upload-data', 
     name: 'uploaddata', 
     component: UploadData,
-    meta: { requiresAuth: true, role: 'admin' }
+    // meta: { requiresAuth: true, role: 'admin' }
   },
 
   { 
     path: '/download-data', 
     name: 'downloaddata', 
     component: DownloadData,
-    meta: { requiresAuth: true }
+    // meta: { requiresAuth: true }
   },
 
   { path: '/login', name: 'login', component: LoginView },

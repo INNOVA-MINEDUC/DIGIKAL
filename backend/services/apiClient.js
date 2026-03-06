@@ -2,6 +2,51 @@ import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config();
 
+
+const queryEstablecimientos = (id) => {
+  return `
+query {
+  establecimientos(filtro: {
+  departamentoId: ${id}
+  }) {
+    id
+    nombre
+    codigoMineduc
+
+    municipio {
+      id
+      nombre
+    }
+
+    departamento {
+      id
+      nombre
+    }
+  }
+}
+`;
+}
+
+
+
+const queryDepartamentos = `
+query {
+  departamentos{
+    id,
+    nombre
+  }
+}
+`;
+
+const queryMunicipios = `
+query {
+  municipios{
+    id,
+    nombre
+  }
+}
+`;
+
 // let authToken = null;
 
 // export const setAuthToken = (token) => {
@@ -48,58 +93,42 @@ query {
 `;
 */
 
-const obtenerEstablecimientos = async (req, res) => {
-    try {
-      const query = `
-query {
-  establecimientos(filtro: {}) {
-    id
-    nombre
-    codigoMineduc
+const obtenerEstablecimientos = async (id) => {
+  try {
 
-    municipio {
-      id
-      nombre
-    }
+console.log(id)
 
-    departamento {
-      id
-      nombre
-    }
+    const response = await axios.post(
+      process.env.API,
+      { query: queryEstablecimientos(id) },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.TOKEN}`
+        },
+      }
+    );
+
+    
+    // console.log(response.data)
+    return response.data
+
+  } catch (error) {
+    console.error("Error al consultar establecimientos:", error.message);
+
+    res.status(500).json({
+      error: "Error al obtener establecimientos",
+      detalle: error.message,
+    });
   }
-}
-`;
-
-
-        const response = await axios.post(
-            process.env.API,
-            { query },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${process.env.TOKEN}`
-                },
-            }
-        );
-
-        res.json(response.data);
-
-    } catch (error) {
-        console.error("Error al consultar establecimientos:", error.message);
-
-        res.status(500).json({
-            error: "Error al obtener establecimientos",
-            detalle: error.message,
-        });
-    }
 };
 
 
 
 
-const obtenerEstudiantes  = async (req, res) => {
-    try {
-      const query = `
+const obtenerEstudiantes = async (req, res) => {
+  try {
+    const query = `
 query Estudiantes {
 
     estudiantes {
@@ -122,31 +151,31 @@ query Estudiantes {
 `;
 
 
-        const response = await axios.post(
-            process.env.API,
-            { query },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${process.env.TOKEN}`
-                },
-            }
-        );
+    const response = await axios.post(
+      process.env.API,
+      { query },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.TOKEN}`
+        },
+      }
+    );
 
-        res.json(response.data);
+    res.json(response.data);
 
-    } catch (error) {
-        console.error("Error al consultar establecimientos:", error.message);
+  } catch (error) {
+    console.error("Error al consultar establecimientos:", error.message);
 
-        res.status(500).json({
-            error: "Error al obtener establecimientos",
-            detalle: error.message,
-        });
-    }
+    res.status(500).json({
+      error: "Error al obtener establecimientos",
+      detalle: error.message,
+    });
+  }
 };
 
 export {
-    obtenerEstudiantes,
-    obtenerEstablecimientos
+  obtenerEstudiantes,
+  obtenerEstablecimientos
 };
 

@@ -27,6 +27,7 @@ import './assets/main.css'
 
 // Component principal
 import App from './App.vue'
+import { createPinia } from "pinia"
 
 const vuetify = createVuetify({
   components,
@@ -37,6 +38,7 @@ const vuetify = createVuetify({
 })
 
 createApp(App)
+.use(createPinia())
 .use(vuetify)
 .use(MotionPlugin)
   .use(router)

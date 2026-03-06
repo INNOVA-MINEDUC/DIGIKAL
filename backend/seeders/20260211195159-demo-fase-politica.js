@@ -9,7 +9,17 @@ export default {
         updatedAt: new Date()
       },
       {
-        name: 'Infraestructura Escolar',
+        name: 'Connección Escolar',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Formacion Escolar',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'Sistemas Escolar',
         createdAt: new Date(),
         updatedAt: new Date()
       }

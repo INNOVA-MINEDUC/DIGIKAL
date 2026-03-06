@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="fill-height bg-grey-lighten-4 py-10">
+  <v-container fluid class="fill-height bg-img py-10">
     <v-row justify="center">
       <v-col cols="12" sm="10" md="8" lg="7">
 
@@ -245,6 +245,13 @@ const submit = () => {
 
 
 <style scoped>
+.bg-img{
+  background-image: url("/upload/img.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .border-top-gt {
   border-top: 8px solid #0094D3 !important;
 }

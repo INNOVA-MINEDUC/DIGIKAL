@@ -1,0 +1,92 @@
+{
+  "departamentos": [
+    {
+      "id": 1,
+      "nombre": "SANTA ROSA"
+    },
+    {
+      "id": 2,
+      "nombre": "SUCHITEPEQUEZ"
+    },
+    {
+      "id": 3,
+      "nombre": "ALTA VERAPAZ"
+    },
+    {
+      "id": 4,
+      "nombre": "EL PROGRESO"
+    },
+    {
+      "id": 5,
+      "nombre": "ESCUINTLA"
+    },
+    {
+      "id": 6,
+      "nombre": "GUATEMALA"
+    },
+    {
+      "id": 7,
+      "nombre": "HUEHUETENANGO"
+    },
+    {
+      "id": 8,
+      "nombre": "IZABAL"
+    },
+    {
+      "id": 9,
+      "nombre": "JALAPA"
+    },
+    {
+      "id": 10,
+      "nombre": "JUTIAPA"
+    },
+    {
+      "id": 11,
+      "nombre": "PETEN"
+    },
+    {
+      "id": 12,
+      "nombre": "SAN MARCOS"
+    },
+    {
+      "id": 13,
+      "nombre": "BAJA VERAPAZ"
+    },
+    {
+      "id": 14,
+      "nombre": "CHIMALTENANGO"
+    },
+    {
+      "id": 15,
+      "nombre": "CHIQUIMULA"
+    },
+    {
+      "id": 16,
+      "nombre": "QUETZALTENANGO"
+    },
+    {
+      "id": 17,
+      "nombre": "QUICHE"
+    },
+    {
+      "id": 18,
+      "nombre": "RETALHULEU"
+    },
+    {
+      "id": 19,
+      "nombre": "SACATEPEQUEZ"
+    },
+    {
+      "id": 20,
+      "nombre": "SOLOLA"
+    },
+    {
+      "id": 21,
+      "nombre": "TOTONICAPAN"
+    },
+    {
+      "id": 22,
+      "nombre": "ZACAPA"
+    }
+  ]
+}
