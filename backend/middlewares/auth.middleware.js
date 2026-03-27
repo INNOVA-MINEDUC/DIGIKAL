@@ -16,7 +16,7 @@ export const authMiddleware = (req, res, next) => {
     });
   }
 
-  // opcional: guardar token para usar luego
+
   req.token = token;
 
   next();

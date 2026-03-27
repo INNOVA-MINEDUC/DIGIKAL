@@ -1,6 +1,6 @@
 import FasePolitica from '../models/FasePolitica.js';
 
-//GET FASEPOLITICA
+
 
 export const getFasePolitica = async (req, res) => {
   try {
@@ -17,7 +17,7 @@ export const getFasePolitica = async (req, res) => {
 };
 
 
-//POST FASEPOLITICA
+
 
 
 export const createFasePolitica = async (req, res) => {
@@ -37,7 +37,7 @@ export const createFasePolitica = async (req, res) => {
 }
 
 
-//GET BY ID FASEPOLITICA
+
 
 export const getIdFasePolitica = async (req, res) => {
   try {
@@ -56,7 +56,7 @@ export const getIdFasePolitica = async (req, res) => {
 }
 
 
-//PUT BY ID FASEPOLITICA
+
 
 export const updateIdFasePolitica = async (req, res) => {
   try {
@@ -79,7 +79,7 @@ export const updateIdFasePolitica = async (req, res) => {
 
 
 
-//DELETE BY ID FASEPOLITICA
+
 
 export const deleteIdFasePolitica = async (req, res) => {
   try {

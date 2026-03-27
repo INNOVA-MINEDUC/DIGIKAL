@@ -32,11 +32,11 @@
         </div>
         <div class="ml-md-6">
           <p class="font-weight-bold mb-2">
-            {{ "Codigo: 22-46810-44" }}
+            {{ "Codigo: 06-09-0027-46" }}
           </p>
 
           <div class="text-body-1">
-            <strong>Dirección:</strong> 6ta calle zona 6, Guatemala, Mixco
+            <strong>Dirección: </strong>aldea candelaria
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@
       <v-timeline align="start">
         <v-timeline-item v-for="(itemData, index) in timelineItems" :key="index">
           <template #opposite>
-            <img src="/img.png" style="width: 450px;" alt=""
+            <img src="/escuela.jpeg" style="width: 450px;" alt=""
              v-motion 
              :visible-once="{
               opacity: 1,
@@ -91,7 +91,7 @@ function goBack() {
 
 
 const item = route?.state?.item || {
-  school: 'Escuela Los Angeles de Charlie',
+  school: 'Instituto Nacional de Educación Diversificada _Taxisco',
   shift: 'No definido',
   grade: 'No definido'
 }

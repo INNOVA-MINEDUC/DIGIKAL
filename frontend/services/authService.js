@@ -1,5 +1,3 @@
-// src/services/api.js
-
 import { getToken } from '../utils/auth'
 
 const API_URL = 'http://localhost:3000/api'

@@ -95,13 +95,11 @@ async function login(e) {
 
     console.log("LOGIN OK:", response.data);
 
-    // 👉 guardar token si viene
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
       console.log("LOGIN OK:", response.data);
     }
 
-    // 👉 redirigir
     return router.push({ name: "dashboard" });
 
   } catch (err) {
@@ -119,17 +117,15 @@ async function login(e) {
 </script>
 
 <style scoped>
-/* Estilo para asegurar que el fondo del formulario sea limpio */
 .bg-white {
   background-color: #ffffff;
 }
 
-/* Ajuste de tipografía más formal */
+
 .v-application {
   font-family: 'Roboto', sans-serif !important;
 }
 
-/* Quitar el redondeo excesivo para un look más serio */
 .v-btn {
   border-radius: 4px;
 }

@@ -1,5 +1,4 @@
 <template>
-  <!-- 🌅 Carrusel principal -->
   <div class="hero-wrapper">
     <img src="/BANNER-33.png" class="hero-bg" alt="Fondo" />
   </div>
@@ -45,7 +44,6 @@
   </div>
 
 
-  <!-- Contenido Principal -->
   <main style="display: flex; flex-direction: column; align-items: center; margin-top: 3rem;">
     <section style="width: 70%;">
       <Carrusel />
@@ -72,16 +70,16 @@
       </div>
 
       <div class="innovation-image">
-        <!-- PEGA TU IMAGEN AQUÍ -->
+    
         <img src="/astro6.png" alt="">
       </div>
     </section>
 
     <section class="digecade-hero">
 
-      <!-- Imagen izquierda -->
+
       <div class="digecade-media">
-        <!-- pega tu imagen aquí -->
+
         <img src="/bg.png" alt="">
         <img src="/astro7.png" style="
       position: absolute; 
@@ -90,7 +88,7 @@
       object-fit: contain;" alt="">
       </div>
 
-      <!-- Contenido derecha -->
+     
       <div class="digecade-panel">
 
         <h2>Innovación en Digecade</h2>
@@ -314,15 +312,13 @@ const options = [
 .ia-img {
   float: left;
   width: 180px;
-  /* ajusta el tamaño */
   margin: 0 20px 10px 0;
-  /* espacio alrededor */
 }
 
 
 
 
-/* === Reset & Base === */
+
 * {
   margin: 0;
   padding: 0;
@@ -351,7 +347,7 @@ const options = [
   /* filter: brightness(0.65); */
 }
 
-/* Imagen superpuesta */
+
 .hero-overlay {
   position: absolute;
   right: 0;
@@ -362,7 +358,7 @@ const options = [
   pointer-events: none;
 }
 
-/* Texto */
+
 .hero-content {
   position: relative;
   z-index: 4;
@@ -455,7 +451,6 @@ const options = [
   border-radius: 18px;
 }
 
-/* Responsive */
 
 @media (max-width: 900px) {
   .innovation {
@@ -475,7 +470,6 @@ const options = [
   height: 500px;
 }
 
-/* Imagen */
 
 .digecade-media {
   background: #1fb6c9;
@@ -491,7 +485,6 @@ const options = [
   object-fit: cover;
 }
 
-/* Panel derecho */
 
 .digecade-panel {
   background: #0d3b5d;
@@ -513,7 +506,6 @@ const options = [
   opacity: 0.95;
 }
 
-/* Botón */
 
 .digecade-btn {
   align-self: flex-start;
@@ -533,7 +525,6 @@ const options = [
   background: #1aa3b4;
 }
 
-/* Responsive */
 
 @media (max-width: 900px) {
   .digecade-hero {
@@ -597,7 +588,6 @@ const options = [
 }
 
 
-/* === Secciones === */
 .hero-section {
   padding: 4rem 0;
   background: #fff;
@@ -619,7 +609,6 @@ const options = [
 
 
 
-/* IA Section */
 .ia-section {
   background: var(--gray-bg);
   padding: 4rem 0;
@@ -639,7 +628,7 @@ const options = [
   margin-bottom: 2rem;
 }
 
-/* Services & Platforms */
+
 .services-section {
   /* background: var(--bg-dark); */
   color: white;
@@ -724,7 +713,7 @@ const options = [
   color: var(--primary);
 }
 
-/* Footer */
+
 .footer {
   background: #111;
   color: #aaa;
@@ -790,8 +779,6 @@ const options = [
 }
 
 
-
-/*---------------------------------------------------------------------*/
 .v-carousel-item img {
   object-fit: cover;
 }

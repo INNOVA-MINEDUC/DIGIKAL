@@ -10,7 +10,7 @@
       >
         <div class="info-card">
 
-          <!-- Imagen -->
+
           <div
             class="card-image"
             :style="{ backgroundImage: `url(${card.img})` }"
@@ -53,7 +53,7 @@ defineProps({
   transform: translateY(-6px);
 }
 
-/* Imagen */
+
 .card-image {
   position: absolute;
   inset: 0;
@@ -61,7 +61,7 @@ defineProps({
   background-position: center;
 }
 
-/* Overlay degradado */
+
 .card-overlay {
   position: absolute;
   inset: 0;

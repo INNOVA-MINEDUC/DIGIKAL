@@ -31,7 +31,7 @@ const handleScroll = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
-  handleScroll() // primera ejecución
+  handleScroll()
 })
 
 onUnmounted(() => {
@@ -61,8 +61,8 @@ onUnmounted(() => {
   min-height: 100vh;
   background: aliceblue;
   z-index: 2;
-  /* La transformación la controla JS */
-  will-change: transform; /* optimización GPU */
+  
+  will-change: transform; 
   transform: translateY(0);
 }
 
