@@ -1,11 +1,11 @@
 <template>
   <div class="carousel">
 
-    <!-- Flechas -->
+
     <button class="arrow left" @click="prev">‹</button>
     <button class="arrow right" @click="next">›</button>
 
-    <!-- Slides -->
+ 
     <div class="track" :style="trackStyle">
       <div
         v-for="(item, i) in items"
@@ -49,7 +49,7 @@ const current = ref(0)
 const hoverIndex = ref(null)
 const activeIndex = ref(0)
 
-const slideWidth = 25 // % visible
+const slideWidth = 25 
 
 const trackStyle = computed(() => ({
   transform: `translateX(-${current.value * slideWidth}%)`
@@ -75,7 +75,7 @@ function prev() {
 
 .track {
   display: flex;
-  gap: 4px; /* espacio real entre slides */
+  gap: 4px; 
   transition: transform 0.4s ease;
 }
 
@@ -90,7 +90,7 @@ function prev() {
   width: 100%;
   height: 300px;
   object-fit: cover;
-  display: block; /* elimina espacios invisibles */
+  display: block; 
 }
 
 .label {
@@ -134,7 +134,7 @@ function prev() {
   background: #e2e8f0;
 }
 
-/* Responsive */
+
 
 @media (max-width: 900px) {
   .slide {

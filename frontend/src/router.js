@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { getToken, removeToken } from '../utils/auth'
 import { apiRequest } from '../services/authService'
 
-// Importa tus vistas
+
 import HomeView from './views/HomeView.vue'
 import AboutView from './views/AboutView.vue'
 import Dashboard from './views/Dashboard.vue'
@@ -88,10 +88,9 @@ router.beforeEach(async (to, from, next) => {
 
     try {
 
-      // Validar token con backend
+  
       const user = await apiRequest('/validate-token')
 
-      // Si la ruta requiere rol específico
       if (to.meta.role && user.role !== to.meta.role) {
         return next('/dashboard')
       }

@@ -1,10 +1,9 @@
 <template>
-    <!-- Footer Fijo -->
+
 <footer class="footer">
   <div class="container">
     <div class="row">
 
-      <!-- Columna 1 - Dirección central / DIGECADE -->
       <div class="col-md-4">
         <img src="/icono.png" alt="MINEDUC Logo" class="footer-logo" />
 
@@ -31,7 +30,6 @@
         </div>
       </div>
 
-      <!-- Columna 2 - Subdirecciones / Servicios relevantes -->
       <div class="col-md-4">
         <div class="contact-info">
           <h4>Subdirección / Contactos</h4>
@@ -43,7 +41,6 @@
         </div>
       </div>
 
-      <!-- Columna 3 - INNOVA / CCT -->
       <div class="col-md-4">
         <div class="contact-info">
           <h4>INNOVA / CCT (Innovación Educativa)</h4>
@@ -76,7 +73,6 @@
 <script setup>
 
 
-// No se necesita JS para las animaciones — todo con CSS
 </script>
 
 <style scoped>
@@ -109,7 +105,7 @@
 .justify-content-end { justify-content: flex-end; }
 
 
-/* IA Section */
+
 .ia-section {
   background: var(--gray-bg);
   padding: 4rem 0;
@@ -129,7 +125,6 @@
   margin-bottom: 2rem;
 }
 
-/* Services & Platforms */
 .services-section {
   /* background: var(--bg-dark); */
   color: white;
@@ -202,7 +197,7 @@
   color: var(--primary);
 }
 
-/* Footer */
+
 .footer {
   background:rgba(0, 0, 0, .8);
   color: #aaa;

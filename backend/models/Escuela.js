@@ -69,19 +69,19 @@ const Escuela = sequelize.define('Escuela', {
 
 Escuela.associate = (models) => {
 
-  // Escuela pertenece a un Departamento
+ 
   Escuela.belongsTo(models.Departamento, {
     foreignKey: 'departamentoId',
     as: 'departamento'
   })
 
-  // Escuela pertenece a un Municipio
+
   Escuela.belongsTo(models.Municipio, {
     foreignKey: 'municipioId',
     as: 'municipio'
   })
 
-  // Escuela tiene muchas entregas
+
   Escuela.hasMany(models.EntregaDetalle, {
     foreignKey: 'escuelaId',
     as: 'entregas'

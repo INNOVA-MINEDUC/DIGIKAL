@@ -2,7 +2,7 @@ import Escuela from "./Escuela.js"
 import Departamento from "./Departamento.js"
 import Municipio from "./Municipio.js"
 
-// relaciones
+
 
 Escuela.belongsTo(Departamento, {
   foreignKey: "departamentoId",

@@ -42,7 +42,7 @@ onMounted(() => {
 
       const payload =
         type === "all"
-          ? {} // 🔥 SIN FILTROS
+          ? {} 
           : {
             dept: data.NAME_1,
             muni: data.nombreCorregidoMunicipio
@@ -144,7 +144,6 @@ onMounted(() => {
 
   let lastDepartamentoDataItem = null
 
-  // 📍 CLICK DEPARTAMENTO
   departamentosSeries.mapPolygons.template.events.on("click", (ev) => {
     const dataItem = ev.target.dataItem
     const data = dataItem.dataContext
@@ -170,7 +169,7 @@ onMounted(() => {
     })
   })
 
-  // 📍 CLICK MUNICIPIO
+
   municipiosSeries.mapPolygons.template.events.on("click", (ev) => {
     const dataItem = ev.target.dataItem
     const data = dataItem.dataContext
@@ -194,7 +193,6 @@ onMounted(() => {
     })
   })
 
-  // 🔙 REGRESAR
   backContainer.events.on("click", () => {
     if (municipioSeleccionadoSeries.get("visible")) {
       municipioSeleccionadoSeries.hide()
@@ -213,7 +211,6 @@ onMounted(() => {
       backContainer.hide()
 
       mapStore.reset()
-      // 🔥 AQUÍ TRAES TODO SIN FILTRO
       handleSelection("all")
 
     }

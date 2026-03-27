@@ -222,7 +222,6 @@ const submit = async () => {
 
     console.log(res.data)
     
-    // Alerta de Éxito
     await Swal.fire({
       title: '¡Registro Exitoso!',
       text: 'La donación tecnológica se ha guardado correctamente.',
@@ -231,12 +230,12 @@ const submit = async () => {
       confirmButtonText: 'Aceptar'
     })
 
-    // Opcional: Reiniciar el formulario o redirigir
+  
     resetEscuela() 
     step.value = 1
 
   } catch (err) {
-    // Alerta de Error
+  
     Swal.fire({
       title: 'Error en el registro',
       text: err.response?.data?.message || 'No se pudo conectar con el servidor.',

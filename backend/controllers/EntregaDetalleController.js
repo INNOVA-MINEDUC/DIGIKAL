@@ -1,8 +1,6 @@
 import EntregaDetalle from '../models/EntregaDetalle.js';
 
-/**
- * 📌 GET ALL
- */
+
 export const getEntregas = async (req, res) => {
   try {
     const entregas = await EntregaDetalle.findAll();
@@ -15,9 +13,7 @@ export const getEntregas = async (req, res) => {
   }
 };
 
-/**
- * 📌 GET BY ID
- */
+
 export const getEntregaById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -37,14 +33,12 @@ export const getEntregaById = async (req, res) => {
   }
 };
 
-/**
- * 📌 CREATE
- */
+
 export const createEntrega = async (req, res) => {
   try {
     const { img, detalle, escuelaId } = req.body;
 
-    // Validar que la escuela exista
+  
     const escuela = await Escuela.findByPk(escuelaId);
     if (!escuela) {
       return res.status(404).json({ message: 'La escuela no existe' });
@@ -65,9 +59,7 @@ export const createEntrega = async (req, res) => {
   }
 };
 
-/**
- * 📌 UPDATE
- */
+
 export const updateEntrega = async (req, res) => {
   try {
     const { id } = req.params;
@@ -79,7 +71,7 @@ export const updateEntrega = async (req, res) => {
       return res.status(404).json({ message: 'Entrega no encontrada' });
     }
 
-    // Validar escuela si se intenta cambiar
+ 
     if (escuelaId) {
       const escuela = await Escuela.findByPk(escuelaId);
       if (!escuela) {
@@ -102,9 +94,7 @@ export const updateEntrega = async (req, res) => {
   }
 };
 
-/**
- * 📌 DELETE
- */
+
 export const deleteEntrega = async (req, res) => {
   try {
     const { id } = req.params;

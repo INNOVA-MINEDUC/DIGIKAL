@@ -25,7 +25,6 @@
 
     <div class="dashboard">
 
-      <!-- Top Stats -->
       <div class="stats-grid">
         <div class="stat-card">
           <h3>Establecimientos</h3>
@@ -46,7 +45,7 @@
         </div>
       </div>
 
-      <!-- Trending Section -->
+
       <div class="section">
         <h2>Trending</h2>
         <div class="charts-grid">
@@ -63,68 +62,14 @@
 
 
 
-      <!-- Trending Section -->
-      <!-- <div class="section">
-        <h2>Trending</h2>
-        <div class="charts-grid">
-          <div class="chart-placeholder">
-            <LineChart2 />
-
-          </div>
-          <div class="chart-placeholder">
-            <DonaChart />
-          </div>
-        </div>
-      </div> -->
 
 
-
-
-      <!-- Product Breakdown -->
-      <!-- <div class="section">
-        <h2>Product Breakdown</h2>
-        <div class="chart-placeholder" style="margin-top: 20rem;">
-
-
-        </div>
-      </div> -->
     </div>
 
 
 
 
 
-    <!-- <h1 class="text-center font-weight-bold">Estadisticas de Escuelas de Guatemala</h1>
-    <v-card style="padding-inline: 10px; width: 110%; display: flex; gap: 10px;">
-      <div style="flex: 0 0 40%;">
-        <GuateMap />
-      </div>
-
-      <div style="flex: 0 0 50%;">
-        <br>
-        <br>
-        <TableView />
-      </div>
-    </v-card>
-    <div style="padding-inline: 10px; width: 100%; display: flex;">
-      <DonaChart /> -->
-    <!-- <div style="flex: 0 0 60%;">
-        <LineChart2 />
-      </div>
-
-      <div style="flex: 0 0 40%;">
-        <DonaChart />
-      </div>  -->
-
-
-    <!-- <BarChart />
-         -->
-    <!-- </div>
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br> -->
 
 
   </v-container>
@@ -185,11 +130,8 @@ const formatNumber = (num) => {
 .innovation-section {
   background-image: url("/dashboard/img_4.png");
   background-repeat: no-repeat;
-  /* No se repite */
   background-size: cover;
-  /* Cubre todo el contenedor */
   background-position: center;
-  /* Centra la imagen */
   color: white;
   text-align: center;
   padding: 150px 20px;

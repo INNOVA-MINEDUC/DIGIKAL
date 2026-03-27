@@ -4,7 +4,7 @@
         <HomeFooter />
       </div>
 
-      <!-- La "cortina" blanca que contiene todo tu contenido normal -->
+  
       <div ref="curtain" class="curtain">
         <HomeContent />
       </div>
@@ -25,19 +25,17 @@ const handleScroll = () => {
   const windowHeight = window.innerHeight
 
   
-
-  // Calculamos cuánto hemos scrolleado como porcentaje del contenido total
   const documentHeight = document.documentElement.scrollHeight - windowHeight
   const scrolled = scrollTop / documentHeight 
 
-  // Movemos la cortina hacia arriba (máximo 100vh)
+
   const translateY = -scrolled * 300
   curtain.value.style.transform = `translateY(${translateY}px)`
 }
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
-  handleScroll() // inicializar
+  handleScroll() 
 })
 
 onUnmounted(() => {
@@ -47,7 +45,6 @@ onUnmounted(() => {
 
 <style scoped>
 
-/* Fondo negro fijo que siempre está detrás */
 .reveal-background {
   position: fixed;
   top: 0;
@@ -56,10 +53,9 @@ onUnmounted(() => {
   height: 100vh;
 
   background-image: url("/fondo.png");
-  background-size: cover;      /* 👈 hace que la imagen cubra todo */
-  background-position: center; /* 👈 centra la imagen */
-  background-repeat: no-repeat;/* 👈 evita repeticiones */
-  /* opcional: gradiente bonito */
+  background-size: cover;      
+  background-position: center; 
+  background-repeat: no-repeat;
   color: white;
   display: flex;
   flex-direction: column;
@@ -67,20 +63,19 @@ onUnmounted(() => {
   align-items: center;
   z-index: 1;
   pointer-events: none;
-  /* permite hacer scroll aunque esté encima */
+
 }
 
 
-/* La cortina blanca que sube */
+
 .curtain {
   position: relative;
   min-height: 100vh;
   background: #fff;
-  /* o el color que use tu tema */
   z-index: 2;
   will-change: transform;
   transform: translateY(0);
-  /* Optimización GPU */
+
   backface-visibility: hidden;
   perspective: 1000;
   /* background-color: transparent; */

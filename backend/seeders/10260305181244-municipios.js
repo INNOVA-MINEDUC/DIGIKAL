@@ -14,14 +14,14 @@ export default {
     const filePath = path.resolve(__dirname, '../helpers/geodata.json')
 
     if (!fs.existsSync(filePath)) {
-      console.log('⚠️ No se encontró el archivo geodata.json')
+      console.log('No se encontró el archivo geodata.json')
       return
     }
 
     const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
 
     if (!jsonData.departamentos) {
-      console.log('⚠️ El JSON no contiene departamentos')
+      console.log('El JSON no contiene departamentos')
       return
     }
 
@@ -29,7 +29,7 @@ export default {
       dep.municipios.map(mun => ({
         // id: mun.id,
         nombre: mun.nombreCorregido,
-        departamentoId: dep.id, // 👈 viene del padre
+        departamentoId: dep.id, 
         createdAt: new Date(),
         updatedAt: new Date()
       }))

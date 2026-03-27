@@ -11,14 +11,14 @@
           <v-btn to="/comunities" text>Novedades</v-btn>
           <v-btn to="/about" text>Sobre Nosotros</v-btn>
 
-          <!-- Solo si está logueado -->
+      
           <v-btn 
             to="/dashboard" 
             text>
             Estadísticas
           </v-btn>
 
-          <!-- Solo admin -->
+        
           <v-btn 
             v-if="user?.role === 'admin'"
             to="/upload-data" 
@@ -26,7 +26,6 @@
             Upload Data
           </v-btn>
 
-          <!-- Solo si está logueado -->
           <v-btn 
             v-if="logged"
             to="/download-data" 
@@ -34,7 +33,6 @@
             Download Data
           </v-btn>
 
-          <!-- Si NO está logueado -->
           <v-tooltip 
             v-if="!logged"
             text="Iniciar Sesión"
@@ -44,7 +42,6 @@
             </template>
           </v-tooltip>
 
-          <!-- Si está logueado -->
           <v-btn 
             v-if="logged"
             icon="mdi-logout"
@@ -92,14 +89,13 @@ function logout() {
   align-items: center;
 }
 
-/* Icono izquierda */
+
 .navigation-icon {
   margin-left: 50px;
   height: 80px;
   object-fit: contain;
 }
 
-/* Todo lo demás a la derecha */
 .navigation-right {
   margin-left: auto;
   display: flex;

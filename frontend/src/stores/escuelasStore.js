@@ -19,7 +19,7 @@ export const useEstablecimientosStore = defineStore('establecimientos', {
 
   actions: {
 
-    // 🔥 SET COMPLETO (recomendado)
+  
     setData(data) {
       this.establecimientos = data.escuelas || []
       this.totalEstablecimientos = data.establecimientos || 0
@@ -27,7 +27,7 @@ export const useEstablecimientosStore = defineStore('establecimientos', {
       this.totalEquipos = data.totalEquipos || 0
     },
 
-    // (opcional, lo puedes mantener si ya lo usas)
+    
     setEstablecimientos(data) {
       this.establecimientos = data
     },

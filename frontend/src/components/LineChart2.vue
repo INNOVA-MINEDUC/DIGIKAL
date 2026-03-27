@@ -16,7 +16,6 @@ onMounted(() => {
 
   root.setThemes([am5themes_Animated.new(root)]);
 
-  // Crear chart
   let chart = root.container.children.push(
     am5xy.XYChart.new(root, {
       panX: true,
@@ -29,11 +28,9 @@ onMounted(() => {
     })
   );
 
-  // Cursor
   let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
   cursor.lineY.set("visible", false);
 
-  // Axis X
   let xRenderer = am5xy.AxisRendererX.new(root, {
     minGridDistance: 30,
     minorGridEnabled: true
@@ -57,7 +54,6 @@ onMounted(() => {
     })
   );
 
-  // Axis Y
   let yAxis = chart.yAxes.push(
     am5xy.ValueAxis.new(root, {
       maxDeviation: 0.3,
@@ -65,7 +61,7 @@ onMounted(() => {
     })
   );
 
-  // Serie
+
   let series = chart.series.push(
     am5xy.ColumnSeries.new(root, {
       name: "Series 1",
@@ -82,11 +78,10 @@ onMounted(() => {
     cornerRadiusTL: 5,
     cornerRadiusTR: 5,
     strokeOpacity: 0,
-    fill: am5.color("#0d3b5d"),   // 🎨 COLOR CELESTE
+    fill: am5.color("#0d3b5d"),  
     stroke: am5.color("#6794DC")
   });
 
- // Datos con los meses del año
 let data = [
   { month: "Enero", value: 120 },
   { month: "Febrero", value: 150 },
@@ -106,7 +101,6 @@ let data = [
   xAxis.data.setAll(data);
   series.data.setAll(data);
 
-  // Animación
   series.appear(1000);
   chart.appear(1000, 100);
 });

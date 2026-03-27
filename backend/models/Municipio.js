@@ -26,13 +26,13 @@ const Municipio = sequelize.define('Municipio', {
 
 Municipio.associate = (models) => {
 
-  // 🔹 Municipio pertenece a un Departamento
+ 
   Municipio.belongsTo(models.Departamento, {
     foreignKey: 'departamentoId',
     as: 'departamento'
   })
 
-  // 🔹 Municipio tiene muchas Escuelas
+
   Municipio.hasMany(models.Escuela, {
     foreignKey: 'municipioId',
     as: 'escuelas'

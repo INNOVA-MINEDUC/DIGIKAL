@@ -5,9 +5,7 @@ import {
   obtenerEstablecimientos
 } from "../services/apiClient.js"
 
-/**
- * 📌 GET ALL ESCUELAS
- */
+
 
 
 export const getEscuelasDotadas = async (req, res) => {
@@ -47,7 +45,6 @@ export const getEscuelasDotadas = async (req, res) => {
       ]
     });
 
-    // 🔥 TOTAL ESTUDIANTES (SUMA)
     const totalEstudiantes = escuelas.reduce(
       (acc, escuela) => {
         const valor = Number(escuela.cantidadEstudiantesBeneficiados || 0)
@@ -56,7 +53,6 @@ export const getEscuelasDotadas = async (req, res) => {
       0
     )
 
-      // 🔥 TOTAL ESTUDIANTES (SUMA)
     const totalEquipos = escuelas.reduce(
       (acc, escuela) => {
         const valor = Number(escuela.cantidadEquipoEntregado || 0)
@@ -66,7 +62,6 @@ export const getEscuelasDotadas = async (req, res) => {
     )
     
 
-    // 🔥 TOTAL ESTABLECIMIENTOS (COUNT)
     const totalEstablecimientos = escuelas.length
 
     return res.status(200).json({
@@ -85,9 +80,7 @@ export const getEscuelasDotadas = async (req, res) => {
   }
 };
 
-/**
- * 📌 GET ESCUELA BY ID
- */
+
 export const getEscuelaById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -107,9 +100,7 @@ export const getEscuelaById = async (req, res) => {
   }
 };
 
-/**
- * 📌 CREATE ESCUELA
- */
+
 export const createEscuela = async (req, res) => {
   try {
     const { codeUdi, fasePoliticaId } = req.body;
@@ -128,9 +119,7 @@ export const createEscuela = async (req, res) => {
   }
 };
 
-/**
- * 📌 UPDATE ESCUELA
- */
+
 export const updateEscuela = async (req, res) => {
   try {
     const { id } = req.params;
@@ -156,9 +145,7 @@ export const updateEscuela = async (req, res) => {
   }
 };
 
-/**
- * 📌 DELETE ESCUELA
- */
+
 export const deleteEscuela = async (req, res) => {
   try {
     const { id } = req.params;

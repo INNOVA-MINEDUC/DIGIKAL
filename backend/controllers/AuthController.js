@@ -38,12 +38,7 @@ export const AuthLogin = async (req, res) => {
       }
     );
 
-    // // Manejo errores GraphQL
-    // if (response.errors) {
-    //   return res.status(401).json({
-    //     error: response.errors[0].message
-    //   });
-    // }
+
 
     const token = response.data.data.iniciarSesion.token;
 
@@ -96,13 +91,6 @@ export const isAuthenticated = async (req, res) => {
         }
       }
     );
-
-    // // Manejo errores GraphQL
-    // if (response.errors) {
-    //   return res.status(401).json({
-    //     error: response.errors[0].message
-    //   });
-    // }
 
     const token = response.data.data.iniciarSesion.token;
 

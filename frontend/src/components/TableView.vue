@@ -10,17 +10,15 @@
       :items-per-page="10"
     >
 
-      <!-- 🔹 Columna Departamento -->
+  
       <template #item.departamento="{ item }">
         {{ item.raw.departamento?.nombre }}
       </template>
 
-      <!-- 🔹 Columna Municipio -->
       <template #item.municipio="{ item }">
         {{ item.raw.municipio?.nombre }}
       </template>
 
-      <!-- 🔹 Botón detalle -->
       <template #item.acciones="{ item }">
         <v-btn
           size="small"
@@ -31,7 +29,6 @@
         </v-btn>
       </template>
 
-      <!-- 🔹 Mensaje vacío -->
       <template #no-data>
         <v-alert type="info" border="start">
           No hay escuelas para mostrar
@@ -50,11 +47,11 @@ import { useEstablecimientosStore } from '../stores/escuelasStore'
 const router = useRouter()
 const store = useEstablecimientosStore()
 
-// 🔹 Reactivo: cuando el store cambie, la tabla se actualiza sola
+
 const items = computed(() => store.getAll)
 
 
-// 🔹 Headers
+
 const headers = [
   { title: 'Escuela', key: 'nombreEscuela' },
   { title: 'Código MINEDUC', key: 'codigoEscuela' },
@@ -63,7 +60,7 @@ const headers = [
   { title: 'Acciones', key: 'acciones', sortable: false }
 ]
 
-// 🔹 Navegación
+
 function showDetails(item) {
   router.push({
     path: '/details',

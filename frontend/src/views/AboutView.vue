@@ -7,9 +7,6 @@
 
   <div class="home">
 
-    <!-- ========================= -->
-    <!-- MISIÓN Y VISIÓN -->
-    <!-- ========================= -->
     <section class="top-section">
       <div class="card large">
         <img src="/about/img_9.png" class="image-placeholder" />
@@ -37,9 +34,6 @@
     </section>
 
 
-    <!-- ========================= -->
-    <!-- SECCIÓN AZUL -->
-    <!-- ========================= -->
     <section class="innovation-section">
       <h2>Innovación en Digecade</h2>
       <p style="max-width: 70%; justify-self: center;">
@@ -55,9 +49,6 @@
     </section>
 
 
-    <!-- ========================= -->
-    <!-- CARDS INFERIORES -->
-    <!-- ========================= -->
     <section class="cards-section">
      <div style="width: 68%;">
        <InfoCards :cards="cards" />
@@ -137,15 +128,10 @@ const cards = [
   background: #f5f7fa;
     background-image: url("/fondo.png");
   background-repeat: no-repeat;
-  /* No se repite */
   background-size: cover;
-  /* Cubre todo el contenedor */
   background-position: center;
 }
 
-/* ========================= */
-/* MISIÓN Y VISIÓN */
-/* ========================= */
 
 .top-section {
   display: flex;
@@ -182,18 +168,12 @@ const cards = [
 }
 
 
-/* ========================= */
-/* SECCIÓN AZUL */
-/* ========================= */
 
 .innovation-section {
   background-image: url("/about/img_3.png");
   background-repeat: no-repeat;
-  /* No se repite */
   background-size: cover;
-  /* Cubre todo el contenedor */
   background-position: center;
-  /* Centra la imagen */
   color: white;
   text-align: center;
   padding: 150px 20px;
@@ -207,9 +187,6 @@ const cards = [
 }
 
 
-/* ========================= */
-/* CARDS INFERIORES */
-/* ========================= */
 
 .cards-section {
   display: flex;
@@ -246,9 +223,7 @@ const cards = [
 }
 
 
-/* ========================= */
-/* RESPONSIVE */
-/* ========================= */
+
 
 @media (max-width: 768px) {
   .top-section {

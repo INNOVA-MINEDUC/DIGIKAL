@@ -2,8 +2,8 @@ import { Sequelize } from 'sequelize';
 
 const sequelize = new Sequelize('innova', 'root', 'root', {
   host: 'localhost',
-  dialect: 'mysql', // o 'postgres'
-  logging: false, // quita logs en consola (opcional)
+  dialect: 'mysql', 
+  logging: false, 
 });
 
 export default sequelize;

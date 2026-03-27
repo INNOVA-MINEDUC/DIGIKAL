@@ -1,6 +1,5 @@
 import fs from "fs";
 
-// leer geojson
 const geojson = JSON.parse(
   fs.readFileSync("./Municipios.json", "utf8")
 );

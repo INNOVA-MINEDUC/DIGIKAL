@@ -15,7 +15,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: "http://localhost:5173", // tu frontend
+  origin: "http://localhost:5173", 
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
@@ -32,11 +32,12 @@ try {
   console.error('❌ Error de conexión:', error);
 }
 
-// Ruta principal
+
 
 app.get('/', obtenerEstablecimientos);
 app.use('/api/v1/auth', loginRoutes);
-// Usar rutas externas APIS
+
+
 app.use('/api/v1/politicas', politicaRoutes);
 app.use('/api/v1/escuelas', escuelaRoutes);
 app.use('/api/v1/entregas', entregaRoutes);

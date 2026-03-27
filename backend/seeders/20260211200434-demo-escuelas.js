@@ -8,12 +8,12 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// 🔥 NORMALIZACIÓN MEJORADA (quita tildes)
+
 function normalizar(texto) {
   return String(texto || '')
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // elimina acentos
+    .replace(/[\u0300-\u036f]/g, "") 
     .trim()
 }
 
@@ -24,7 +24,7 @@ export default {
     const filePath = path.resolve(__dirname, '../helpers/dotaciones/resultado_final.xlsx')
 
     if (!fs.existsSync(filePath)) {
-      console.log('⚠️ No se encontró el archivo Excel')
+      console.log('No se encontró el archivo Excel')
       return
     }
 
@@ -32,21 +32,21 @@ export default {
     const hoja = workbook.Sheets[workbook.SheetNames[0]]
     const datos = xlsx.utils.sheet_to_json(hoja)
 
-    console.log(`📄 Filas encontradas en Excel: ${datos.length}`)
+    console.log(`Filas encontradas en Excel: ${datos.length}`)
 
-    // traer departamentos
+
     const departamentosDB = await queryInterface.sequelize.query(
       `SELECT id, nombre FROM departamentos`,
       { type: Sequelize.QueryTypes.SELECT }
     )
 
-    // traer municipios
+  
     const municipiosDB = await queryInterface.sequelize.query(
       `SELECT id, nombre, departamentoId FROM municipios`,
       { type: Sequelize.QueryTypes.SELECT }
     )
 
-    // 🔹 mapas
+ 
     const departamentosMap = {}
     departamentosDB.forEach(dep => {
       departamentosMap[normalizar(dep.nombre)] = dep.id
@@ -61,7 +61,6 @@ export default {
     const registros = []
     const codigos = new Set()
 
-    // 🔥 CONTADORES
     let sinCodigo = 0
     let duplicados = 0
     let sinDepartamento = 0
@@ -71,14 +70,12 @@ export default {
 
       const codigo = row.codigo_escuela
 
-      // ❌ sin código
       if (!codigo) {
         sinCodigo++
-        console.log("❌ Sin código:", row)
+        console.log("Sin código:", row)
         continue
       }
 
-      // 🔁 duplicado
       if (codigos.has(codigo)) {
         duplicados++
         console.log("🔁 Duplicado:", codigo)
@@ -92,20 +89,19 @@ export default {
 
       const departamentoId = departamentosMap[depNombre]
 
-      // ❌ departamento no encontrado
       if (!departamentoId) {
         sinDepartamento++
-        console.log(`⚠️ Departamento no encontrado: [${row.departamento}]`)
+        console.log(` Departamento no encontrado: [${row.departamento}]`)
         continue
       }
 
       const municipioKey = `${munNombre}_${departamentoId}`
       const municipioId = municipiosMap[municipioKey]
 
-      // ❌ municipio no encontrado
+
       if (!municipioId) {
         sinMunicipio++
-        console.log(`⚠️ Municipio no encontrado: [${row.municipio}] | DEP: [${row.departamento}]`)
+        console.log(` Municipio no encontrado: [${row.municipio}] | DEP: [${row.departamento}]`)
         continue
       }
 
@@ -128,9 +124,9 @@ export default {
       registros.push(registro)
     }
 
-    console.log(`📦 Escuelas listas para insertar: ${registros.length}`)
+    console.log(` Escuelas listas para insertar: ${registros.length}`)
 
-    // 🔥 RESUMEN FINAL
+
     console.log("\n====== RESUMEN ======")
     console.log("❌ Sin código:", sinCodigo)
     console.log("🔁 Duplicados:", duplicados)

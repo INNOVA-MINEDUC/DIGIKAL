@@ -13,8 +13,7 @@ export const useMapStore = defineStore("mapStore", {
       this.departamento = payload.departamento
       this.municipio = payload.municipio
 
-      // 👇 AGREGA ESTE CONSOLE
-      // console.log("🗺️ STORE ACTUALIZADO:", {
+      // console.log("STORE ACTUALIZADO:", {
       //   type: this.type,
       //   departamento: this.departamento,
       //   municipio: this.municipio
@@ -26,7 +25,7 @@ export const useMapStore = defineStore("mapStore", {
       this.departamento = null
       this.municipio = null
 
-      // console.log("🔄 STORE RESETEADO")
+      // console.log("STORE RESETEADO")
     }
   }
 })

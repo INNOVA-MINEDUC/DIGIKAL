@@ -169,7 +169,7 @@ const descargar = (formato) => {
 
 <style scoped>
 .bg-main {
-  background-color: #F8FAFC !important; /* Fondo grisáceo muy suave para que resalten las cards blancas */
+  background-color: #F8FAFC !important;
 }
 
 .line-height-1 {
@@ -180,7 +180,7 @@ const descargar = (formato) => {
   z-index: 2;
 }
 
-/* Mejora de los Inputs */
+
 .custom-input :deep(.v-field__input) {
   font-size: 0.9rem;
 }
@@ -190,7 +190,7 @@ const descargar = (formato) => {
   background-color: #f1f5f9 !important;
 }
 
-/* Estilo de la Tabla */
+
 .custom-table {
   border-radius: 16px !important;
 }

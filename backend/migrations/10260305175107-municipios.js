@@ -17,7 +17,7 @@ export default {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'departamentos', // tabla padre
+          model: 'departamentos', 
           key: 'id',
         },
         onDelete: 'CASCADE',

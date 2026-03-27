@@ -4,43 +4,36 @@
 
     <form @submit.prevent="submitForm">
 
-      <!-- IMAGEN -->
       <div class="form-group">
         <label>Imagen del evento</label>
         <input type="file" @change="handleImage" />
       </div>
 
-      <!-- TITULO -->
       <div class="form-group">
         <label>Título</label>
         <input v-model="form.titulo" type="text" required />
       </div>
 
-      <!-- FECHA -->
       <div class="form-group">
         <label>Fecha</label>
         <input v-model="form.fecha" type="date" required />
       </div>
 
-      <!-- HORA -->
       <div class="form-group">
         <label>Hora</label>
         <input v-model="form.hora" type="time" required />
       </div>
 
-      <!-- LUGAR -->
       <div class="form-group">
         <label>Lugar</label>
         <input v-model="form.lugar" type="text" required />
       </div>
 
-      <!-- DESCRIPCIÓN -->
       <div class="form-group">
         <label>Descripción</label>
         <textarea v-model="form.descripcion" rows="4" required></textarea>
       </div>
 
-      <!-- BOTON -->
       <button type="submit" class="btn">Crear Evento</button>
 
     </form>
@@ -59,12 +52,10 @@ const form = ref({
   imagen: null
 })
 
-// 📸 manejar imagen
 const handleImage = (e) => {
   form.value.imagen = e.target.files[0]
 }
 
-// 🚀 enviar al backend
 const submitForm = async () => {
   try {
     const data = new FormData()
@@ -76,7 +67,6 @@ const submitForm = async () => {
     data.append('descripcion', form.value.descripcion)
     data.append('imagen', form.value.imagen)
 
-    // 🔌 CAMBIA ESTA URL
     const res = await fetch('http://localhost:3000/api/eventos', {
       method: 'POST',
       body: data
@@ -85,7 +75,7 @@ const submitForm = async () => {
     const result = await res.json()
 
     console.log(result)
-    alert('Evento creado 🚀')
+    alert('Evento creado ')
 
   } catch (error) {
     console.log(error)
