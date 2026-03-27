@@ -27,7 +27,7 @@ export default {
 
     const municipios = jsonData.departamentos.flatMap(dep =>
       dep.municipios.map(mun => ({
-        id: mun.id,
+        // id: mun.id,
         nombre: mun.nombreCorregido,
         departamentoId: dep.id, // 👈 viene del padre
         createdAt: new Date(),

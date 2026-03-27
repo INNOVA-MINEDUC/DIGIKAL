@@ -8,10 +8,11 @@ import loginRoutes from './routes/auth.routes.js';
 import dashboardRoutes from './routes/dashboard.routes.js';
 import { authMiddleware } from './middlewares/auth.middleware.js';
 import { obtenerEstablecimientos, obtenerEstudiantes } from "./services/apiClient.js"
+import "./models/relations.js"
 
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors({
   origin: "http://localhost:5173", // tu frontend

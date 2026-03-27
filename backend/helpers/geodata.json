@@ -92,7 +92,13 @@
         {
           "id": 15,
           "nombre": "TUCURÚ",
-          "nombreCorregido": "tucurú",
+          "nombreCorregido": "san miguel tucurú",
+          "departamentoId": 1
+        },
+          {
+          "id": 1,
+          "nombre": "SATACATALINALATINTA",
+          "nombreCorregido": "santa catalina la tinta",
           "departamentoId": 1
         }
       ]
@@ -202,7 +208,7 @@
         {
           "id": 31,
           "nombre": "POCHUTA",
-          "nombreCorregido": "pochuta",
+          "nombreCorregido": "san miguel pochuta",
           "departamentoId": 3
         },
         {
@@ -767,6 +773,12 @@
           "nombre": "TODOSSANTOSCUCHUMATÁN",
           "nombreCorregido": "todos santos cuchumatán",
           "departamentoId": 8
+        },
+        {
+          "id": 119,
+          "nombre": "UNIÓNCANTINIL",
+          "nombreCorregido": "unión cantinil",
+          "departamentoId": 8
         }
       ]
     },
@@ -1046,6 +1058,12 @@
           "id": 161,
           "nombre": "SAYAXCHÉ",
           "nombreCorregido": "sayaxché",
+          "departamentoId": 12
+        },
+        {
+          "id": 162,
+          "nombre": "ELCHAL",
+          "nombreCorregido": "el chal",
           "departamentoId": 12
         }
       ]

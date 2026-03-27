@@ -8,9 +8,12 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// 🔥 NORMALIZACIÓN MEJORADA (quita tildes)
 function normalizar(texto) {
   return String(texto || '')
     .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // elimina acentos
     .trim()
 }
 
@@ -43,15 +46,13 @@ export default {
       { type: Sequelize.QueryTypes.SELECT }
     )
 
-    // 🔹 mapa de departamentos
+    // 🔹 mapas
     const departamentosMap = {}
     departamentosDB.forEach(dep => {
       departamentosMap[normalizar(dep.nombre)] = dep.id
     })
 
-    // 🔹 mapa de municipios
     const municipiosMap = {}
-
     municipiosDB.forEach(mun => {
       const key = `${normalizar(mun.nombre)}_${mun.departamentoId}`
       municipiosMap[key] = mun.id
@@ -60,11 +61,29 @@ export default {
     const registros = []
     const codigos = new Set()
 
+    // 🔥 CONTADORES
+    let sinCodigo = 0
+    let duplicados = 0
+    let sinDepartamento = 0
+    let sinMunicipio = 0
+
     for (const row of datos) {
 
       const codigo = row.codigo_escuela
-      if (!codigo) continue
-      if (codigos.has(codigo)) continue
+
+      // ❌ sin código
+      if (!codigo) {
+        sinCodigo++
+        console.log("❌ Sin código:", row)
+        continue
+      }
+
+      // 🔁 duplicado
+      if (codigos.has(codigo)) {
+        duplicados++
+        console.log("🔁 Duplicado:", codigo)
+        continue
+      }
 
       codigos.add(codigo)
 
@@ -73,16 +92,20 @@ export default {
 
       const departamentoId = departamentosMap[depNombre]
 
+      // ❌ departamento no encontrado
       if (!departamentoId) {
-        console.log(`⚠️ Departamento no encontrado: ${row.departamento}`)
+        sinDepartamento++
+        console.log(`⚠️ Departamento no encontrado: [${row.departamento}]`)
         continue
       }
 
       const municipioKey = `${munNombre}_${departamentoId}`
       const municipioId = municipiosMap[municipioKey]
 
+      // ❌ municipio no encontrado
       if (!municipioId) {
-        console.log(`⚠️ Municipio no encontrado: ${row.municipio}`)
+        sinMunicipio++
+        console.log(`⚠️ Municipio no encontrado: [${row.municipio}] | DEP: [${row.departamento}]`)
         continue
       }
 
@@ -91,10 +114,9 @@ export default {
         codigoEscuela: codigo,
         departamentoId,
         municipioId,
-        fasePoliticaId: 1,
         direccion: row.direccion || null,
-        cantidadEquipoEntregado: row['cantidad de equipo entregado'] || 0,
-        cantidadEstudiantesBeneficiados: row['cantidad de estudiantes beneficiados'] || 0,
+        cantidadEquipoEntregado: row['Cantidad de Equipo entregado'],
+        cantidadEstudiantesBeneficiados: row['Cantidad de Estudiantes beneficiados'],
         createdAt: new Date(),
         updatedAt: new Date()
       }
@@ -104,10 +126,17 @@ export default {
       if (row.director) registro.director = row.director
 
       registros.push(registro)
-
     }
 
     console.log(`📦 Escuelas listas para insertar: ${registros.length}`)
+
+    // 🔥 RESUMEN FINAL
+    console.log("\n====== RESUMEN ======")
+    console.log("❌ Sin código:", sinCodigo)
+    console.log("🔁 Duplicados:", duplicados)
+    console.log("⚠️ Sin departamento:", sinDepartamento)
+    console.log("⚠️ Sin municipio:", sinMunicipio)
+    console.log("=====================\n")
 
     if (registros.length > 0) {
       await queryInterface.bulkInsert('escuelas', registros)

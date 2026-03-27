@@ -61,22 +61,20 @@ export default {
         allowNull: true,
       },
 
-      cantidadEquipoEntregado: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-      },
-
-      cantidadEstudiantesBeneficiados: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-      },
-
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
+
+      cantidadEquipoEntregado: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+
+      cantidadEstudiantesBeneficiados: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
       },
 
       updatedAt: {

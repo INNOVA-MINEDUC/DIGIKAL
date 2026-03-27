@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   getEscuelas,
-  getEscuelaById,
+  getEscuelaByCodigo,
   createEscuela,
   updateEscuela,
   deleteEscuela
@@ -18,7 +18,7 @@ router.get('/', getEscuelas);
 /**
  * GET BY ID
  */
-router.get('/:id', getEscuelaById);
+router.post('/udi', getEscuelaByCodigo);
 
 /**
  * CREATE

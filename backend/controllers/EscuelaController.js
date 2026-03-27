@@ -18,17 +18,31 @@ export const getEscuelas = async (req, res) => {
 /**
  * 📌 GET ESCUELA BY ID
  */
-export const getEscuelaById = async (req, res) => {
+export const getEscuelaByCodigo = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { CodigoEscuela } = req.body;
 
-    const escuela = await Escuela.findByPk(id);
+    if (!CodigoEscuela) {
+      return res.status(400).json({
+        message: 'CódigoEscuela es requerido'
+      });
+    }
+
+    const escuela = await Escuela.findOne({
+      where: { CodigoEscuela }
+    });
+
+    console.log("pass throuthg");
+
 
     if (!escuela) {
-      return res.status(404).json({ message: 'Escuela no encontrada' });
+      return res.status(404).json({
+        message: 'Escuela no encontrada'
+      });
     }
 
     return res.status(200).json(escuela);
+
   } catch (error) {
     return res.status(500).json({
       message: 'Error al buscar escuela',
@@ -36,20 +50,21 @@ export const getEscuelaById = async (req, res) => {
     });
   }
 };
-
 /**
  * 📌 CREATE ESCUELA
  */
 export const createEscuela = async (req, res) => {
   try {
     const { codeUdi, fasePoliticaId } = req.body;
+    console.log(req.body)
+    return res.status(200).json(req.body)
 
-    const nuevaEscuela = await Escuela.create({
-      codeUdi,
-      fasePoliticaId
-    });
+    // const nuevaEscuela = await Escuela.create({
+    //   codeUdi,
+    //   fasePoliticaId
+    // });
 
-    return res.status(201).json(nuevaEscuela);
+    // return res.status(201).json(nuevaEscuela);
   } catch (error) {
     return res.status(500).json({
       message: 'Error al crear escuela',
