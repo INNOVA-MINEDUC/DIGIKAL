@@ -9,7 +9,7 @@ import * as am5 from "@amcharts/amcharts5"
 import * as am5map from "@amcharts/amcharts5/map"
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated"
 import { onMounted, onBeforeUnmount } from "vue"
- import { useEstablecimientosStore } from '@/stores/escuelasStore'
+import { useEstablecimientosStore } from '@/stores/escuelasStore'
 
 import guatemalaDepartamentos from "../helpers/Departamentos.json"
 import guatemalaMunicipios from "../helpers/Municipios.json"
@@ -34,35 +34,45 @@ onMounted(() => {
     })
   )
 
-const establecimientosStore = useEstablecimientosStore()
+  const establecimientosStore = useEstablecimientosStore()
 
-const handleSelection = async (type, data = {}) => {
+  const handleSelection = async (type = "all", data = {}) => {
+    try {
+      establecimientosStore.setLoading(true)
 
-  try {
-    establecimientosStore.setLoading(true)
+      const payload =
+        type === "all"
+          ? {} // 🔥 SIN FILTROS
+          : {
+            dept: data.NAME_1,
+            muni: data.nombreCorregidoMunicipio
+          }
 
-    const res = await axios.post(
-      "http://localhost:3000/api/v1/dashboard",
-      { id: data.ID }
-    )
+      const res = await axios.post(
+        "http://localhost:3000/api/v1/dashboard",
+        payload
+      )
 
-    // 🔥 Aquí llenas el store con la response
-    establecimientosStore.setEstablecimientos(
-      res.data.establecimientos || res.data
-    )
 
-  } catch (error) {
-    console.error("Error cargando dashboard:", error)
-  } finally {
-    establecimientosStore.setLoading(false)
+      console.log(res.data)
+
+      establecimientosStore.setData(res.data)
+
+    } catch (error) {
+      console.error("Error cargando dashboard:", error)
+    } finally {
+      establecimientosStore.setLoading(false)
+    }
+
+    mapStore.setSelection({
+      type,
+      departamento: data.NAME_1 || null,
+      municipio: data.NAME_2 || null
+    })
   }
 
-  mapStore.setSelection({
-    type,
-    departamento: data.NAME_1 || null,
-    municipio: data.NAME_2 || null
-  })
-}
+  handleSelection("all")
+
 
   const departamentosSeries = chart.series.push(
     am5map.MapPolygonSeries.new(root, {
@@ -123,6 +133,7 @@ const handleSelection = async (type, data = {}) => {
       visible: false
     })
   )
+  
 
   backContainer.children.push(
     am5.Label.new(root, {
@@ -169,7 +180,7 @@ const handleSelection = async (type, data = {}) => {
     const municipioUnico = {
       type: "FeatureCollection",
       features: guatemalaMunicipios.features.filter(
-        (f) => f.properties.NAME_2 === data.NAME_2
+        (f) => f.properties.nombreCorregidoMunicipio === data.nombreCorregidoMunicipio
       )
     }
 
@@ -202,6 +213,9 @@ const handleSelection = async (type, data = {}) => {
       backContainer.hide()
 
       mapStore.reset()
+      // 🔥 AQUÍ TRAES TODO SIN FILTRO
+      handleSelection("all")
+
     }
   })
 })

@@ -53,10 +53,11 @@ const store = useEstablecimientosStore()
 // 🔹 Reactivo: cuando el store cambie, la tabla se actualiza sola
 const items = computed(() => store.getAll)
 
+
 // 🔹 Headers
 const headers = [
-  { title: 'Escuela', key: 'nombre' },
-  { title: 'Código MINEDUC', key: 'codigoMineduc' },
+  { title: 'Escuela', key: 'nombreEscuela' },
+  { title: 'Código MINEDUC', key: 'codigoEscuela' },
   { title: 'Departamento', key: 'departamento.nombre' },
   { title: 'Municipio', key: 'municipio.nombre' },
   { title: 'Acciones', key: 'acciones', sortable: false }

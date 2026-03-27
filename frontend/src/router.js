@@ -11,12 +11,28 @@ import Comunidades from './views/Comunidades.vue'
 import LoginView from './views/LoginView.vue'
 import UploadData from './views/UploadData.vue'
 import DownloadData from './views/DownloadData.vue'
+import CreateEvents from './views/CreateEvents.vue'
 
 const routes = [
-  { path: '/', name: 'home', component: HomeView },
-  { path: '/about', name: 'about', component: AboutView },
-  { path: '/comunities', name: 'comunities', component: Comunidades },
-  { path: '/details', name: 'details', component: SchoolView },
+  { path: '/', 
+    name: 'home', 
+    component: HomeView
+  },
+  { 
+    path: '/about', 
+    name: 'about', 
+    component: AboutView 
+  },
+  { 
+    path: '/comunities', 
+    name: 'comunities', 
+    component: Comunidades
+  },
+  { 
+    path: '/details', 
+    name: 'details', 
+    component: SchoolView 
+  },
 
   { 
     path: '/dashboard', 
@@ -39,7 +55,18 @@ const routes = [
     // meta: { requiresAuth: true }
   },
 
-  { path: '/login', name: 'login', component: LoginView },
+    { 
+    path: '/create-event', 
+    name: 'createevent', 
+    component: CreateEvents,
+    // meta: { requiresAuth: true }
+  },
+
+  { 
+    path: '/login', 
+    name: 'login', 
+    component: LoginView
+  },
 ]
 
 

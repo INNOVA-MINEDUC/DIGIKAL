@@ -29,15 +29,16 @@
       <div class="stats-grid">
         <div class="stat-card">
           <h3>Establecimientos</h3>
-          <p class="value">200</p>
+          <p class="value">{{ formatNumber(totalEstablecimientos) }}</p>
         </div>
+
         <div class="stat-card">
-          <h3>Establecimientos Pendientes</h3>
-          <p class="value">0</p>
+          <h3>Numero de Equipos Dotados</h3>
+          <p class="value">{{ formatNumber(totalEquipos) }}</p>
         </div>
         <div class="stat-card">
           <h3>Numero de Estudiantes Beneficiados</h3>
-          <p class="value">1,000</p>
+          <p class="value">{{ formatNumber(totalEstudiantes) }}</p>
         </div>
         <div class="stat-card">
           <h3>Estudiantes Restantes</h3>
@@ -50,7 +51,7 @@
         <h2>Trending</h2>
         <div class="charts-grid">
           <div class="chart-placeholder">
-            <GuateMap />
+            <GuateMap2 />
 
           </div>
           <div class="chart-placeholder" style="background-color: white;">
@@ -63,7 +64,7 @@
 
 
       <!-- Trending Section -->
-      <div class="section">
+      <!-- <div class="section">
         <h2>Trending</h2>
         <div class="charts-grid">
           <div class="chart-placeholder">
@@ -74,7 +75,7 @@
             <DonaChart />
           </div>
         </div>
-      </div>
+      </div> -->
 
 
 
@@ -139,6 +140,22 @@ import TableView from "../components/TableView.vue";
 import LineChart from "../components/LineChart.vue";
 import LineChart2 from "../components/LineChart2.vue";
 import HomeFooter from "@/components/HomeFooter.vue";
+
+import { useEstablecimientosStore } from '@/stores/escuelasStore'
+import { computed } from 'vue'
+import GuateMap2 from "@/components/GuateMap2.vue";
+
+const store = useEstablecimientosStore()
+
+const totalEstablecimientos = computed(() => store.totalEstablecimientos)
+const totalEstudiantes = computed(() => store.totalEstudiantes)
+const totalEquipos = computed(() => store.totalEquipos)
+
+
+
+const formatNumber = (num) => {
+  return new Intl.NumberFormat('en-US').format(num)
+}
 </script>
 
 
