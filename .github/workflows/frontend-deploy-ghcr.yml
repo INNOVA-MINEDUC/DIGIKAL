@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - develop
     paths:
       - 'frontend/**'
   # Permite correr el workflow desde la interfaz manual de GitHub
@@ -45,14 +46,15 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       # 3. Asignación automática de Tags e info para publicarlo en GitHub Packages Sidebar
-      - name: Extracción de Metadatos y Tags
+      - name: Extracción de Metadatos y Tags (Separación por Ramas)
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
+            type=ref,event=branch
             type=sha,format=short,prefix=git-
-            type=raw,value=latest
+            type=raw,value=latest,enable={{is_default_branch}}
 
       # 4. Construcción y Subida a GHCR con capa de caché
       - name: Build y Push de Imagen a GHCR
