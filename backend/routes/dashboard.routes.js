@@ -8,24 +8,24 @@ const router = express.Router();
 
 router.post('/', getEscuelasDotadas);
 
- /**
- * GET BY ID
- */
-router.get('/:id', getEntregaById);
+//  /**
+//  * GET BY ID
+//  */
+// router.get('/:id', getEntregaById);
 
-/**
- * CREATE
- */
-router.post('/', createEntrega);
+// /**
+//  * CREATE
+//  */
+// router.post('/', createEntrega);
 
-/**
- * UPDATE
- */
-router.put('/:id', updateEntrega);
+// /**
+//  * UPDATE
+//  */
+// router.put('/:id', updateEntrega);
 
-/**
- * DELETE
- */
-router.delete('/:id', deleteEntrega);
+// /**
+//  * DELETE
+//  */
+// router.delete('/:id', deleteEntrega);
 
 export default router;

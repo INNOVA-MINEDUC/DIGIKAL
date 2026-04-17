@@ -3,7 +3,7 @@
     <v-app-bar app color="white" height="90">
       <div class="navigation">
 
-        <img src="/icono.png" class="navigation-icon" />
+        <img src="/icono2.png" class="navigation-icon" />
 
         <div class="navigation-right">
 
