@@ -112,7 +112,7 @@
               </v-chip>
             </template>
 
-            <template v-slot:item.estado="{ item }">
+            <template v-slot:item.estado>
               <div class="d-flex align-center">
                 <v-badge dot color="success" inline class="mr-2"></v-badge>
                 <span class="text-body-2 font-weight-medium text-grey-darken-3">Auditado</span>

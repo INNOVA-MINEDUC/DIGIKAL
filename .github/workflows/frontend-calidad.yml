@@ -32,9 +32,11 @@ jobs:
     - name: Verificar Build
       run: npm run build
 
-    # Descomenta esto si agregas scripts de linting o testing
-    # - name: Verificar Estilo (Lint)
-    #   run: npm run lint
+    - name: Verificar Seguridad de Paquetes (NPM Audit)
+      run: npm audit --audit-level=high || true # Por ahora true para no quebrar pipeline de inmediato, pero notificar.
+
+    - name: Verificar Estilo y Buenas Prácticas (Lint)
+      run: npm run lint
     
     # - name: Ejecutar Pruebas
     #   run: npm test

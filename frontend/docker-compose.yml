@@ -10,6 +10,6 @@ services:
       - .:/app
       - /app/node_modules
     environment:
-      url: https://ciudadania.mineduc.edu.gt/
+      VITE_API_URL: https://ciudadania.mineduc.edu.gt/
       NODE_ENV: development
     command: npm run dev -- --host

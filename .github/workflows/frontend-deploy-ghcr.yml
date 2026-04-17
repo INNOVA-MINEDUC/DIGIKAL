@@ -1,0 +1,67 @@
+name: Frontend - Push a GitHub Container Registry (GHCR)
+
+on:
+  # Se ejecuta automáticamente al hacer push en main en la carpeta frontend
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+  # Permite correr el workflow desde la interfaz manual de GitHub
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    # IMPORTANTE: Se requieren permisos explícitos para que el Token pueda publicar paquetes en GHCR (GitHub Packages)
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      # GHCR no acepta nombres de imagen con mayúsculas. Aseguramos que el nombre del repositorio esté en minúsculas.
+      - name: Preparar Nombre de Imagen (Forzar Minúsculas)
+        run: |
+          REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "IMAGE_NAME=$REPO_LOWER-frontend" >> $GITHUB_ENV
+
+      # 1. Autenticación en GHCR utilizando el Token Nativo de GitHub (No requiere configuración de secretos extra)
+      - name: Autenticación en GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Habilitar entorno de construcción avanzado de Docker
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 3. Asignación automática de Tags e info para publicarlo en GitHub Packages Sidebar
+      - name: Extracción de Metadatos y Tags
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,format=short,prefix=git-
+            type=raw,value=latest
+
+      # 4. Construcción y Subida a GHCR con capa de caché
+      - name: Build y Push de Imagen a GHCR
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache,mode=max
