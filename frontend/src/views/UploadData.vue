@@ -1,4 +1,5 @@
 <template>
+
   <v-container fluid class="fill-height bg-img py-10">
     <v-row justify="center">
       <v-col cols="12" sm="10" md="8" lg="7">
@@ -62,17 +63,21 @@
                   <v-col cols="12" md="4">
                     <v-number-input control-variant="split" min="1" v-model="form.docentesBeneficiados" label="Docentes Beneficiados" variant="outlined" prepend-inner-icon="mdi-school" color="#0094D3" :rules="[numberMin1]" />
                   </v-col>
+
                   <v-col cols="12" md="6">
                     <v-select v-model="form.etnia" :items="['Maya', 'Ladina', 'Xinka', 'Garífuna', 'Otro']" label="Etnia predominante" variant="outlined" prepend-inner-icon="mdi-account-group" color="#0094D3" :rules="[required]" />
                   </v-col>
                   <v-divider class="my-4 border-opacity-25" color="#003366"></v-divider>
+                      <v-col cols="12" >
+                     <h3 class="text-h6 mb-4 text-[#003366]">2.2 Información del Director</h3>
+                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field v-model="form.nombreDirector" label="Nombre del Director" variant="outlined" prepend-inner-icon="mdi-account-star" color="#0094D3" :rules="[required, onlyLetters]" />
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="6">
                     <v-text-field v-model="form.telefono" label="Teléfono" variant="outlined" prepend-inner-icon="mdi-phone" color="#0094D3" :rules="[phone]" />
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="6">
                     <v-text-field v-model="form.correo" label="Correo de contacto" type="email" variant="outlined" prepend-inner-icon="mdi-email-outline" color="#0094D3" :rules="[email]" />
                   </v-col>
                 </v-row>
@@ -210,18 +215,18 @@ const resetEscuela = () => {
 }
 
 const submit = async () => {
-  const payload = { 
-    ...form.value, 
-    fecha: new Date(form.value.fecha).toISOString() 
+  const payload = {
+    ...form.value,
+    fecha: new Date(form.value.fecha).toISOString()
   }
-  
+
   loading.value = true
 
   try {
     const res = await axios.post("http://localhost:3000/api/v1/escuelas", payload)
 
     console.log(res.data)
-    
+
     await Swal.fire({
       title: '¡Registro Exitoso!',
       text: 'La donación tecnológica se ha guardado correctamente.',
@@ -230,12 +235,12 @@ const submit = async () => {
       confirmButtonText: 'Aceptar'
     })
 
-  
-    resetEscuela() 
+
+    resetEscuela()
     step.value = 1
 
   } catch (err) {
-  
+
     Swal.fire({
       title: 'Error en el registro',
       text: err.response?.data?.message || 'No se pudo conectar con el servidor.',
@@ -243,7 +248,7 @@ const submit = async () => {
       confirmButtonColor: '#0094D3',
       confirmButtonText: 'Intentar de nuevo'
     })
-    
+
     console.error('Error al enviar:', err)
   } finally {
     loading.value = false
@@ -262,4 +267,5 @@ const submit = async () => {
 :deep(.v-stepper-header) { box-shadow: none !important; border-bottom: 1px solid #e0e0e0; }
 :deep(.v-stepper-item--selected .v-stepper-item__avatar) { background-color: #0094D3 !important; }
 .opacity-80 { opacity: 0.8; }
+
 </style>

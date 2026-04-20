@@ -1,113 +1,59 @@
-import axios from "axios";
-import dotenv from "dotenv";
-dotenv.config();
-
-
-const GRAPHQL_ENDPOINT = process.env.API;
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+import User from "../models/User.js"
+import Role from "../models/Role.js"
 
 export const AuthLogin = async (req, res) => {
   try {
+    const { email, password } = req.body
 
-    const { correoElectronico, clave } = req.body;
 
-    const mutation = `
-      mutation IniciarSesion($correo: String!, $clave: String!) {
-        iniciarSesion(
-          clave: $clave
-          correoElectronico: $correo
-          sistemaClave: "ASISTO"
-        ) {
-          token
-        }
+    // 1. Buscar usuario
+    const user = await User.findOne({
+      where: { email },
+      include: {
+        model: Role,
+        as: 'role'
       }
-    `;
+    })
 
-    const response = await axios.post(
-      GRAPHQL_ENDPOINT,
-      {
-        query: mutation,
-        variables: {
-          correo: correoElectronico,
-          clave: clave
-        }
-      },
-      {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
-
-
-
-    const token = response.data.data.iniciarSesion.token;
-
-
-    return res.json({
-      success: true,
-      token
-    });
-
-  } catch (error) {
-
-    console.error("LOGIN ERROR:", error.response?.data || error.message);
-
-    return res.status(500).json({
-      error: "Error al iniciar sesión"
-    });
-
-  }
-};
-
-
-
-export const isAuthenticated = async (req, res) => {
-  try {
-
-    const { correoElectronico, clave } = req.body;
-
-    const isAuthenticated = `
-      query  {
-      usuarioActual {
-   		  nombres
-        apellidos
-        roles {
-          clave
-          nombre
-        }
-      }
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' })
     }
-    `;
 
-    const response = await axios.post(
-      GRAPHQL_ENDPOINT,
+    // 2. Comparar contraseña
+    const validPassword = await bcrypt.compare(password, user.password)
+
+    if (!validPassword) {
+      console.log("invalid Password")
+      return res.status(401).json({ message: 'Contraseña incorrecta' })
+    }
+
+    // 3. Crear token
+    const token = jwt.sign(
       {
-        query: isAuthenticated
+        id: user.id,
+        email: user.email,
+        role: user.role?.name
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.TOKEN}`
-        }
-      }
-    );
+      process.env.JWT_SECRET || 'secret123',
+      { expiresIn: '1d' }
+    )
 
-    const token = response.data.data.iniciarSesion.token;
-
-
-
+    // 4. Respuesta
     return res.json({
-      success: true,
-      token
-    });
+      message: 'Login exitoso',
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role?.name
+      }
+    })
 
   } catch (error) {
-
-    console.error("LOGIN ERROR:", error.response?.data || error.message);
-
-    return res.status(500).json({
-      error: "Error al iniciar sesión"
-    });
-
+    console.error(error)
+    res.status(500).json({ message: 'Error en el servidor' })
   }
-};
+}

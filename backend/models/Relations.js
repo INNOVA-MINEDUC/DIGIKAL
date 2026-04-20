@@ -1,7 +1,20 @@
 import Escuela from "./Escuela.js"
 import Departamento from "./Departamento.js"
 import Municipio from "./Municipio.js"
+import User from "./User.js"
+import Role from "./Role.js"
 
+
+User.belongsTo(Role, {
+  foreignKey: "roleId",
+  as: "role"
+})
+
+
+Role.hasMany(User, {
+  foreignKey: "roleId",
+  as: "users"
+})
 
 
 Escuela.belongsTo(Departamento, {

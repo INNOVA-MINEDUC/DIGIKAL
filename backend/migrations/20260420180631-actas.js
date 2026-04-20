@@ -1,3 +1,5 @@
+'use strict';
+
 export default {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('actas', {
@@ -8,11 +10,12 @@ export default {
         primaryKey: true,
       },
 
-      escuela_id: {
+      dotacion_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        unique: true, // 🔥 asegura 1:1
         references: {
-          model: 'escuelas',
+          model: 'dotaciones',
           key: 'id',
         },
         onDelete: 'CASCADE',
@@ -22,6 +25,7 @@ export default {
       no_acta: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true, // ⚠️ recomendado
       },
 
       libro_folio: {
@@ -36,7 +40,11 @@ export default {
         type: Sequelize.DATEONLY,
       },
 
-      mes: {
+      observaciones: {
+        type: Sequelize.TEXT,
+      },
+
+      acta_pdf: {
         type: Sequelize.STRING,
       },
 

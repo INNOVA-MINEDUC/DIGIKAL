@@ -12,6 +12,7 @@ import LoginView from './views/LoginView.vue'
 import UploadData from './views/UploadData.vue'
 import DownloadData from './views/DownloadData.vue'
 import CreateEvents from './views/CreateEvents.vue'
+import CatalogosView from './views/CatalogosView.vue'
 
 const routes = [
   { path: '/', 
@@ -66,6 +67,12 @@ const routes = [
     path: '/login', 
     name: 'login', 
     component: LoginView
+  },
+
+    { 
+    path: '/catalogos', 
+    name: 'catalogos', 
+    component: CatalogosView
   },
 ]
 
