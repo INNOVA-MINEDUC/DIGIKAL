@@ -26,19 +26,68 @@
 
 
 
-          <h3 class="text-overline font-weight-bold text-grey-darken-1 mb-4">Filtros de Reporte</h3>
+<v-slide-x-transition mode="out-in">
 
+  <!-- 🔹 FILTROS PRINCIPALES -->
+  <v-sheet v-if="!mostrarDetalle" key="filtros-principal" color="transparent">
 
+    <h3 class="text-overline font-weight-bold text-grey-darken-1 mb-4">
+      Filtros de Reporte
+    </h3>
 
-          <v-select v-model="filters.tipo" :items="tiposEquipo" label="Tipo de Equipo" variant="solo-filled" flat
+    <v-select
+      v-model="filters.tipo"
+      :items="tiposEquipo"
+      label="Tipo de Equipo"
+      variant="solo-filled"
+      flat
+      density="comfortable"
+      class="mb-6 custom-input"
+      clearable
+    />
 
-            density="comfortable" class="mb-6 custom-input" clearable />
+    <v-text-field
+      v-model="filters.busqueda"
+      label="Descripción o Modelo"
+      variant="solo-filled"
+      flat
+      density="comfortable"
+      class="mb-6 custom-input"
+      clearable
+    />
 
+  </v-sheet>
 
+  <!-- 🔹 FILTROS DETALLE -->
+  <v-sheet v-else key="filtros-detalle" color="transparent">
 
-          <v-text-field v-model="filters.busqueda" label="Descripción o Modelo" placeholder="Ej: Dell, Laptop..."
+    <h3 class="text-overline font-weight-bold text-grey-darken-1 mb-4">
+      Filtros de Equipos
+    </h3>
 
-            variant="solo-filled" flat density="comfortable" class="mb-6 custom-input" clearable></v-text-field>
+    <v-text-field
+      v-model="filtersDetalle.serie"
+      label="No. Serie"
+      variant="solo-filled"
+      flat
+      density="comfortable"
+      class="mb-6 custom-input"
+      clearable
+    />
+
+    <v-text-field
+      v-model="filtersDetalle.sicoin"
+      label="Código SICOIN"
+      variant="solo-filled"
+      flat
+      density="comfortable"
+      class="mb-6 custom-input"
+      clearable
+    />
+
+  </v-sheet>
+
+</v-slide-x-transition>
 
 
 
@@ -63,82 +112,117 @@
       </v-col>
 
 
+<v-col cols="12" md="9" lg="10" class="pa-6 pa-lg-10">
 
-      <v-col cols="12" md="9" lg="10" class="pa-6 pa-lg-10">
+<v-slide-x-transition mode="out-in">
 
-        <div class="d-flex align-center justify-space-between mb-8">
+  <!-- 🔹 TABLA PRINCIPAL -->
+  <v-sheet v-if="!mostrarDetalle" key="principal" color="transparent">
 
-          <div>
-
+    <div class="d-flex align-center justify-space-between mb-8">
+     <div>
             <h1 class="text-h4 font-weight-bold text-blue-darken-4">Catálogo de Equipo</h1>
-
             <p class="text-body-1 text-grey-darken-1">Gestión y exportación de donaciones tecnológicas</p>
+          </div>
+    </div>
 
+    <v-card class="rounded-xl elevation-sm">
+      <v-data-table
+        :headers="headers"
+        :items="resultados"
+        hover
+        class="custom-table"
+      >
+
+        <template v-slot:item.cantidad="{ item, value }">
+          <v-chip
+            variant="tonal"
+            color="indigo"
+            size="small"
+            class="font-weight-bold"
+            @click.stop="verDetalle(item)"
+          >
+            {{ value }} unidades
+          </v-chip>
+        </template>
+
+        <template v-slot:item.valor_unitario="{ value }">
+          <span class="font-weight-bold text-blue-darken-3">
+            Q {{ value.toLocaleString() }}
+          </span>
+        </template>
+
+      </v-data-table>
+    </v-card>
+
+  </v-sheet>
+
+  <!-- 🔹 TABLA DETALLE -->
+  <v-sheet v-else key="detalle" color="transparent">
+
+    <div class="d-flex justify-space-between align-center mb-4">
+
+   <div>
+            <h1 class="text-h4 font-weight-bold text-blue-darken-4">Cantidad  de Equipo</h1>
+            <p class="text-body-1 text-grey-darken-1">Gestión y exportación de donaciones tecnológicas</p>
           </div>
 
-
-
-          <div class="d-flex gap-3">
-
-            <v-btn variant="outlined" color="#0094D3" prepend-icon="mdi-file-excel"
-
-              class="text-none font-weight-bold rounded-lg px-6" size="large" @click="descargar('excel')">Excel</v-btn>
-
-            <v-btn color="#0094D3" prepend-icon="mdi-file-pdf-box"
-
-              class="text-none font-weight-bold rounded-lg px-6 text-white" size="large" elevation="4"
-
-              @click="descargar('pdf')">PDF</v-btn>
-
-            
-
-            <v-divider vertical class="mx-2"></v-divider>
+      <v-btn
+        color="primary"
+        variant="elevated"
+        class="font-weight-bold"
+        prepend-icon="mdi-plus"
+        @click="volverTabla"
+      >
+        Nuevo Equipo
+      </v-btn>
 
 
 
-            <v-btn color="#003366" prepend-icon="mdi-plus"
+    </div>
+      <v-btn
+        color="primary"
+        variant="tonal"
+        class="font-weight-bold"
+        prepend-icon="mdi-arrow-left"
+        @click="volverTabla"
+      >
+        Volver
+      </v-btn>
+    <v-card class="rounded-xl elevation-sm" style="width: 50%; display: flex; justify-self: center;">
+      <v-data-table
+        :headers="headersDetalle"
+        :items="detalleFiltrado"
+        class="custom-table"
+      >
 
-              class="text-none font-weight-bold rounded-lg px-6 text-white" size="large" elevation="4"
+        <template v-slot:item.no="{ value }">
+          <span class="font-weight-black">{{ value }}</span>
+        </template>
 
-              @click="dialogRegistro = true">
+        <template v-slot:item.serie="{ value }">
+          <span class="font-weight-black">{{ value }}</span>
+        </template>
 
-              Agregar Equipo
+        <template v-slot:item.sicoin="{ value }">
+          <span class="font-weight-black">{{ value }}</span>
+        </template>
 
-            </v-btn>
+        <template v-slot:item.valor="{ value }">
+          <span class="font-weight-black text-blue-darken-3">
+            Q {{ value.toLocaleString() }}
+          </span>
+        </template>
 
-          </div>
+      </v-data-table>
+    </v-card>
 
-        </div>
+  </v-sheet>
 
+</v-slide-x-transition>
 
-
-        <v-card class="rounded-xl border-none elevation-sm">
-
-          <v-data-table :headers="headers" :items="resultados" :loading="loading" hover class="custom-table">
-
-            <template v-slot:item.cantidad="{ value }">
-
-              <v-chip variant="tonal" color="indigo" size="small" class="font-weight-bold">
-
-                {{ value }} unidades
-
-              </v-chip>
-
-            </template>
-
-            <template v-slot:item.valor_unitario="{ value }">
-
-              <span class="font-weight-bold text-blue-darken-3">Q {{ value.toLocaleString() }}</span>
-
-            </template>
-
-          </v-data-table>
-
-        </v-card>
-
-      </v-col>
-
-    </v-row>
+</v-col>
+</v-row>
 
 
 
@@ -368,6 +452,51 @@
 
 import { ref, computed } from 'vue'
 
+const mostrarDetalle = ref(false)
+const detalleItems = ref([])
+
+const filtersDetalle = ref({
+  serie: '',
+  sicoin: ''
+})
+
+const detalleFiltrado = computed(() => {
+  return detalleItems.value.filter(item => {
+    const serie = filtersDetalle.value.serie.toLowerCase()
+    const sicoin = filtersDetalle.value.sicoin.toLowerCase()
+
+    return (
+      (!serie || item.serie.toLowerCase().includes(serie)) &&
+      (!sicoin || item.sicoin.toLowerCase().includes(sicoin))
+    )
+  })
+})
+
+const verDetalle = (item) => {
+  detalleItems.value = [
+    { no: 1, serie: 'SN001', sicoin: 'SC001', valor: 4500 },
+    { no: 2, serie: 'SN002', sicoin: 'SC002', valor: 4500 },
+  ]
+
+  mostrarDetalle.value = true
+}
+
+const volverTabla = () => {
+  mostrarDetalle.value = false
+
+  filtersDetalle.value = {
+    serie: '',
+    sicoin: ''
+  }
+}
+
+const headersDetalle = [
+  { title: 'No.', key: 'no' },
+  { title: 'No. Serie', key: 'serie' },
+  { title: 'Código SICOIN', key: 'sicoin' },
+  { title: 'Valor (Q)', key: 'valor' },
+]
+
 
 
 const loading = ref(false)
@@ -436,7 +565,7 @@ const headers = [
 
   { title: 'CANTIDAD', key: 'cantidad', align: 'center' },
 
-  { title: 'VALOR UNITARIO (Q)', key: 'valor_unitario', align: 'end' },
+  { title: 'VALOR TOTAL (Q)', key: 'valor_unitario', align: 'end' },
 
 ]
 
@@ -593,21 +722,29 @@ const mostrarAlerta = (msj, color) => {
 
 
 const buscarData = () => {
-
-  loading.value = true
-
-  setTimeout(() => (loading.value = false), 500)
-
+  if (!mostrarDetalle.value) {
+    // tabla principal
+    loading.value = true
+    setTimeout(() => (loading.value = false), 500)
+  } else {
+    // tabla detalle (no necesita loading, ya es reactivo)
+    console.log('Filtrando detalle...')
+  }
 }
 
 
-
 const limpiarFiltros = () => {
-
-  filters.value.tipo = null
-
-  filters.value.busqueda = ''
-
+  if (!mostrarDetalle.value) {
+    // 🔹 limpiar filtros principales
+    filters.value.tipo = null
+    filters.value.busqueda = ''
+  } else {
+    // 🔹 limpiar filtros detalle
+    filtersDetalle.value = {
+      serie: '',
+      sicoin: ''
+    }
+  }
 }
 
 
