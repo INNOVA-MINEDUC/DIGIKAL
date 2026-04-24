@@ -12,7 +12,7 @@ export default {
       nombre: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true, // 🔥 evita duplicados tipo "Laptop"
+        unique: true, 
       },
 
       createdAt: {

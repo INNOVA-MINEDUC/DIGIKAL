@@ -43,31 +43,6 @@ export default {
         defaultValue: 0,
       },
 
-      maya: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-
-      xinca: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-
-      garifuna: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-
-      ladina: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-
-      otros: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
-
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -78,7 +53,7 @@ export default {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-      },
+      }
 
     });
   },

@@ -13,29 +13,9 @@
 
           <h3 class="text-overline font-weight-bold text-grey-darken-1 mb-4">Filtros de Reporte</h3>
           
-          <v-select
-            v-model="filters.departamento"
-            :items="departamentos"
-            label="Departamento"
-            variant="solo-filled"
-            flat
-            density="comfortable"
-            class="mb-3 custom-input"
-          ></v-select>
-
-          <v-select
-            v-model="filters.municipio"
-            :items="municipios"
-            label="Municipio"
-            variant="solo-filled"
-            flat
-            density="comfortable"
-            class="mb-3 custom-input"
-            :disabled="!filters.departamento"
-          ></v-select>
-
           <v-text-field
             v-model="filters.codigoEscuela"
+            @input="aplicarFiltro"
             label="Código UDI"
             placeholder="00-00-0000"
             variant="solo-filled"
@@ -50,7 +30,7 @@
             size="large"
             class="text-none font-weight-bold rounded-lg mb-2"
             elevation="0"
-            @click="buscarData"
+            @click="aplicarFiltro"
           >
             Aplicar Filtros
           </v-btn>
@@ -70,7 +50,7 @@
       <v-col cols="12" md="9" lg="10" class="pa-6 pa-lg-10">
         <div class="d-flex align-center justify-space-between mb-8">
           <div>
-            <h1 class="text-h4 font-weight-bold text-blue-darken-4">Descargar Reportes</h1>
+            <h1 class="text-h4 font-weight-bold text-blue-darken-4">Descargar Reportes y Actas</h1>
             <p class="text-body-1 text-grey-darken-1">Gestión y exportación de donaciones tecnológicas</p>
           </div>
 
@@ -84,16 +64,6 @@
               @click="descargar('excel')"
             >
               Excel
-            </v-btn>
-            <v-btn
-              color="#0094D3"
-              prepend-icon="mdi-file-pdf-box"
-              class="text-none font-weight-bold rounded-lg px-6 text-white"
-              size="large"
-              elevation="4"
-              @click="descargar('pdf')"
-            >
-              Descargar PDF
             </v-btn>
           </div>
         </div>
@@ -113,10 +83,16 @@
             </template>
 
             <template v-slot:item.estado="{ item }">
-              <div class="d-flex align-center">
-                <v-badge dot color="success" inline class="mr-2"></v-badge>
-                <span class="text-body-2 font-weight-medium text-grey-darken-3">Auditado</span>
-              </div>
+              <v-btn
+                size="small"
+                color="primary"
+                variant="outlined"
+                class="text-none"
+                prepend-icon="mdi-file-pdf-box"
+                @click="verActa(item)"
+              >
+                Ver Acta
+              </v-btn>
             </template>
 
             <template v-slot:loading>
@@ -130,41 +106,88 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
+const resultados = ref([]);
 const loading = ref(false)
+const datosOriginales = ref([]);
 const filters = ref({ departamento: null, municipio: null, codigoEscuela: '' })
 
-const departamentos = ['Guatemala', 'Sacatepéquez', 'Quetzaltenango', 'San Marcos']
-const municipios = ['Ciudad de Guatemala', 'Mixco', 'Villa Nueva', 'Antigua Guatemala']
-
 const headers = [
-  { title: 'FECHA REGISTRO', key: 'fecha', align: 'start', class: 'text-grey' },
+  { title: 'FECHA REGISTRO', key: 'fecha', align: 'start' },
   { title: 'CENTRO EDUCATIVO', key: 'escuela' },
   { title: 'CÓDIGO UDI', key: 'codigo' },
+  { title: 'TIPO DE EQUIPO', key: 'tipos' },
+  { title: 'MODELOS', key: 'modelos' },
   { title: 'CANTIDAD', key: 'cantidad', align: 'center' },
-  { title: 'ESTADO', key: 'estado', align: 'end' },
+  { title: 'ACCIONES', key: 'estado', align: 'end' },
 ]
 
-const resultados = ref([
-  { fecha: '05/02/2026', escuela: 'EORM Cantón La Unión', codigo: '01-01-0020-43', cantidad: 45 },
-  { fecha: '04/02/2026', escuela: 'Inst. Normal Central para Varones', codigo: '01-01-0001-43', cantidad: 120 },
-  { fecha: '02/02/2026', escuela: 'Escuela Oficial Urbana Mixta No. 5', codigo: '03-05-1244-43', cantidad: 30 },
-  { fecha: '30/01/2026', escuela: 'Instituto Nacional de Educación Básica', codigo: '12-01-0045-43', cantidad: 15 },
-])
+const buscarData = async () => {
+  try {
+    loading.value = true;
+    const response = await axios.get('http://localhost:3000/api/v1/dotacion');
+    datosOriginales.value = response.data;
+    aplicarFiltro();
+  } catch (error) {
+    console.error('❌ Error al obtener datos:', error);
+  } finally {
+    loading.value = false;
+  }
+};
 
-const buscarData = () => {
-  loading.value = true
-  setTimeout(() => (loading.value = false), 1000)
-}
+const aplicarFiltro = () => {
+  let data = [...datosOriginales.value];
+
+  // Filtro por UDI
+  if (filters.value.codigoEscuela) {
+    data = data.filter(d =>
+      d.escuela?.codigoEscuela?.toLowerCase().includes(filters.value.codigoEscuela.toLowerCase())
+    );
+  }
+
+  // Mapeo y formateo de datos para la tabla
+  resultados.value = data.map(d => {
+    // Obtenemos nombres únicos de tipos y los unimos con coma
+    const tiposUnicos = [...new Set(d.equipos?.map(e => e.modelo?.tipo?.nombre).filter(t => t))];
+    
+    // Obtenemos nombres únicos de modelos y los unimos con coma
+    const modelosUnicos = [...new Set(d.equipos?.map(e => e.modelo?.nombre_modelo).filter(m => m))];
+
+    return {
+      fecha: new Date(d.fecha_entrega).toLocaleDateString(),
+      escuela: d.escuela?.nombreEscuela || 'Sin nombre',
+      codigo: d.escuela?.codigoEscuela || 'N/A',
+      tipos: tiposUnicos.join(', '), // <--- CORREGIDO: Ahora es un string separado por comas
+      modelos: modelosUnicos.join(', '), 
+      cantidad: d.equipos?.length || 0,
+      acta: d.acta?.acta_pdf || null
+    };
+  });
+};
+
+const verActa = (item) => {
+  if (!item.acta) {
+    alert('No hay acta disponible');
+    return;
+  }
+  const url = `http://localhost:3000/uploads/actas/${item.acta}`;
+  window.open(url, '_blank');
+};
 
 const limpiarFiltros = () => {
-  filters.value = { departamento: null, municipio: null, codigoEscuela: '' }
+  filters.value = { departamento: null, municipio: null, codigoEscuela: '' };
+  aplicarFiltro();
 }
 
 const descargar = (formato) => {
   console.log(`Exportando en ${formato}...`)
 }
+
+onMounted(() => {
+  buscarData();
+});
 </script>
 
 <style scoped>
@@ -180,16 +203,10 @@ const descargar = (formato) => {
   z-index: 2;
 }
 
-
-.custom-input :deep(.v-field__input) {
-  font-size: 0.9rem;
-}
-
 .custom-input :deep(.v-field) {
   border-radius: 12px !important;
   background-color: #f1f5f9 !important;
 }
-
 
 .custom-table {
   border-radius: 16px !important;

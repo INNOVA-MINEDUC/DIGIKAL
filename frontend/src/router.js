@@ -24,11 +24,11 @@ const routes = [
     name: 'about', 
     component: AboutView 
   },
-  { 
-    path: '/comunities', 
-    name: 'comunities', 
-    component: Comunidades
-  },
+  // { 
+  //   path: '/comunities', 
+  //   name: 'comunities', 
+  //   component: Comunidades
+  // },
   { 
     path: '/details', 
     name: 'details', 
@@ -56,12 +56,12 @@ const routes = [
     // meta: { requiresAuth: true }
   },
 
-    { 
-    path: '/create-event', 
-    name: 'createevent', 
-    component: CreateEvents,
-    // meta: { requiresAuth: true }
-  },
+  //   { 
+  //   path: '/create-event', 
+  //   name: 'createevent', 
+  //   component: CreateEvents,
+  //   // meta: { requiresAuth: true }
+  // },
 
   { 
     path: '/login', 

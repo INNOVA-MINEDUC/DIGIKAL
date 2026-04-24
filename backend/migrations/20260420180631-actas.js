@@ -13,7 +13,7 @@ export default {
       dotacion_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true, // 🔥 asegura 1:1
+        unique: true, 
         references: {
           model: 'dotaciones',
           key: 'id',
@@ -22,27 +22,11 @@ export default {
         onUpdate: 'CASCADE',
       },
 
-      no_acta: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true, // ⚠️ recomendado
-      },
-
-      libro_folio: {
-        type: Sequelize.STRING,
-      },
-
-      correlativo: {
-        type: Sequelize.STRING,
-      },
 
       fecha_entrega: {
         type: Sequelize.DATEONLY,
       },
 
-      observaciones: {
-        type: Sequelize.TEXT,
-      },
 
       acta_pdf: {
         type: Sequelize.STRING,

@@ -25,10 +25,6 @@ export default {
         allowNull: false,
       },
 
-      descripcion: {
-        type: Sequelize.STRING,
-      },
-
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

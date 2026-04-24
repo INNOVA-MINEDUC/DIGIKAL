@@ -124,7 +124,24 @@
             <h1 class="text-h4 font-weight-bold text-blue-darken-4">Catálogo de Equipo</h1>
             <p class="text-body-1 text-grey-darken-1">Gestión y exportación de donaciones tecnológicas</p>
           </div>
+            <div class="d-flex gap-3">
+            <v-btn variant="outlined" color="#0094D3" prepend-icon="mdi-file-excel"
+              class="text-none font-weight-bold rounded-lg px-6" size="large" @click="descargar('excel')">Excel</v-btn>
+            <v-btn color="#0094D3" prepend-icon="mdi-file-pdf-box"
+              class="text-none font-weight-bold rounded-lg px-6 text-white" size="large" elevation="4"
+              @click="descargar('pdf')">PDF</v-btn>
+            
+            <v-divider vertical class="mx-2"></v-divider>
+
+            <v-btn color="#003366" prepend-icon="mdi-plus"
+              class="text-none font-weight-bold rounded-lg px-6 text-white" size="large" elevation="4"
+              @click="dialogRegistro = true">
+              Agregar Equipo
+            </v-btn>
+          </div>
     </div>
+
+  
 
     <v-card class="rounded-xl elevation-sm">
       <v-data-table
@@ -146,9 +163,9 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.valor_unitario="{ value }">
+        <template v-slot:item.valor="{ value }">
           <span class="font-weight-bold text-blue-darken-3">
-            Q {{ value.toLocaleString() }}
+             Q {{ formatoQ(value) }}
           </span>
         </template>
 
@@ -172,7 +189,7 @@
         variant="elevated"
         class="font-weight-bold"
         prepend-icon="mdi-plus"
-        @click="volverTabla"
+        @click="dialogDetalleEquipo = true"
       >
         Nuevo Equipo
       </v-btn>
@@ -210,7 +227,7 @@
 
         <template v-slot:item.valor="{ value }">
           <span class="font-weight-black text-blue-darken-3">
-            Q {{ value.toLocaleString() }}
+             Q {{ formatoQ(value) }}
           </span>
         </template>
 
@@ -274,6 +291,10 @@
                     v-model="form.tipo"
 
                     :items="tiposEquipo"
+
+                    item-title="title"
+
+                    item-value="value"
 
                     label="Seleccione un tipo existente"
 
@@ -427,7 +448,72 @@
       </v-card>
 
     </v-dialog>
+<v-dialog
+  v-model="dialogDetalleEquipo"
+  max-width="900"
+  persistent
+>
+  <v-card class="rounded-xl">
 
+    <v-toolbar color="#003366" dark>
+      <v-toolbar-title class="font-weight-bold text-white">
+        Agregar Detalle de Equipo
+      </v-toolbar-title>
+    </v-toolbar>
+
+    <v-card-text class="pa-6">
+    <div class="text-subtitle-1 font-weight-bold mb-4">Recuerda que no debé existir este "No. de Serie" en la tabla</div>
+      <v-text-field
+        v-model="formDetalle.serie"
+        label="No. Serie"
+        variant="outlined"
+        prepend-inner-icon="mdi-barcode"
+        class="mb-4"
+      />
+ <div class="text-subtitle-1 font-weight-bold mb-4">Recuerda que no debé existir este "Codigo de SICOIN" en la tabla</div>
+      <v-text-field
+        v-model="formDetalle.sicoin"
+        label="Código SICOIN"
+        variant="outlined"
+        prepend-inner-icon="mdi-code-tags"
+        class="mb-4"
+      />
+   <div class="text-subtitle-1 font-weight-bold mb-4">¿Cuál es el valor de este equipo?</div>
+      <v-text-field
+        v-model="formDetalle.valor"
+        label="Valor"
+        type="number"
+        variant="outlined"
+        prepend-inner-icon="mdi-currency-usd"
+      />
+
+    </v-card-text>
+
+    <v-divider />
+<v-card-actions class="pa-4 bg-grey-lighten-4">
+  <v-btn
+    variant="text"
+    color="grey-darken-1"
+    class="font-weight-bold"
+    @click="cerrarDetalleDialog"
+  >
+    Cancelar
+  </v-btn>
+
+  <v-spacer />
+
+  <v-btn
+    color="primary"
+    variant="tonal"
+    class="font-weight-bold"
+    @click="validarYGuardarDetalle"
+  >
+    Finalizar y Validar
+  </v-btn>
+</v-card-actions>
+
+  </v-card>
+</v-dialog>
 
 
     <v-snackbar v-model="snackbar" :color="snackColor" elevation="24">
@@ -451,6 +537,134 @@
 <script setup>
 
 import { ref, computed } from 'vue'
+import axios from 'axios'
+import { onMounted } from 'vue'
+
+const modeloSeleccionado = ref(null)
+
+const obtenerDetalleEquipos = async (modelo_id) => {
+  try {
+    const res = await axios.get(`http://localhost:3000/api/v1/equipos/${modelo_id}`)
+
+    detalleItems.value = res.data.map((e, index) => ({
+      no: index + 1,
+      serie: e.numero_serie,
+      sicoin: e.codigo_sicoin,
+      valor: e.valor
+    }))
+
+  } catch (error) {
+    console.error('Error cargando detalle:', error)
+  }
+}
+
+const obtenerEquipos = async () => {
+  try {
+    const res = await axios.get('http://localhost:3000/api/v1/equipos')
+
+    
+
+    data.value = res.data.map(e => ({
+      descripcion: e?.descripcion || 'Sin descripción',
+      tipo: e?.tipo || 'Sin tipo',
+      modelo: e?.modelo || 'Sin modelo',
+      cantidad: e?.cantidad || "Sin cantidad",
+      valor: e.valor || 0,
+      id: e.id
+    }))
+
+
+  } catch (error) {
+    console.error('Error cargando equipos:', error)
+  }
+}
+
+const formatoQ = (valor) => {
+  return new Intl.NumberFormat('es-GT', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(valor)
+}
+
+
+const cerrarDetalleDialog = () => {
+  dialogDetalleEquipo.value = false
+
+  formDetalle.value = {
+    serie: '',
+    sicoin: '',
+    valor: null
+  }
+}
+
+const validarYGuardarDetalle = async () => {
+  const serie = formDetalle.value.serie.trim()
+  const sicoin = formDetalle.value.sicoin.trim()
+  const valor = formDetalle.value.valor
+
+  if (!serie || !sicoin || !valor) {
+    mostrarAlerta('Complete todos los campos', 'error')
+    return
+  }
+
+  // 🔴 VALIDAR DUPLICADOS EN FRONT (rápido)
+  const existe = detalleItems.value.some(item =>
+    item.serie === serie || item.sicoin === sicoin
+  )
+
+  if (existe) {
+    mostrarAlerta('El No. Serie o Código SICOIN ya existe', 'error')
+    return
+  }
+
+  try {
+ 
+    await axios.post('http://localhost:3000/api/v1/equipos/detalle ', {
+      modelo_id: modeloSeleccionado.value, 
+      numero_serie: serie,
+      codigo_sicoin: sicoin,
+      valor: valor
+    })
+    await obtenerDetalleEquipos(modeloSeleccionado.value)
+
+    mostrarAlerta('Detalle guardado correctamente', 'success')
+    cerrarDetalleDialog()
+
+  } catch (error) {
+    console.error(error)
+    mostrarAlerta('Error al guardar en el servidor', 'error')
+  }
+}
+
+const dialogDetalleEquipo = ref(false)
+
+const formDetalle = ref({
+  serie: '',
+  sicoin: '',
+  valor: null
+})
+
+const guardarDetalle = () => {
+  if (!formDetalle.value.serie || !formDetalle.value.sicoin) {
+    mostrarAlerta('Complete todos los campos', 'error')
+    return
+  }
+
+  detalleItems.value.push({
+    no: detalleItems.value.length + 1,
+    ...formDetalle.value
+  })
+
+  formDetalle.value = {
+    serie: '',
+    sicoin: '',
+    valor: null
+  }
+
+  dialogDetalleEquipo.value = false
+
+  mostrarAlerta('Detalle agregado correctamente', 'success')
+}
 
 const mostrarDetalle = ref(false)
 const detalleItems = ref([])
@@ -472,12 +686,19 @@ const detalleFiltrado = computed(() => {
   })
 })
 
-const verDetalle = (item) => {
-  detalleItems.value = [
-    { no: 1, serie: 'SN001', sicoin: 'SC001', valor: 4500 },
-    { no: 2, serie: 'SN002', sicoin: 'SC002', valor: 4500 },
-  ]
+const verDetalle = async (item) => {
 
+  const modelo_id = item.id
+
+ 
+
+  if (!modelo_id) {
+    console.error('No hay modelo_id')
+    return
+  }
+
+  await obtenerDetalleEquipos(modelo_id)
+ modeloSeleccionado.value = modelo_id;
   mostrarDetalle.value = true
 }
 
@@ -551,7 +772,22 @@ const filters = ref({
 
 
 
-const tiposEquipo = ref(['Laptop', 'Desktop', 'Impresora', 'Router'])
+const tiposEquipo = ref([])
+
+const obtenerTiposEquipo = async () => {
+  try {
+    const res = await axios.get('http://localhost:3000/api/v1/tipo_equipos')
+
+    // 👇 importante: adaptar al formato del v-select
+    tiposEquipo.value = res.data.map(t => ({
+      title: t.nombre,
+      value: t.id
+    }))
+
+  } catch (error) {
+    console.error('Error cargando tipos:', error)
+  }
+}
 
 
 
@@ -565,19 +801,13 @@ const headers = [
 
   { title: 'CANTIDAD', key: 'cantidad', align: 'center' },
 
-  { title: 'VALOR TOTAL (Q)', key: 'valor_unitario', align: 'end' },
+  { title: 'VALOR TOTAL (Q)', key: 'valor', align: 'end' },
 
 ]
 
 
 
-const data = ref([
-
-  { descripcion: 'Laptop educativa 8GB RAM SSD', tipo: 'Laptop', modelo: 'Dell Inspiron 15', cantidad: 25, valor_unitario: 4500 },
-
-  { descripcion: 'Computadora de escritorio laboratorio', tipo: 'Desktop', modelo: 'Lenovo ThinkCentre', cantidad: 15, valor_unitario: 5200 },
-
-])
+const data = ref([])
 
 
 
@@ -608,81 +838,63 @@ const resultados = computed(() => {
 // 🔹 LÓGICA DE VALIDACIÓN Y AGREGADO (CORREGIDA)
 
 const guardarNuevoTipo = () => {
-
   const nombreLimpio = nuevoTipoNombre.value.trim()
-
-  
 
   if (!nombreLimpio) return
 
-
-
-  // Validar si ya existe (ignorando mayúsculas/minúsculas)
-
   const existe = tiposEquipo.value.some(
-
-    t => t.toLowerCase() === nombreLimpio.toLowerCase()
-
+    t => t.title.toLowerCase() === nombreLimpio.toLowerCase()
   )
 
-
-
   if (existe) {
-
     mostrarAlerta('Este tipo de equipo ya existe en el catálogo.', 'error')
-
     return
-
   }
 
+  const nuevoTipo = {
+    title: nombreLimpio,
+    value: nombreLimpio
+  }
 
+  tiposEquipo.value.push(nuevoTipo)
 
-  // Agregar al array reactivo
-
-  tiposEquipo.value.push(nombreLimpio)
-
-  // Seleccionarlo automáticamente en el form
-
-  form.value.tipo = nombreLimpio
-
-  // Resetear UI de creación
+  form.value.tipo = nuevoTipo.value
 
   modoNuevoTipo.value = false
-
   nuevoTipoNombre.value = ''
 
   mostrarAlerta('Nuevo tipo registrado y seleccionado.', 'success')
-
 }
 
 
 
-const avanzarStep = () => {
-
+const avanzarStep = async () => {
   if (step.value === 1) {
-
     if (!form.value.tipo) {
-
       mostrarAlerta('Por favor seleccione o cree un tipo de equipo.', 'error')
-
       return
-
     }
-
     step.value = 2
-
   } else {
+    try {
+      const res = await axios.post('http://localhost:3000/api/v1/equipos/categoria', {
+        tipo: form.value.tipo,
+        modelo: form.value.modelo,
+        descripcion: form.value.descripcion
+      })
 
-    // Guardar equipo completo
+      console.log('Respuesta backend:', res.data)
 
-    data.value.unshift({ ...form.value })
+      await obtenerEquipos()
 
-    mostrarAlerta('Equipo registrado exitosamente en el catálogo.', 'success')
+      mostrarAlerta('Equipo guardado correctamente', 'success')
+      cerrarModal()
 
-    cerrarModal()
-
+    } catch (error) {
+      console.error(error)
+      mostrarAlerta('Error al guardar en el servidor', 'error')
+    }
   }
-
 }
 
 
@@ -754,6 +966,11 @@ const descargar = (formato) => {
   console.log(`Exportando en ${formato}...`)
 
 }
+
+onMounted(() => {
+  obtenerEquipos();
+  obtenerTiposEquipo();
+})
 
 </script>
 

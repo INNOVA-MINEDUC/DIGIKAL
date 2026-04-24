@@ -8,7 +8,7 @@
         <div class="navigation-right">
 
           <v-btn to="/" text>Inicio</v-btn>
-          <v-btn to="/comunities" text>Novedades</v-btn>
+          <!-- <v-btn to="/comunities" text>Novedades</v-btn> -->
           <v-btn to="/about" text>Sobre Nosotros</v-btn>
 
           <v-btn to="/dashboard" text>
@@ -20,9 +20,9 @@
             Upload Data
           </v-btn>
 
-          <v-btn v-if="logged" to="/create-event" text>
+          <!-- <v-btn v-if="logged" to="/create-event" text>
             Eventos
-          </v-btn>
+          </v-btn> -->
 
           <v-btn v-if="logged" to="/catalogos" text>
             Catalogos

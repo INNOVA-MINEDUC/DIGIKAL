@@ -25,7 +25,7 @@ export default {
         allowNull: false,
       },
 
-      marca: {
+      descripcion_tecnica: {
         type: Sequelize.STRING,
       },
 

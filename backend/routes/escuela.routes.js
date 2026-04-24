@@ -4,7 +4,8 @@ import {
   getEscuelaByCodigo,
   createEscuela,
   updateEscuela,
-  deleteEscuela
+  deleteEscuela,
+  getEscuelByCodigoMineduc
 } from '../controllers/EscuelaController.js';
 
 const router = express.Router();
@@ -14,6 +15,8 @@ const router = express.Router();
  * /api/v1/escuelas
  */
 router.get('/', getEscuelas);
+
+router.get('/:codigo', getEscuelByCodigoMineduc);
 
 /**
  * GET BY ID

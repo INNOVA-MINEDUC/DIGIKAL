@@ -38,9 +38,6 @@ export default {
       descripcion: {
         type: Sequelize.STRING,
       },
-      images: {
-        type: Sequelize.STRING,
-      },
 
       createdAt: {
         type: Sequelize.DATE,

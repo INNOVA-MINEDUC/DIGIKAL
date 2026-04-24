@@ -10,20 +10,22 @@
       :items-per-page="10"
     >
 
-  
+      <!-- Departamento -->
       <template #item.departamento="{ item }">
-        {{ item.raw.departamento?.nombre }}
+        {{ item.raw?.departamento?.nombre }}
       </template>
 
+      <!-- Municipio -->
       <template #item.municipio="{ item }">
-        {{ item.raw.municipio?.nombre }}
+        {{ item.raw?.municipio?.nombre }}
       </template>
 
+      <!-- Acciones -->
       <template #item.acciones="{ item }">
         <v-btn
           size="small"
           color="primary"
-          @click="showDetails(item.raw)"
+          @click="showDetails(item)"
         >
           Ver
         </v-btn>
@@ -47,10 +49,7 @@ import { useEstablecimientosStore } from '../stores/escuelasStore'
 const router = useRouter()
 const store = useEstablecimientosStore()
 
-
 const items = computed(() => store.getAll)
-
-
 
 const headers = [
   { title: 'Escuela', key: 'nombreEscuela' },
@@ -60,11 +59,15 @@ const headers = [
   { title: 'Acciones', key: 'acciones', sortable: false }
 ]
 
-
 function showDetails(item) {
+
+  const data = item.raw || item
+
   router.push({
-    path: '/details',
-    state: { escuela: item }
+    name: 'details',
+    query: {
+      codigoMineduc: data.codigoEscuela
+    }
   })
 }
 </script>
