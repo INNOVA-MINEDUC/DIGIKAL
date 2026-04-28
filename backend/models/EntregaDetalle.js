@@ -24,4 +24,4 @@
     timestamps: true,
   })
 
-  export default EntregaDetalle
+  export default EntregaDetalle 

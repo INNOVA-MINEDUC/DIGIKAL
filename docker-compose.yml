@@ -6,5 +6,11 @@ services:
       context: ./frontend
     container_name: digikal-frontend
     ports:
-      - "5174:80"
-    restart: always
+      - "5174:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      VITE_API_URL: https://ciudadania.mineduc.edu.gt/
+      NODE_ENV: development
+    command: npm run dev -- --host
