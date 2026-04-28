@@ -3,14 +3,19 @@
 </template>
 
 <script setup>
+import { useMapStore } from "@/stores/mapStore"
+
 import * as am5 from "@amcharts/amcharts5"
 import * as am5map from "@amcharts/amcharts5/map"
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated"
 import { onMounted, onBeforeUnmount } from "vue"
+import { useEstablecimientosStore } from '@/stores/escuelasStore'
 
-// 🗺️ Archivos GeoJSON
 import guatemalaDepartamentos from "../helpers/Departamentos.json"
 import guatemalaMunicipios from "../helpers/Municipios.json"
+import axios from "axios"
+
+const mapStore = useMapStore()
 
 let root
 
@@ -29,7 +34,46 @@ onMounted(() => {
     })
   )
 
-  // Serie principal: Departamentos
+  const establecimientosStore = useEstablecimientosStore()
+
+  const handleSelection = async (type = "all", data = {}) => {
+    try {
+      establecimientosStore.setLoading(true)
+
+      const payload =
+        type === "all"
+          ? {} 
+          : {
+            dept: data.NAME_1,
+            muni: data.nombreCorregidoMunicipio
+          }
+
+      const res = await axios.post(
+        "http://localhost:3000/api/v1/dashboard",
+        payload
+      )
+
+
+      console.log(res.data)
+
+      establecimientosStore.setData(res.data)
+
+    } catch (error) {
+      console.error("Error cargando dashboard:", error)
+    } finally {
+      establecimientosStore.setLoading(false)
+    }
+
+    mapStore.setSelection({
+      type,
+      departamento: data.NAME_1 || null,
+      municipio: data.NAME_2 || null
+    })
+  }
+
+  handleSelection("all")
+
+
   const departamentosSeries = chart.series.push(
     am5map.MapPolygonSeries.new(root, {
       geoJSON: guatemalaDepartamentos
@@ -46,7 +90,6 @@ onMounted(() => {
     fill: am5.color("#03bfcb")
   })
 
-  // Serie secundaria: Municipios
   const municipiosSeries = chart.series.push(
     am5map.MapPolygonSeries.new(root, { visible: false })
   )
@@ -61,7 +104,6 @@ onMounted(() => {
     fill: am5.color("#03bfcb")
   })
 
-  // Serie terciaria: Municipio seleccionado
   const municipioSeleccionadoSeries = chart.series.push(
     am5map.MapPolygonSeries.new(root, { visible: false })
   )
@@ -69,22 +111,18 @@ onMounted(() => {
   municipioSeleccionadoSeries.mapPolygons.template.setAll({
     tooltipText: "{NAME_2}",
     interactive: true,
-    fill: am5.color("#6794DC")
+    fill: am5.color("#0d3b5d")
   })
 
   municipioSeleccionadoSeries.mapPolygons.template.states.create("hover", {
-    fill: am5.color("#2883D1")
+    fill: am5.color("#03bfcb")
   })
 
-  // Botón “Regresar”
   const backContainer = chart.children.push(
     am5.Container.new(root, {
       x: am5.p100,
       centerX: am5.p100,
       dx: -10,
-      paddingTop: 5,
-      paddingRight: 10,
-      paddingBottom: 5,
       y: 30,
       layout: root.horizontalLayout,
       cursorOverStyle: "pointer",
@@ -95,6 +133,7 @@ onMounted(() => {
       visible: false
     })
   )
+  
 
   backContainer.children.push(
     am5.Label.new(root, {
@@ -103,21 +142,20 @@ onMounted(() => {
     })
   )
 
-  // Variables para recordar el contexto
-  let lastDepartamentoName = null
   let lastDepartamentoDataItem = null
 
-  // 📍 Click en departamento → mostrar municipios
   departamentosSeries.mapPolygons.template.events.on("click", (ev) => {
     const dataItem = ev.target.dataItem
-    const name = dataItem.dataContext.NAME_1
-    lastDepartamentoName = name
+    const data = dataItem.dataContext
+
+    handleSelection("departamento", data)
+
     lastDepartamentoDataItem = dataItem
 
     const filteredMunicipios = {
       type: "FeatureCollection",
       features: guatemalaMunicipios.features.filter(
-        (f) => f.properties.NAME_1 === name
+        (f) => f.properties.NAME_1 === data.NAME_1
       )
     }
 
@@ -131,17 +169,17 @@ onMounted(() => {
     })
   })
 
-  // 📍 Click en municipio → mostrar solo ese municipio
+
   municipiosSeries.mapPolygons.template.events.on("click", (ev) => {
     const dataItem = ev.target.dataItem
-    const municipioName = dataItem.dataContext.NAME_2
-    const municipioDepto = dataItem.dataContext.NAME_1
-    lastDepartamentoName = municipioDepto
+    const data = dataItem.dataContext
+
+    handleSelection("municipio", data)
 
     const municipioUnico = {
       type: "FeatureCollection",
       features: guatemalaMunicipios.features.filter(
-        (f) => f.properties.NAME_2 === municipioName
+        (f) => f.properties.nombreCorregidoMunicipio === data.nombreCorregidoMunicipio
       )
     }
 
@@ -155,26 +193,26 @@ onMounted(() => {
     })
   })
 
-  // 📍 Click en “Regresar”
   backContainer.events.on("click", () => {
     if (municipioSeleccionadoSeries.get("visible")) {
-      // 🔁 Regresar al nivel de municipios del departamento
       municipioSeleccionadoSeries.hide()
       municipiosSeries.show()
 
-      // 🔄 Zoom animado al departamento correspondiente
       if (lastDepartamentoDataItem) {
-        const zoomBack = departamentosSeries.zoomToDataItem(lastDepartamentoDataItem)
-        Promise.all([zoomBack.waitForStop()]).then(() => {
-          // nada más, solo efecto visual
+        departamentosSeries.zoomToDataItem(lastDepartamentoDataItem)
+        handleSelection("departamento", {
+          NAME_1: lastDepartamentoDataItem.dataContext.NAME_1
         })
       }
     } else {
-      // 🔁 Regresar al nivel de departamentos
       chart.goHome()
       departamentosSeries.show()
       municipiosSeries.hide()
       backContainer.hide()
+
+      mapStore.reset()
+      handleSelection("all")
+
     }
   })
 })
@@ -186,7 +224,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 #chartdivmap {
-  width: 100%; 
+  width: 100%;
   height: 650px;
   filter: drop-shadow(2px 20px 12px);
 }

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { getToken, removeToken } from '../utils/auth'
 import { apiRequest } from '../services/authService'
 
-// Importa tus vistas
+
 import HomeView from './views/HomeView.vue'
 import AboutView from './views/AboutView.vue'
 import Dashboard from './views/Dashboard.vue'
@@ -11,12 +11,29 @@ import Comunidades from './views/Comunidades.vue'
 import LoginView from './views/LoginView.vue'
 import UploadData from './views/UploadData.vue'
 import DownloadData from './views/DownloadData.vue'
+import CreateEvents from './views/CreateEvents.vue'
+import CatalogosView from './views/CatalogosView.vue'
 
 const routes = [
-  { path: '/', name: 'home', component: HomeView },
-  { path: '/about', name: 'about', component: AboutView },
-  { path: '/comunities', name: 'comunities', component: Comunidades },
-  { path: '/details', name: 'details', component: SchoolView },
+  { path: '/', 
+    name: 'home', 
+    component: HomeView
+  },
+  { 
+    path: '/about', 
+    name: 'about', 
+    component: AboutView 
+  },
+  // { 
+  //   path: '/comunities', 
+  //   name: 'comunities', 
+  //   component: Comunidades
+  // },
+  { 
+    path: '/details', 
+    name: 'details', 
+    component: SchoolView 
+  },
 
   { 
     path: '/dashboard', 
@@ -29,17 +46,34 @@ const routes = [
     path: '/upload-data', 
     name: 'uploaddata', 
     component: UploadData,
-    meta: { requiresAuth: true, role: 'admin' }
+    // meta: { requiresAuth: true, role: 'admin' }
   },
 
   { 
     path: '/download-data', 
     name: 'downloaddata', 
     component: DownloadData,
-    meta: { requiresAuth: true }
+    // meta: { requiresAuth: true }
   },
 
-  { path: '/login', name: 'login', component: LoginView },
+  //   { 
+  //   path: '/create-event', 
+  //   name: 'createevent', 
+  //   component: CreateEvents,
+  //   // meta: { requiresAuth: true }
+  // },
+
+  { 
+    path: '/login', 
+    name: 'login', 
+    component: LoginView
+  },
+
+    { 
+    path: '/catalogos', 
+    name: 'catalogos', 
+    component: CatalogosView
+  },
 ]
 
 
@@ -61,10 +95,9 @@ router.beforeEach(async (to, from, next) => {
 
     try {
 
-      // Validar token con backend
+  
       const user = await apiRequest('/validate-token')
 
-      // Si la ruta requiere rol específico
       if (to.meta.role && user.role !== to.meta.role) {
         return next('/dashboard')
       }

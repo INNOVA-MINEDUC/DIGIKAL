@@ -25,19 +25,19 @@
 
     <div class="dashboard">
 
-      <!-- Top Stats -->
       <div class="stats-grid">
         <div class="stat-card">
           <h3>Establecimientos</h3>
-          <p class="value">200</p>
+          <p class="value">{{ formatNumber(totalEstablecimientos) }}</p>
         </div>
+
         <div class="stat-card">
-          <h3>Establecimientos Pendientes</h3>
-          <p class="value">0</p>
+          <h3>Numero de Equipos Dotados</h3>
+          <p class="value">{{ formatNumber(totalEquipos) }}</p>
         </div>
         <div class="stat-card">
           <h3>Numero de Estudiantes Beneficiados</h3>
-          <p class="value">1,000</p>
+          <p class="value">{{ formatNumber(totalEstudiantes) }}</p>
         </div>
         <div class="stat-card">
           <h3>Estudiantes Restantes</h3>
@@ -45,12 +45,12 @@
         </div>
       </div>
 
-      <!-- Trending Section -->
+
       <div class="section">
         <h2>Trending</h2>
         <div class="charts-grid">
           <div class="chart-placeholder">
-            <GuateMap />
+            <GuateMap2 />
 
           </div>
           <div class="chart-placeholder" style="background-color: white;">
@@ -62,68 +62,14 @@
 
 
 
-      <!-- Trending Section -->
-      <div class="section">
-        <h2>Trending</h2>
-        <div class="charts-grid">
-          <div class="chart-placeholder">
-            <LineChart2 />
-
-          </div>
-          <div class="chart-placeholder">
-            <DonaChart />
-          </div>
-        </div>
-      </div>
 
 
-
-
-      <!-- Product Breakdown -->
-      <!-- <div class="section">
-        <h2>Product Breakdown</h2>
-        <div class="chart-placeholder" style="margin-top: 20rem;">
-
-
-        </div>
-      </div> -->
     </div>
 
 
 
 
 
-    <!-- <h1 class="text-center font-weight-bold">Estadisticas de Escuelas de Guatemala</h1>
-    <v-card style="padding-inline: 10px; width: 110%; display: flex; gap: 10px;">
-      <div style="flex: 0 0 40%;">
-        <GuateMap />
-      </div>
-
-      <div style="flex: 0 0 50%;">
-        <br>
-        <br>
-        <TableView />
-      </div>
-    </v-card>
-    <div style="padding-inline: 10px; width: 100%; display: flex;">
-      <DonaChart /> -->
-    <!-- <div style="flex: 0 0 60%;">
-        <LineChart2 />
-      </div>
-
-      <div style="flex: 0 0 40%;">
-        <DonaChart />
-      </div>  -->
-
-
-    <!-- <BarChart />
-         -->
-    <!-- </div>
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br> -->
 
 
   </v-container>
@@ -139,6 +85,22 @@ import TableView from "../components/TableView.vue";
 import LineChart from "../components/LineChart.vue";
 import LineChart2 from "../components/LineChart2.vue";
 import HomeFooter from "@/components/HomeFooter.vue";
+
+import { useEstablecimientosStore } from '@/stores/escuelasStore'
+import { computed } from 'vue'
+import GuateMap2 from "@/components/GuateMap2.vue";
+
+const store = useEstablecimientosStore()
+
+const totalEstablecimientos = computed(() => store.totalEstablecimientos)
+const totalEstudiantes = computed(() => store.totalEstudiantes)
+const totalEquipos = computed(() => store.totalEquipos)
+
+
+
+const formatNumber = (num) => {
+  return new Intl.NumberFormat('en-US').format(num)
+}
 </script>
 
 
@@ -168,11 +130,8 @@ import HomeFooter from "@/components/HomeFooter.vue";
 .innovation-section {
   background-image: url("/dashboard/img_4.png");
   background-repeat: no-repeat;
-  /* No se repite */
   background-size: cover;
-  /* Cubre todo el contenedor */
   background-position: center;
-  /* Centra la imagen */
   color: white;
   text-align: center;
   padding: 150px 20px;

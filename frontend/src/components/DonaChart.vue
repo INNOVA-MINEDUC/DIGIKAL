@@ -11,28 +11,25 @@ import { onMounted, onBeforeUnmount } from "vue"
 let root
 
 onMounted(() => {
-  // Crear el root del gráfico
+ 
   root = am5.Root.new("chartdivdona")
   root._logo.dispose()
 
-  // Aplicar tema animado
   root.setThemes([am5themes_Animated.new(root)])
 
-  // Crear el gráfico tipo Pie (dona)
+
   const chart = root.container.children.push(am5percent.PieChart.new(root, {
     radius: am5.percent(100),
     innerRadius: am5.percent(50),
     layout: root.horizontalLayout
   }))
 
-  // Crear la serie
   const series = chart.series.push(am5percent.PieSeries.new(root, {
     name: "Series",
     valueField: "sales",
     categoryField: "country"
   }))
 
-  // 🎨 COLORES PERSONALIZADOS
   series.get("colors").set("colors", [
     am5.color("#6794DC"),
     am5.color("#4F7CC4"),
@@ -41,7 +38,6 @@ onMounted(() => {
     am5.color("#CCCCCC"),
   ])
 
-  // Asignar datos
   series.data.setAll([
     { country: "Donación de Equipo", sales: 501.9 },
     { country: "Conección a Internet", sales: 301.9 },
@@ -50,11 +46,9 @@ onMounted(() => {
     { country: "faltantes", sales: 400 },
   ])
 
-  // Quitar etiquetas y líneas
   series.labels.template.set("visible", false)
   series.ticks.template.set("visible", false)
 
-  // Añadir degradado
   series.slices.template.setAll({
     strokeOpacity: 0,
     fillGradient: am5.RadialGradient.new(root, {
@@ -68,7 +62,6 @@ onMounted(() => {
     })
   })
 
-  // Crear leyenda
   const legend = chart.children.push(am5.Legend.new(root, {
     centerY: am5.percent(50),
     y: am5.percent(50),
@@ -84,7 +77,6 @@ onMounted(() => {
 
   legend.data.setAll(series.dataItems)
 
-  // Animar al cargar
   series.appear(1000, 100)
 })
 

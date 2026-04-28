@@ -11,13 +11,11 @@ import { onMounted, onBeforeUnmount } from "vue"
 let root
 
 onMounted(() => {
-  // Crear el root de amCharts
+  
   root = am5.Root.new("chartdivpie")
 
-  // Aplicar tema animado
   root.setThemes([am5themes_Animated.new(root)])
 
-  // Crear el gráfico de pastel
   const chart = root.container.children.push(
     am5percent.PieChart.new(root, {
       layout: root.verticalLayout,
@@ -25,7 +23,7 @@ onMounted(() => {
   )
 
   root._logo.dispose(); 
-  // Crear la serie principal
+
   const series = chart.series.push(
     am5percent.PieSeries.new(root, {
       valueField: "percent",
@@ -35,16 +33,15 @@ onMounted(() => {
     })
   )
 
-  // Personalizar comportamiento visual
+
   series.slices.template.set("templateField", "sliceSettings")
   series.labels.template.set("radius", 30)
 
-  // Variable para saber qué categoría está seleccionada
   let selected
 
 console.log(series.get("colors").getIndex(0))
 
-  // Datos base
+
   const types = [
     {
       type: "estudiando",
@@ -68,7 +65,7 @@ console.log(series.get("colors").getIndex(0))
     },
   ]
 
-  // Función para generar los datos según selección
+  
   function generateChartData() {
     const chartData = []
     for (let i = 0; i < types.length; i++) {
@@ -94,10 +91,10 @@ console.log(series.get("colors").getIndex(0))
     return chartData
   }
 
-  // Cargar los datos iniciales
+
   series.data.setAll(generateChartData())
 
-  // Evento click → cambiar datos al hacer drill-down
+
   series.slices.template.events.on("click", (event) => {
     const dataContext = event.target.dataItem.dataContext
     if (dataContext.id !== undefined) {

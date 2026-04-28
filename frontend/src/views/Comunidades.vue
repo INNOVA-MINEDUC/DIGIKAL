@@ -129,7 +129,6 @@
 import { ref } from 'vue'
 import HomeFooter from '@/components/HomeFooter.vue'
 
-// Estado reactivo
 const tab = ref(null)
 
 const noticias = ref([
@@ -208,13 +207,11 @@ const eventos = ref([
   margin-bottom: 8px;
 }
 
-/* Borde de color institucional para las tarjetas de eventos */
 .border-left-primary {
   border-left: 5px solid #1976D2 !important;
-  /* Color primario de Vuetify */
 }
 
-/* Ajuste para que las tarjetas de noticias tengan la misma altura */
+
 .h-100 {
   display: flex;
   flex-direction: column;

@@ -1,0 +1,2162 @@
+{
+  "departamentos": [
+    {
+      "id": 1,
+      "nombre": "ALTAVERAPAZ",
+      "nombreCorregido": "alta verapaz",
+      "municipios": [
+        {
+          "id": 1,
+          "nombre": "CHAHAL",
+          "nombreCorregido": "chahal",
+          "departamentoId": 1
+        },
+        {
+          "id": 2,
+          "nombre": "CHISEC",
+          "nombreCorregido": "chisec",
+          "departamentoId": 1
+        },
+        {
+          "id": 3,
+          "nombre": "COBÁN",
+          "nombreCorregido": "cobán",
+          "departamentoId": 1
+        },
+        {
+          "id": 4,
+          "nombre": "FRAYBARTOLOMÉDELASCASAS",
+          "nombreCorregido": "fray bartolomé de las casas",
+          "departamentoId": 1
+        },
+        {
+          "id": 5,
+          "nombre": "LANQUÍN",
+          "nombreCorregido": "lanquín",
+          "departamentoId": 1
+        },
+        {
+          "id": 6,
+          "nombre": "PANZÓS",
+          "nombreCorregido": "panzós",
+          "departamentoId": 1
+        },
+        {
+          "id": 7,
+          "nombre": "SANCRISTÓBALVERAPAZ",
+          "nombreCorregido": "san cristóbal verapaz",
+          "departamentoId": 1
+        },
+        {
+          "id": 8,
+          "nombre": "SANJUANCHAMELCO",
+          "nombreCorregido": "san juan chamelco",
+          "departamentoId": 1
+        },
+        {
+          "id": 9,
+          "nombre": "SANPEDROCARCHÁ",
+          "nombreCorregido": "san pedro carchá",
+          "departamentoId": 1
+        },
+        {
+          "id": 10,
+          "nombre": "SANTACRUZVERAPAZ",
+          "nombreCorregido": "santa cruz verapaz",
+          "departamentoId": 1
+        },
+        {
+          "id": 11,
+          "nombre": "SANTAMARÍACAHABÓN",
+          "nombreCorregido": "santa maría cahabón",
+          "departamentoId": 1
+        },
+        {
+          "id": 12,
+          "nombre": "SENAHÚ",
+          "nombreCorregido": "senahú",
+          "departamentoId": 1
+        },
+        {
+          "id": 13,
+          "nombre": "TACTIC",
+          "nombreCorregido": "tactic",
+          "departamentoId": 1
+        },
+        {
+          "id": 14,
+          "nombre": "TAMAHÚ",
+          "nombreCorregido": "tamahú",
+          "departamentoId": 1
+        },
+        {
+          "id": 15,
+          "nombre": "TUCURÚ",
+          "nombreCorregido": "san miguel tucurú",
+          "departamentoId": 1
+        },
+          {
+          "id": 1,
+          "nombre": "SATACATALINALATINTA",
+          "nombreCorregido": "santa catalina la tinta",
+          "departamentoId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "BAJAVERAPAZ",
+      "nombreCorregido": "baja verapaz",
+      "municipios": [
+        {
+          "id": 16,
+          "nombre": "CUBULCO",
+          "nombreCorregido": "cubulco",
+          "departamentoId": 2
+        },
+        {
+          "id": 17,
+          "nombre": "GRANADOS",
+          "nombreCorregido": "granados",
+          "departamentoId": 2
+        },
+        {
+          "id": 18,
+          "nombre": "PURULHÁ",
+          "nombreCorregido": "purulhá",
+          "departamentoId": 2
+        },
+        {
+          "id": 19,
+          "nombre": "RABINAL",
+          "nombreCorregido": "rabinal",
+          "departamentoId": 2
+        },
+        {
+          "id": 20,
+          "nombre": "SALAMÁ",
+          "nombreCorregido": "salamá",
+          "departamentoId": 2
+        },
+        {
+          "id": 21,
+          "nombre": "SANJERÓNIMO",
+          "nombreCorregido": "san jerónimo",
+          "departamentoId": 2
+        },
+        {
+          "id": 22,
+          "nombre": "SANMIGUELCHICAJ",
+          "nombreCorregido": "san miguel chicaj",
+          "departamentoId": 2
+        },
+        {
+          "id": 23,
+          "nombre": "SANTACRUZELCHOL",
+          "nombreCorregido": "santa cruz el chol",
+          "departamentoId": 2
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "CHIMALTENANGO",
+      "nombreCorregido": "chimaltenango",
+      "municipios": [
+        {
+          "id": 24,
+          "nombre": "ACATENANGO",
+          "nombreCorregido": "acatenango",
+          "departamentoId": 3
+        },
+        {
+          "id": 25,
+          "nombre": "CHIMALTENANGO",
+          "nombreCorregido": "chimaltenango",
+          "departamentoId": 3
+        },
+        {
+          "id": 26,
+          "nombre": "COMALAPA",
+          "nombreCorregido": "comalapa",
+          "departamentoId": 3
+        },
+        {
+          "id": 27,
+          "nombre": "ELTEJAR",
+          "nombreCorregido": "el tejar",
+          "departamentoId": 3
+        },
+        {
+          "id": 28,
+          "nombre": "PARRAMOS",
+          "nombreCorregido": "parramos",
+          "departamentoId": 3
+        },
+        {
+          "id": 29,
+          "nombre": "PATZICÍA",
+          "nombreCorregido": "patzicía",
+          "departamentoId": 3
+        },
+        {
+          "id": 30,
+          "nombre": "PATZÚN",
+          "nombreCorregido": "patzún",
+          "departamentoId": 3
+        },
+        {
+          "id": 31,
+          "nombre": "POCHUTA",
+          "nombreCorregido": "san miguel pochuta",
+          "departamentoId": 3
+        },
+        {
+          "id": 32,
+          "nombre": "SANANDRÉSITZAPA",
+          "nombreCorregido": "san andrés itzapa",
+          "departamentoId": 3
+        },
+        {
+          "id": 33,
+          "nombre": "SANJOSÉPOAQUIL",
+          "nombreCorregido": "san josé poaquil",
+          "departamentoId": 3
+        },
+        {
+          "id": 34,
+          "nombre": "SANMARTÍNJILOTEPEQUE",
+          "nombreCorregido": "san martín jilotepeque",
+          "departamentoId": 3
+        },
+        {
+          "id": 35,
+          "nombre": "SANTAAPOLONIA",
+          "nombreCorregido": "santa apolonia",
+          "departamentoId": 3
+        },
+        {
+          "id": 36,
+          "nombre": "SANTACRUZBALANYÁ",
+          "nombreCorregido": "santa cruz balanyá",
+          "departamentoId": 3
+        },
+        {
+          "id": 37,
+          "nombre": "TECPÁNGUATEMALA",
+          "nombreCorregido": "tecpán guatemala",
+          "departamentoId": 3
+        },
+        {
+          "id": 38,
+          "nombre": "YEPOCAPA",
+          "nombreCorregido": "yepocapa",
+          "departamentoId": 3
+        },
+        {
+          "id": 39,
+          "nombre": "ZARAGOZA",
+          "nombreCorregido": "zaragoza",
+          "departamentoId": 3
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "CHIQUIMULA",
+      "nombreCorregido": "chiquimula",
+      "municipios": [
+        {
+          "id": 40,
+          "nombre": "CAMOTÁN",
+          "nombreCorregido": "camotán",
+          "departamentoId": 4
+        },
+        {
+          "id": 41,
+          "nombre": "CHIQUIMULA",
+          "nombreCorregido": "chiquimula",
+          "departamentoId": 4
+        },
+        {
+          "id": 42,
+          "nombre": "CONCEPCIÓNLASMINAS",
+          "nombreCorregido": "concepción las minas",
+          "departamentoId": 4
+        },
+        {
+          "id": 43,
+          "nombre": "ESQUIPULAS",
+          "nombreCorregido": "esquipulas",
+          "departamentoId": 4
+        },
+        {
+          "id": 44,
+          "nombre": "IPALA",
+          "nombreCorregido": "ipala",
+          "departamentoId": 4
+        },
+        {
+          "id": 45,
+          "nombre": "JOCOTÁN",
+          "nombreCorregido": "jocotán",
+          "departamentoId": 4
+        },
+        {
+          "id": 46,
+          "nombre": "OLOPA",
+          "nombreCorregido": "olopa",
+          "departamentoId": 4
+        },
+        {
+          "id": 47,
+          "nombre": "QUEZALTEPEQUE",
+          "nombreCorregido": "quezaltepeque",
+          "departamentoId": 4
+        },
+        {
+          "id": 48,
+          "nombre": "SANJACINTO",
+          "nombreCorregido": "san jacinto",
+          "departamentoId": 4
+        },
+        {
+          "id": 49,
+          "nombre": "SANJOSÉLAARADA",
+          "nombreCorregido": "san josé la arada",
+          "departamentoId": 4
+        },
+        {
+          "id": 50,
+          "nombre": "SANJUANERMITA",
+          "nombreCorregido": "san juan ermita",
+          "departamentoId": 4
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "nombre": "ELPROGRESO",
+      "nombreCorregido": "el progreso",
+      "municipios": [
+        {
+          "id": 51,
+          "nombre": "ELJÍCARO",
+          "nombreCorregido": "el jícaro",
+          "departamentoId": 5
+        },
+        {
+          "id": 52,
+          "nombre": "GUASTATOYA",
+          "nombreCorregido": "guastatoya",
+          "departamentoId": 5
+        },
+        {
+          "id": 53,
+          "nombre": "MORAZÁN",
+          "nombreCorregido": "morazán",
+          "departamentoId": 5
+        },
+        {
+          "id": 54,
+          "nombre": "SANAGUSTÍNACASAGUASTLÁN",
+          "nombreCorregido": "san agustín acasaguastlán",
+          "departamentoId": 5
+        },
+        {
+          "id": 55,
+          "nombre": "SANANTONIOLAPAZ",
+          "nombreCorregido": "san antonio la paz",
+          "departamentoId": 5
+        },
+        {
+          "id": 56,
+          "nombre": "SANCRISTÓBALACASAGUASTLÁN",
+          "nombreCorregido": "san cristóbal acasaguastlán",
+          "departamentoId": 5
+        },
+        {
+          "id": 57,
+          "nombre": "SANARATE",
+          "nombreCorregido": "sanarate",
+          "departamentoId": 5
+        },
+        {
+          "id": 58,
+          "nombre": "SANSARE",
+          "nombreCorregido": "sansare",
+          "departamentoId": 5
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "nombre": "ESCUINTLA",
+      "nombreCorregido": "escuintla",
+      "municipios": [
+        {
+          "id": 59,
+          "nombre": "ESCUINTLA",
+          "nombreCorregido": "escuintla",
+          "departamentoId": 6
+        },
+        {
+          "id": 60,
+          "nombre": "GUANAGAZAPA",
+          "nombreCorregido": "guanagazapa",
+          "departamentoId": 6
+        },
+        {
+          "id": 61,
+          "nombre": "IZTAPA",
+          "nombreCorregido": "iztapa",
+          "departamentoId": 6
+        },
+        {
+          "id": 62,
+          "nombre": "LADEMOCRACIA",
+          "nombreCorregido": "la democracia",
+          "departamentoId": 6
+        },
+        {
+          "id": 63,
+          "nombre": "LAGOMERA",
+          "nombreCorregido": "la gomera",
+          "departamentoId": 6
+        },
+        {
+          "id": 64,
+          "nombre": "MASAGUA",
+          "nombreCorregido": "masagua",
+          "departamentoId": 6
+        },
+        {
+          "id": 65,
+          "nombre": "NUEVACONCEPCIÓN",
+          "nombreCorregido": "nueva concepción",
+          "departamentoId": 6
+        },
+        {
+          "id": 66,
+          "nombre": "PALÍN",
+          "nombreCorregido": "palín",
+          "departamentoId": 6
+        },
+        {
+          "id": 67,
+          "nombre": "SANJOSÉ",
+          "nombreCorregido": "san josé",
+          "departamentoId": 6
+        },
+        {
+          "id": 68,
+          "nombre": "SANVICENTEPACAYA",
+          "nombreCorregido": "san vicente pacaya",
+          "departamentoId": 6
+        },
+        {
+          "id": 69,
+          "nombre": "SANTALUCÍACOTZUMALGUAPA",
+          "nombreCorregido": "santa lucía cotzumalguapa",
+          "departamentoId": 6
+        },
+        {
+          "id": 70,
+          "nombre": "SIQUINALÁ",
+          "nombreCorregido": "siquinalá",
+          "departamentoId": 6
+        },
+        {
+          "id": 71,
+          "nombre": "TIQUISATE",
+          "nombreCorregido": "tiquisate",
+          "departamentoId": 6
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "nombre": "GUATEMALA",
+      "nombreCorregido": "guatemala",
+      "municipios": [
+        {
+          "id": 72,
+          "nombre": "AMATITLÁN",
+          "nombreCorregido": "amatitlán",
+          "departamentoId": 7
+        },
+        {
+          "id": 73,
+          "nombre": "CHINAUTLA",
+          "nombreCorregido": "chinautla",
+          "departamentoId": 7
+        },
+        {
+          "id": 74,
+          "nombre": "CHUARRANCHO",
+          "nombreCorregido": "chuarrancho",
+          "departamentoId": 7
+        },
+        {
+          "id": 75,
+          "nombre": "FRAIJANES",
+          "nombreCorregido": "fraijanes",
+          "departamentoId": 7
+        },
+        {
+          "id": 76,
+          "nombre": "MIXCO",
+          "nombreCorregido": "mixco",
+          "departamentoId": 7
+        },
+        {
+          "id": 77,
+          "nombre": "PALENCIA",
+          "nombreCorregido": "palencia",
+          "departamentoId": 7
+        },
+        {
+          "id": 78,
+          "nombre": "PETAPA",
+          "nombreCorregido": "petapa",
+          "departamentoId": 7
+        },
+        {
+          "id": 79,
+          "nombre": "SANJOSÉDELGOLFO",
+          "nombreCorregido": "san josé del golfo",
+          "departamentoId": 7
+        },
+        {
+          "id": 80,
+          "nombre": "SANJOSÉPINULA",
+          "nombreCorregido": "san josé pinula",
+          "departamentoId": 7
+        },
+        {
+          "id": 81,
+          "nombre": "SANJUANSACATEPÉQUEZ",
+          "nombreCorregido": "san juan sacatepéquez",
+          "departamentoId": 7
+        },
+        {
+          "id": 82,
+          "nombre": "SANPEDROAYAMPUC",
+          "nombreCorregido": "san pedro ayampuc",
+          "departamentoId": 7
+        },
+        {
+          "id": 83,
+          "nombre": "SANPEDROSACATEPÉQUEZ",
+          "nombreCorregido": "san pedro sacatepéquez",
+          "departamentoId": 7
+        },
+        {
+          "id": 84,
+          "nombre": "SANRAYMUNDO",
+          "nombreCorregido": "san raymundo",
+          "departamentoId": 7
+        },
+        {
+          "id": 85,
+          "nombre": "SANTACATARINAPINULA",
+          "nombreCorregido": "santa catarina pinula",
+          "departamentoId": 7
+        },
+        {
+          "id": 86,
+          "nombre": "VILLACANALES",
+          "nombreCorregido": "villa canales",
+          "departamentoId": 7
+        },
+        {
+          "id": 87,
+          "nombre": "VILLANUEVA",
+          "nombreCorregido": "villa nueva",
+          "departamentoId": 7
+        },
+        {
+          "id": 88,
+          "nombre": "GUATEMALA",
+          "nombreCorregido": "guatemala",
+          "departamentoId": 7
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "nombre": "HUEHUETENANGO",
+      "nombreCorregido": "huehuetenango",
+      "municipios": [
+        {
+          "id": 89,
+          "nombre": "AGUACATÁN",
+          "nombreCorregido": "aguacatán",
+          "departamentoId": 8
+        },
+        {
+          "id": 90,
+          "nombre": "CHIANTLA",
+          "nombreCorregido": "chiantla",
+          "departamentoId": 8
+        },
+        {
+          "id": 91,
+          "nombre": "COLOTENANGO",
+          "nombreCorregido": "colotenango",
+          "departamentoId": 8
+        },
+        {
+          "id": 92,
+          "nombre": "CONCEPCIÓNHUISTA",
+          "nombreCorregido": "concepción huista",
+          "departamentoId": 8
+        },
+        {
+          "id": 93,
+          "nombre": "CUILCO",
+          "nombreCorregido": "cuilco",
+          "departamentoId": 8
+        },
+        {
+          "id": 94,
+          "nombre": "HUEHUETENANGO",
+          "nombreCorregido": "huehuetenango",
+          "departamentoId": 8
+        },
+        {
+          "id": 95,
+          "nombre": "JACALTENANGO",
+          "nombreCorregido": "jacaltenango",
+          "departamentoId": 8
+        },
+        {
+          "id": 96,
+          "nombre": "LADEMOCRACIA",
+          "nombreCorregido": "la democracia",
+          "departamentoId": 8
+        },
+        {
+          "id": 97,
+          "nombre": "LALIBERTAD",
+          "nombreCorregido": "la libertad",
+          "departamentoId": 8
+        },
+        {
+          "id": 98,
+          "nombre": "MALACATANCITO",
+          "nombreCorregido": "malacatancito",
+          "departamentoId": 8
+        },
+        {
+          "id": 99,
+          "nombre": "NENTÓN",
+          "nombreCorregido": "nentón",
+          "departamentoId": 8
+        },
+        {
+          "id": 100,
+          "nombre": "SANANTONIOHUISTA",
+          "nombreCorregido": "san antonio huista",
+          "departamentoId": 8
+        },
+        {
+          "id": 101,
+          "nombre": "SANGASPARIXCHIL",
+          "nombreCorregido": "san gaspar ixchil",
+          "departamentoId": 8
+        },
+        {
+          "id": 102,
+          "nombre": "SANILDEFONSOIXTAHUACÁN",
+          "nombreCorregido": "san ildefonso ixtahuacán",
+          "departamentoId": 8
+        },
+        {
+          "id": 103,
+          "nombre": "SANJUANATITÁN",
+          "nombreCorregido": "san juan atitán",
+          "departamentoId": 8
+        },
+        {
+          "id": 104,
+          "nombre": "SANJUANIXCOY",
+          "nombreCorregido": "san juan ixcoy",
+          "departamentoId": 8
+        },
+        {
+          "id": 105,
+          "nombre": "SANMATEOIXTATÁN",
+          "nombreCorregido": "san mateo ixtatán",
+          "departamentoId": 8
+        },
+        {
+          "id": 106,
+          "nombre": "SANMIGUELACATÁN",
+          "nombreCorregido": "san miguel acatán",
+          "departamentoId": 8
+        },
+        {
+          "id": 107,
+          "nombre": "SANPEDRONECTA",
+          "nombreCorregido": "san pedro necta",
+          "departamentoId": 8
+        },
+        {
+          "id": 108,
+          "nombre": "SANRAFAELLAINDEPENDENCIA",
+          "nombreCorregido": "san rafael la independencia",
+          "departamentoId": 8
+        },
+        {
+          "id": 109,
+          "nombre": "SANRAFAELPETZAL",
+          "nombreCorregido": "san rafael petzal",
+          "departamentoId": 8
+        },
+        {
+          "id": 110,
+          "nombre": "SANSEBASTIÁNCOATÁN",
+          "nombreCorregido": "san sebastián coatán",
+          "departamentoId": 8
+        },
+        {
+          "id": 111,
+          "nombre": "SANSEBASTIÁNHUEHUETENANGO",
+          "nombreCorregido": "san sebastián huehuetenango",
+          "departamentoId": 8
+        },
+        {
+          "id": 112,
+          "nombre": "SANTAANAHUISTA",
+          "nombreCorregido": "santa ana huista",
+          "departamentoId": 8
+        },
+        {
+          "id": 113,
+          "nombre": "SANTABÁRBARA",
+          "nombreCorregido": "santa bárbara",
+          "departamentoId": 8
+        },
+        {
+          "id": 114,
+          "nombre": "SANTACRUZBARILLAS",
+          "nombreCorregido": "santa cruz barillas",
+          "departamentoId": 8
+        },
+        {
+          "id": 115,
+          "nombre": "SANTAEULALIA",
+          "nombreCorregido": "santa eulalia",
+          "departamentoId": 8
+        },
+        {
+          "id": 116,
+          "nombre": "SANTIAGOCHIMALTENANGO",
+          "nombreCorregido": "santiago chimaltenango",
+          "departamentoId": 8
+        },
+        {
+          "id": 117,
+          "nombre": "SOLOMA",
+          "nombreCorregido": "soloma",
+          "departamentoId": 8
+        },
+        {
+          "id": 118,
+          "nombre": "TECTITÁN",
+          "nombreCorregido": "tectitán",
+          "departamentoId": 8
+        },
+        {
+          "id": 119,
+          "nombre": "TODOSSANTOSCUCHUMATÁN",
+          "nombreCorregido": "todos santos cuchumatán",
+          "departamentoId": 8
+        },
+        {
+          "id": 119,
+          "nombre": "UNIÓNCANTINIL",
+          "nombreCorregido": "unión cantinil",
+          "departamentoId": 8
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "nombre": "IZABAL",
+      "nombreCorregido": "izabal",
+      "municipios": [
+        {
+          "id": 120,
+          "nombre": "ELESTOR",
+          "nombreCorregido": "el estor",
+          "departamentoId": 9
+        },
+        {
+          "id": 121,
+          "nombre": "LIVINGSTON",
+          "nombreCorregido": "livingston",
+          "departamentoId": 9
+        },
+        {
+          "id": 122,
+          "nombre": "LOSAMATES",
+          "nombreCorregido": "los amates",
+          "departamentoId": 9
+        },
+        {
+          "id": 123,
+          "nombre": "MORALES",
+          "nombreCorregido": "morales",
+          "departamentoId": 9
+        },
+        {
+          "id": 124,
+          "nombre": "PUERTOBARRIOS",
+          "nombreCorregido": "puerto barrios",
+          "departamentoId": 9
+        },
+        {
+          "id": 125,
+          "nombre": "SANLUIS",
+          "nombreCorregido": "san luis",
+          "departamentoId": 9
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "nombre": "JALAPA",
+      "nombreCorregido": "jalapa",
+      "municipios": [
+        {
+          "id": 126,
+          "nombre": "JALAPA",
+          "nombreCorregido": "jalapa",
+          "departamentoId": 10
+        },
+        {
+          "id": 127,
+          "nombre": "MATAQUESCUINTLA",
+          "nombreCorregido": "mataquescuintla",
+          "departamentoId": 10
+        },
+        {
+          "id": 128,
+          "nombre": "MONJAS",
+          "nombreCorregido": "monjas",
+          "departamentoId": 10
+        },
+        {
+          "id": 129,
+          "nombre": "SANCARLOSALZATATE",
+          "nombreCorregido": "san carlos alzatate",
+          "departamentoId": 10
+        },
+        {
+          "id": 130,
+          "nombre": "SANLUISJILOTEPEQUE",
+          "nombreCorregido": "san luis jilotepeque",
+          "departamentoId": 10
+        },
+        {
+          "id": 131,
+          "nombre": "SANMANUELCHAPARRÓN",
+          "nombreCorregido": "san manuel chaparrón",
+          "departamentoId": 10
+        },
+        {
+          "id": 132,
+          "nombre": "SANPEDROPINULA",
+          "nombreCorregido": "san pedro pinula",
+          "departamentoId": 10
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "nombre": "JUTIAPA",
+      "nombreCorregido": "jutiapa",
+      "municipios": [
+        {
+          "id": 133,
+          "nombre": "AGUABLANCA",
+          "nombreCorregido": "agua blanca",
+          "departamentoId": 11
+        },
+        {
+          "id": 134,
+          "nombre": "ASUNCIÓNMITA",
+          "nombreCorregido": "asunción mita",
+          "departamentoId": 11
+        },
+        {
+          "id": 135,
+          "nombre": "ATESCATEMPA",
+          "nombreCorregido": "atescatempa",
+          "departamentoId": 11
+        },
+        {
+          "id": 136,
+          "nombre": "COMAPA",
+          "nombreCorregido": "comapa",
+          "departamentoId": 11
+        },
+        {
+          "id": 137,
+          "nombre": "CONGUACO",
+          "nombreCorregido": "conguaco",
+          "departamentoId": 11
+        },
+        {
+          "id": 138,
+          "nombre": "ELADELANTO",
+          "nombreCorregido": "el adelanto",
+          "departamentoId": 11
+        },
+        {
+          "id": 139,
+          "nombre": "ELPROGRESO",
+          "nombreCorregido": "el progreso",
+          "departamentoId": 11
+        },
+        {
+          "id": 140,
+          "nombre": "JALPATAGUA",
+          "nombreCorregido": "jalpatagua",
+          "departamentoId": 11
+        },
+        {
+          "id": 141,
+          "nombre": "JEREZ",
+          "nombreCorregido": "jerez",
+          "departamentoId": 11
+        },
+        {
+          "id": 142,
+          "nombre": "JUTIAPA",
+          "nombreCorregido": "jutiapa",
+          "departamentoId": 11
+        },
+        {
+          "id": 143,
+          "nombre": "MOYUTA",
+          "nombreCorregido": "moyuta",
+          "departamentoId": 11
+        },
+        {
+          "id": 144,
+          "nombre": "PASACO",
+          "nombreCorregido": "pasaco",
+          "departamentoId": 11
+        },
+        {
+          "id": 145,
+          "nombre": "QUEZADA",
+          "nombreCorregido": "quesada",
+          "departamentoId": 11
+        },
+        {
+          "id": 146,
+          "nombre": "SANJOSÉACATEMPA",
+          "nombreCorregido": "san josé acatempa",
+          "departamentoId": 11
+        },
+        {
+          "id": 147,
+          "nombre": "SANTACATARINAMITA",
+          "nombreCorregido": "santa catarina mita",
+          "departamentoId": 11
+        },
+        {
+          "id": 148,
+          "nombre": "YUPILTEPEQUE",
+          "nombreCorregido": "yupiltepeque",
+          "departamentoId": 11
+        },
+        {
+          "id": 149,
+          "nombre": "ZAPOTITLÁN",
+          "nombreCorregido": "zapotitlán",
+          "departamentoId": 11
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "nombre": "PETÉN",
+      "nombreCorregido": "petén",
+      "municipios": [
+        {
+          "id": 150,
+          "nombre": "DOLORES",
+          "nombreCorregido": "dolores",
+          "departamentoId": 12
+        },
+        {
+          "id": 151,
+          "nombre": "FLORES",
+          "nombreCorregido": "flores",
+          "departamentoId": 12
+        },
+        {
+          "id": 152,
+          "nombre": "LALIBERTAD",
+          "nombreCorregido": "la libertad",
+          "departamentoId": 12
+        },
+        {
+          "id": 153,
+          "nombre": "MELCHORDEMENCOS",
+          "nombreCorregido": "melchor de mencos",
+          "departamentoId": 12
+        },
+        {
+          "id": 154,
+          "nombre": "POPTÚN",
+          "nombreCorregido": "poptún",
+          "departamentoId": 12
+        },
+        {
+          "id": 155,
+          "nombre": "SANANDRÉS",
+          "nombreCorregido": "san andrés",
+          "departamentoId": 12
+        },
+        {
+          "id": 156,
+          "nombre": "SANBENITO",
+          "nombreCorregido": "san benito",
+          "departamentoId": 12
+        },
+        {
+          "id": 157,
+          "nombre": "SANFRANCISCO",
+          "nombreCorregido": "san francisco",
+          "departamentoId": 12
+        },
+        {
+          "id": 158,
+          "nombre": "SANJOSÉ",
+          "nombreCorregido": "san josé",
+          "departamentoId": 12
+        },
+        {
+          "id": 159,
+          "nombre": "SANLUIS",
+          "nombreCorregido": "san luis",
+          "departamentoId": 12
+        },
+        {
+          "id": 160,
+          "nombre": "SANTAANA",
+          "nombreCorregido": "santa ana",
+          "departamentoId": 12
+        },
+        {
+          "id": 161,
+          "nombre": "SAYAXCHÉ",
+          "nombreCorregido": "sayaxché",
+          "departamentoId": 12
+        },
+        {
+          "id": 162,
+          "nombre": "ELCHAL",
+          "nombreCorregido": "el chal",
+          "departamentoId": 12
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "nombre": "QUEZALTENANGO",
+      "nombreCorregido": "quetzaltenango",
+      "municipios": [
+        {
+          "id": 162,
+          "nombre": "ALMOLONGA",
+          "nombreCorregido": "almolonga",
+          "departamentoId": 13
+        },
+        {
+          "id": 163,
+          "nombre": "CABRICÁN",
+          "nombreCorregido": "cabricán",
+          "departamentoId": 13
+        },
+        {
+          "id": 164,
+          "nombre": "CAJOLÁ",
+          "nombreCorregido": "cajolá",
+          "departamentoId": 13
+        },
+        {
+          "id": 165,
+          "nombre": "CANTEL",
+          "nombreCorregido": "cantel",
+          "departamentoId": 13
+        },
+        {
+          "id": 166,
+          "nombre": "COATEPEQUE",
+          "nombreCorregido": "coatepeque",
+          "departamentoId": 13
+        },
+        {
+          "id": 167,
+          "nombre": "COLOMBA",
+          "nombreCorregido": "colomba",
+          "departamentoId": 13
+        },
+        {
+          "id": 168,
+          "nombre": "CONCEPCIÓNCHIQUIRICHAPA",
+          "nombreCorregido": "concepción chiquirichapa",
+          "departamentoId": 13
+        },
+        {
+          "id": 169,
+          "nombre": "ELPALMAR",
+          "nombreCorregido": "el palmar",
+          "departamentoId": 13
+        },
+        {
+          "id": 170,
+          "nombre": "FLORESCOSTACUCA",
+          "nombreCorregido": "flores costa cuca",
+          "departamentoId": 13
+        },
+        {
+          "id": 171,
+          "nombre": "GÉNOVA",
+          "nombreCorregido": "génova",
+          "departamentoId": 13
+        },
+        {
+          "id": 172,
+          "nombre": "HUITÁN",
+          "nombreCorregido": "huitán",
+          "departamentoId": 13
+        },
+        {
+          "id": 173,
+          "nombre": "LAESPERANZA",
+          "nombreCorregido": "la esperanza",
+          "departamentoId": 13
+        },
+        {
+          "id": 174,
+          "nombre": "OLINTEPEQUE",
+          "nombreCorregido": "olintepeque",
+          "departamentoId": 13
+        },
+        {
+          "id": 175,
+          "nombre": "OSTUNCALCO",
+          "nombreCorregido": "ostuncalco",
+          "departamentoId": 13
+        },
+        {
+          "id": 176,
+          "nombre": "PALESTINADELOSALTOS",
+          "nombreCorregido": "palestina de los altos",
+          "departamentoId": 13
+        },
+        {
+          "id": 177,
+          "nombre": "QUETZALTENANGO",
+          "nombreCorregido": "quetzaltenango",
+          "departamentoId": 13
+        },
+        {
+          "id": 178,
+          "nombre": "SALCAJÁ",
+          "nombreCorregido": "salcajá",
+          "departamentoId": 13
+        },
+        {
+          "id": 179,
+          "nombre": "SANCARLOSSIJA",
+          "nombreCorregido": "san carlos sija",
+          "departamentoId": 13
+        },
+        {
+          "id": 180,
+          "nombre": "SANFRANCISCOLAUNIÓN",
+          "nombreCorregido": "san francisco la unión",
+          "departamentoId": 13
+        },
+        {
+          "id": 181,
+          "nombre": "SANMARTÍNSACATEPÉQUEZ",
+          "nombreCorregido": "san martín sacatepéquez",
+          "departamentoId": 13
+        },
+        {
+          "id": 182,
+          "nombre": "SANMATEO",
+          "nombreCorregido": "san mateo",
+          "departamentoId": 13
+        },
+        {
+          "id": 183,
+          "nombre": "SANMIGUELSIGÜILÁ",
+          "nombreCorregido": "san miguel sigüilá",
+          "departamentoId": 13
+        },
+        {
+          "id": 184,
+          "nombre": "SIBILIA",
+          "nombreCorregido": "sibilia",
+          "departamentoId": 13
+        },
+        {
+          "id": 185,
+          "nombre": "ZUNIL",
+          "nombreCorregido": "zunil",
+          "departamentoId": 13
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "nombre": "QUICHÉ",
+      "nombreCorregido": "quiché",
+      "municipios": [
+        {
+          "id": 186,
+          "nombre": "CANILLÁ",
+          "nombreCorregido": "canillá",
+          "departamentoId": 14
+        },
+        {
+          "id": 187,
+          "nombre": "CHAJUL",
+          "nombreCorregido": "chajul",
+          "departamentoId": 14
+        },
+        {
+          "id": 188,
+          "nombre": "CHICAMAN",
+          "nombreCorregido": "chicamán",
+          "departamentoId": 14
+        },
+        {
+          "id": 189,
+          "nombre": "CHICHÉ",
+          "nombreCorregido": "chiché",
+          "departamentoId": 14
+        },
+        {
+          "id": 190,
+          "nombre": "CHICHICASTENANGO",
+          "nombreCorregido": "chichicastenango",
+          "departamentoId": 14
+        },
+        {
+          "id": 191,
+          "nombre": "CHINIQUE",
+          "nombreCorregido": "chinique",
+          "departamentoId": 14
+        },
+        {
+          "id": 192,
+          "nombre": "CUNÉN",
+          "nombreCorregido": "cunén",
+          "departamentoId": 14
+        },
+        {
+          "id": 193,
+          "nombre": "IXCÁN",
+          "nombreCorregido": "ixcán",
+          "departamentoId": 14
+        },
+        {
+          "id": 194,
+          "nombre": "JOYABAJ",
+          "nombreCorregido": "joyabaj",
+          "departamentoId": 14
+        },
+        {
+          "id": 195,
+          "nombre": "NEBAJ",
+          "nombreCorregido": "nebaj",
+          "departamentoId": 14
+        },
+        {
+          "id": 196,
+          "nombre": "PACHALÚM",
+          "nombreCorregido": "pachalum",
+          "departamentoId": 14
+        },
+        {
+          "id": 197,
+          "nombre": "PATZITÉ",
+          "nombreCorregido": "patzité",
+          "departamentoId": 14
+        },
+        {
+          "id": 198,
+          "nombre": "SACAPULAS",
+          "nombreCorregido": "sacapulas",
+          "departamentoId": 14
+        },
+        {
+          "id": 199,
+          "nombre": "SANANDRÉSSAJCABAJÁ",
+          "nombreCorregido": "san andrés sajcabajá",
+          "departamentoId": 14
+        },
+        {
+          "id": 200,
+          "nombre": "SANANTONIOILOTENANGO",
+          "nombreCorregido": "san antonio ilotenango",
+          "departamentoId": 14
+        },
+        {
+          "id": 201,
+          "nombre": "SANBARTOLOMÉJOCOTENANGO",
+          "nombreCorregido": "san bartolomé jocotenango",
+          "departamentoId": 14
+        },
+        {
+          "id": 202,
+          "nombre": "SANJUANCOTZAL",
+          "nombreCorregido": "san juan cotzal",
+          "departamentoId": 14
+        },
+        {
+          "id": 203,
+          "nombre": "SANPEDROJOCOPILAS",
+          "nombreCorregido": "san pedro jocopilas",
+          "departamentoId": 14
+        },
+        {
+          "id": 204,
+          "nombre": "SANTACRUZDELQUICHÉ",
+          "nombreCorregido": "santa cruz del quiché",
+          "departamentoId": 14
+        },
+        {
+          "id": 205,
+          "nombre": "USPANTÁN",
+          "nombreCorregido": "uspantán",
+          "departamentoId": 14
+        },
+        {
+          "id": 206,
+          "nombre": "ZACUALPA",
+          "nombreCorregido": "zacualpa",
+          "departamentoId": 14
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "nombre": "RETALHULEU",
+      "nombreCorregido": "retalhuleu",
+      "municipios": [
+        {
+          "id": 207,
+          "nombre": "CHAMPERICO",
+          "nombreCorregido": "champerico",
+          "departamentoId": 15
+        },
+        {
+          "id": 208,
+          "nombre": "ELASINTAL",
+          "nombreCorregido": "el asintal",
+          "departamentoId": 15
+        },
+        {
+          "id": 209,
+          "nombre": "NUEVOSANCARLOS",
+          "nombreCorregido": "nuevo san carlos",
+          "departamentoId": 15
+        },
+        {
+          "id": 210,
+          "nombre": "RETALHULEU",
+          "nombreCorregido": "retalhuleu",
+          "departamentoId": 15
+        },
+        {
+          "id": 211,
+          "nombre": "SANANDRÉSVILLASECA",
+          "nombreCorregido": "san andrés villa seca",
+          "departamentoId": 15
+        },
+        {
+          "id": 212,
+          "nombre": "SANFELIPE",
+          "nombreCorregido": "san felipe",
+          "departamentoId": 15
+        },
+        {
+          "id": 213,
+          "nombre": "SANMARTÍNZAPOTITLÁN",
+          "nombreCorregido": "san martín zapotitlán",
+          "departamentoId": 15
+        },
+        {
+          "id": 214,
+          "nombre": "SANSEBASTIÁN",
+          "nombreCorregido": "san sebastián",
+          "departamentoId": 15
+        },
+        {
+          "id": 215,
+          "nombre": "SANTACRUZMULUÁ",
+          "nombreCorregido": "santa cruz muluá",
+          "departamentoId": 15
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "nombre": "SACATEPÉQUEZ",
+      "nombreCorregido": "sacatepéquez",
+      "municipios": [
+        {
+          "id": 216,
+          "nombre": "ALOTENANGO",
+          "nombreCorregido": "alotenango",
+          "departamentoId": 16
+        },
+        {
+          "id": 217,
+          "nombre": "ANTIGUAGUATEMALA",
+          "nombreCorregido": "antigua guatemala",
+          "departamentoId": 16
+        },
+        {
+          "id": 218,
+          "nombre": "CIUDADVIEJA",
+          "nombreCorregido": "ciudad vieja",
+          "departamentoId": 16
+        },
+        {
+          "id": 219,
+          "nombre": "JOCOTENANGO",
+          "nombreCorregido": "jocotenango",
+          "departamentoId": 16
+        },
+        {
+          "id": 220,
+          "nombre": "MAGDALENAMILPASALTAS",
+          "nombreCorregido": "magdalena milpas altas",
+          "departamentoId": 16
+        },
+        {
+          "id": 221,
+          "nombre": "PASTORES",
+          "nombreCorregido": "pastores",
+          "departamentoId": 16
+        },
+        {
+          "id": 222,
+          "nombre": "SANANTONIOAGUASCALIENTES",
+          "nombreCorregido": "san antonio aguas calientes",
+          "departamentoId": 16
+        },
+        {
+          "id": 223,
+          "nombre": "SANBARTOLOMÉMILPASALTAS",
+          "nombreCorregido": "san bartolomé milpas altas",
+          "departamentoId": 16
+        },
+        {
+          "id": 224,
+          "nombre": "SANLUCASSACATEPÉQUEZ",
+          "nombreCorregido": "san lucas sacatepéquez",
+          "departamentoId": 16
+        },
+        {
+          "id": 225,
+          "nombre": "SANMIGUELDUEÑAS",
+          "nombreCorregido": "san miguel dueñas",
+          "departamentoId": 16
+        },
+        {
+          "id": 226,
+          "nombre": "SANTACATARINABARAHONA",
+          "nombreCorregido": "santa catarina barahona",
+          "departamentoId": 16
+        },
+        {
+          "id": 227,
+          "nombre": "SANTALUCÍAMILPASALTAS",
+          "nombreCorregido": "santa lucía milpas altas",
+          "departamentoId": 16
+        },
+        {
+          "id": 228,
+          "nombre": "SANTAMARÍADEJESÚS",
+          "nombreCorregido": "santa maría de jesús",
+          "departamentoId": 16
+        },
+        {
+          "id": 229,
+          "nombre": "SANTIAGOSACATEPÉQUEZ",
+          "nombreCorregido": "santiago sacatepéquez",
+          "departamentoId": 16
+        },
+        {
+          "id": 230,
+          "nombre": "SANTODOMINGOXENACOJ",
+          "nombreCorregido": "santo domingo xenacoj",
+          "departamentoId": 16
+        },
+        {
+          "id": 231,
+          "nombre": "SUMPANGO",
+          "nombreCorregido": "sumpango",
+          "departamentoId": 16
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "nombre": "SANMARCOS",
+      "nombreCorregido": "san marcos",
+      "municipios": [
+        {
+          "id": 232,
+          "nombre": "AYUTLA",
+          "nombreCorregido": "ayutla",
+          "departamentoId": 17
+        },
+        {
+          "id": 233,
+          "nombre": "CATARINA",
+          "nombreCorregido": "catarina",
+          "departamentoId": 17
+        },
+        {
+          "id": 234,
+          "nombre": "COMITANCILLO",
+          "nombreCorregido": "comitancillo",
+          "departamentoId": 17
+        },
+        {
+          "id": 235,
+          "nombre": "CONCEPCIÓNTUTUAPA",
+          "nombreCorregido": "concepción tutuapa",
+          "departamentoId": 17
+        },
+        {
+          "id": 236,
+          "nombre": "ELQUETZAL",
+          "nombreCorregido": "el quetzal",
+          "departamentoId": 17
+        },
+        {
+          "id": 237,
+          "nombre": "ELRODEO",
+          "nombreCorregido": "el rodeo",
+          "departamentoId": 17
+        },
+        {
+          "id": 238,
+          "nombre": "ELTUMBADOR",
+          "nombreCorregido": "el tumbador",
+          "departamentoId": 17
+        },
+        {
+          "id": 239,
+          "nombre": "ESQUIPULASPALOGORDO",
+          "nombreCorregido": "esquipulas palo gordo",
+          "departamentoId": 17
+        },
+        {
+          "id": 240,
+          "nombre": "IXCHIGUAN",
+          "nombreCorregido": "ixchiguán",
+          "departamentoId": 17
+        },
+        {
+          "id": 241,
+          "nombre": "LAREFORMA",
+          "nombreCorregido": "la reforma",
+          "departamentoId": 17
+        },
+        {
+          "id": 242,
+          "nombre": "MALACATÁN",
+          "nombreCorregido": "malacatán",
+          "departamentoId": 17
+        },
+        {
+          "id": 243,
+          "nombre": "NUEVOPROGRESO",
+          "nombreCorregido": "nuevo progreso",
+          "departamentoId": 17
+        },
+        {
+          "id": 244,
+          "nombre": "OCOS",
+          "nombreCorregido": "ocos",
+          "departamentoId": 17
+        },
+        {
+          "id": 245,
+          "nombre": "PAJAPITA",
+          "nombreCorregido": "pajapita",
+          "departamentoId": 17
+        },
+        {
+          "id": 246,
+          "nombre": "RÍOBLANCO",
+          "nombreCorregido": "río blanco",
+          "departamentoId": 17
+        },
+        {
+          "id": 247,
+          "nombre": "SANANTONIOSACATEPÉQUEZ",
+          "nombreCorregido": "san antonio sacatepéquez",
+          "departamentoId": 17
+        },
+        {
+          "id": 248,
+          "nombre": "SANCRISTOBALCUCHO",
+          "nombreCorregido": "san cristóbal cucho",
+          "departamentoId": 17
+        },
+        {
+          "id": 249,
+          "nombre": "SANJOSÉOJETENAM",
+          "nombreCorregido": "san josé ojetenam",
+          "departamentoId": 17
+        },
+        {
+          "id": 250,
+          "nombre": "SANLORENZO",
+          "nombreCorregido": "san lorenzo",
+          "departamentoId": 17
+        },
+        {
+          "id": 251,
+          "nombre": "SANMARCOS",
+          "nombreCorregido": "san marcos",
+          "departamentoId": 17
+        },
+        {
+          "id": 252,
+          "nombre": "SANMIGUELIXTAHUACÁN",
+          "nombreCorregido": "san miguel ixtahuacán",
+          "departamentoId": 17
+        },
+        {
+          "id": 253,
+          "nombre": "SANPABLO",
+          "nombreCorregido": "san pablo",
+          "departamentoId": 17
+        },
+        {
+          "id": 254,
+          "nombre": "SANPEDROSACATEPÉQUEZ",
+          "nombreCorregido": "san pedro sacatepéquez",
+          "departamentoId": 17
+        },
+        {
+          "id": 255,
+          "nombre": "SANRAFAÉLPIEDELACUESTA",
+          "nombreCorregido": "san rafael pie de la cuesta",
+          "departamentoId": 17
+        },
+        {
+          "id": 256,
+          "nombre": "SANSIBINAL",
+          "nombreCorregido": "sibinal",
+          "departamentoId": 17
+        },
+        {
+          "id": 257,
+          "nombre": "SIPACAPA",
+          "nombreCorregido": "sipacapa",
+          "departamentoId": 17
+        },
+        {
+          "id": 258,
+          "nombre": "TACANÁ",
+          "nombreCorregido": "tacaná",
+          "departamentoId": 17
+        },
+        {
+          "id": 259,
+          "nombre": "TAJUMULCO",
+          "nombreCorregido": "tajumulco",
+          "departamentoId": 17
+        },
+        {
+          "id": 260,
+          "nombre": "TEJUTLA",
+          "nombreCorregido": "tejutla",
+          "departamentoId": 17
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "nombre": "SANTAROSA",
+      "nombreCorregido": "santa rosa",
+      "municipios": [
+        {
+          "id": 261,
+          "nombre": "BARBERENA",
+          "nombreCorregido": "barberena",
+          "departamentoId": 18
+        },
+        {
+          "id": 262,
+          "nombre": "CASILLAS",
+          "nombreCorregido": "casillas",
+          "departamentoId": 18
+        },
+        {
+          "id": 263,
+          "nombre": "CHIQUIMULILLA",
+          "nombreCorregido": "chiquimulilla",
+          "departamentoId": 18
+        },
+        {
+          "id": 264,
+          "nombre": "CUILAPA",
+          "nombreCorregido": "cuilapa",
+          "departamentoId": 18
+        },
+        {
+          "id": 265,
+          "nombre": "GUAZACAPÁN",
+          "nombreCorregido": "guazacapán",
+          "departamentoId": 18
+        },
+        {
+          "id": 266,
+          "nombre": "NUEVASANTAROSA",
+          "nombreCorregido": "nueva santa rosa",
+          "departamentoId": 18
+        },
+        {
+          "id": 267,
+          "nombre": "ORATORIO",
+          "nombreCorregido": "oratorio",
+          "departamentoId": 18
+        },
+        {
+          "id": 268,
+          "nombre": "PUEBLONUEVOVIÑAS",
+          "nombreCorregido": "pueblo nuevo viñas",
+          "departamentoId": 18
+        },
+        {
+          "id": 269,
+          "nombre": "SANJUANTECUACO",
+          "nombreCorregido": "san juan tecuaco",
+          "departamentoId": 18
+        },
+        {
+          "id": 270,
+          "nombre": "SANRAFAÉLLASFLORES",
+          "nombreCorregido": "san rafael las flores",
+          "departamentoId": 18
+        },
+        {
+          "id": 271,
+          "nombre": "SANTACRUZNARANJO",
+          "nombreCorregido": "santa cruz naranjo",
+          "departamentoId": 18
+        },
+        {
+          "id": 272,
+          "nombre": "SANTAMARÍAIXHUATÁN",
+          "nombreCorregido": "santa maría ixhuatán",
+          "departamentoId": 18
+        },
+        {
+          "id": 273,
+          "nombre": "SANTAROSADELIMA",
+          "nombreCorregido": "santa rosa de lima",
+          "departamentoId": 18
+        },
+        {
+          "id": 274,
+          "nombre": "TAXISCO",
+          "nombreCorregido": "taxisco",
+          "departamentoId": 18
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "nombre": "SOLOLÁ",
+      "nombreCorregido": "sololá",
+      "municipios": [
+        {
+          "id": 275,
+          "nombre": "CONCEPCIÓN",
+          "nombreCorregido": "concepción",
+          "departamentoId": 19
+        },
+        {
+          "id": 276,
+          "nombre": "NAHUALÁ",
+          "nombreCorregido": "nahualá",
+          "departamentoId": 19
+        },
+        {
+          "id": 277,
+          "nombre": "PANAJACHEL",
+          "nombreCorregido": "panajachel",
+          "departamentoId": 19
+        },
+        {
+          "id": 278,
+          "nombre": "SANANDRÉSSEMETABAJ",
+          "nombreCorregido": "san andrés semetabaj",
+          "departamentoId": 19
+        },
+        {
+          "id": 279,
+          "nombre": "SANANTONIOPALOPÓ",
+          "nombreCorregido": "san antonio palopó",
+          "departamentoId": 19
+        },
+        {
+          "id": 280,
+          "nombre": "SANJOSÉCHACAYÁ",
+          "nombreCorregido": "san josé chacayá",
+          "departamentoId": 19
+        },
+        {
+          "id": 281,
+          "nombre": "SANJUANLALAGUNA",
+          "nombreCorregido": "san juan la laguna",
+          "departamentoId": 19
+        },
+        {
+          "id": 282,
+          "nombre": "SANLUCASTOLIMÁN",
+          "nombreCorregido": "san lucas tolimán",
+          "departamentoId": 19
+        },
+        {
+          "id": 283,
+          "nombre": "SANMARCOSLALAGUNA",
+          "nombreCorregido": "san marcos la laguna",
+          "departamentoId": 19
+        },
+        {
+          "id": 284,
+          "nombre": "SANPABLOLALAGUNA",
+          "nombreCorregido": "san pablo la laguna",
+          "departamentoId": 19
+        },
+        {
+          "id": 285,
+          "nombre": "SANPEDROLALAGUNA",
+          "nombreCorregido": "san pedro la laguna",
+          "departamentoId": 19
+        },
+        {
+          "id": 286,
+          "nombre": "SANTACATARINAIXTAHUACAN",
+          "nombreCorregido": "santa catarina ixtahuacán",
+          "departamentoId": 19
+        },
+        {
+          "id": 287,
+          "nombre": "SANTACATARINAPALOPÓ",
+          "nombreCorregido": "santa catarina palopó",
+          "departamentoId": 19
+        },
+        {
+          "id": 288,
+          "nombre": "SANTACLARALALAGUNA",
+          "nombreCorregido": "santa clara la laguna",
+          "departamentoId": 19
+        },
+        {
+          "id": 289,
+          "nombre": "SANTACRUZLALAGUNA",
+          "nombreCorregido": "santa cruz la laguna",
+          "departamentoId": 19
+        },
+        {
+          "id": 290,
+          "nombre": "SANTALUCÍAUTATLÁN",
+          "nombreCorregido": "santa lucía utatlán",
+          "departamentoId": 19
+        },
+        {
+          "id": 291,
+          "nombre": "SANTAMARÍAVISITACIÓN",
+          "nombreCorregido": "santa maría visitación",
+          "departamentoId": 19
+        },
+        {
+          "id": 292,
+          "nombre": "SANTIAGOATITLÁN",
+          "nombreCorregido": "santiago atitlán",
+          "departamentoId": 19
+        },
+        {
+          "id": 293,
+          "nombre": "SOLOLÁ",
+          "nombreCorregido": "sololá",
+          "departamentoId": 19
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "nombre": "SUCHITEPÉQUEZ",
+      "nombreCorregido": "suchitepéquez",
+      "municipios": [
+        {
+          "id": 294,
+          "nombre": "CHICACAO",
+          "nombreCorregido": "chicacao",
+          "departamentoId": 20
+        },
+        {
+          "id": 295,
+          "nombre": "CUYOTENANGO",
+          "nombreCorregido": "cuyotenango",
+          "departamentoId": 20
+        },
+        {
+          "id": 296,
+          "nombre": "MAZATENANGO",
+          "nombreCorregido": "mazatenango",
+          "departamentoId": 20
+        },
+        {
+          "id": 297,
+          "nombre": "PATULUL",
+          "nombreCorregido": "patulul",
+          "departamentoId": 20
+        },
+        {
+          "id": 298,
+          "nombre": "PUEBLONUEVO",
+          "nombreCorregido": "pueblo nuevo",
+          "departamentoId": 20
+        },
+        {
+          "id": 299,
+          "nombre": "RÍOBRAVO",
+          "nombreCorregido": "río bravo",
+          "departamentoId": 20
+        },
+        {
+          "id": 300,
+          "nombre": "SAMAYAC",
+          "nombreCorregido": "samayac",
+          "departamentoId": 20
+        },
+        {
+          "id": 301,
+          "nombre": "SANANTONIOSUCHITEPÉQUEZ",
+          "nombreCorregido": "san antonio suchitepéquez",
+          "departamentoId": 20
+        },
+        {
+          "id": 302,
+          "nombre": "SANBERNARDINO",
+          "nombreCorregido": "san bernardino",
+          "departamentoId": 20
+        },
+        {
+          "id": 303,
+          "nombre": "SANFRANCISCOZAPOTITLÁN",
+          "nombreCorregido": "san francisco zapotitlán",
+          "departamentoId": 20
+        },
+        {
+          "id": 304,
+          "nombre": "SANGABRIEL",
+          "nombreCorregido": "san gabriel",
+          "departamentoId": 20
+        },
+        {
+          "id": 305,
+          "nombre": "SANJOSÉELIDOLO",
+          "nombreCorregido": "san josé el ídolo",
+          "departamentoId": 20
+        },
+        {
+          "id": 306,
+          "nombre": "SANJUANBAUTISTA",
+          "nombreCorregido": "san juan bautista",
+          "departamentoId": 20
+        },
+        {
+          "id": 307,
+          "nombre": "SANLORENZO",
+          "nombreCorregido": "san lorenzo",
+          "departamentoId": 20
+        },
+        {
+          "id": 308,
+          "nombre": "SANMIGUELPANÁN",
+          "nombreCorregido": "san miguel panán",
+          "departamentoId": 20
+        },
+        {
+          "id": 309,
+          "nombre": "SANPABLOJOCOPILAS",
+          "nombreCorregido": "san pablo jocopilas",
+          "departamentoId": 20
+        },
+        {
+          "id": 310,
+          "nombre": "SANTABÁRBARA",
+          "nombreCorregido": "santa bárbara",
+          "departamentoId": 20
+        },
+        {
+          "id": 311,
+          "nombre": "SANTODOMINGOSUCHITEPEQUEZ",
+          "nombreCorregido": "santo domingo suchitepéquez",
+          "departamentoId": 20
+        },
+        {
+          "id": 312,
+          "nombre": "SANTOTOMÁSLAUNIÓN",
+          "nombreCorregido": "santo tomás la unión",
+          "departamentoId": 20
+        },
+        {
+          "id": 313,
+          "nombre": "ZUNILITO",
+          "nombreCorregido": "zunilito",
+          "departamentoId": 20
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "nombre": "TOTONICAPÁN",
+      "nombreCorregido": "totonicapán",
+      "municipios": [
+        {
+          "id": 314,
+          "nombre": "MOMOSTENANGO",
+          "nombreCorregido": "momostenango",
+          "departamentoId": 21
+        },
+        {
+          "id": 315,
+          "nombre": "SANANDRÉSXECUL",
+          "nombreCorregido": "san andrés xecul",
+          "departamentoId": 21
+        },
+        {
+          "id": 316,
+          "nombre": "SANBARTOLO",
+          "nombreCorregido": "san bartolo",
+          "departamentoId": 21
+        },
+        {
+          "id": 317,
+          "nombre": "SANCRISTÓBALTOTONICAPÁN",
+          "nombreCorregido": "san cristóbal totonicapán",
+          "departamentoId": 21
+        },
+        {
+          "id": 318,
+          "nombre": "SANFRANCISCOELALTO",
+          "nombreCorregido": "san francisco el alto",
+          "departamentoId": 21
+        },
+        {
+          "id": 319,
+          "nombre": "SANTALUCÍALAREFORMA",
+          "nombreCorregido": "santa lucía la reforma",
+          "departamentoId": 21
+        },
+        {
+          "id": 320,
+          "nombre": "SANTAMARÍACHIQUIMULA",
+          "nombreCorregido": "santa maría chiquimula",
+          "departamentoId": 21
+        },
+        {
+          "id": 321,
+          "nombre": "TOTONICAPÁN",
+          "nombreCorregido": "totonicapán",
+          "departamentoId": 21
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "nombre": "ZACAPA",
+      "nombreCorregido": "zacapa",
+      "municipios": [
+        {
+          "id": 322,
+          "nombre": "CABAÑAS",
+          "nombreCorregido": "cabañas",
+          "departamentoId": 22
+        },
+        {
+          "id": 323,
+          "nombre": "ESTANZUELA",
+          "nombreCorregido": "estanzuela",
+          "departamentoId": 22
+        },
+        {
+          "id": 324,
+          "nombre": "GUALÁN",
+          "nombreCorregido": "gualán",
+          "departamentoId": 22
+        },
+        {
+          "id": 325,
+          "nombre": "HUITÉ",
+          "nombreCorregido": "huité",
+          "departamentoId": 22
+        },
+        {
+          "id": 326,
+          "nombre": "LAUNIÓN",
+          "nombreCorregido": "la unión",
+          "departamentoId": 22
+        },
+        {
+          "id": 327,
+          "nombre": "RÍOHONDO",
+          "nombreCorregido": "río hondo",
+          "departamentoId": 22
+        },
+        {
+          "id": 328,
+          "nombre": "SANDIEGO",
+          "nombreCorregido": "san diego",
+          "departamentoId": 22
+        },
+        {
+          "id": 329,
+          "nombre": "TECULUTÁN",
+          "nombreCorregido": "teculután",
+          "departamentoId": 22
+        },
+        {
+          "id": 330,
+          "nombre": "USUMATLÁN",
+          "nombreCorregido": "usumatlán",
+          "departamentoId": 22
+        },
+        {
+          "id": 331,
+          "nombre": "ZACAPA",
+          "nombreCorregido": "zacapa",
+          "departamentoId": 22
+        }
+      ]
+    }
+  ]
+}

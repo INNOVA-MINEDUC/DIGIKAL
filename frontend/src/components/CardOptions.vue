@@ -16,7 +16,9 @@
             <h2 class="title-main">{{ card.title }}</h2>
             
 
-            <v-btn variant="outlined" class="mt-4 text-white" size="small">
+            <v-btn
+            v-if="card.url"
+            variant="outlined" class="mt-4 text-white" size="small" @click="routeTo(card.url)">
               Explorar
             </v-btn>
           </div>
@@ -32,6 +34,10 @@ import { defineProps } from 'vue'
 defineProps({
   cards: Array
 })
+
+function routeTo(url){
+   window.open(url, '_blank')
+}
 </script>
 
 <style scoped>

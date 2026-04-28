@@ -1,10 +1,11 @@
 import express from 'express';
 import {
   getEscuelas,
-  getEscuelaById,
+  getEscuelaByCodigo,
   createEscuela,
   updateEscuela,
-  deleteEscuela
+  deleteEscuela,
+  getEscuelByCodigoMineduc
 } from '../controllers/EscuelaController.js';
 
 const router = express.Router();
@@ -15,10 +16,12 @@ const router = express.Router();
  */
 router.get('/', getEscuelas);
 
+router.get('/:codigo', getEscuelByCodigoMineduc);
+
 /**
  * GET BY ID
  */
-router.get('/:id', getEscuelaById);
+router.post('/udi', getEscuelaByCodigo);
 
 /**
  * CREATE

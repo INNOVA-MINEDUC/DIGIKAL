@@ -15,7 +15,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Chahal",
         "VARNAME_2": "NA",
@@ -23,7 +23,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "chahal"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -438,7 +440,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Chisec",
         "VARNAME_2": "NA",
@@ -446,7 +448,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "chisec"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1445,7 +1449,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Cobán",
         "VARNAME_2": "NA",
@@ -1453,7 +1457,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "cobán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2828,7 +2834,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "FrayBartolomédelasCasas",
         "VARNAME_2": "NA",
@@ -2836,7 +2842,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "fray bartolomé de las casas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3567,7 +3575,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Lanquín",
         "VARNAME_2": "NA",
@@ -3575,7 +3583,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "lanquín"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3822,7 +3832,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Panzós",
         "VARNAME_2": "NA",
@@ -3830,7 +3840,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "panzós"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4237,7 +4249,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "SanCristóbalVerapaz",
         "VARNAME_2": "NA",
@@ -4245,7 +4257,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "san cristóbal verapaz"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4616,7 +4630,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "SanJuanChamelco",
         "VARNAME_2": "NA",
@@ -4624,7 +4638,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "san juan chamelco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4923,7 +4939,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "SanPedroCarchá",
         "VARNAME_2": "NA",
@@ -4931,7 +4947,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "san pedro carchá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5726,7 +5744,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "SantaCruzVerapaz",
         "VARNAME_2": "NA",
@@ -5734,7 +5752,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "santa cruz verapaz"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5941,7 +5961,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "SantaMaríaCahabón",
         "VARNAME_2": "NA",
@@ -5949,7 +5969,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "santa maría cahabón"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6300,7 +6322,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Senahú",
         "VARNAME_2": "NA",
@@ -6308,7 +6330,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "senahú"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6803,7 +6827,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Tactic",
         "VARNAME_2": "NA",
@@ -6811,7 +6835,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "tactic"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6982,7 +7008,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Tamahú",
         "VARNAME_2": "NA",
@@ -6990,7 +7016,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "tamahú"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7149,7 +7177,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.1_1",
-        "NAME_1": "AltaVerapaz",
+        "NAME_1": "Alta Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Tucurú",
         "VARNAME_2": "NA",
@@ -7157,7 +7185,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "alta verapaz",
+        "nombreCorregidoMunicipio": "tucurú"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7400,7 +7430,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.2_1",
-        "NAME_1": "BajaVerapaz",
+        "NAME_1": "Baja Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Cubulco",
         "VARNAME_2": "NA",
@@ -7408,7 +7438,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "baja verapaz",
+        "nombreCorregidoMunicipio": "cubulco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7771,7 +7803,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.2_1",
-        "NAME_1": "BajaVerapaz",
+        "NAME_1": "Baja Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Granados",
         "VARNAME_2": "NA",
@@ -7779,7 +7811,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "baja verapaz",
+        "nombreCorregidoMunicipio": "granados"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8086,7 +8120,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.2_1",
-        "NAME_1": "BajaVerapaz",
+        "NAME_1": "Baja Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Purulhá",
         "VARNAME_2": "NA",
@@ -8094,7 +8128,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "baja verapaz",
+        "nombreCorregidoMunicipio": "purulhá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8437,7 +8473,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.2_1",
-        "NAME_1": "BajaVerapaz",
+        "NAME_1": "Baja Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Rabinal",
         "VARNAME_2": "NA",
@@ -8445,7 +8481,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "baja verapaz",
+        "nombreCorregidoMunicipio": "rabinal"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8896,7 +8934,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.2_1",
-        "NAME_1": "BajaVerapaz",
+        "NAME_1": "Baja Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "Salamá",
         "VARNAME_2": "NA",
@@ -8904,7 +8942,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "baja verapaz",
+        "nombreCorregidoMunicipio": "salamá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -9603,7 +9643,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.2_1",
-        "NAME_1": "BajaVerapaz",
+        "NAME_1": "Baja Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "SanJerónimo",
         "VARNAME_2": "NA",
@@ -9611,7 +9651,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "baja verapaz",
+        "nombreCorregidoMunicipio": "san jerónimo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -9870,7 +9912,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.2_1",
-        "NAME_1": "BajaVerapaz",
+        "NAME_1": "Baja Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "SanMiguelChicaj",
         "VARNAME_2": "NA",
@@ -9878,7 +9920,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "baja verapaz",
+        "nombreCorregidoMunicipio": "san miguel chicaj"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10293,7 +10337,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.2_1",
-        "NAME_1": "BajaVerapaz",
+        "NAME_1": "Baja Verapaz",
         "NL_NAME_1": "NA",
         "NAME_2": "SantaCruzElChol",
         "VARNAME_2": "NA",
@@ -10301,7 +10345,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "baja verapaz",
+        "nombreCorregidoMunicipio": "santa cruz el chol"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10532,7 +10578,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "acatenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10703,7 +10751,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "chimaltenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10898,7 +10948,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "comalapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11081,7 +11133,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "el tejar"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11212,7 +11266,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "parramos"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11331,7 +11387,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "patzicía"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11530,7 +11588,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "patzún"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11827,13 +11887,15 @@
         "GID_1": "GTM.3_1",
         "NAME_1": "Chimaltenango",
         "NL_NAME_1": "NA",
-        "NAME_2": "Pochuta",
+        "NAME_2": "san Miguel Pochuta",
         "VARNAME_2": "NA",
         "NL_NAME_2": "NA",
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "san miguel pochuta"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12084,7 +12146,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "san andrés itzapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12235,7 +12299,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "san josé poaquil"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12438,7 +12504,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "san martín jilotepeque"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12889,7 +12957,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "santa apolonia"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13036,7 +13106,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "santa cruz balanyá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13183,7 +13255,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "tecpán guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13666,7 +13740,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "yepocapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13993,7 +14069,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chimaltenango",
+        "nombreCorregidoMunicipio": "zaragoza"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14172,7 +14250,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "camotán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14411,7 +14491,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "chiquimula"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14690,7 +14772,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "concepción las minas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14997,7 +15081,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "esquipulas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15356,7 +15442,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "ipala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15575,7 +15663,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "jocotán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15958,7 +16048,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "olopa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16177,7 +16269,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "quezaltepeque"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16516,7 +16610,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "san jacinto"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16691,7 +16787,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "san josé la arada"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16862,7 +16960,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "chiquimula",
+        "nombreCorregidoMunicipio": "san juan ermita"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17061,7 +17161,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.5_1",
-        "NAME_1": "ElProgreso",
+        "NAME_1": "El Progreso",
         "NL_NAME_1": "NA",
         "NAME_2": "ElJícaro",
         "VARNAME_2": "NA",
@@ -17069,7 +17169,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "el progreso",
+        "nombreCorregidoMunicipio": "el jícaro"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17244,7 +17346,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.5_1",
-        "NAME_1": "ElProgreso",
+        "NAME_1": "El Progreso",
         "NL_NAME_1": "NA",
         "NAME_2": "Guastatoya",
         "VARNAME_2": "NA",
@@ -17252,7 +17354,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "el progreso",
+        "nombreCorregidoMunicipio": "guastatoya"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17504,7 +17608,7 @@
                 14.8849
               ],
               [
-                -90.0,
+                -90,
                 14.8821
               ],
               [
@@ -17527,7 +17631,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.5_1",
-        "NAME_1": "ElProgreso",
+        "NAME_1": "El Progreso",
         "NL_NAME_1": "NA",
         "NAME_2": "Morazán",
         "VARNAME_2": "NA",
@@ -17535,7 +17639,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "el progreso",
+        "nombreCorregidoMunicipio": "morazán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17714,7 +17820,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.5_1",
-        "NAME_1": "ElProgreso",
+        "NAME_1": "El Progreso",
         "NL_NAME_1": "NA",
         "NAME_2": "SanAgustínAcasaguastlán",
         "VARNAME_2": "NA",
@@ -17722,7 +17828,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "el progreso",
+        "nombreCorregidoMunicipio": "san agustín acasaguastlán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17838,7 +17946,7 @@
                 14.8832
               ],
               [
-                -90.0,
+                -90,
                 14.8821
               ],
               [
@@ -17957,7 +18065,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.5_1",
-        "NAME_1": "ElProgreso",
+        "NAME_1": "El Progreso",
         "NL_NAME_1": "NA",
         "NAME_2": "SanAntonioLaPaz",
         "VARNAME_2": "NA",
@@ -17965,7 +18073,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "el progreso",
+        "nombreCorregidoMunicipio": "san antonio la paz"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18192,7 +18302,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.5_1",
-        "NAME_1": "ElProgreso",
+        "NAME_1": "El Progreso",
         "NL_NAME_1": "NA",
         "NAME_2": "SanCristóbalAcasaguastlán",
         "VARNAME_2": "NA",
@@ -18200,7 +18310,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "el progreso",
+        "nombreCorregidoMunicipio": "san cristóbal acasaguastlán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18371,7 +18483,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.5_1",
-        "NAME_1": "ElProgreso",
+        "NAME_1": "El Progreso",
         "NL_NAME_1": "NA",
         "NAME_2": "Sanarate",
         "VARNAME_2": "NA",
@@ -18379,7 +18491,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "el progreso",
+        "nombreCorregidoMunicipio": "sanarate"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18742,7 +18856,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.5_1",
-        "NAME_1": "ElProgreso",
+        "NAME_1": "El Progreso",
         "NL_NAME_1": "NA",
         "NAME_2": "Sansare",
         "VARNAME_2": "NA",
@@ -18750,7 +18864,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "el progreso",
+        "nombreCorregidoMunicipio": "sansare"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18921,7 +19037,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "escuintla"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19476,7 +19594,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "guanagazapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19935,7 +20055,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "iztapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -20174,7 +20296,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "la democracia"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -20589,7 +20713,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "la gomera"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21232,7 +21358,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "masagua"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21607,7 +21735,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "nueva concepción"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22130,7 +22260,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "palín"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22321,7 +22453,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "san josé"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22704,7 +22838,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "san vicente pacaya"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22867,7 +23003,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "santa lucía cotzumalguapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23322,7 +23460,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "siquinalá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23605,7 +23745,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "escuintla",
+        "nombreCorregidoMunicipio": "tiquisate"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24176,7 +24318,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "amatitlán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24315,7 +24459,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "chinautla"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24570,7 +24716,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "chuarrancho"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24861,7 +25009,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "fraijanes"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25096,7 +25246,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "mixco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25485,7 +25637,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "palencia"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25808,7 +25962,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "petapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25947,7 +26103,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "san josé del golfo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -26230,7 +26388,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "san josé pinula"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -26473,7 +26633,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "san juan sacatepéquez"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -26948,7 +27110,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "san pedro ayampuc"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -27191,7 +27355,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "san pedro sacatepéquez"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -27466,7 +27632,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "san raymundo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -27773,7 +27941,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "santa catarina pinula"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -27976,7 +28146,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "villa canales"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -28439,7 +28611,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "villa nueva"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -28638,7 +28812,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -28729,7 +28905,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -28812,7 +28990,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -28927,7 +29107,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -29038,7 +29220,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -29133,7 +29317,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -29228,7 +29414,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -29363,7 +29551,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -29470,7 +29660,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -29633,7 +29825,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -29800,7 +29994,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -29847,7 +30043,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -29942,7 +30140,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30025,7 +30225,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30172,7 +30374,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30423,7 +30627,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30490,7 +30696,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30545,7 +30753,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30644,7 +30854,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30715,7 +30927,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30822,7 +31036,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30877,7 +31093,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "guatemala",
+        "nombreCorregidoMunicipio": "guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -30928,7 +31146,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "aguacatán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -31127,7 +31347,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "chiantla"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -31434,7 +31656,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "colotenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -31541,7 +31765,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "concepción huista"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -31716,7 +31942,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "cuilco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -31891,7 +32119,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "huehuetenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -32114,7 +32344,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "jacaltenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -32321,7 +32553,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "la democracia"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -32540,7 +32774,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "la libertad"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -32711,7 +32947,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "malacatancito"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -32890,7 +33128,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "nentón"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -33069,7 +33309,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san antonio huista"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -33244,7 +33486,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san gaspar ixchil"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -33339,7 +33583,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san ildefonso ixtahuacán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -33502,7 +33748,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san juan atitán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -33613,7 +33861,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san juan ixcoy"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -33856,7 +34106,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san mateo ixtatán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -34075,7 +34327,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san miguel acatán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -34250,7 +34504,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san pedro necta"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -34409,7 +34665,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san rafael la independencia"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -34508,7 +34766,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san rafael petzal"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -34599,7 +34859,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san sebastián coatán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -34770,7 +35032,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "san sebastián huehuetenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -34905,7 +35169,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "santa ana huista"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -35068,7 +35334,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "santa bárbara"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -35219,7 +35487,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "santa cruz barillas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -35430,7 +35700,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "santa eulalia"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -35701,7 +35973,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "santiago chimaltenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -35844,7 +36118,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "soloma"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -35999,7 +36275,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "tectitán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -36098,7 +36376,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "huehuetenango",
+        "nombreCorregidoMunicipio": "todos santos cuchumatán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -36273,7 +36553,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "izabal",
+        "nombreCorregidoMunicipio": "el estor"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -37252,7 +37534,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "izabal",
+        "nombreCorregidoMunicipio": "livingston"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -38187,7 +38471,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "izabal",
+        "nombreCorregidoMunicipio": "los amates"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -38762,7 +39048,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "izabal",
+        "nombreCorregidoMunicipio": "morales"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -39289,7 +39577,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "izabal",
+        "nombreCorregidoMunicipio": "puerto barrios"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -40300,7 +40590,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "izabal",
+        "nombreCorregidoMunicipio": "san luis"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -40863,7 +41155,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jalapa",
+        "nombreCorregidoMunicipio": "jalapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -41314,7 +41608,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jalapa",
+        "nombreCorregidoMunicipio": "mataquescuintla"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -41509,7 +41805,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jalapa",
+        "nombreCorregidoMunicipio": "monjas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -41760,7 +42058,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jalapa",
+        "nombreCorregidoMunicipio": "san carlos alzatate"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -41895,7 +42195,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jalapa",
+        "nombreCorregidoMunicipio": "san luis jilotepeque"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -42114,7 +42416,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jalapa",
+        "nombreCorregidoMunicipio": "san manuel chaparrón"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -42365,7 +42669,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jalapa",
+        "nombreCorregidoMunicipio": "san pedro pinula"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -42772,7 +43078,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "agua blanca"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -43019,7 +43327,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "asunción mita"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -43438,7 +43748,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "atescatempa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -43637,7 +43949,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "comapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -43924,7 +44238,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "conguaco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -44203,7 +44519,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "el adelanto"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -44330,7 +44648,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "el progreso"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -44541,7 +44861,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "jalpatagua"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -44940,7 +45262,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "jerez"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -45095,7 +45419,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "jutiapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -45594,7 +45920,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "moyuta"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -45883,7 +46211,7 @@
               ],
               [
                 -90.1166,
-                14.0
+                14
               ],
               [
                 -90.1166,
@@ -46025,7 +46353,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "pasaco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -46390,13 +46720,15 @@
         "GID_1": "GTM.11_1",
         "NAME_1": "Jutiapa",
         "NL_NAME_1": "NA",
-        "NAME_2": "Quezada",
+        "NAME_2": "Quesada",
         "VARNAME_2": "NA",
         "NL_NAME_2": "NA",
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "quesada"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -46683,7 +47015,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "san josé acatempa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -46854,7 +47188,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "santa catarina mita"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -47157,7 +47493,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "yupiltepeque"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -47396,7 +47734,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "jutiapa",
+        "nombreCorregidoMunicipio": "zapotitlán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -47627,7 +47967,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "dolores"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -47866,7 +48208,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "flores"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -47953,7 +48297,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "la libertad"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -49484,7 +49830,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "melchor de mencos"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -49571,7 +49919,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "poptún"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -49591,7 +49941,7 @@
                 16.2047
               ],
               [
-                -90.0,
+                -90,
                 16.2085
               ],
               [
@@ -49846,7 +50196,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "san andrés"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -50353,7 +50705,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "san benito"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -50404,7 +50758,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "san francisco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -50487,7 +50843,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "san josé"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -50542,7 +50900,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "san luis"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -51069,7 +51429,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "santa ana"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -51156,7 +51518,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "petén",
+        "nombreCorregidoMunicipio": "sayaxché"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -52276,7 +52640,7 @@
                 16.2118
               ],
               [
-                -90.0,
+                -90,
                 16.2085
               ],
               [
@@ -52335,7 +52699,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Almolonga",
         "VARNAME_2": "NA",
@@ -52343,7 +52707,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "almolonga"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -52426,7 +52792,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Cabricán",
         "VARNAME_2": "NA",
@@ -52434,7 +52800,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "cabricán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -52597,7 +52965,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Cajolá",
         "VARNAME_2": "NA",
@@ -52605,7 +52973,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "cajolá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -52676,7 +53046,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Cantel",
         "VARNAME_2": "NA",
@@ -52684,7 +53054,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "cantel"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -52795,7 +53167,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Coatepeque",
         "VARNAME_2": "NA",
@@ -52803,7 +53175,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "coatepeque"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -53210,7 +53584,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Colomba",
         "VARNAME_2": "NA",
@@ -53218,7 +53592,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "colomba"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -53613,7 +53989,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "ConcepciónChiquirichapa",
         "VARNAME_2": "NA",
@@ -53621,7 +53997,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "concepción chiquirichapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -53708,7 +54086,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "ElPalmar",
         "VARNAME_2": "NA",
@@ -53716,7 +54094,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "el palmar"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -53959,7 +54339,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "FloresCostaCuca",
         "VARNAME_2": "NA",
@@ -53967,7 +54347,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "flores costa cuca"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -54142,7 +54524,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Génova",
         "VARNAME_2": "NA",
@@ -54150,7 +54532,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "génova"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -54433,7 +54817,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Huitán",
         "VARNAME_2": "NA",
@@ -54441,7 +54825,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "huitán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -54568,7 +54954,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "LaEsperanza",
         "VARNAME_2": "NA",
@@ -54576,7 +54962,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "la esperanza"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -54675,7 +55063,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Olintepeque",
         "VARNAME_2": "NA",
@@ -54683,7 +55071,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "olintepeque"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -54802,7 +55192,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Ostuncalco",
         "VARNAME_2": "NA",
@@ -54810,7 +55200,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "ostuncalco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -55057,7 +55449,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "PalestinadeLosAltos",
         "VARNAME_2": "NA",
@@ -55065,7 +55457,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "palestina de los altos"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -55188,7 +55582,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Quetzaltenango",
         "VARNAME_2": "NA",
@@ -55196,7 +55590,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "quetzaltenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -55419,7 +55815,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Salcajá",
         "VARNAME_2": "NA",
@@ -55427,7 +55823,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "salcajá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -55502,7 +55900,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "SanCarlosSija",
         "VARNAME_2": "NA",
@@ -55510,7 +55908,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "san carlos sija"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -55721,7 +56121,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "SanFranciscoLaUnión",
         "VARNAME_2": "NA",
@@ -55729,7 +56129,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "san francisco la unión"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -55820,7 +56222,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "SanMartínSacatepéquez",
         "VARNAME_2": "NA",
@@ -55828,7 +56230,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "san martín sacatepéquez"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -56023,7 +56427,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "SanMateo",
         "VARNAME_2": "NA",
@@ -56031,7 +56435,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "san mateo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -56098,7 +56504,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "SanMiguelSigüilá",
         "VARNAME_2": "NA",
@@ -56106,7 +56512,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "san miguel sigüilá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -56189,7 +56597,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Sibilia",
         "VARNAME_2": "NA",
@@ -56197,7 +56605,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "sibilia"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -56332,7 +56742,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.13_1",
-        "NAME_1": "Quezaltenango",
+        "NAME_1": "Quetzaltenango",
         "NL_NAME_1": "NA",
         "NAME_2": "Zunil",
         "VARNAME_2": "NA",
@@ -56340,7 +56750,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quetzaltenango",
+        "nombreCorregidoMunicipio": "zunil"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -56503,7 +56915,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "canillá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -56590,7 +57004,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "chajul"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -56885,7 +57301,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "chicamán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -57456,7 +57874,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "chiché"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -57615,7 +58035,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "chichicastenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -57878,7 +58300,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "chinique"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -57977,7 +58401,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "cunén"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -58208,7 +58634,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "ixcán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -58855,7 +59283,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "joyabaj"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -59158,7 +59588,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "nebaj"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -59469,7 +59901,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "pachalum"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -59648,7 +60082,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "patzité"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -59747,7 +60183,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "sacapulas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -59982,7 +60420,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "san andrés sajcabajá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -60157,7 +60597,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "san antonio ilotenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -60300,7 +60742,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "san bartolomé jocotenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -60431,7 +60875,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "san juan cotzal"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -60646,7 +61092,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "san pedro jocopilas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -60945,7 +61393,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "santa cruz del quiché"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -61070,13 +61520,15 @@
         "GID_1": "GTM.14_1",
         "NAME_1": "Quiché",
         "NL_NAME_1": "NA",
-        "NAME_2": "Uspantán",
+        "NAME_2": "san miguel uspantán",
         "VARNAME_2": "NA",
         "NL_NAME_2": "NA",
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "san miguel uspantán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -61471,7 +61923,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "quiché",
+        "nombreCorregidoMunicipio": "zacualpa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -61602,7 +62056,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "retalhuleu",
+        "nombreCorregidoMunicipio": "champerico"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -62133,7 +62589,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "retalhuleu",
+        "nombreCorregidoMunicipio": "el asintal"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -62352,7 +62810,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "retalhuleu",
+        "nombreCorregidoMunicipio": "nuevo san carlos"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -62531,7 +62991,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "retalhuleu",
+        "nombreCorregidoMunicipio": "retalhuleu"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -63254,7 +63716,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "retalhuleu",
+        "nombreCorregidoMunicipio": "san andrés villa seca"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -63917,7 +64381,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "retalhuleu",
+        "nombreCorregidoMunicipio": "san felipe"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -64104,7 +64570,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "retalhuleu",
+        "nombreCorregidoMunicipio": "san martín zapotitlán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -64171,7 +64639,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "retalhuleu",
+        "nombreCorregidoMunicipio": "san sebastián"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -64258,7 +64728,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "retalhuleu",
+        "nombreCorregidoMunicipio": "santa cruz muluá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -64501,7 +64973,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "alotenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -64668,7 +65142,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "antigua guatemala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -64875,7 +65351,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "ciudad vieja"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -64994,7 +65472,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "jocotenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -65097,7 +65577,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "magdalena milpas altas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -65188,7 +65670,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "pastores"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -65347,7 +65831,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "san antonio aguas calientes"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -65430,7 +65916,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "san bartolomé milpas altas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -65513,7 +66001,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "san lucas sacatepéquez"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -65664,7 +66154,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "san miguel dueñas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -65783,7 +66275,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "santa catarina barahona"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -65858,7 +66352,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "santa lucía milpas altas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -65957,7 +66453,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "santa maría de jesús"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -66056,7 +66554,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "santiago sacatepéquez"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -66167,7 +66667,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "santo domingo xenacoj"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -66262,7 +66764,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sacatepéquez",
+        "nombreCorregidoMunicipio": "sumpango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -66401,7 +66905,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Ayutla",
         "VARNAME_2": "NA",
@@ -66409,7 +66913,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "ayutla"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -66684,7 +67190,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Catarina",
         "VARNAME_2": "NA",
@@ -66692,7 +67198,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "catarina"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -66879,7 +67387,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Comitancillo",
         "VARNAME_2": "NA",
@@ -66887,7 +67395,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "comitancillo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -67158,7 +67668,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "ConcepciónTutuapa",
         "VARNAME_2": "NA",
@@ -67166,7 +67676,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "concepción tutuapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -67393,7 +67905,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "ElQuetzal",
         "VARNAME_2": "NA",
@@ -67401,7 +67913,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "el quetzal"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -67636,7 +68150,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "ElRodeo",
         "VARNAME_2": "NA",
@@ -67644,7 +68158,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "el rodeo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -67779,7 +68295,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "ElTumbador",
         "VARNAME_2": "NA",
@@ -67787,7 +68303,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "el tumbador"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -68030,7 +68548,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "EsquipulasPaloGordo",
         "VARNAME_2": "NA",
@@ -68038,7 +68556,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "esquipulas palo gordo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -68133,7 +68653,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Ixchiguan",
         "VARNAME_2": "NA",
@@ -68141,7 +68661,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "ixchiguán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -68456,7 +68978,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "LaReforma",
         "VARNAME_2": "NA",
@@ -68464,7 +68986,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "la reforma"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -68627,7 +69151,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Malacatán",
         "VARNAME_2": "NA",
@@ -68635,7 +69159,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "malacatán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -68966,7 +69492,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "NuevoProgreso",
         "VARNAME_2": "NA",
@@ -68974,7 +69500,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "nuevo progreso"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -69225,7 +69753,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Ocos",
         "VARNAME_2": "NA",
@@ -69233,7 +69761,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "ocos"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -69480,7 +70010,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Pajapita",
         "VARNAME_2": "NA",
@@ -69488,7 +70018,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "pajapita"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -69791,7 +70323,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "RíoBlanco",
         "VARNAME_2": "NA",
@@ -69799,7 +70331,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "río blanco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -69902,7 +70436,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "SanAntonioSacatepéquez",
         "VARNAME_2": "NA",
@@ -69910,7 +70444,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "san antonio sacatepéquez"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -70061,7 +70597,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "SanCristobalCucho",
         "VARNAME_2": "NA",
@@ -70069,7 +70605,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "san cristóbal cucho"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -70168,7 +70706,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "SanJoséOjetenam",
         "VARNAME_2": "NA",
@@ -70176,7 +70714,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "san josé ojetenam"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -70315,7 +70855,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "SanLorenzo",
         "VARNAME_2": "NA",
@@ -70323,7 +70863,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "san lorenzo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -70442,7 +70984,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "SanMarcos",
         "VARNAME_2": "NA",
@@ -70450,7 +70992,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "san marcos"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -70721,7 +71265,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "SanMiguelIxtahuacán",
         "VARNAME_2": "NA",
@@ -70729,7 +71273,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "san miguel ixtahuacán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -70992,7 +71538,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "SanPablo",
         "VARNAME_2": "NA",
@@ -71000,7 +71546,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "san pablo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -71243,7 +71791,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "SanPedroSacatepéquez",
         "VARNAME_2": "NA",
@@ -71251,7 +71799,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "san pedro sacatepéquez"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -71490,7 +72040,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "SanRafaélPiedelaCuesta",
         "VARNAME_2": "NA",
@@ -71498,7 +72048,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "san rafael pie de la cuesta"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -71605,15 +72157,17 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
-        "NAME_2": "SanSibinal",
+        "NAME_2": "Sibinal",
         "VARNAME_2": "NA",
         "NL_NAME_2": "NA",
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "sibinal"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -71768,7 +72322,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Sipacapa",
         "VARNAME_2": "NA",
@@ -71776,7 +72330,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "sipacapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -71955,7 +72511,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Tacaná",
         "VARNAME_2": "NA",
@@ -71963,7 +72519,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "tacaná"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -72130,7 +72688,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Tajumulco",
         "VARNAME_2": "NA",
@@ -72138,7 +72696,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "tajumulco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -72489,7 +73049,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.17_1",
-        "NAME_1": "SanMarcos",
+        "NAME_1": "San Marcos",
         "NL_NAME_1": "NA",
         "NAME_2": "Tejutla",
         "VARNAME_2": "NA",
@@ -72497,7 +73057,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "san marcos",
+        "nombreCorregidoMunicipio": "tejutla"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -72764,7 +73326,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "Barberena",
         "VARNAME_2": "NA",
@@ -72772,7 +73334,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "barberena"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -73059,7 +73623,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "Casillas",
         "VARNAME_2": "NA",
@@ -73067,7 +73631,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "casillas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -73338,7 +73904,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "Chiquimulilla",
         "VARNAME_2": "NA",
@@ -73346,7 +73912,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "chiquimulilla"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -73905,7 +74473,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "Cuilapa",
         "VARNAME_2": "NA",
@@ -73913,7 +74481,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "cuilapa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -74256,7 +74826,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "Guazacapán",
         "VARNAME_2": "NA",
@@ -74264,7 +74834,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "guazacapán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -74523,7 +75095,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "NuevaSantaRosa",
         "VARNAME_2": "NA",
@@ -74531,7 +75103,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "nueva santa rosa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -74838,7 +75412,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "Oratorio",
         "VARNAME_2": "NA",
@@ -74846,7 +75420,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "oratorio"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -74935,7 +75511,7 @@
               ],
               [
                 -90.1166,
-                14.0
+                14
               ],
               [
                 -90.1214,
@@ -75137,7 +75713,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "PuebloNuevoViñas",
         "VARNAME_2": "NA",
@@ -75145,7 +75721,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "pueblo nuevo viñas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -75604,7 +76182,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "SanJuanTecuaco",
         "VARNAME_2": "NA",
@@ -75612,7 +76190,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "san juan tecuaco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -75755,7 +76335,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "SanRafaélLasFlores",
         "VARNAME_2": "NA",
@@ -75763,7 +76343,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "san rafael las flores"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -75906,7 +76488,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "SantaCruzNaranjo",
         "VARNAME_2": "NA",
@@ -75914,7 +76496,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "santa cruz naranjo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -76093,7 +76677,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "SantaMaríaIxhuatán",
         "VARNAME_2": "NA",
@@ -76101,7 +76685,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "santa maría ixhuatán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -76304,7 +76890,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "SantaRosadeLima",
         "VARNAME_2": "NA",
@@ -76312,7 +76898,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "santa rosa de lima"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -76615,7 +77203,7 @@
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
         "GID_1": "GTM.18_1",
-        "NAME_1": "SantaRosa",
+        "NAME_1": "Santa Rosa",
         "NL_NAME_1": "NA",
         "NAME_2": "Taxisco",
         "VARNAME_2": "NA",
@@ -76623,7 +77211,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "santa rosa",
+        "nombreCorregidoMunicipio": "taxisco"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -77038,617 +77628,6 @@
     {
       "type": "Feature",
       "properties": {
-        "GID_2": "GTM.19.2_1",
-        "GID_0": "GTM",
-        "COUNTRY": "Guatemala",
-        "GID_1": "GTM.19_1",
-        "NAME_1": "Sololá",
-        "NL_NAME_1": "NA",
-        "NAME_2": "?",
-        "VARNAME_2": "NA",
-        "NL_NAME_2": "NA",
-        "TYPE_2": "Waterbody",
-        "ENGTYPE_2": "Waterbody",
-        "CC_2": "NA",
-        "HASC_2": "NA"
-      },
-      "geometry": {
-        "type": "MultiPolygon",
-        "coordinates": [
-          [
-            [
-              [
-                -91.1634,
-                14.7446
-              ],
-              [
-                -91.1574,
-                14.7358
-              ],
-              [
-                -91.1472,
-                14.7344
-              ],
-              [
-                -91.1425,
-                14.7317
-              ],
-              [
-                -91.1396,
-                14.7237
-              ],
-              [
-                -91.1369,
-                14.7249
-              ],
-              [
-                -91.1327,
-                14.7212
-              ],
-              [
-                -91.1294,
-                14.7099
-              ],
-              [
-                -91.1305,
-                14.7045
-              ],
-              [
-                -91.1266,
-                14.7041
-              ],
-              [
-                -91.1269,
-                14.7022
-              ],
-              [
-                -91.1182,
-                14.6988
-              ],
-              [
-                -91.1186,
-                14.697
-              ],
-              [
-                -91.1168,
-                14.6974
-              ],
-              [
-                -91.1184,
-                14.6873
-              ],
-              [
-                -91.1171,
-                14.678
-              ],
-              [
-                -91.1147,
-                14.6746
-              ],
-              [
-                -91.1165,
-                14.6719
-              ],
-              [
-                -91.1151,
-                14.6686
-              ],
-              [
-                -91.1156,
-                14.6614
-              ],
-              [
-                -91.119,
-                14.6606
-              ],
-              [
-                -91.1236,
-                14.6628
-              ],
-              [
-                -91.126,
-                14.6618
-              ],
-              [
-                -91.1252,
-                14.6573
-              ],
-              [
-                -91.1329,
-                14.653
-              ],
-              [
-                -91.1322,
-                14.648
-              ],
-              [
-                -91.1347,
-                14.6365
-              ],
-              [
-                -91.1404,
-                14.6332
-              ],
-              [
-                -91.1418,
-                14.6339
-              ],
-              [
-                -91.14,
-                14.638
-              ],
-              [
-                -91.1457,
-                14.6393
-              ],
-              [
-                -91.1421,
-                14.643
-              ],
-              [
-                -91.1423,
-                14.6529
-              ],
-              [
-                -91.1446,
-                14.6531
-              ],
-              [
-                -91.1466,
-                14.6562
-              ],
-              [
-                -91.1535,
-                14.6572
-              ],
-              [
-                -91.1537,
-                14.662
-              ],
-              [
-                -91.1524,
-                14.6619
-              ],
-              [
-                -91.1551,
-                14.663
-              ],
-              [
-                -91.1507,
-                14.6641
-              ],
-              [
-                -91.1521,
-                14.6667
-              ],
-              [
-                -91.1543,
-                14.6666
-              ],
-              [
-                -91.1543,
-                14.6643
-              ],
-              [
-                -91.1589,
-                14.6623
-              ],
-              [
-                -91.1587,
-                14.6649
-              ],
-              [
-                -91.1609,
-                14.6655
-              ],
-              [
-                -91.1601,
-                14.668
-              ],
-              [
-                -91.1631,
-                14.6666
-              ],
-              [
-                -91.1637,
-                14.6693
-              ],
-              [
-                -91.165,
-                14.6693
-              ],
-              [
-                -91.1647,
-                14.6725
-              ],
-              [
-                -91.1658,
-                14.6721
-              ],
-              [
-                -91.1654,
-                14.677
-              ],
-              [
-                -91.1672,
-                14.6771
-              ],
-              [
-                -91.1668,
-                14.6751
-              ],
-              [
-                -91.1698,
-                14.6745
-              ],
-              [
-                -91.1708,
-                14.6764
-              ],
-              [
-                -91.1755,
-                14.6729
-              ],
-              [
-                -91.1823,
-                14.6749
-              ],
-              [
-                -91.1826,
-                14.6734
-              ],
-              [
-                -91.1849,
-                14.6749
-              ],
-              [
-                -91.1888,
-                14.672
-              ],
-              [
-                -91.1926,
-                14.6743
-              ],
-              [
-                -91.1936,
-                14.6727
-              ],
-              [
-                -91.1969,
-                14.673
-              ],
-              [
-                -91.1988,
-                14.6711
-              ],
-              [
-                -91.1973,
-                14.6658
-              ],
-              [
-                -91.1988,
-                14.6638
-              ],
-              [
-                -91.2058,
-                14.6673
-              ],
-              [
-                -91.2057,
-                14.6632
-              ],
-              [
-                -91.2209,
-                14.665
-              ],
-              [
-                -91.2186,
-                14.6629
-              ],
-              [
-                -91.2211,
-                14.6572
-              ],
-              [
-                -91.2258,
-                14.657
-              ],
-              [
-                -91.2258,
-                14.6523
-              ],
-              [
-                -91.231,
-                14.6497
-              ],
-              [
-                -91.2273,
-                14.6472
-              ],
-              [
-                -91.2279,
-                14.6432
-              ],
-              [
-                -91.2326,
-                14.6425
-              ],
-              [
-                -91.2354,
-                14.639
-              ],
-              [
-                -91.232,
-                14.6355
-              ],
-              [
-                -91.2333,
-                14.629
-              ],
-              [
-                -91.238,
-                14.6266
-              ],
-              [
-                -91.2407,
-                14.6209
-              ],
-              [
-                -91.2452,
-                14.6179
-              ],
-              [
-                -91.2499,
-                14.6114
-              ],
-              [
-                -91.2516,
-                14.6103
-              ],
-              [
-                -91.2543,
-                14.6114
-              ],
-              [
-                -91.2547,
-                14.6185
-              ],
-              [
-                -91.2579,
-                14.6265
-              ],
-              [
-                -91.2445,
-                14.6394
-              ],
-              [
-                -91.2453,
-                14.6413
-              ],
-              [
-                -91.2417,
-                14.6412
-              ],
-              [
-                -91.2396,
-                14.649
-              ],
-              [
-                -91.2357,
-                14.6531
-              ],
-              [
-                -91.236,
-                14.6549
-              ],
-              [
-                -91.2398,
-                14.6571
-              ],
-              [
-                -91.2375,
-                14.663
-              ],
-              [
-                -91.2421,
-                14.6667
-              ],
-              [
-                -91.2415,
-                14.6732
-              ],
-              [
-                -91.2451,
-                14.6776
-              ],
-              [
-                -91.2554,
-                14.6812
-              ],
-              [
-                -91.264,
-                14.6881
-              ],
-              [
-                -91.2647,
-                14.6904
-              ],
-              [
-                -91.2684,
-                14.6913
-              ],
-              [
-                -91.2709,
-                14.6965
-              ],
-              [
-                -91.2703,
-                14.6983
-              ],
-              [
-                -91.276,
-                14.6939
-              ],
-              [
-                -91.2779,
-                14.6971
-              ],
-              [
-                -91.282,
-                14.6949
-              ],
-              [
-                -91.2863,
-                14.6983
-              ],
-              [
-                -91.2882,
-                14.7039
-              ],
-              [
-                -91.2868,
-                14.7075
-              ],
-              [
-                -91.2841,
-                14.7089
-              ],
-              [
-                -91.2842,
-                14.7126
-              ],
-              [
-                -91.2779,
-                14.716
-              ],
-              [
-                -91.2735,
-                14.7155
-              ],
-              [
-                -91.2681,
-                14.7187
-              ],
-              [
-                -91.2683,
-                14.7215
-              ],
-              [
-                -91.2637,
-                14.7258
-              ],
-              [
-                -91.2606,
-                14.7212
-              ],
-              [
-                -91.2568,
-                14.7251
-              ],
-              [
-                -91.2518,
-                14.7225
-              ],
-              [
-                -91.2514,
-                14.7236
-              ],
-              [
-                -91.2457,
-                14.7239
-              ],
-              [
-                -91.2432,
-                14.7252
-              ],
-              [
-                -91.2427,
-                14.7286
-              ],
-              [
-                -91.2441,
-                14.73
-              ],
-              [
-                -91.2412,
-                14.7319
-              ],
-              [
-                -91.2354,
-                14.732
-              ],
-              [
-                -91.2325,
-                14.7291
-              ],
-              [
-                -91.2305,
-                14.7318
-              ],
-              [
-                -91.2252,
-                14.7326
-              ],
-              [
-                -91.2202,
-                14.7376
-              ],
-              [
-                -91.2127,
-                14.7373
-              ],
-              [
-                -91.2084,
-                14.7422
-              ],
-              [
-                -91.2042,
-                14.7413
-              ],
-              [
-                -91.1982,
-                14.743
-              ],
-              [
-                -91.1936,
-                14.7402
-              ],
-              [
-                -91.1928,
-                14.7434
-              ],
-              [
-                -91.187,
-                14.7445
-              ],
-              [
-                -91.1797,
-                14.7418
-              ],
-              [
-                -91.1752,
-                14.743
-              ],
-              [
-                -91.1695,
-                14.7499
-              ],
-              [
-                -91.1634,
-                14.748
-              ],
-              [
-                -91.1634,
-                14.7446
-              ]
-            ]
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "GID_2": "GTM.19.1_1",
         "GID_0": "GTM",
         "COUNTRY": "Guatemala",
@@ -77661,7 +77640,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "concepción"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -77764,7 +77745,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "nahualá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -78083,7 +78066,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "panajachel"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -78174,7 +78159,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "san andrés semetabaj"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -78329,7 +78316,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "san antonio palopó"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -78484,7 +78473,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "san josé chacayá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -78571,7 +78562,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "san juan la laguna"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -78698,7 +78691,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "san lucas tolimán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -78921,7 +78916,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "san marcos la laguna"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -79020,7 +79017,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "san pablo la laguna"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -79087,7 +79086,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "san pedro la laguna"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -79250,7 +79251,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "santa catarina ixtahuacán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -79505,7 +79508,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "santa catarina palopó"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -79596,7 +79601,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "santa clara la laguna"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -79699,7 +79706,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "santa cruz la laguna"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -79822,7 +79831,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "santa lucía utatlán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -79953,7 +79964,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "santa maría visitación"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -80048,7 +80061,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "santiago atitlán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -80407,7 +80422,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "sololá",
+        "nombreCorregidoMunicipio": "sololá"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -80650,7 +80667,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "chicacao"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -81049,7 +81068,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "cuyotenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -81700,7 +81721,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "mazatenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -81863,7 +81886,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "patulul"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -82182,7 +82207,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "pueblo nuevo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -82277,7 +82304,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "río bravo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -82520,7 +82549,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "samayac"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -82607,7 +82638,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "san antonio suchitepéquez"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -82758,7 +82791,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "san bernardino"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -82849,7 +82884,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "san francisco zapotitlán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -82920,7 +82957,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "san gabriel"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -83007,7 +83046,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "san josé el ídolo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -83306,7 +83347,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "san juan bautista"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -83457,7 +83500,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "san lorenzo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -84156,7 +84201,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "san miguel panán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -84255,7 +84302,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "san pablo jocopilas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -84354,7 +84403,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "santa bárbara"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -84569,7 +84620,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "santo domingo suchitepéquez"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -85116,7 +85169,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "santo tomás la unión"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -85207,7 +85262,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "suchitepéquez",
+        "nombreCorregidoMunicipio": "zunilito"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -85318,7 +85375,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "totonicapán",
+        "nombreCorregidoMunicipio": "momostenango"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -85721,7 +85780,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "totonicapán",
+        "nombreCorregidoMunicipio": "san andrés xecul"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -85828,7 +85889,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "totonicapán",
+        "nombreCorregidoMunicipio": "san bartolo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -85955,7 +86018,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "totonicapán",
+        "nombreCorregidoMunicipio": "san cristóbal totonicapán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -86110,7 +86175,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "totonicapán",
+        "nombreCorregidoMunicipio": "san francisco el alto"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -86321,7 +86388,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "totonicapán",
+        "nombreCorregidoMunicipio": "santa lucía la reforma"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -86564,7 +86633,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "totonicapán",
+        "nombreCorregidoMunicipio": "santa maría chiquimula"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -86767,7 +86838,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "totonicapán",
+        "nombreCorregidoMunicipio": "totonicapán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -86950,7 +87023,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "zacapa",
+        "nombreCorregidoMunicipio": "cabañas"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -87185,7 +87260,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "zacapa",
+        "nombreCorregidoMunicipio": "estanzuela"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -87348,7 +87425,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "zacapa",
+        "nombreCorregidoMunicipio": "gualán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -87895,7 +87974,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "zacapa",
+        "nombreCorregidoMunicipio": "huité"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -88030,7 +88111,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "zacapa",
+        "nombreCorregidoMunicipio": "la unión"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -88171,7 +88254,7 @@
               ],
               [
                 -89.1733,
-                15.0
+                15
               ],
               [
                 -89.1732,
@@ -88249,7 +88332,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "zacapa",
+        "nombreCorregidoMunicipio": "río hondo"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -88600,7 +88685,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "zacapa",
+        "nombreCorregidoMunicipio": "san diego"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -88723,7 +88810,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "zacapa",
+        "nombreCorregidoMunicipio": "teculután"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -88994,7 +89083,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "zacapa",
+        "nombreCorregidoMunicipio": "usumatlán"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -89145,7 +89236,9 @@
         "TYPE_2": "Municipio",
         "ENGTYPE_2": "Municipality",
         "CC_2": "NA",
-        "HASC_2": "NA"
+        "HASC_2": "NA",
+        "nombreCorregidoDepartamento": "zacapa",
+        "nombreCorregidoMunicipio": "zacapa"
       },
       "geometry": {
         "type": "MultiPolygon",

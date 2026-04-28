@@ -1,10 +1,9 @@
 <template>
   <div class="dita-page">
-    <!-- Efecto Cortina -->
+
     <div class="curtain left"></div>
     <div class="curtain right"></div>
 
-    <!-- Contenido Principal -->
     <main class="main-content">
       <section class="hero-section">
         <div class="container">
@@ -84,7 +83,7 @@
       </section>
     </main>
 
-    <!-- Footer Fijo -->
+
     <footer class="footer">
       <div class="container">
         <div class="row">
@@ -159,11 +158,11 @@
 </template>
 
 <script setup>
-// No se necesita JS para las animaciones — todo con CSS
+
 </script>
 
 <style scoped>
-/* === Variables === */
+
 :root {
   --primary: #008E00;
   --bg-dark: #1a1a1a;
@@ -172,7 +171,7 @@
   --transition: all 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* === Reset & Base === */
+
 * {
   margin: 0;
   padding: 0;
@@ -214,7 +213,6 @@
 .align-items-center { align-items: center; }
 .justify-content-end { justify-content: flex-end; }
 
-/* === Efecto Cortina === */
 .curtain {
   position: fixed;
   top: 0;
@@ -236,13 +234,13 @@
   transform: translateX(100%);
 }
 
-/* Activación con scroll */
+
 .dita-page.scrolled .curtain.left,
 .dita-page.scrolled .curtain.right {
   transform: translateX(0);
 }
 
-/* === Secciones === */
+
 .hero-section {
   padding: 4rem 0;
   background: #fff;
@@ -295,7 +293,7 @@
   color: #333;
 }
 
-/* IA Section */
+
 .ia-section {
   background: var(--gray-bg);
   padding: 4rem 0;
@@ -315,7 +313,7 @@
   margin-bottom: 2rem;
 }
 
-/* Services & Platforms */
+
 .services-section {
   background: var(--bg-dark);
   color: white;
@@ -388,7 +386,7 @@
   color: var(--primary);
 }
 
-/* Footer */
+
 .footer {
   background: #111;
   color: #aaa;
@@ -441,7 +439,7 @@
 .icon-phone::before { content: "\f095"; }
 .icon-envelope::before { content: "\f0e0"; }
 
-/* === Scroll Activation (puro CSS) === */
+
 .dita-page {
   --scroll-y: 0px;
 }
@@ -456,8 +454,6 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* Usamos una técnica de scroll-driven animation con JS mínimo */
-  /* Pero como pediste PURO CSS → usamos :has() + scroll-driven en futuro */
-  /* Por ahora: activamos con clase .scrolled desde App.vue */
+
 }
 </style>
