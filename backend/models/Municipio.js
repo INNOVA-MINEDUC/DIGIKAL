@@ -24,20 +24,5 @@ const Municipio = sequelize.define('Municipio', {
   timestamps: true,
 })
 
-Municipio.associate = (models) => {
-
- 
-  Municipio.belongsTo(models.Departamento, {
-    foreignKey: 'departamentoId',
-    as: 'departamento'
-  })
-
-
-  Municipio.hasMany(models.Escuela, {
-    foreignKey: 'municipioId',
-    as: 'escuelas'
-  })
-
-}
 
 export default Municipio

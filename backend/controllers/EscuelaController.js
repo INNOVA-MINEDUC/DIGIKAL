@@ -5,6 +5,8 @@ import ModeloEquipo from '../models/ModeloEquipo.js';
 import DotacionImagen from '../models/DotacionImagen.js';
 import TipoEquipo from '../models/TipoEquipo.js';
 import Beneficiario from '../models/Beneficiado.js';
+import Departamento from "../models/Departamento.js";
+import Municipio from "../models/Municipio.js";
 import axios from "axios";
 
 export const getEscuelaByCodigo = async (req, res) => {
@@ -17,9 +19,21 @@ export const getEscuelaByCodigo = async (req, res) => {
       });
     }
 
-    const escuelaLocal = await Escuela.findOne({
-      where: { CodigoEscuela }
-    });
+const escuelaLocal = await Escuela.findOne({
+  where: { CodigoEscuela },
+  include: [
+    {
+      model: Departamento,
+      as: "departamento",
+      attributes: ["id", "nombre"]
+    },
+    {
+      model: Municipio,
+      as: "municipio",
+      attributes: ["id", "nombre"]
+    }
+  ]
+});
 
     if (escuelaLocal) {
       return res.status(200).json({
@@ -28,52 +42,41 @@ export const getEscuelaByCodigo = async (req, res) => {
       });
     }
 
-
-
-    const query = `
-      query Establecimientos($codigo: String) {
-        establecimientos(
-          filtro: {
-            codigoMineduc: $codigo
-          }
-        ) {
-          id
-          codigoMineduc
-          nombre
-          direccion
-          telefono
-          correoElectronico
-          latitud
-          longitud
-          estudiantesInscritos
-          jornada
-          nivel
-
-          departamento {
-            id
-            nombre
-          }
-
-          municipio {
-            id
-            nombre
-            departamentoId
-          }
-
-          director {
-            id
-            nombre
-            email
-          }
-
-          contactoTecnico {
-            id
-            nombre
-            telefono
-          }
-        }
+   const query = `
+  query Establecimientos($codigo: String) {
+    establecimientos(
+      filtro: {
+        codigoMineduc: $codigo
       }
-    `;
+    ) {
+      id
+      codigoMineduc
+      nombre
+      direccion
+      telefono
+      correoElectronico
+      jornada
+      nivel
+
+      departamento {
+        id
+        nombre
+      }
+
+      municipio {
+        id
+        nombre
+        departamentoId
+      }
+
+      director {
+        id
+        nombres
+        correoElectronico
+      }
+    }
+  }
+`;
 
     const response = await axios.post(
       "https://api-mdm.mineduc.edu.gt/graphql",
@@ -85,15 +88,26 @@ export const getEscuelaByCodigo = async (req, res) => {
       },
       {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "publicToken": "kX9mP2vL7nQ4wR8jT5bC"
         }
       }
     );
 
+    console.log(response)
     console.log("GRAPHQL RAW RESPONSE:");
     console.log(JSON.stringify(response.data, null, 2));
 
     const resultado = response.data?.data?.establecimientos?.[0];
+
+
+    if (response.data.errors) {
+      console.error("GraphQL ERROR:", response.data.errors);
+      return res.status(500).json({
+        message: "Error en GraphQL",
+        error: response.data.errors
+      });
+    }
 
     if (!resultado) {
       return res.status(404).json({
@@ -107,16 +121,9 @@ export const getEscuelaByCodigo = async (req, res) => {
       direccion: resultado.direccion,
       telefono: resultado.telefono,
       correo: resultado.correoElectronico,
-      latitud: resultado.latitud,
-      longitud: resultado.longitud,
-      estudiantesInscritos: resultado.estudiantesInscritos,
-      jornada: resultado.jornada,
-      nivel: resultado.nivel,
-
       departamento: resultado.departamento,
       municipio: resultado.municipio,
       director: resultado.director,
-      contactoTecnico: resultado.contactoTecnico
     };
 
     return res.status(200).json({
@@ -125,6 +132,7 @@ export const getEscuelaByCodigo = async (req, res) => {
     });
 
   } catch (error) {
+    console.error(error)
     return res.status(500).json({
       message: "Error al buscar escuela",
       error: error.message

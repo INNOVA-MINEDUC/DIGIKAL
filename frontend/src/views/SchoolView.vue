@@ -26,9 +26,10 @@
           <v-row dense>
             <v-col cols="6">
               <div class="text-subtitle-1"><v-icon color="grey" class="mr-2">mdi-map-marker</v-icon> {{ escuela.direccion }}</div>
+              
             </v-col>
             <v-col cols="6">
-              <v-img src="politica.png" style="position: relative; top: ;"/>
+              <v-img src="politica.png" style="position: relative;"/>
         </v-col>
           </v-row>
         </v-col>

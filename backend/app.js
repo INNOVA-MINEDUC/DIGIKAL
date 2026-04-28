@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import sequelize from './config/connection.js';
-import politicaRoutes from './routes/politica.routes.js';
 import escuelaRoutes from "./routes/escuela.routes.js";
 import loginRoutes from './routes/auth.routes.js';
 import dashboardRoutes from './routes/dashboard.routes.js';
@@ -40,7 +39,6 @@ app.use('/uploads/actas', express.static('uploads/actas'));
 app.use('/uploads/imgs', express.static('uploads/imgs'));
 
 app.use('/api/v1/auth', loginRoutes);
-app.use('/api/v1/politicas', politicaRoutes);
 app.use('/api/v1/escuelas', escuelaRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
 app.use('/api/v1/equipos', equipoRoutes);

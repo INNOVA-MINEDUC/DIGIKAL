@@ -100,11 +100,6 @@ const sistemas = [
     title: "Cosmos",
     img: "/astro4.png",
     url: "https://www.mineduc.edu.gt/"
-  },
-  {
-    title: "Cosmos",
-    img: "/astro4.png",
-    url: "https://www.mineduc.edu.gt/"
   }
 ]
 </script>

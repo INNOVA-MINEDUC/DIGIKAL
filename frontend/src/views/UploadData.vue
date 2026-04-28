@@ -33,20 +33,77 @@
                       </v-btn>
                     </v-col>
                   </v-row>
-                  <v-row class="mt-2">
+                  <v-row class="mt-4">
                     <v-col cols="12">
-                      <v-progress-linear v-if="loading" indeterminate color="#0094D3" />
-                      <v-alert v-if="error" type="error" variant="tonal" class="mb-2">{{ error }}</v-alert>
-                      <v-alert v-if="success" type="success" variant="tonal" class="mb-2">{{ success }}</v-alert>
-                      <v-card v-if="escuela" class="pa-4" variant="outlined">
-                        <div class="d-flex justify-space-between align-center">
-                          <div>
-                            <div class="text-h6">{{ escuela.nombreEscuela }}</div>
-                            <div>Director: {{ escuela.director || "No se encontró" }}</div>
-                            <div>Dirección: {{ escuela.direccion }}</div>
-                          </div>
-                          <v-icon size="60" color="#003366">mdi-school</v-icon>
+                      <v-progress-linear v-if="loading" indeterminate color="#0094D3" height="4" rounded />
+
+                      <v-expand-transition>
+                        <div v-if="error || success">
+                          <v-alert v-if="error" type="error" variant="tonal" closable icon="mdi-alert-circle"
+                            class="mb-4 rounded-lg">
+                            {{ error }}
+                          </v-alert>
+                          <v-alert v-if="success" type="success" variant="tonal" closable icon="mdi-check-circle"
+                            class="mb-4 rounded-lg">
+                            {{ success }}
+                          </v-alert>
                         </div>
+                      </v-expand-transition>
+
+                      <v-card v-if="escuela" elevation="2" class="pa-0 overflow-hidden"
+                        style="border-left: 8px solid #003366; border-radius: 12px;">
+                        <v-card-text class="pa-6">
+                          <v-row align="center">
+                            <v-col cols="12" md="6" class="d-flex align-center">
+                              <v-avatar color="#f0f4f8" size="80" class="mr-4 rounded-lg">
+                                <v-icon size="48" color="#003366">mdi-school</v-icon>
+                              </v-avatar>
+                              <div>
+                                <div class="text-overline text-grey-darken-1 mb-n1">Institución Educativa</div>
+                                <h3 class="text-h5 font-weight-bold text-blue-darken-4">
+                                  {{ escuela.nombreEscuela }}
+                                </h3>
+                                <v-chip size="x-small" color="#0094D3" variant="flat" class="mt-1">
+                                  {{ escuela.codigoEscuela || 'Código N/A' }}
+                                </v-chip>
+                              </div>
+                            </v-col>
+
+                            <v-col cols="12" md="6">
+                              <v-row dense>
+                                <v-col cols="12" sm="6">
+                                  <div class="d-flex align-center mb-2">
+                                    <v-icon size="20" color="grey" class="mr-2">mdi-account-tie</v-icon>
+                                    <span class="text-body-2 text-truncate">
+                                      <strong>Director:</strong> {{ escuela.director || "No asignado" }}
+                                    </span>
+                                  </div>
+                                  <div class="d-flex align-center">
+                                    <v-icon size="20" color="grey" class="mr-2">mdi-map-marker</v-icon>
+                                    <span class="text-body-2">
+                                      <strong>Dirección:</strong> {{ escuela.direccion }}
+                                    </span>
+                                  </div>
+                                </v-col>
+
+                                <v-col cols="12" sm="6">
+                                  <div class="d-flex align-center mb-2">
+                                    <v-icon size="20" color="grey" class="mr-2">mdi-earth</v-icon>
+                                    <span class="text-body-2">
+                                      <strong>Depto:</strong> {{ escuela.departamento.nombre || 'N/A' }}
+                                    </span>
+                                  </div>
+                                  <div class="d-flex align-center">
+                                    <v-icon size="20" color="grey" class="mr-2">mdi-city</v-icon>
+                                    <span class="text-body-2">
+                                      <strong>Municipio:</strong> {{ escuela.municipio.nombre || 'N/A' }}
+                                    </span>
+                                  </div>
+                                </v-col>
+                              </v-row>
+                            </v-col>
+                          </v-row>
+                        </v-card-text>
                       </v-card>
                     </v-col>
                   </v-row>
@@ -197,50 +254,28 @@
                   <v-row>
 
 
-  <v-col cols="6" class="d-flex justify-center">
-    <v-menu
-      v-model="menu"
-      :close-on-content-click="false"
-      transition="scale-transition"
-      offset-y
-      min-width="auto"
-    >
-      <!-- Input -->
-     <template v-slot:activator="{ props }">
-      <v-text-field
-        :model-value="fechaFormateada"
-        label="Seleccionar fecha"
-        readonly
-        prepend-inner-icon="mdi-calendar"
-        v-bind="props"
-        variant="outlined"
-      ></v-text-field>
-    </template>
+                    <v-col cols="6" class="d-flex justify-center">
+                      <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y
+                        min-width="auto">
+                        <!-- Input -->
+                        <template v-slot:activator="{ props }">
+                          <v-text-field :model-value="fechaFormateada" label="Seleccionar fecha" readonly
+                            prepend-inner-icon="mdi-calendar" v-bind="props" variant="outlined"></v-text-field>
+                        </template>
 
-      <!-- Calendar -->
-      <v-date-picker
-      v-model="form.fecha"
-      color="primary"
-      @update:model-value="menu = false"
-    ></v-date-picker>
-  </v-menu>
-  
-  
-</v-col>
-<v-col cols="6" class="d-flex justify-center">
+                        <!-- Calendar -->
+                        <v-date-picker v-model="form.fecha" color="primary"
+                          @update:model-value="menu = false"></v-date-picker>
+                      </v-menu>
 
-<v-select
-  v-model="form.proyecto"
-  :items="proyectos"
-  item-title="nombre"
-  item-value="id"
-  label="Tipo de proyecto"
-  prepend-inner-icon="mdi-briefcase"
-  variant="outlined"
-  clearable
-  :rules="[required]"
-></v-select>
-</v-col>
+
+                    </v-col>
+                    <v-col cols="6" class="d-flex justify-center">
+
+                      <v-select v-model="form.proyecto" :items="proyectos" item-title="nombre" item-value="id"
+                        label="Tipo de proyecto" prepend-inner-icon="mdi-briefcase" variant="outlined" clearable
+                        :rules="[required]"></v-select>
+                    </v-col>
 
 
 
@@ -254,6 +289,11 @@
                       <v-file-input v-model="form.imagenes" label="Subir Fotografías" variant="outlined"
                         prepend-inner-icon="mdi-image-multiple" color="#0094D3" multiple accept="image/*"
                         :rules="[validarImagenes]" @change="previsualizarImagenes" />
+                    </v-col>
+
+                    <v-col cols="12">
+                      <v-textarea v-model="form.descripcionEntrega" label="Descripción de la entrega" variant="outlined"
+                        prepend-inner-icon="mdi-text" rows="3" auto-grow :rules="[required]" />
                     </v-col>
 
                     <v-col cols="12" v-if="urlsImagenes.length > 0">
@@ -326,12 +366,12 @@ const form = ref({
   estudiantesHombres: null,
   estudiantesMujeres: null,
   docentesBeneficiados: null,
-  etnia: null,
   nombreDirector: '',
   telefono: '',
   correo: '',
   fecha: null,
   proyecto: null,
+  descripcionEntrega: '',
   archivos: [],
   imagenes: []
 })
@@ -399,11 +439,11 @@ const validarPDF = (files) => {
 
 const validarImagenes = (files) => {
   if (!files) return true
-
   const archivos = Array.isArray(files) ? files : [files]
-
+  if (archivos.length > 3) {
+    return 'Solo puedes subir un máximo de 3 imágenes'
+  }
   const esValido = archivos.every(file => file?.type?.startsWith('image/'))
-
   return esValido || 'Solo se permiten imágenes (jpg, png, etc.)'
 }
 
@@ -474,6 +514,18 @@ watch(selectedIds, (newVal) => {
 watch(seleccionadosGlobal, (val) => {
   localStorage.setItem('equiposSeleccionados', JSON.stringify(val))
 }, { deep: true })
+
+watch(() => form.value.imagenes, (newVal) => {
+  // limpiar URLs anteriores
+  urlsImagenes.value.forEach(url => URL.revokeObjectURL(url))
+  urlsImagenes.value = []
+
+  if (!newVal || newVal.length === 0) {
+    return // 🔥 aquí se limpia todo correctamente
+  }
+
+  urlsImagenes.value = newVal.map(file => URL.createObjectURL(file))
+})
 
 const search = ref('')
 
@@ -589,16 +641,20 @@ const puedeAvanzar = computed(() => {
   if (step.value === 2) return !!form.value.nombreDirector && !!form.value.correo
   if (step.value === 3) return seleccionadosGlobal.value.length > 0
   if (step.value === 4) {
-  if (!form.value.proyecto) return false
-}
-  if (step.value === 4) {
+    if (!form.value.proyecto) return false
+    if (!form.value.fecha) return false
+
     const archivos = form.value.archivos
+    const imagenes = form.value.imagenes
 
     if (!archivos || archivos.length === 0) return false
+    if (validarPDF(archivos) !== true) return false
 
-    return validarPDF(archivos) === true
+    if (!imagenes || imagenes.length === 0) return false
+    if (validarImagenes(imagenes) !== true) return false
+
+    return true
   }
-  return true
 })
 
 
@@ -616,6 +672,7 @@ const buscarEscuela = async () => {
     const res = await axios.post("http://localhost:3000/api/v1/escuelas/udi", { CodigoEscuela: udi })
     escuela.value = res.data.data
     success.value = 'Escuela encontrada'
+    console.log(res.data)
   } catch (err) {
     escuela.value = null
     error.value = err.response?.data?.message || 'Error de conexión'
@@ -630,6 +687,8 @@ const resetEscuela = () => {
   form.value.codigoEscuela = ''
   error.value = ''
   success.value = ''
+
+  resetFormularioCompleto()
 }
 
 const submit = async () => {
@@ -664,16 +723,19 @@ ${JSON.stringify(payloadPreview, null, 2)}
       const formData = new FormData();
 
       formData.append('codigoEscuela', form.value.codigoEscuela);
+      formData.append('departamento', escuela.value?.departamento?.nombre || '');
+      formData.append('municipio', escuela.value?.municipio?.nombre || '');
+      formData.append('nombreEscuela', escuela.value?.nombre || escuela.value.nombreEscuela);
+      formData.append('direccion', escuela.value?.direccion || '');
       formData.append('estudiantesHombres', form.value.estudiantesHombres || 0);
       formData.append('estudiantesMujeres', form.value.estudiantesMujeres || 0);
       formData.append('docentesBeneficiados', form.value.docentesBeneficiados || 0);
-      formData.append('etnia', form.value.etnia);
       formData.append('nombreDirector', form.value.nombreDirector);
       formData.append('telefono', form.value.telefono);
       formData.append('correo', form.value.correo);
       formData.append('proyectoId', form.value.proyecto)
       formData.append('fecha', payloadPreview.fecha);
-
+formData.append('descripcionEntrega', form.value.descripcionEntrega);
       formData.append('equipos', JSON.stringify(seleccionadosGlobal.value));
 
       if (form.value.archivos) {
@@ -686,7 +748,16 @@ ${JSON.stringify(payloadPreview, null, 2)}
         });
       }
 
-      // Envío por Axios
+      
+      // const data = {}
+
+      // for (let [key, value] of formData.entries()) {
+      //   data[key] = value
+      // }
+
+      // return console.log(data)
+
+
       const res = await axios.post("http://localhost:3000/api/v1/dotacion", formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
@@ -726,10 +797,10 @@ const resetFormularioCompleto = () => {
     estudiantesHombres: null,
     estudiantesMujeres: null,
     docentesBeneficiados: null,
-    etnia: null,
     nombreDirector: '',
     telefono: '',
     correo: '',
+    descripcionEntrega: '',
     fecha: null,
     archivos: [],
     imagenes: []

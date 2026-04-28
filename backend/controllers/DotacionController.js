@@ -11,6 +11,8 @@ import EquipoModel from '../models/Equipo.js';
 import DotacionEquipoModel from '../models/DotacionEquipo.js';
 import TipoEquipo from '../models/TipoEquipo.js';
 import ModeloEquipo from '../models/ModeloEquipo.js';
+import Departamento from '../models/Departamento.js';
+import Municipio from '../models/Municipio.js';
 
 
 const Escuela = EscuelaModel;
@@ -35,7 +37,11 @@ export const createDotacion = async (req, res) => {
       nombreDirector, 
       telefono, 
       correo, 
-      fecha 
+      fecha,
+      departamento,
+      municipio,
+      direccion,
+      nombreEscuela
     } = req.body;
 
     let equipos = [];
@@ -46,14 +52,65 @@ export const createDotacion = async (req, res) => {
     const actaPdf = req.files?.['acta_pdf']?.[0] || null;
     const fotos = req.files?.['imagenes_entrega'] || [];
 
-    const escuela = await Escuela.findOne({
+    const total = 
+      Number(estudiantesHombres || 0) +
+      Number(estudiantesMujeres || 0) +
+      Number(docentesBeneficiados || 0);
+
+    let escuela = await Escuela.findOne({
       where: { codigoEscuela },
       transaction
     });
 
     if (!escuela) {
-      throw new Error('Escuela no encontrada');
+
+      const depto = await Departamento.findOne({
+        where: { nombre: departamento },
+        transaction
+      });
+
+      if (!depto) {
+        throw new Error('Departamento no encontrado');
+      }
+
+      const muni = await Municipio.findOne({
+        where: { 
+          nombre: municipio,
+          departamentoId: depto.id
+        },
+        transaction
+      });
+
+      if (!muni) {
+        throw new Error('Municipio no encontrado');
+      }
+
+      escuela = await Escuela.create({
+        nombreEscuela: nombreEscuela,
+        codigoEscuela,
+        departamentoId: depto.id,
+        municipioId: muni.id,
+        direccion,
+        telefono,
+        correo,
+        director: nombreDirector,
+        cantidadEquipoEntregado: equipos.length,
+        cantidadEstudiantesBeneficiados: total
+      }, { transaction });
+
+    } else {
+    
+
+      escuela.director = nombreDirector;
+      escuela.telefono = telefono;
+      escuela.correo = correo;
+
+      escuela.cantidadEquipoEntregado += equipos.length;
+      escuela.cantidadEstudiantesBeneficiados += total;
+
+      await escuela.save({ transaction });
     }
+
 
     const dotacion = await Dotacion.create({
       id_escuela: escuela.id,
@@ -61,12 +118,6 @@ export const createDotacion = async (req, res) => {
       fecha_entrega: fecha,
       descripcion: `Entrega a ${escuela.nombreEscuela}`
     }, { transaction });
-
-
-    const total = 
-      Number(estudiantesHombres || 0) +
-      Number(estudiantesMujeres || 0) +
-      Number(docentesBeneficiados || 0);
 
     await Beneficiario.create({
       escuela_id: escuela.id,
@@ -76,7 +127,6 @@ export const createDotacion = async (req, res) => {
       docentes: docentesBeneficiados,
       total
     }, { transaction });
-
 
     if (actaPdf) {
       await Acta.create({
@@ -92,27 +142,18 @@ export const createDotacion = async (req, res) => {
           dotacion_id: dotacion.id,
           url: f.filename
         })),
-          { transaction }
+        { transaction }
       );
     }
 
     if (equipos.length > 0) {
-    const registros = equipos.map(e => ({
-  dotacion_id: dotacion.id,
-  equipo_id: e.id   
-}));
+      const registros = equipos.map(e => ({
+        dotacion_id: dotacion.id,
+        equipo_id: e.id   
+      }));
 
       await DotacionEquipo.bulkCreate(registros, { transaction });
-
-      escuela.cantidadEquipoEntregado += equipos.length;
     }
-
-    escuela.director = nombreDirector;
-    escuela.telefono = telefono;
-    escuela.correo = correo;
-    escuela.cantidadEstudiantesBeneficiados += total;
-
-    await escuela.save({ transaction });
 
     await transaction.commit();
 
