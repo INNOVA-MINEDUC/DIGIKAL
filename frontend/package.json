@@ -18,7 +18,7 @@
     "@mdi/font": "^7.4.47",
     "@vuepic/vue-datepicker": "^12.1.0",
     "@vueuse/motion": "^3.0.3",
-    "axios": "^1.13.5",
+    "axios": "^1.15.0",
     "jwt-decode": "^4.0.0",
     "multer": "^2.1.1",
     "pinia": "^3.0.4",
