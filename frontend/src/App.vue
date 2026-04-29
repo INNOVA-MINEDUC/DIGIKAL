@@ -17,7 +17,7 @@
 
           <!-- Upload Data: solo admin + logueado -->
           <v-btn v-if="logged" to="/upload-data" text>
-            Upload Data
+            Crear Dotación
           </v-btn>
 
           <!-- <v-btn v-if="logged" to="/create-event" text>
@@ -25,12 +25,12 @@
           </v-btn> -->
 
           <v-btn v-if="logged" to="/catalogos" text>
-            Catalogos
+            Catálogo de Equipos
           </v-btn>
 
           <!-- Download Data: solo logueado -->
           <v-btn v-if="logged" to="/download-data" text>
-            Download Data
+            Dotaciones
           </v-btn>
 
           <!-- Si NO está logueado -->

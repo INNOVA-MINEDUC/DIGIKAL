@@ -125,11 +125,11 @@
             <p class="text-body-1 text-grey-darken-1">Gestión y exportación de donaciones tecnológicas</p>
           </div>
             <div class="d-flex gap-3">
-            <v-btn variant="outlined" color="#0094D3" prepend-icon="mdi-file-excel"
+            <!-- <v-btn variant="outlined" color="#0094D3" prepend-icon="mdi-file-excel"
               class="text-none font-weight-bold rounded-lg px-6" size="large" @click="descargar('excel')">Excel</v-btn>
             <v-btn color="#0094D3" prepend-icon="mdi-file-pdf-box"
               class="text-none font-weight-bold rounded-lg px-6 text-white" size="large" elevation="4"
-              @click="descargar('pdf')">PDF</v-btn>
+              @click="descargar('pdf')">PDF</v-btn> -->
             
             <v-divider vertical class="mx-2"></v-divider>
 

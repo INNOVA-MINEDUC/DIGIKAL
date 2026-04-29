@@ -46,6 +46,8 @@ app.use('/api/v1/tipo_equipos', tipoequipoRoutes);
 app.use('/api/v1/dotacion', dotacionRoutes); 
 app.use('/api/v1/proyectos', proyectosRoutes); 
 
+
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

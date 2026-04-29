@@ -16,7 +16,7 @@
             </div>
           </v-sheet>
           <v-form ref="formRef">
-            <v-stepper v-model="step" :items="['Establecimiento', 'Beneficiados', 'Hardware', 'Documentación']"
+            <v-stepper v-model="step" :items="['Establecimiento', 'Beneficiados', 'Equipos', 'Documentación']"
               hide-actions class="elevation-0">
               <template v-slot:item.1>
                 <v-card variant="flat" class="pa-4">
@@ -395,7 +395,7 @@ const obtenerProyectos = async () => {
     const res = await axios.get('http://localhost:3000/api/v1/proyectos')
 
     proyectos.value = res.data
-    console.log(proyectos.value)
+    // console.log(proyectos.value)
 
   } catch (error) {
     console.error('Error al obtener proyectos:', error)
@@ -550,7 +550,7 @@ const seleccionarModelo = async (modelo) => {
 
     const ids = filtrados.map(e => e.id)
 
-    console.log('IDs:', ids)
+    // console.log('IDs:', ids)
 
     const respuestas = await Promise.all(
       ids.map(id =>
@@ -643,6 +643,7 @@ const puedeAvanzar = computed(() => {
   if (step.value === 4) {
     if (!form.value.proyecto) return false
     if (!form.value.fecha) return false
+    if (!form.value.descripcionEntrega) return false
 
     const archivos = form.value.archivos
     const imagenes = form.value.imagenes
@@ -672,7 +673,7 @@ const buscarEscuela = async () => {
     const res = await axios.post("http://localhost:3000/api/v1/escuelas/udi", { CodigoEscuela: udi })
     escuela.value = res.data.data
     success.value = 'Escuela encontrada'
-    console.log(res.data)
+    // console.log(res.data)
   } catch (err) {
     escuela.value = null
     error.value = err.response?.data?.message || 'Error de conexión'
@@ -762,7 +763,7 @@ formData.append('descripcionEntrega', form.value.descripcionEntrega);
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 
-      console.log('Respuesta del servidor:', res.data);
+      // console.log('Respuesta del servidor:', res.data);
 
       await Swal.fire({
         title: '¡Registro Exitoso!',

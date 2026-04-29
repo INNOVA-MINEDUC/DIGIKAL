@@ -21,15 +21,7 @@
 
       <section class="innovation">
     <div class="innovation-text">
-      <h2>
-        Juntos exploramos y descubrimos usos innovadores de la tecnología
-        en la transformación de las experiencias de aprendizaje.
-      </h2>
-
-      <p>
-        Somos un motor para la innovación educativa en UVG y estamos a la vanguardia
-        en el uso de herramientas digitales para ayudar a estudiantes, docentes e investigadores.
-      </p>
+    <h2> Juntos exploramos, creamos y descubrimos usos innovadores de la tecnología para transformar las experiencias de aprendizaje en todo el sistema educativo. </h2> <p> Desde la Dirección General de Calidad Educativa (DIGECADE) y la Subdirección de Innovación, trabajamos como un motor de cambio que impulsa la integración significativa de la tecnología en los procesos educativos. Nuestro compromiso es fortalecer las competencias digitales, promover metodologías activas y fomentar entornos de aprendizaje más dinámicos, inclusivos y centrados en el estudiante. </p> 
 
       <button>Mas sobre DIGECADE</button>
     </div>

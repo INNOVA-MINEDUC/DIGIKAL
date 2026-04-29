@@ -23,7 +23,17 @@
             density="comfortable"
             class="mb-6 custom-input"
           ></v-text-field>
-
+<v-select
+  v-model="filters.proyectoId"
+  class="mb-6 custom-input"
+  clearable
+  label="Tipo de Proyecto"
+  density="comfortable"
+  variant="solo-filled"
+  :items="proyectos"
+  item-title="nombre"
+  item-value="id"
+></v-select>
           <v-btn
             block
             color="#003366"
@@ -55,7 +65,7 @@
           </div>
 
           <div class="d-flex gap-3">
-            <v-btn
+            <!-- <v-btn
               variant="outlined"
               color="#0094D3"
               prepend-icon="mdi-file-excel"
@@ -64,6 +74,12 @@
               @click="descargar('excel')"
             >
               Excel
+            </v-btn> -->
+<v-divider vertical class="mx-2"></v-divider>
+                <v-btn color="#003366" prepend-icon="mdi-plus"
+              class="text-none font-weight-bold rounded-lg px-6 text-white" size="large" elevation="4"
+              @click="dialogRegistro = true">
+              Agregar Nuevo Proyecto
             </v-btn>
           </div>
         </div>
@@ -102,20 +118,120 @@
         </v-card>
       </v-col>
     </v-row>
+    
+    <v-dialog v-model="dialogRegistro" max-width="700px">
+      <v-card class="rounded-xl pa-4">
+        <v-card-title class="d-flex justify-space-between align-center">
+          <span class="text-h5 font-weight-bold text-blue-darken-4">Gestión de Proyectos</span>
+          <v-btn icon="mdi-close" variant="text" @click="dialogRegistro = false"></v-btn>
+        </v-card-title>
+        
+        <v-card-text>
+        <h3 class="text-subtitle-1 font-weight-bold mb-3">Crear Nuevo Proyecto</h3>
+        <v-form ref="formRef">
+        <v-row>
+          <v-col cols="12">
+            <v-text-field
+              v-model="formNuevoProyecto.nombre"
+              label="Nombre del Proyecto"
+              variant="outlined"
+              density="comfortable"
+              class="mb-4"
+              :rules="[required, onlyLetters]"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-textarea
+              v-model="formNuevoProyecto.descripcion"
+              label="Descripción"
+              variant="outlined"
+              density="comfortable"
+              rows="2"
+              :rules="[required]"
+            ></v-textarea>
+          </v-col>
+        </v-row>
+      </v-form>
+        <v-divider class="mb-6"></v-divider>
+        <h3 class="text-subtitle-1 font-weight-bold mb-3">Proyectos Actuales</h3>
+      <v-expansion-panels v-model="panel" variant="accordion" class="mb-6">
+  <v-expansion-panel>
+    <v-expansion-panel-title>
+      <span class="font-weight-bold">
+        Proyectos Actuales ({{ proyectos.length }})
+      </span>
+    </v-expansion-panel-title>
+
+    <v-expansion-panel-text style="max-height: 300px; overflow-y: auto;">
+      <v-table density="comfortable" class="border rounded-lg">
+        <thead>
+          <tr>
+            <th class="text-left">Nombre</th>
+            <th class="text-left">Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="proy in proyectos" :key="proy.id">
+            <td>{{ proy.nombre }}</td>
+            <td class="text-grey-darken-1">
+              {{ proy.description || 'Sin descripción' }}
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
+    </v-expansion-panel-text>
+  </v-expansion-panel>
+</v-expansion-panels>
+
+
+      </v-card-text>
+
+      <v-card-actions class="pa-4">
+        <v-spacer></v-spacer>
+        <v-btn 
+          color="grey-darken-1" 
+          variant="text" 
+          @click="dialogRegistro = false"
+        >
+          Cancelar
+        </v-btn>
+        <v-btn 
+          color="#003366" 
+          class="text-white px-6" 
+          variant="elevated"
+          :loading="loadingGuardar"
+          @click="guardarNuevoProyecto"
+        >
+          Guardar Proyecto
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
   </v-container>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { required, onlyLetters } from '@/helpers/validators';
+import Swal from 'sweetalert2'
 
+const formRef = ref(null)
 const resultados = ref([]);
 const loading = ref(false)
 const datosOriginales = ref([]);
-const filters = ref({ departamento: null, municipio: null, codigoEscuela: '' })
+const filters = ref({
+  codigoEscuela: '',
+  proyectoId: null
+})
+
+const panel = ref([1]) // abierto
+
+const proyectos = ref([])
 
 const headers = [
   { title: 'FECHA REGISTRO', key: 'fecha', align: 'start' },
+  { title: 'PROYECTO', key: 'proyecto' },
   { title: 'CENTRO EDUCATIVO', key: 'escuela' },
   { title: 'CÓDIGO UDI', key: 'codigo' },
   { title: 'TIPO DE EQUIPO', key: 'tipos' },
@@ -123,6 +239,72 @@ const headers = [
   { title: 'CANTIDAD', key: 'cantidad', align: 'center' },
   { title: 'ACCIONES', key: 'estado', align: 'end' },
 ]
+
+// ... tus refs existentes ...
+const dialogRegistro = ref(false);
+const loadingGuardar = ref(false);
+const formNuevoProyecto = ref({
+  nombre: '',
+  descripcion: ''
+});
+
+const guardarNuevoProyecto = async () => {
+  if (!formRef.value) return
+
+  const { valid } = await formRef.value.validate()
+
+  if (!valid) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Formulario inválido',
+      text: 'Por favor completa correctamente los campos'
+    })
+    return
+  }
+
+  try {
+    loadingGuardar.value = true;
+
+    await axios.post('http://localhost:3000/api/v1/proyectos', {
+      nombre: formNuevoProyecto.value.nombre,
+      description: formNuevoProyecto.value.descripcion
+    });
+
+    formNuevoProyecto.value = { nombre: '', descripcion: '' };
+    await buscarProyecto();
+
+    dialogRegistro.value = false
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Proyecto creado',
+      text: 'Se guardó correctamente',
+      timer: 2000,
+      showConfirmButton: false
+    });
+
+  } catch (error) {
+    const mensaje = error.response?.data?.message || 'Error al guardar';
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: mensaje
+    });
+
+  } finally {
+    loadingGuardar.value = false;
+  }
+};
+
+const buscarProyecto = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/v1/proyectos');
+    proyectos.value = response.data;
+  } catch (error) {
+    console.error('❌ Error al obtener proyectos:', error);
+  }
+};
 
 const buscarData = async () => {
   try {
@@ -139,6 +321,10 @@ const buscarData = async () => {
 
 const aplicarFiltro = () => {
   let data = [...datosOriginales.value];
+
+  if (filters.value.proyectoId) {
+  data = data.filter(d => d.id_proyecto === filters.value.proyectoId);
+}
 
   // Filtro por UDI
   if (filters.value.codigoEscuela) {
@@ -162,7 +348,8 @@ const aplicarFiltro = () => {
       tipos: tiposUnicos.join(', '), // <--- CORREGIDO: Ahora es un string separado por comas
       modelos: modelosUnicos.join(', '), 
       cantidad: d.equipos?.length || 0,
-      acta: d.acta?.acta_pdf || null
+      acta: d.acta?.acta_pdf || null,
+      proyecto: d.proyecto?.nombre || 'Sin proyecto',
     };
   });
 };
@@ -187,6 +374,7 @@ const descargar = (formato) => {
 
 onMounted(() => {
   buscarData();
+  buscarProyecto();
 });
 </script>
 

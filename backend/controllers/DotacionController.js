@@ -13,6 +13,7 @@ import TipoEquipo from '../models/TipoEquipo.js';
 import ModeloEquipo from '../models/ModeloEquipo.js';
 import Departamento from '../models/Departamento.js';
 import Municipio from '../models/Municipio.js';
+import Proyecto from "../models/Proyecto.js"
 
 
 const Escuela = EscuelaModel;
@@ -41,8 +42,10 @@ export const createDotacion = async (req, res) => {
       departamento,
       municipio,
       direccion,
-      nombreEscuela
+      nombreEscuela,
+      descripcionEntrega
     } = req.body;
+
 
     let equipos = [];
     if (req.body.equipos) {
@@ -116,7 +119,7 @@ export const createDotacion = async (req, res) => {
       id_escuela: escuela.id,
       id_proyecto: 1,
       fecha_entrega: fecha,
-      descripcion: `Entrega a ${escuela.nombreEscuela}`
+      descripcion: descripcionEntrega
     }, { transaction });
 
     await Beneficiario.create({
@@ -179,6 +182,10 @@ export const getDotaciones = async (req, res) => {
   try {
     const dotaciones = await Dotacion.findAll({
       include: [
+            {
+      model: Proyecto,
+      as: 'proyecto'
+    },
         {
           model: Escuela,
           as: 'escuela',

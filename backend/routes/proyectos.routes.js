@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/', obtenerProyectos);
 
-router.post('/create', crearProyecto);
+router.post('/', crearProyecto);
 
 
 

@@ -6,7 +6,7 @@
         :key="i"
         cols="12"
         sm="6"
-        md="3"
+        md="4"
       >
         <div class="zoom-card">
           <div class="zoom-bg" :style="{ backgroundImage: `url(${card.img})` }"></div>

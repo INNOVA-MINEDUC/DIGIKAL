@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import User from "../models/User.js"
 import Role from "../models/Role.js"
+import dotenv from 'dotenv'
+dotenv.config()
 
 export const AuthLogin = async (req, res) => {
   try {
@@ -36,7 +38,7 @@ export const AuthLogin = async (req, res) => {
         email: user.email,
         role: user.role?.name
       },
-      process.env.JWT_SECRET || 'secret123',
+      process.env.JWT_SECRET,
       { expiresIn: '1d' }
     )
 
@@ -57,3 +59,23 @@ export const AuthLogin = async (req, res) => {
     res.status(500).json({ message: 'Error en el servidor' })
   }
 }
+
+export const isAuthenticated = async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: 'No token' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    res.json({
+      id: decoded.id,
+      role: decoded.role
+    });
+
+  } catch (error) {
+    res.status(401).json({ error: 'Token inválido' });
+  }
+};

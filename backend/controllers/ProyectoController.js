@@ -23,6 +23,16 @@ export const crearProyecto = async (req, res) => {
       })
     }
 
+    const existeProyecto = await Proyecto.findOne({
+      where: { nombre }
+    })
+
+    if (existeProyecto) {
+      return res.status(409).json({
+        message: 'Ya existe un proyecto con ese nombre'
+      })
+    }
+
     const nuevoProyecto = await Proyecto.create({
       nombre,
       description

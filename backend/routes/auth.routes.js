@@ -1,11 +1,14 @@
 import express from 'express';
-import { AuthLogin } from '../controllers/AuthController.js';
+import { 
+  AuthLogin,
+  isAuthenticated
+} from '../controllers/AuthController.js';
 
 const router = express.Router();
 
 
 router.post('/', AuthLogin);
+router.get('/validate-token', isAuthenticated);
 
-// router.post('/validate-token', isAuthenticated);
 
 export default router;

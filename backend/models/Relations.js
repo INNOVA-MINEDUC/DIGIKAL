@@ -11,7 +11,17 @@ import DotacionEquipo from "./DotacionEquipo.js";
 import Beneficiario from "./Beneficiado.js"
 import Acta from "./Acta.js"
 import DotacionImagen from "./DotacionImagen.js";
+import Proyecto from "./Proyecto.js";
 
+Dotacion.belongsTo(Proyecto, {
+  foreignKey: 'id_proyecto',
+  as: 'proyecto'
+})
+
+Proyecto.hasMany(Dotacion, {
+  foreignKey: 'id_proyecto',
+  as: 'dotaciones'
+})
 
 Dotacion.hasMany(DotacionImagen, {
   foreignKey: 'dotacion_id',

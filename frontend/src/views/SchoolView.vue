@@ -46,7 +46,7 @@
       <v-col cols="12" sm="4" v-motion :initial="{ opacity: 0, scale: 0.9 }" :enter="{ opacity: 1, scale: 1, transition: { delay: 300 } }">
         <v-card class="pa-4 text-center bg-white text-primary" rounded="lg" style="border: 2px solid #1976D2;">
           <div class="text-h3 font-weight-black">{{ escuela.cantidadEstudiantesBeneficiados }}</div>
-          <div class="text-uppercase text-caption font-weight-bold">Estudiantes Beneficiados</div>
+          <div class="text-uppercase text-caption font-weight-bold">Personas Beneficiadas</div>
         </v-card>
       </v-col>
       <v-col cols="12" sm="4" v-motion :initial="{ opacity: 0, scale: 0.9 }" :enter="{ opacity: 1, scale: 1, transition: { delay: 400 } }">
