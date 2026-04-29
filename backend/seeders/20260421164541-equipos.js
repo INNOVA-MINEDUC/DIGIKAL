@@ -2,6 +2,8 @@
 
 export default {
   async up(queryInterface, Sequelize) {
+
+    return 
     await queryInterface.bulkInsert('equipos', [
       {
 

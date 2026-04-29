@@ -2,6 +2,9 @@
 
 export default {
   async up(queryInterface, Sequelize) {
+
+    return 
+
     await queryInterface.bulkInsert('modelo_equipos', [
       {
         tipo_id: 1, 

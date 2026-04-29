@@ -14,7 +14,7 @@ export default {
         updatedAt: new Date(),
       },
       {
-        nombre: 'DIGIKAL INNOVACIÖN',
+        nombre: 'INNOVACIÖN',
         description: 'instalaciones de red y dotación de equipo',
         createdAt: new Date(),
         updatedAt: new Date(),

@@ -18,21 +18,6 @@ export default {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
-        nombre: 'UPS',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        nombre: 'Tablet',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        nombre: 'Router',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
     ]);
   },
 
