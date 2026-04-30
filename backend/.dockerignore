@@ -1,10 +1,11 @@
 node_modules
-dist
 .git
 .github
 .env
-.env.local
+.env.*
 Dockerfile
 .dockerignore
 README.md
 npm-debug.log
+logs
+*.log
