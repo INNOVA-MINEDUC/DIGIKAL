@@ -85,7 +85,7 @@ jobs:
   deploy-dev:
     name: Deploy to Development Server
     needs: build-and-push
-    if: false # github.ref_name == 'develop' (Deshabilitado temporalmente)
+    if: github.ref_name == 'develop'
     runs-on: ubuntu-latest
     concurrency: deploy-development
     permissions:
@@ -105,12 +105,13 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             docker compose pull
             docker compose up -d
+            docker compose exec -T backend npx sequelize-cli db:migrate
             docker image prune -a -f
 
   deploy-prod:
     name: Deploy to Production Server
     needs: build-and-push
-    if: false # github.ref_name == 'main' (Deshabilitado temporalmente)
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     concurrency: deploy-production
     permissions:
@@ -130,4 +131,5 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             docker compose pull
             docker compose up -d
+            docker compose exec -T backend npx sequelize-cli db:migrate
             docker image prune -a -f

@@ -79,7 +79,7 @@ const escuelaLocal = await Escuela.findOne({
 `;
 
     const response = await axios.post(
-      "https://api-mdm.mineduc.edu.gt/graphql",
+      process.env.API_MDM_URL,
       {
         query,
         variables: {
@@ -89,7 +89,7 @@ const escuelaLocal = await Escuela.findOne({
       {
         headers: {
           "Content-Type": "application/json",
-          "publicToken": "kX9mP2vL7nQ4wR8jT5bC"
+          "publicToken": process.env.API_MDM_TOKEN
         }
       }
     );

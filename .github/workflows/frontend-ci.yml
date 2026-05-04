@@ -91,7 +91,7 @@ jobs:
   deploy-dev:
     name: Deploy to Development Server
     needs: build-and-push
-    if: false # github.ref_name == 'develop' (Deshabilitado temporalmente)
+    if: github.ref_name == 'develop'
     runs-on: ubuntu-latest
     concurrency: deploy-development
     permissions:
@@ -116,7 +116,7 @@ jobs:
   deploy-prod:
     name: Deploy to Production Server
     needs: build-and-push
-    if: false # github.ref_name == 'main' (Deshabilitado temporalmente)
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     concurrency: deploy-production
     permissions:
