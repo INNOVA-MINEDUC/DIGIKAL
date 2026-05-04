@@ -9,7 +9,7 @@ import equipoRoutes from './routes/equipo.routes.js';
 import tipoequipoRoutes from './routes/tipoequipo.routes.js';
 import dotacionRoutes from './routes/dotacion.routes.js';
 import proyectosRoutes from './routes/proyectos.routes.js';
-import "./models/relations.js";
+import "./models/Relations.js";
 import path from 'path';
 
 
