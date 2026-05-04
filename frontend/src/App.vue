@@ -3,50 +3,47 @@
     <v-app-bar app color="white" height="90">
       <div class="navigation">
 
-        <img src="/icono.png" class="navigation-icon" />
+        <img src="/icono2.png" class="navigation-icon" />
 
         <div class="navigation-right">
 
           <v-btn to="/" text>Inicio</v-btn>
-          <v-btn to="/comunities" text>Novedades</v-btn>
+          <!-- <v-btn to="/comunities" text>Novedades</v-btn> -->
           <v-btn to="/about" text>Sobre Nosotros</v-btn>
 
-      
-          <v-btn 
-            to="/dashboard" 
-            text>
+          <v-btn to="/dashboard" text>
             Estadísticas
           </v-btn>
 
-        
-          <v-btn 
-            v-if="user?.role === 'admin'"
-            to="/upload-data" 
-            text>
-            Upload Data
+          <!-- Upload Data: solo admin + logueado -->
+          <v-btn v-if="logged" to="/upload-data" text>
+            Crear Dotación
           </v-btn>
 
-          <v-btn 
-            v-if="logged"
-            to="/download-data" 
-            text>
-            Download Data
+          <!-- <v-btn v-if="logged" to="/create-event" text>
+            Eventos
+          </v-btn> -->
+
+          <v-btn v-if="logged" to="/catalogos" text>
+            Catálogo de Equipos
           </v-btn>
 
-          <v-tooltip 
-            v-if="!logged"
-            text="Iniciar Sesión"
-            location="bottom">
+          <!-- Download Data: solo logueado -->
+          <v-btn v-if="logged" to="/download-data" text>
+            Dotaciones
+          </v-btn>
+
+          <!-- Si NO está logueado -->
+          <v-btn v-if="!logged" to="/login" text>
+            Iniciar sesión
+          </v-btn>
+
+          <v-tooltip text="Cerrar sesión" location="bottom">
             <template v-slot:activator="{ props }">
-              <v-btn to="/login" v-bind="props" icon="mdi-account"></v-btn>
+              <v-btn v-if="logged" v-bind="props" icon="mdi-logout" @click="logout">
+              </v-btn>
             </template>
           </v-tooltip>
-
-          <v-btn 
-            v-if="logged"
-            icon="mdi-logout"
-            @click="logout">
-          </v-btn>
 
         </div>
 
@@ -71,7 +68,7 @@ const logged = computed(() => isAuthenticated())
 
 function logout() {
   removeToken()
-  router.push('/login')
+  window.location.href = '/login'
 }
 </script>
 
@@ -88,7 +85,6 @@ function logout() {
   display: flex;
   align-items: center;
 }
-
 
 .navigation-icon {
   margin-left: 50px;

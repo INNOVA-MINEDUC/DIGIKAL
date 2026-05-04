@@ -16,18 +16,5 @@ const Departamento = sequelize.define('Departamento', {
   timestamps: true,
 })
 
-Departamento.associate = (models) => {
-
-  Departamento.hasMany(models.Municipio, {
-    foreignKey: 'departamentoId',
-    as: 'municipios'
-  })
-
-  Departamento.hasMany(models.Escuela, {
-    foreignKey: 'departamentoId',
-    as: 'escuelas'
-  })
-
-}
 
 export default Departamento

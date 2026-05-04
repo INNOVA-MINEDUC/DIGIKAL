@@ -15,9 +15,7 @@
         @mouseleave="hoverIndex = null"
         @click="activeIndex = i"
       >
-        <img class="image-placeholder" :src="item.img">
-          
-        </img>
+        <img class="image-placeholder" :src="item.img" />
 
         <div
           class="label"

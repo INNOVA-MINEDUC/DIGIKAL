@@ -42,6 +42,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import api from '@/helpers/api.js'
 
 const form = ref({
   titulo: '',
@@ -67,14 +68,9 @@ const submitForm = async () => {
     data.append('descripcion', form.value.descripcion)
     data.append('imagen', form.value.imagen)
 
-    const res = await fetch('http://localhost:3000/api/eventos', {
-      method: 'POST',
-      body: data
-    })
+    const res = await api.post(`/api/eventos`, data)
 
-    const result = await res.json()
-
-    console.log(result)
+    console.log(res.data)
     alert('Evento creado ')
 
   } catch (error) {

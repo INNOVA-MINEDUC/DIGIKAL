@@ -10,13 +10,12 @@
       >
         <div class="info-card">
 
-
           <div
             class="card-image"
             :style="{ backgroundImage: `url(${card.img})` }"
           ></div>
 
-          <!-- Overlay -->
+      
           <div class="card-overlay">
             <h3 class="card-title">{{ card.title }}</h3>
             <p class="card-description">

@@ -9,7 +9,7 @@ export const numberPositive = v => {
 
 export const numberMin1 = v => {
   if (!v && v !== 0) return 'Campo obligatorio'
-  if (v < 1) return 'Debe ser mayor a 0'
+  if (v < 0) return 'Debe ser mayor a 0'
   return true
 }
 
