@@ -13,7 +13,7 @@ import { useEstablecimientosStore } from '@/stores/escuelasStore'
 
 import guatemalaDepartamentos from "../helpers/Departamentos2.json"
 import guatemalaMunicipios from "../helpers/Municipios2.json"
-import axios from "axios"
+import api from '@/helpers/api.js'
 
 const mapStore = useMapStore()
 
@@ -51,8 +51,8 @@ onMounted(() => {
 
       console.log(payload)
 
-      const res = await axios.post(
-        "http://localhost:3000/api/v1/dashboard",
+      const res = await api.post(
+        `/api/v1/dashboard`,
         payload
       )
       

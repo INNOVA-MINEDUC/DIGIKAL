@@ -212,7 +212,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import api from '@/helpers/api.js'
 import { required, onlyLetters } from '@/helpers/validators';
 import Swal from 'sweetalert2'
 
@@ -265,7 +265,7 @@ const guardarNuevoProyecto = async () => {
   try {
     loadingGuardar.value = true;
 
-    await axios.post('http://localhost:3000/api/v1/proyectos', {
+    await api.post(`/api/v1/proyectos`, {
       nombre: formNuevoProyecto.value.nombre,
       description: formNuevoProyecto.value.descripcion
     });
@@ -299,7 +299,7 @@ const guardarNuevoProyecto = async () => {
 
 const buscarProyecto = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/v1/proyectos');
+    const response = await api.get(`/api/v1/proyectos`);
     proyectos.value = response.data;
   } catch (error) {
     console.error('❌ Error al obtener proyectos:', error);
@@ -309,7 +309,7 @@ const buscarProyecto = async () => {
 const buscarData = async () => {
   try {
     loading.value = true;
-    const response = await axios.get('http://localhost:3000/api/v1/dotacion');
+    const response = await api.get(`/api/v1/dotacion`);
     datosOriginales.value = response.data;
     aplicarFiltro();
   } catch (error) {
@@ -359,7 +359,7 @@ const verActa = (item) => {
     alert('No hay acta disponible');
     return;
   }
-  const url = `http://localhost:3000/uploads/actas/${item.acta}`;
+  const url = `/uploads/actas/${item.acta}`;
   window.open(url, '_blank');
 };
 

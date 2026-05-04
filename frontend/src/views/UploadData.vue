@@ -341,7 +341,7 @@
 </template>
 
 <script setup>
-import axios from 'axios'
+import api from '@/helpers/api.js'
 import { ref, computed, onMounted, watch } from 'vue';
 import Swal from 'sweetalert2'
 import { required, numberMin1, email, phone, onlyLetters, fileRequired } from '@/helpers/validators';
@@ -392,7 +392,7 @@ const proyectos = ref([])
 
 const obtenerProyectos = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/v1/proyectos')
+    const res = await api.get(`/api/v1/proyectos`)
 
     proyectos.value = res.data
     // console.log(proyectos.value)
@@ -554,7 +554,7 @@ const seleccionarModelo = async (modelo) => {
 
     const respuestas = await Promise.all(
       ids.map(id =>
-        axios.get(`http://localhost:3000/api/v1/equipos/${id}`)
+        api.get(`/api/v1/equipos/${id}`)
       )
     )
 
@@ -595,7 +595,7 @@ const categorias = ref([])
 
 const obtenerEquipos = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/v1/equipos')
+    const res = await api.get(`/api/v1/equipos`)
 
     todosEquipos.value = res.data
 
@@ -670,7 +670,7 @@ const buscarEscuela = async () => {
   error.value = ''
   success.value = ''
   try {
-    const res = await axios.post("http://localhost:3000/api/v1/escuelas/udi", { CodigoEscuela: udi })
+    const res = await api.post(`/api/v1/escuelas/udi`, { CodigoEscuela: udi })
     escuela.value = res.data.data
     success.value = 'Escuela encontrada'
     // console.log(res.data)
@@ -759,7 +759,7 @@ formData.append('descripcionEntrega', form.value.descripcionEntrega);
       // return console.log(data)
 
 
-      const res = await axios.post("http://localhost:3000/api/v1/dotacion", formData, {
+      const res = await api.post(`/api/v1/dotacion`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 

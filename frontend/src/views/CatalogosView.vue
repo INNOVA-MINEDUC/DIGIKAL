@@ -537,14 +537,14 @@
 <script setup>
 
 import { ref, computed } from 'vue'
-import axios from 'axios'
+import api from '@/helpers/api.js'
 import { onMounted } from 'vue'
 
 const modeloSeleccionado = ref(null)
 
 const obtenerDetalleEquipos = async (modelo_id) => {
   try {
-    const res = await axios.get(`http://localhost:3000/api/v1/equipos/${modelo_id}`)
+    const res = await api.get(`/api/v1/equipos/${modelo_id}`)
 
     detalleItems.value = res.data.map((e, index) => ({
       no: index + 1,
@@ -560,7 +560,7 @@ const obtenerDetalleEquipos = async (modelo_id) => {
 
 const obtenerEquipos = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/v1/equipos')
+    const res = await api.get(`/api/v1/equipos`)
 
     
 
@@ -619,7 +619,7 @@ const validarYGuardarDetalle = async () => {
 
   try {
  
-    await axios.post('http://localhost:3000/api/v1/equipos/detalle ', {
+    await api.post(`/api/v1/equipos/detalle `, {
       modelo_id: modeloSeleccionado.value, 
       numero_serie: serie,
       codigo_sicoin: sicoin,
@@ -776,7 +776,7 @@ const tiposEquipo = ref([])
 
 const obtenerTiposEquipo = async () => {
   try {
-    const res = await axios.get('http://localhost:3000/api/v1/tipo_equipos')
+    const res = await api.get(`/api/v1/tipo_equipos`)
 
     // 👇 importante: adaptar al formato del v-select
     tiposEquipo.value = res.data.map(t => ({
@@ -877,7 +877,7 @@ const avanzarStep = async () => {
     step.value = 2
   } else {
     try {
-      const res = await axios.post('http://localhost:3000/api/v1/equipos/categoria', {
+      const res = await api.post(`/api/v1/equipos/categoria`, {
         tipo: form.value.tipo,
         modelo: form.value.modelo,
         descripcion: form.value.descripcion

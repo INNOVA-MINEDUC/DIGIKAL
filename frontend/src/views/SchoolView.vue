@@ -126,7 +126,7 @@
 
                 <v-row v-if="dotacion.imagenes.length > 0" class="mt-4" dense>
                   <v-col v-for="img in dotacion.imagenes" :key="img.id" cols="4">
-                    <v-img :src="`http://localhost:3000/uploads/imgs/${img.url}`" cover aspect-ratio="1"
+                    <v-img :src="`/uploads/imgs/${img.url}`" cover aspect-ratio="1"
                       class="rounded-lg bg-grey-lighten-2 hover-zoom" />
                   </v-col>
                 </v-row>
@@ -143,7 +143,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
+import api from '@/helpers/api.js'
 import Swal from 'sweetalert2'
 
 const route = useRoute()
@@ -205,8 +205,8 @@ onMounted(async () => {
 
   loading.value = true
   try {
-    const url = `http://localhost:3000/api/v1/escuelas/${codigoMineduc}`
-    const { data } = await axios.get(url)
+    const url = `/api/v1/escuelas/${codigoMineduc}`
+    const { data } = await api.get(url)
     escuela.value = data.data
   } catch (error) {
     console.error("ERROR API:", error)
