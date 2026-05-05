@@ -105,7 +105,8 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             docker compose pull
             docker compose up -d
-            docker compose exec -T backend npx sequelize-cli db:migrate && sequelize-cli db:seed:all
+            docker compose exec -T backend npx sequelize-cli db:migrate
+            docker compose exec -T backend npx sequelize-cli db:seed:all
             docker image prune -a -f
 
   deploy-prod:
@@ -131,5 +132,6 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             docker compose pull
             docker compose up -d
-            docker compose exec -T backend npx sequelize-cli 
+            docker compose exec -T backend npx sequelize-cli db:migrate
+            # docker compose exec -T backend npx sequelize-cli db:seed:all # Descomentar si se necesitan seeders en producción
             docker image prune -a -f
