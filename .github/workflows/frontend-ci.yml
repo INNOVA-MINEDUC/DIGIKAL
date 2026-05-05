@@ -87,8 +87,11 @@ jobs:
           # Pasamos la variable DIRECTAMENTE al build, ignorando cualquier problema de .env
           build-args: |
             VITE_API_URL=${{ steps.config.outputs.API_URL }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # TEMPORAL: Forzar rebuild limpio para que el ARG se inyecte correctamente.
+          # Una vez confirmado que funciona, descomentar las líneas de caché.
+          no-cache: true
+          # cache-from: type=gha
+          # cache-to: type=gha,mode=max
 
       - name: Workflow Summary
         run: |
