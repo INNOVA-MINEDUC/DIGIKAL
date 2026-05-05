@@ -7,6 +7,11 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+
+# Recibimos el argumento desde GitHub Actions
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 RUN npm run build
 
 # ETAPA 2: Producción (Security-Hardened Nginx)
