@@ -1,15 +1,5 @@
-import axios from 'axios';
+import api from '../src/helpers/api';
 import { getToken } from '../utils/auth';
-
-const API_URL = 'http://localhost:3000/api/v1';
-
-// Creamos una instancia para no repetir la URL base ni el Content-Type
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
 
 export async function apiRequest(endpoint, options = {}) {
   const token = getToken();

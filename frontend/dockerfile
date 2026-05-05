@@ -8,9 +8,11 @@ RUN npm install
 
 COPY . .
 
-# Recibimos el argumento desde GitHub Actions
+# Recibimos el argumento desde GitHub Actions y lo escribimos
+# directamente como archivo .env.production para que Vite lo lea
 ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
+RUN echo "VITE_API_URL=${VITE_API_URL}" > .env.production
+RUN cat .env.production
 
 RUN npm run build
 
