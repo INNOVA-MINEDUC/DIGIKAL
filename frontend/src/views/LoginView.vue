@@ -187,7 +187,7 @@ async function login() {
 
   } catch (err) {
     error.value =
-      err.response?.data?.error ||
+      err.response?.data?.message ||
       "Credenciales incorrectas"
   } finally {
     loading.value = false

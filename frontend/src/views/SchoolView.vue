@@ -125,9 +125,9 @@
                 </div>
 
                 <v-row v-if="dotacion.imagenes.length > 0" class="mt-4" dense>
-                  <v-col v-for="img in dotacion.imagenes" :key="img.id" cols="4">
-                    <v-img :src="`/uploads/imgs/${img.url}`" cover aspect-ratio="1"
-                      class="rounded-lg bg-grey-lighten-2 hover-zoom" />
+                  <v-col v-for="img in dotacion.imagenes" :key="img.id" cols="6">
+                    <v-img :src="`${img.signedUrl}`" cover aspect-ratio="1"
+                      class="rounded-lg bg-grey-lighten-2 hover-zoom img-size" />
                   </v-col>
                 </v-row>
 
@@ -156,10 +156,7 @@ function goBack() {
   router.back()
 }
 
-/**
- * Función lógica para agrupar equipos por modelo
- * y contar cuántos hay de cada uno.
- */
+
 function agruparEquipos(equipos) {
   const grupos = {}
 
@@ -218,6 +215,9 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.mg-size{
+  width: 200vw;
+}
 .italic { font-style: italic; }
 .hover-zoom { transition: transform 0.3s; cursor: pointer; }
 .hover-zoom:hover { transform: scale(1.05); }

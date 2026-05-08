@@ -15,24 +15,25 @@
             Estadísticas
           </v-btn>
 
-          <!-- Upload Data: solo admin + logueado -->
-          <v-btn v-if="logged" to="/upload-data" text>
+          <!-- SOLO ADMIN -->
+          <v-btn v-if="logged && isAdmin" to="/upload-data" text>
             Crear Dotación
           </v-btn>
 
-          <!-- <v-btn v-if="logged" to="/create-event" text>
-            Eventos
-          </v-btn> -->
-
-          <v-btn v-if="logged" to="/catalogos" text>
+          <!-- ADMIN Y USER -->
+          <v-btn v-if="logged && (isAdmin || isUser)" to="/catalogos" text>
             Catálogo de Equipos
           </v-btn>
 
-          <!-- Download Data: solo logueado -->
-          <v-btn v-if="logged" to="/download-data" text>
+          <!-- ADMIN Y USER -->
+          <v-btn v-if="logged && (isAdmin || isUser)" to="/download-data" text>
             Dotaciones
           </v-btn>
 
+          <!-- SOLO ADMIN -->
+          <v-btn v-if="logged && isAdmin" to="/usuarios" text>
+            Usuarios
+          </v-btn>
           <!-- Si NO está logueado -->
           <v-btn v-if="!logged" to="/login" text>
             Iniciar sesión
@@ -59,12 +60,17 @@
 <script setup>
 import { computed } from 'vue'
 import { getUser, isAuthenticated, removeToken } from '../utils/auth'
-import { useRouter } from 'vue-router'
 
-const router = useRouter()
+
 
 const user = computed(() => getUser())
 const logged = computed(() => isAuthenticated())
+
+const role = computed(() => user.value?.role)
+
+const isAdmin = computed(() => role.value === 'admin')
+const isUser = computed(() => role.value === 'user')
+
 
 function logout() {
   removeToken()

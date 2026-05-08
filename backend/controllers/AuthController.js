@@ -9,7 +9,6 @@ export const AuthLogin = async (req, res) => {
   try {
     const { email, password } = req.body
 
-
     // 1. Buscar usuario
     const user = await User.findOne({
       where: { email },
@@ -20,29 +19,34 @@ export const AuthLogin = async (req, res) => {
     })
 
     if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' })
+      return res.status(404).json({ message: 'Credenciales incorrectas' })
     }
 
-    // 2. Comparar contraseña
+    if (!user.active) {
+      return res.status(403).json({ 
+        message: 'Usuario inactivo. Contacte al administrador.' 
+      })
+    }
+
+    // 3. Comparar contraseña
     const validPassword = await bcrypt.compare(password, user.password)
 
     if (!validPassword) {
-      console.log("invalid Password")
-      return res.status(401).json({ message: 'Contraseña incorrecta' })
+      return res.status(401).json({ message: 'Credenciales incorrectas' })
     }
 
-    // 3. Crear token
+    // 4. Crear token
     const token = jwt.sign(
       {
         id: user.id,
         email: user.email,
-        role: user.role?.name
+        role: user.role?.nombre 
       },
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     )
 
-    // 4. Respuesta
+    // 5. Respuesta
     return res.json({
       message: 'Login exitoso',
       token,
@@ -50,7 +54,7 @@ export const AuthLogin = async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role?.name
+        role: user.role?.nombre 
       }
     })
 
@@ -70,7 +74,12 @@ export const isAuthenticated = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    res.json({
+    console.log({
+      id: decoded.id,
+      role: decoded.role
+    });
+
+    return res.json({
       id: decoded.id,
       role: decoded.role
     });

@@ -13,6 +13,7 @@ import UploadData from './views/UploadData.vue'
 import DownloadData from './views/DownloadData.vue'
 import CreateEvents from './views/CreateEvents.vue'
 import CatalogosView from './views/CatalogosView.vue'
+import UserManagement from './views/UserManagement.vue'
 
 const routes = [
   { path: '/', 
@@ -46,7 +47,7 @@ const routes = [
     path: '/upload-data', 
     name: 'uploaddata', 
     component: UploadData,
-meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+meta: { requiresAuth: true, allowedRoles: ['admin'] }
   },
 
   { 
@@ -67,6 +68,11 @@ meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
     path: '/login', 
     name: 'login', 
     component: LoginView
+  },
+  { 
+    path: '/usuarios', 
+    name: 'usuarios', 
+    component: UserManagement
   },
 
     { 

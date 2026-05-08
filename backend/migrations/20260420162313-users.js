@@ -1,6 +1,5 @@
 'use strict'
 
-/** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Users', {
@@ -32,6 +31,13 @@ export default {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
+
+      active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
+      },
+
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -44,6 +50,6 @@ export default {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('users')
+    await queryInterface.dropTable('Users')
   },
 }

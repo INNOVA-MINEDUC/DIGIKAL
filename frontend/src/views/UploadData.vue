@@ -395,7 +395,7 @@ const obtenerProyectos = async () => {
     const res = await api.get(`/api/v1/proyectos`)
 
     proyectos.value = res.data
-    // console.log(proyectos.value)
+    console.log(proyectos.value)
 
   } catch (error) {
     console.error('Error al obtener proyectos:', error)
@@ -521,7 +521,7 @@ watch(() => form.value.imagenes, (newVal) => {
   urlsImagenes.value = []
 
   if (!newVal || newVal.length === 0) {
-    return // 🔥 aquí se limpia todo correctamente
+    return 
   }
 
   urlsImagenes.value = newVal.map(file => URL.createObjectURL(file))
@@ -772,9 +772,9 @@ formData.append('descripcionEntrega', form.value.descripcionEntrega);
         confirmButtonColor: '#003366'
       });
 
-      resetEscuela();
-      step.value = 1;
-      window.location.reload();
+      // resetEscuela();
+      // step.value = 1;
+      // window.location.reload();
 
     } catch (err) {
       console.error('Error al enviar:', err);
@@ -785,8 +785,8 @@ formData.append('descripcionEntrega', form.value.descripcionEntrega);
         confirmButtonColor: '#0094D3'
       });
     } finally {
-      loading.value = false;
-      resetFormularioCompleto();
+      // loading.value = false;
+      // resetFormularioCompleto();
     }
   }
 };
