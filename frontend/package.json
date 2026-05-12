@@ -18,7 +18,7 @@
     "@mdi/font": "^7.4.47",
     "@vuepic/vue-datepicker": "^12.1.0",
     "@vueuse/motion": "^3.0.3",
-    "axios": "^1.13.5",
+    "axios": "^1.15.2",
     "exceljs": "^4.4.0",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.7",
