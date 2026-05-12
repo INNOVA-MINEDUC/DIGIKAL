@@ -42,7 +42,7 @@ export const AuthLogin = async (req, res) => {
         email: user.email,
         role: user.role?.nombre 
       },
-      process.env.JWT_SECRET || "secret",
+      process.env.JWT_SECRET,
       { expiresIn: '1d' }
     )
 
@@ -72,7 +72,7 @@ export const isAuthenticated = async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     console.log({
       id: decoded.id,

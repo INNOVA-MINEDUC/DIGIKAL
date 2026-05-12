@@ -4,7 +4,7 @@ import multer from 'multer';
 import {
   createDotacion,
   getDotaciones
-} from '../controllers/DotacionCOntroller.js';
+} from '../controllers/DotacionController.js';
 
 const router = express.Router();
 

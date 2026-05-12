@@ -106,6 +106,7 @@ jobs:
             docker compose pull
             docker compose up -d
             docker compose exec -T backend npx sequelize-cli db:migrate
+            docker compose exec -T backend npx sequelize-cli db:seed:all
             docker image prune -a -f
 
   deploy-prod:
@@ -132,4 +133,5 @@ jobs:
             docker compose pull
             docker compose up -d
             docker compose exec -T backend npx sequelize-cli db:migrate
+            # docker compose exec -T backend npx sequelize-cli db:seed:all # Descomentar si se necesitan seeders en producción
             docker image prune -a -f

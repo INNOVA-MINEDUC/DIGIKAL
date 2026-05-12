@@ -110,7 +110,7 @@ router.beforeEach(async (to, from, next) => {
   try {
     // 3. Validar token con el backend y obtener datos del usuario
     // Es vital que el backend devuelva { role: 'admin' } o similar
-const user = await apiRequest('/auth/validate-token');
+const user = await apiRequest('/api/v1/auth/validate-token');
 
     if (!user) {
       throw new Error('Usuario no válido');

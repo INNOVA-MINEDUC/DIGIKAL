@@ -66,10 +66,16 @@ jobs:
             # Tag estándar por Git SHA
             type=sha,format=short
 
-      # El .env.production se crea con la URL correcta según el ambiente
-      - name: Create environment file
+      # PASO DE VALIDACIÓN: Si el secreto viene vacío, el pipeline fallará de inmediato
+      # y te mostrará un mensaje de error claro, evitando que se construya mal la imagen.
+      - name: Verify Secret exists
         run: |
-          echo "VITE_API_URL=${{ steps.config.outputs.API_URL }}" > ./frontend/.env.production
+          if [ -z "${{ steps.config.outputs.API_URL }}" ]; then
+            echo "::error::EL SECRETO DE LA API ESTA VACIO. Asegúrate de tener el secreto correcto en GitHub > Settings > Secrets and variables > Actions"
+            exit 1
+          else
+            echo "El secreto ha sido encontrado correctamente."
+          fi
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -78,8 +84,14 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # Pasamos la variable DIRECTAMENTE al build, ignorando cualquier problema de .env
+          build-args: |
+            VITE_API_URL=${{ steps.config.outputs.API_URL }}
+          # TEMPORAL: Forzar rebuild limpio para que el ARG se inyecte correctamente.
+          # Una vez confirmado que funciona, descomentar las líneas de caché.
+          no-cache: true
+          # cache-from: type=gha
+          # cache-to: type=gha,mode=max
 
       - name: Workflow Summary
         run: |
