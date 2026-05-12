@@ -17,6 +17,7 @@ import ModeloEquipo from '../models/ModeloEquipo.js'
 import Departamento from '../models/Departamento.js'
 import Municipio from '../models/Municipio.js'
 import Internet from '../models/Internet.js'
+import Proyecto from '../models/Proyecto.js'
 
 const clean = (value) => {
   if (value === undefined || value === null) return null
@@ -496,7 +497,7 @@ const upsertInternet = async (data, transaction) => {
   return internet
 }
 
-const upsertDotacion = async ({ escuelaId, fechaEntrega, descripcion, idInternet = null }, transaction) => {
+const upsertDotacion = async ({ escuelaId, idProyecto, fechaEntrega, descripcion, idInternet = null }, transaction) => {
   const fecha = fechaEntrega || todayDateOnly()
   const desc = descripcion || 'DOTACION'
 
@@ -513,7 +514,7 @@ const upsertDotacion = async ({ escuelaId, fechaEntrega, descripcion, idInternet
     dotacion = await Dotacion.create(
       {
         id_escuela: escuelaId,
-        id_proyecto: 1,
+        id_proyecto: idProyecto,
         id_internet: idInternet,
         fecha_entrega: fecha,
         descripcion: desc
@@ -746,6 +747,23 @@ export const importarExcelDotaciones = async (req, res) => {
       })
     }
 
+    // Buscar proyecto por defecto (PROVEDUC) o el primero disponible
+    let proyecto = await Proyecto.findOne({
+      where: { nombre: { [Op.like]: '%PROVEDUC%' } }
+    });
+
+    if (!proyecto) {
+      proyecto = await Proyecto.findOne();
+    }
+
+    if (!proyecto) {
+      return res.status(400).json({
+        message: 'No se encontró ningún proyecto en la base de datos. Por favor cree uno antes de importar.'
+      });
+    }
+
+    const idProyectoDefault = proyecto.id;
+
     const headers = []
     sheet.getRow(1).eachCell((cell, colNumber) => {
       headers[colNumber] = normalizeHeader(cell.value)
@@ -849,6 +867,7 @@ export const importarExcelDotaciones = async (req, res) => {
             const dotacionInternet = await upsertDotacion(
               {
                 escuelaId: escuela.id,
+                idProyecto: idProyectoDefault,
                 fechaEntrega,
                 descripcion: 'CONEXION INTERNET',
                 idInternet: internet.id
@@ -897,6 +916,7 @@ export const importarExcelDotaciones = async (req, res) => {
             dotacionEquipo = await upsertDotacion(
               {
                 escuelaId: escuela.id,
+                idProyecto: idProyectoDefault,
                 fechaEntrega,
                 descripcion: 'DOTACION DE EQUIPO'
               },
