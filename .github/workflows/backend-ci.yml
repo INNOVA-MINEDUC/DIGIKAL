@@ -107,7 +107,7 @@ jobs:
             docker compose up -d
             sleep 5
             # ⚠️ TEMPORAL: Limpiar migración huérfana de SequelizeMeta (BORRAR DESPUÉS DEL PRIMER DEPLOY EXITOSO)
-            docker compose exec -T backend node --input-type=module -e "import dotenv from 'dotenv'; dotenv.config(); import {Sequelize} from 'sequelize'; const s = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {host: process.env.DB_HOST, dialect: 'mysql', logging: false}); await s.query(\"DELETE FROM SequelizeMeta WHERE name = '20260512180004-add-missing-fields-to-beneficiarios.js'\"); console.log('SequelizeMeta limpiada'); await s.close();"
+            docker compose exec -T backend node --input-type=module -e "import dotenv from 'dotenv'; dotenv.config(); import {Sequelize} from 'sequelize'; const s = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {host: process.env.DB_HOST, dialect: 'mysql', logging: false}); await s.query(\"DELETE FROM SequelizeMeta WHERE name IN ('20260512180004-add-missing-fields-to-beneficiarios.js', '20260512181636-sync-all-missing-columns.js')\"); console.log('SequelizeMeta limpiada'); await s.close();"
             docker compose exec -T backend npx sequelize-cli db:migrate
             docker compose exec -T backend npx sequelize-cli db:seed:all
             docker image prune -a -f
@@ -136,6 +136,8 @@ jobs:
             docker compose pull
             docker compose up -d
             sleep 5
+            # ⚠️ TEMPORAL: Limpiar migraciones huérfanas
+            docker compose exec -T backend node --input-type=module -e "import dotenv from 'dotenv'; dotenv.config(); import {Sequelize} from 'sequelize'; const s = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {host: process.env.DB_HOST, dialect: 'mysql', logging: false}); await s.query(\"DELETE FROM SequelizeMeta WHERE name IN ('20260512180004-add-missing-fields-to-beneficiarios.js', '20260512181636-sync-all-missing-columns.js')\"); console.log('SequelizeMeta limpiada'); await s.close();"
             docker compose exec -T backend npx sequelize-cli db:migrate
             # docker compose exec -T backend npx sequelize-cli db:seed:all # Descomentar si se necesitan seeders en producción
             docker image prune -a -f

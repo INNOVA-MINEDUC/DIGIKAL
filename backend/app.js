@@ -18,6 +18,7 @@ import path from 'path';
 
 
 const app = express();
+app.set('trust proxy', 1); // Confiar en el proxy reverso (Nginx/Docker) para express-rate-limit
 const PORT = process.env.PORT || 3000;
 
 
