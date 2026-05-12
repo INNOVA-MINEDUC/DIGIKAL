@@ -80,17 +80,20 @@ export default {
     // ──────────────────────────────────────────────
     // 5. ESCUELAS — campos que podrían faltar
     // ──────────────────────────────────────────────
-    await addColumnIfMissing('escuelas', 'cantidadEquipoEntregado', {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: 0,
-    })
+    const escuelasColumns = {
+      direccion: { type: Sequelize.STRING, allowNull: true },
+      telefono: { type: Sequelize.STRING, allowNull: true },
+      correo: { type: Sequelize.STRING, allowNull: true },
+      director: { type: Sequelize.STRING, allowNull: true },
+      nivel: { type: Sequelize.STRING, allowNull: true },
+      jornada: { type: Sequelize.STRING, allowNull: true },
+      cantidadEquipoEntregado: { type: Sequelize.INTEGER, allowNull: true, defaultValue: 0 },
+      cantidadEstudiantesBeneficiados: { type: Sequelize.INTEGER, allowNull: true, defaultValue: 0 },
+    }
 
-    await addColumnIfMissing('escuelas', 'cantidadEstudiantesBeneficiados', {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      defaultValue: 0,
-    })
+    for (const [col, def] of Object.entries(escuelasColumns)) {
+      await addColumnIfMissing('escuelas', col, def)
+    }
 
     console.log('\n🎉 Sincronización completada.\n')
   },
@@ -113,7 +116,12 @@ export default {
     await queryInterface.removeColumn('dotaciones', 'id_internet')
 
     // Escuelas
-    await queryInterface.removeColumn('escuelas', 'cantidadEquipoEntregado')
-    await queryInterface.removeColumn('escuelas', 'cantidadEstudiantesBeneficiados')
+    const escuelaCols = [
+      'direccion', 'telefono', 'correo', 'director', 'nivel', 'jornada',
+      'cantidadEquipoEntregado', 'cantidadEstudiantesBeneficiados'
+    ]
+    for (const col of escuelaCols) {
+      await queryInterface.removeColumn('escuelas', col)
+    }
   }
 }
