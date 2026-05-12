@@ -26,7 +26,12 @@
     "mysql2": "^3.17.0",
     "sequelize": "^6.37.7",
     "sequelize-cli": "^6.6.5",
+<<<<<<< HEAD
     "xlsx": "^0.18.5"
+=======
+    "xlsx": "^0.18.5",
+    "express-rate-limit": "^8.5.1"
+>>>>>>> 4475395ecad1dd567f3c316d70a9c17b469ad323
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
