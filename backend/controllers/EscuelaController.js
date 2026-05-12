@@ -7,6 +7,7 @@ import TipoEquipo from '../models/TipoEquipo.js';
 import Beneficiario from '../models/Beneficiado.js';
 import Departamento from "../models/Departamento.js";
 import Municipio from "../models/Municipio.js";
+import Internet from "../models/Internet.js";
 import axios from "axios";
 import { obtenerUrlFirmada } from '../services/bucketService.js';
 
@@ -144,7 +145,9 @@ const escuelaLocal = await Escuela.findOne({
   }
 };
 
+
 export const getEscuelByCodigoMineduc = async (req, res) => {
+
   try {
 
     const { codigo } = req.params;
@@ -156,50 +159,100 @@ export const getEscuelByCodigoMineduc = async (req, res) => {
     }
 
     const escuela = await Escuela.findOne({
-      where: { codigoEscuela: codigo },
+
+      where: {
+        codigoEscuela: codigo
+      },
 
       include: [
+
+        /* =====================================
+           DOTACIONES
+        ===================================== */
+
         {
           model: Dotacion,
           as: "dotaciones",
+
           include: [
+
+            /* =================================
+               INTERNET
+            ================================= */
+
+            {
+              model: Internet,
+              as: "internet"
+            },
+
+            /* =================================
+               EQUIPOS
+            ================================= */
+
             {
               model: Equipo,
               as: "equipos",
+
+              through: {
+                attributes: []
+              },
+
               include: [
+
                 {
                   model: ModeloEquipo,
                   as: "modelo",
+
                   include: [
+
                     {
                       model: TipoEquipo,
                       as: "tipo"
                     }
+
                   ]
                 }
+
               ]
             },
+
+            /* =================================
+               IMAGENES
+            ================================= */
+
             {
               model: DotacionImagen,
               as: "imagenes"
-            },
+            }
+
           ]
         },
+
+        /* =====================================
+           BENEFICIARIOS
+        ===================================== */
 
         {
           model: Beneficiario,
           as: "beneficiarios"
         }
+
       ]
     });
 
     if (!escuela) {
+
       return res.status(404).json({
         message: "Escuela no encontrada"
       });
+
     }
 
     const escuelaData = escuela.toJSON();
+
+    /* =========================================
+       FIRMAR IMAGENES
+    ========================================= */
 
     if (escuelaData.dotaciones?.length > 0) {
 
@@ -214,8 +267,6 @@ export const getEscuelByCodigoMineduc = async (req, res) => {
               dotacion.imagenes.map(async (img) => {
 
                 const signed = await obtenerUrlFirmada(img.url);
-
-                console.log(signed)
 
                 return {
                   ...img,
@@ -251,6 +302,7 @@ export const getEscuelByCodigoMineduc = async (req, res) => {
     });
 
   }
+
 };
 
 

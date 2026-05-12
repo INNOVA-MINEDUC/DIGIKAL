@@ -60,6 +60,16 @@ export default {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      
+      nivel: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      
+      jornada: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
 
       createdAt: {
         type: Sequelize.DATE,

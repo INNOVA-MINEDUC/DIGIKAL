@@ -14,6 +14,7 @@ import DownloadData from './views/DownloadData.vue'
 import CreateEvents from './views/CreateEvents.vue'
 import CatalogosView from './views/CatalogosView.vue'
 import UserManagement from './views/UserManagement.vue'
+import CargaView from './views/CargaView.vue';
 
 const routes = [
   { path: '/', 
@@ -25,11 +26,12 @@ const routes = [
     name: 'about', 
     component: AboutView 
   },
-  // { 
-  //   path: '/comunities', 
-  //   name: 'comunities', 
-  //   component: Comunidades
-  // },
+  { 
+    path: '/cargar-datos', 
+    name: 'carga', 
+    component: CargaView,
+    meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+  },
   { 
     path: '/details', 
     name: 'details', 
@@ -47,14 +49,14 @@ const routes = [
     path: '/upload-data', 
     name: 'uploaddata', 
     component: UploadData,
-meta: { requiresAuth: true, allowedRoles: ['admin'] }
+meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
   },
 
   { 
     path: '/download-data', 
     name: 'downloaddata', 
     component: DownloadData,
-   meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+  meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
   },
 
   //   { 

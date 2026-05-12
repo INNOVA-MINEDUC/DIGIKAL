@@ -12,6 +12,17 @@ import Beneficiario from "./Beneficiado.js"
 import Acta from "./Acta.js"
 import DotacionImagen from "./DotacionImagen.js";
 import Proyecto from "./Proyecto.js";
+import Internet from "./Internet.js";
+
+Dotacion.belongsTo(Internet, {
+  foreignKey: 'id_internet',
+  as: 'internet'
+})
+
+Internet.hasOne(Dotacion, {
+  foreignKey: 'id_internet',
+  as: 'dotacion'
+})
 
 Dotacion.belongsTo(Proyecto, {
   foreignKey: 'id_proyecto',

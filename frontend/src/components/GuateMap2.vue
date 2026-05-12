@@ -36,42 +36,43 @@ onMounted(() => {
 
   const establecimientosStore = useEstablecimientosStore()
 
-  const handleSelection = async (type = "all", data = {}) => {
-    try {
-      establecimientosStore.setLoading(true)
+const handleSelection = async (type = "all", data = {}) => {
 
-      const payload =
-        type === "all"
-          ? {} 
-          : {
+  try {
+
+    establecimientosStore.setLoading(true)
+
+    const payload =
+      type === "all"
+        ? {}
+        : {
             dept: data.departamen,
             muni: data.municipio
           }
 
+    const res = await api.post(
+      `/api/v1/dashboard`,
+      payload
+    )
 
-      console.log(payload)
+    establecimientosStore.setData(res.data)
 
-      const res = await api.post(
-        `/api/v1/dashboard`,
-        payload
-      )
-      
+  } catch (error) {
 
-      establecimientosStore.setData(res.data)
+    console.error("Error cargando dashboard:", error)
 
-    } catch (error) {
-      console.error("Error cargando dashboard:", error)
-    } finally {
-      establecimientosStore.setLoading(false)
-    }
+  } finally {
 
-    mapStore.setSelection({
-      type,
-      departamento: data.departamen,
-      municipio: data.municipio
-    })
+    establecimientosStore.setLoading(false)
+
   }
 
+  mapStore.setSelection({
+    type,
+    departamento: data.departamen,
+    municipio: data.municipio
+  })
+}
   handleSelection("all")
 
 

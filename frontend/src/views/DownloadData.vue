@@ -65,7 +65,7 @@
           </div>
 
           <div class="d-flex gap-3">
-            <!-- <v-btn
+            <v-btn
               variant="outlined"
               color="#0094D3"
               prepend-icon="mdi-file-excel"
@@ -74,7 +74,17 @@
               @click="descargar('excel')"
             >
               Excel
-            </v-btn> -->
+            </v-btn> 
+                  <v-btn
+              variant="outlined"
+              color="#0094D3"
+              prepend-icon="mdi-file-excel"
+              class="text-none font-weight-bold rounded-lg px-6"
+              size="large"
+              @click="descargar('pdf')"
+            >
+              PDF
+            </v-btn> 
 <v-divider vertical class="mx-2"></v-divider>
                 <v-btn color="#003366" prepend-icon="mdi-plus"
               class="text-none font-weight-bold rounded-lg px-6 text-white" size="large" elevation="4"
@@ -92,6 +102,10 @@
             hover
             class="custom-table"
           >
+
+                <template v-slot:item.tipos="{ value }">
+            <p>  {{ value || "internet" }} </p>
+            </template>
             <template v-slot:item.cantidad="{ value }">
               <v-chip variant="tonal" color="indigo" size="small" class="font-weight-bold">
                 {{ value }} unidades
@@ -215,6 +229,10 @@ import { ref, onMounted } from 'vue'
 import api from '@/helpers/api.js'
 import { required, onlyLetters } from '@/helpers/validators';
 import Swal from 'sweetalert2'
+
+import ExcelJS from 'exceljs'
+import { jsPDF } from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 const formRef = ref(null)
 const resultados = ref([]);
@@ -368,8 +386,244 @@ const limpiarFiltros = () => {
   aplicarFiltro();
 }
 
-const descargar = (formato) => {
-  console.log(`Exportando en ${formato}...`)
+const getFilteredDotaciones = () => {
+  let data = [...datosOriginales.value]
+
+  if (filters.value.proyectoId) {
+    data = data.filter(d => d.id_proyecto === filters.value.proyectoId)
+  }
+
+  if (filters.value.codigoEscuela) {
+    const code = filters.value.codigoEscuela.toLowerCase()
+    data = data.filter(d =>
+      d.escuela?.codigoEscuela?.toLowerCase().includes(code)
+    )
+  }
+
+  return data
+}
+
+const flattenReporte = (dotaciones) => {
+  const rows = []
+
+  dotaciones.forEach((d) => {
+    const escuela = d.escuela || {}
+    const dept = escuela.departamento?.nombre || ''
+    const muni = escuela.municipio?.nombre || ''
+    const beneficiario = escuela.beneficiarios?.[0] || {}
+    const acta = d.acta || {}
+    const internet = d.internet || {}
+
+    const base = {
+      fecha_entrega: d.fecha_entrega
+        ? new Date(d.fecha_entrega).toLocaleDateString()
+        : '',
+      proyecto: d.proyecto?.nombre || '',
+      escuela: escuela.nombreEscuela || '',
+      codigo: escuela.codigoEscuela || '',
+      departamento: dept,
+      municipio: muni,
+      direccion: escuela.direccion || '',
+      telefono: escuela.telefono || '',
+      correo: escuela.correo || '',
+      nivel: escuela.nivel || '',
+      jornada: escuela.jornada || '',
+      director: escuela.director || '',
+
+      no_acta: acta.no_acta || '',
+      folios: acta.folios || '',
+      correlativo: acta.correlativo || '',
+
+      hombres: beneficiario.hombres ?? '',
+      mujeres: beneficiario.mujeres ?? '',
+      docentes: beneficiario.docentes ?? '',
+      mayas: beneficiario.mayas ?? '',
+      xincas: beneficiario.xincas ?? '',
+      garifunas: beneficiario.garifunas ?? '',
+      otros: beneficiario.otros ?? '',
+      edad_0_13: beneficiario.edad_0_13 ?? '',
+      edad_13_30: beneficiario.edad_13_30 ?? '',
+      edad_30_60: beneficiario.edad_30_60 ?? '',
+      edad_mas_60: beneficiario.edad_mas_60 ?? '',
+
+      tipo_registro: d.descripcion || '',
+      empresa_internet: internet.empresa || '',
+      fecha_internet: internet.fecha_instalacion
+        ? new Date(internet.fecha_instalacion).toLocaleDateString()
+        : '',
+
+      tipo_equipo: '',
+      modelo: '',
+      serie: '',
+      sicoin: '',
+      valor: ''
+    }
+
+    if (d.equipos?.length > 0) {
+      d.equipos.forEach((eq) => {
+        rows.push({
+          ...base,
+          tipo_equipo: eq.modelo?.tipo?.nombre || '',
+          modelo: eq.modelo?.nombre_modelo || '',
+          serie: eq.numero_serie || '',
+          sicoin: eq.codigo_sicoin || '',
+          valor: eq.valor ?? ''
+        })
+      })
+    } else {
+      rows.push({
+        ...base,
+        tipo_equipo: d.id_internet ? 'Internet' : 'Sin equipo'
+      })
+    }
+  })
+
+  return rows
+}
+
+const descargarExcel = async (rows) => {
+  const workbook = new ExcelJS.Workbook()
+  const sheet = workbook.addWorksheet('Reporte')
+
+  sheet.columns = [
+    { header: 'Fecha entrega', key: 'fecha_entrega', width: 14 },
+    { header: 'Proyecto', key: 'proyecto', width: 18 },
+    { header: 'Escuela', key: 'escuela', width: 35 },
+    { header: 'Código', key: 'codigo', width: 16 },
+    { header: 'Departamento', key: 'departamento', width: 18 },
+    { header: 'Municipio', key: 'municipio', width: 18 },
+    { header: 'Dirección', key: 'direccion', width: 22 },
+    { header: 'Teléfono', key: 'telefono', width: 14 },
+    { header: 'Correo', key: 'correo', width: 24 },
+    { header: 'Nivel', key: 'nivel', width: 14 },
+    { header: 'Jornada', key: 'jornada', width: 14 },
+    { header: 'Director', key: 'director', width: 18 },
+    { header: 'Acta', key: 'no_acta', width: 16 },
+    { header: 'Folios', key: 'folios', width: 12 },
+    { header: 'Correlativo', key: 'correlativo', width: 12 },
+    { header: 'Hombres', key: 'hombres', width: 10 },
+    { header: 'Mujeres', key: 'mujeres', width: 10 },
+    { header: 'Docentes', key: 'docentes', width: 10 },
+    { header: 'Mayas', key: 'mayas', width: 10 },
+    { header: 'Xincas', key: 'xincas', width: 10 },
+    { header: 'Garifunas', key: 'garifunas', width: 10 },
+    { header: 'Otros', key: 'otros', width: 10 },
+    { header: '0-13', key: 'edad_0_13', width: 10 },
+    { header: '13-30', key: 'edad_13_30', width: 10 },
+    { header: '30-60', key: 'edad_30_60', width: 10 },
+    { header: '60+', key: 'edad_mas_60', width: 10 },
+    { header: 'Tipo equipo', key: 'tipo_equipo', width: 18 },
+    { header: 'Modelo', key: 'modelo', width: 22 },
+    { header: 'Serie', key: 'serie', width: 18 },
+    { header: 'SICOIN', key: 'sicoin', width: 14 },
+    { header: 'Valor', key: 'valor', width: 12 },
+    { header: 'Internet empresa', key: 'empresa_internet', width: 20 },
+    { header: 'Internet fecha', key: 'fecha_internet', width: 14 }
+  ]
+
+  sheet.getRow(1).font = { bold: true }
+  sheet.getRow(1).fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: '0D3B5D' }
+  }
+  sheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFF' } }
+
+  rows.forEach(row => sheet.addRow(row))
+
+  const buffer = await workbook.xlsx.writeBuffer()
+  const blob = new Blob([buffer], {
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  })
+
+  const url = window.URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `reporte_dotaciones_${new Date().toISOString().slice(0, 10)}.xlsx`
+  a.click()
+  window.URL.revokeObjectURL(url)
+}
+
+const descargarPdf = async (rows) => {
+  const doc = new jsPDF('landscape')
+
+  doc.setFontSize(16)
+  doc.text('Reporte de Dotaciones', 14, 15)
+
+  doc.setFontSize(10)
+  doc.text(`Generado: ${new Date().toLocaleString()}`, 14, 22)
+
+  autoTable(doc, {
+    startY: 28,
+    head: [[
+      'Fecha',
+      'Proyecto',
+      'Escuela',
+      'Código',
+      'Depto',
+      'Munic.',
+      'Tipo equipo',
+      'Modelo',
+      'Serie',
+      'SICOIN',
+      'Valor'
+    ]],
+    body: rows.map(r => ([
+      r.fecha_entrega,
+      r.proyecto,
+      r.escuela,
+      r.codigo,
+      r.departamento,
+      r.municipio,
+      r.tipo_equipo,
+      r.modelo,
+      r.serie,
+      r.sicoin,
+      r.valor
+    ])),
+    styles: {
+      fontSize: 7,
+      cellPadding: 1.5,
+      overflow: 'linebreak'
+    },
+    headStyles: {
+      fillColor: [13, 59, 93]
+    },
+    alternateRowStyles: {
+      fillColor: [245, 247, 250]
+    }
+  })
+
+  doc.save(`reporte_dotaciones_${new Date().toISOString().slice(0, 10)}.pdf`)
+}
+
+const descargar = async (formato) => {
+  try {
+    const data = getFilteredDotaciones()
+    const rows = flattenReporte(data)
+
+    if (!rows.length) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Sin datos',
+        text: 'No hay registros para exportar con esos filtros'
+      })
+      return
+    }
+
+    if (formato === 'excel') {
+      await descargarExcel(rows)
+    } else if (formato === 'pdf') {
+      await descargarPdf(rows)
+    }
+  } catch (error) {
+    console.error('Error exportando:', error)
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudo generar el archivo'
+    })
+  }
 }
 
 onMounted(() => {

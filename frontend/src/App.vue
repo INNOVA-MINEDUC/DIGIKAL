@@ -14,6 +14,9 @@
           <v-btn to="/dashboard" text>
             Estadísticas
           </v-btn>
+          <v-btn v-if="logged && (isAdmin || isUser)" to="/cargar-datos" text>
+            Cargar Datos
+            </v-btn>
 
           <!-- SOLO ADMIN -->
           <v-btn v-if="logged && isAdmin" to="/upload-data" text>

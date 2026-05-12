@@ -9,7 +9,10 @@ export default {
         autoIncrement: true,
         primaryKey: true,
       },
-
+  no_acta: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       dotacion_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -26,11 +29,20 @@ export default {
       fecha_entrega: {
         type: Sequelize.DATEONLY,
       },
+  folios: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
 
-
+        correlativo: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       acta_pdf: {
         type: Sequelize.STRING,
       },
+
+
 
       createdAt: {
         allowNull: false,
