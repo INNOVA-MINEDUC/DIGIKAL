@@ -2,10 +2,13 @@
 
 export default {
   async up(queryInterface, Sequelize) {
-    // Verificar qué columnas ya existen para evitar errores
-    const tableDescription = await queryInterface.describeTable('beneficiarios')
 
-    const columnsToAdd = {
+    // ──────────────────────────────────────────────
+    // 1. Columnas faltantes en tabla "beneficiarios"
+    // ──────────────────────────────────────────────
+    const beneficiariosDesc = await queryInterface.describeTable('beneficiarios')
+
+    const beneficiariosColumns = {
       mayas: { type: Sequelize.INTEGER, defaultValue: 0 },
       xincas: { type: Sequelize.INTEGER, defaultValue: 0 },
       garifunas: { type: Sequelize.INTEGER, defaultValue: 0 },
@@ -16,20 +19,45 @@ export default {
       edad_mas_60: { type: Sequelize.INTEGER, defaultValue: 0 },
     }
 
-    for (const [columnName, columnDef] of Object.entries(columnsToAdd)) {
-      if (!tableDescription[columnName]) {
-        await queryInterface.addColumn('beneficiarios', columnName, columnDef)
-        console.log(`✅ Columna '${columnName}' agregada a beneficiarios`)
+    for (const [col, def] of Object.entries(beneficiariosColumns)) {
+      if (!beneficiariosDesc[col]) {
+        await queryInterface.addColumn('beneficiarios', col, def)
+        console.log(`✅ Columna '${col}' agregada a beneficiarios`)
       } else {
-        console.log(`⏭️  Columna '${columnName}' ya existe, se omite`)
+        console.log(`⏭️  Columna '${col}' ya existe en beneficiarios, se omite`)
       }
+    }
+
+    // ──────────────────────────────────────────────
+    // 2. Columna faltante en tabla "dotaciones"
+    // ──────────────────────────────────────────────
+    const dotacionesDesc = await queryInterface.describeTable('dotaciones')
+
+    if (!dotacionesDesc['id_internet']) {
+      await queryInterface.addColumn('dotaciones', 'id_internet', {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'internet',
+          key: 'id',
+        },
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+      })
+      console.log(`✅ Columna 'id_internet' agregada a dotaciones`)
+    } else {
+      console.log(`⏭️  Columna 'id_internet' ya existe en dotaciones, se omite`)
     }
   },
 
   async down(queryInterface) {
-    const columns = ['mayas', 'xincas', 'garifunas', 'otros', 'edad_0_13', 'edad_13_30', 'edad_30_60', 'edad_mas_60']
-    for (const col of columns) {
+    // Revertir beneficiarios
+    const beneficiariosColumns = ['mayas', 'xincas', 'garifunas', 'otros', 'edad_0_13', 'edad_13_30', 'edad_30_60', 'edad_mas_60']
+    for (const col of beneficiariosColumns) {
       await queryInterface.removeColumn('beneficiarios', col)
     }
+
+    // Revertir dotaciones
+    await queryInterface.removeColumn('dotaciones', 'id_internet')
   }
 }
