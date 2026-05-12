@@ -35,7 +35,7 @@ export default {
       }))
     )
 
-    await queryInterface.bulkInsert('municipios', municipios)
+    await queryInterface.bulkInsert('municipios', municipios, { ignoreDuplicates: true })
 
     console.log(`✅ ${municipios.length} municipios insertados`)
   },

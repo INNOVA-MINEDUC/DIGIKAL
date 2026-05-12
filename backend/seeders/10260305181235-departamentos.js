@@ -32,7 +32,7 @@ export default {
       updatedAt: new Date()
     }))
 
-    await queryInterface.bulkInsert('departamentos', departamentos)
+    await queryInterface.bulkInsert('departamentos', departamentos, { ignoreDuplicates: true })
 
     console.log(`✅ ${departamentos.length} departamentos insertados`)
   },
