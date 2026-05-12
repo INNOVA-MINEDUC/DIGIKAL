@@ -343,24 +343,12 @@ const buildDescripcionTecnica = (data) => {
   if (cantidad) partes.push(`Cantidad: ${cantidad}`)
   if (monto) partes.push(`Monto: ${monto}`)
 
-  return partes.join(' | ')
+  return partes.join(' | ').substring(0, 1000)
 }
 
 const resolveTipoYModelo = async (data, transaction) => {
-  const tipoNombre = clean(data.tipo_equipo)
-  const modeloNombre = clean(data.modelo)
-
-  if (!tipoNombre && !modeloNombre) {
-    return { tipo: null, modelo: null }
-  }
-
-  if (!tipoNombre) {
-    throw new Error('tipo_equipo es requerido para filas de equipo')
-  }
-
-  if (!modeloNombre) {
-    throw new Error('modelo es requerido para filas de equipo')
-  }
+  const tipoNombre = clean(data.tipo_equipo) || 'SIN TIPO'
+  const modeloNombre = clean(data.modelo) || 'SIN MODELO'
 
   let tipo = await TipoEquipo.findOne({
     where: where(fn('LOWER', col('nombre')), tipoNombre.toLowerCase()),
@@ -457,12 +445,8 @@ const upsertEquipo = async (data, modeloId, transaction) => {
 }
 
 const upsertInternet = async (data, transaction) => {
-  const empresa = clean(data.empresa_conexion)
+  const empresa = clean(data.empresa_conexion) || 'SIN EMPRESA'
   const fechaInstalacion = toDateOnly(data.fecha_conexion) || todayDateOnly()
-
-  if (!empresa) {
-    throw new Error('empresa_conexion es requerida para filas de internet')
-  }
 
   let internet = await Internet.findOne({
     where: {
@@ -660,12 +644,10 @@ const validateRow = (data) => {
   if (!tipoRegistro) {
     errores.push('Falta tipo_registro')
   } else if (tipoRegistro === 'internet') {
-    if (!clean(data.empresa_conexion)) {
-      errores.push('Falta empresa_conexion para registro de internet')
-    }
+    // empresa_conexion es opcional: si falta se usará 'SIN EMPRESA' como fallback
   } else {
-    if (!clean(data.tipo_equipo)) errores.push('Falta tipo_equipo para registro de equipo')
-    if (!clean(data.modelo)) errores.push('Falta modelo para registro de equipo')
+    // serie y sicoin son requeridos (son UNIQUE en la BD)
+    // modelo/tipo_equipo son opcionales: se usará 'SIN MODELO'/'SIN TIPO' como fallback
     if (!clean(data.serie)) errores.push('Falta serie para registro de equipo')
     if (!clean(data.sicoin)) errores.push('Falta sicoin para registro de equipo')
   }

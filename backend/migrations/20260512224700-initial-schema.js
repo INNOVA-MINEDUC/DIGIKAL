@@ -171,7 +171,7 @@ export default {
         onDelete: 'CASCADE'
       },
       nombre_modelo: { type: Sequelize.STRING, allowNull: false },
-      descripcion_tecnica: { type: Sequelize.STRING },
+      descripcion_tecnica: { type: Sequelize.TEXT },
       createdAt: { type: Sequelize.DATE, allowNull: false },
       updatedAt: { type: Sequelize.DATE, allowNull: false }
     });
