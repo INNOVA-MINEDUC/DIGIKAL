@@ -105,6 +105,18 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             docker compose pull
             docker compose up -d
+            sleep 5
+            # Limpiar migraciones huérfanas de SequelizeMeta (registradas pero nunca ejecutadas)
+            docker compose exec -T backend node --input-type=module -e "
+              import dotenv from 'dotenv'; dotenv.config();
+              import { Sequelize } from 'sequelize';
+              const s = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, { host: process.env.DB_HOST, dialect: 'mysql', logging: false });
+              const [rows] = await s.query('SELECT name FROM SequelizeMeta');
+              console.log('Migraciones registradas:', rows.map(r => r.name));
+              await s.query(\"DELETE FROM SequelizeMeta WHERE name = '20260512180004-add-missing-fields-to-beneficiarios.js'\");
+              console.log('✅ Entradas huérfanas limpiadas');
+              await s.close();
+            "
             docker compose exec -T backend npx sequelize-cli db:migrate
             docker compose exec -T backend npx sequelize-cli db:seed:all
             docker image prune -a -f
@@ -132,6 +144,7 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             docker compose pull
             docker compose up -d
+            sleep 5
             docker compose exec -T backend npx sequelize-cli db:migrate
             # docker compose exec -T backend npx sequelize-cli db:seed:all # Descomentar si se necesitan seeders en producción
             docker image prune -a -f

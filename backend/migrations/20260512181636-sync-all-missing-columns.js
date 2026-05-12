@@ -23,19 +23,17 @@ export default {
 
     // ──────────────────────────────────────────────
     // 1. ROLES — nombre y descripcion
+    //    SIN unique aquí para no romper con filas existentes.
+    //    El índice unique se agrega después.
     // ──────────────────────────────────────────────
     await addColumnIfMissing('roles', 'nombre', {
       type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
-      defaultValue: '',
+      allowNull: true,
     })
 
     await addColumnIfMissing('roles', 'descripcion', {
       type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
-      defaultValue: '',
+      allowNull: true,
     })
 
     // ──────────────────────────────────────────────
