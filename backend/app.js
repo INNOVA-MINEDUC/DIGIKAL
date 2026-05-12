@@ -46,6 +46,9 @@ app.use('/api/v1/equipos', equipoRoutes);
 app.use('/api/v1/tipo_equipos', tipoequipoRoutes);
 app.use('/api/v1/dotacion', dotacionRoutes); 
 app.use('/api/v1/proyectos', proyectosRoutes); 
+app.use('/api/v1/user', userRoutes); 
+app.use('/api/v1/role', roleRoutes); 
+app.use('/api/v1/upload', uploadRoutes); 
 
 
 

@@ -1,6 +1,7 @@
 import sequelize from '../config/connection.js';
 import { DataTypes } from 'sequelize';
 
+import { subirArchivo } from '../services/bucketService.js';
 
 import EscuelaModel from '../models/Escuela.js';
 import DotacionModel from '../models/Dotacion.js';
@@ -14,6 +15,7 @@ import ModeloEquipo from '../models/ModeloEquipo.js';
 import Departamento from '../models/Departamento.js';
 import Municipio from '../models/Municipio.js';
 import Proyecto from "../models/Proyecto.js"
+import fs from 'fs';
 
 
 const Escuela = EscuelaModel;
@@ -25,19 +27,19 @@ const Equipo = EquipoModel;
 const DotacionEquipo = DotacionEquipoModel;
 
 
-
 export const createDotacion = async (req, res) => {
   const transaction = await sequelize.transaction();
 
   try {
-    const { 
-      codigoEscuela, 
-      estudiantesHombres, 
-      estudiantesMujeres, 
-      docentesBeneficiados, 
-      nombreDirector, 
-      telefono, 
-      correo, 
+
+    const {
+      codigoEscuela,
+      estudiantesHombres,
+      estudiantesMujeres,
+      docentesBeneficiados,
+      nombreDirector,
+      telefono,
+      correo,
       fecha,
       departamento,
       municipio,
@@ -45,7 +47,6 @@ export const createDotacion = async (req, res) => {
       nombreEscuela,
       descripcionEntrega
     } = req.body;
-
 
     let equipos = [];
     if (req.body.equipos) {
@@ -55,7 +56,28 @@ export const createDotacion = async (req, res) => {
     const actaPdf = req.files?.['acta_pdf']?.[0] || null;
     const fotos = req.files?.['imagenes_entrega'] || [];
 
-    const total = 
+
+    let actaUrl = null;
+
+ if (actaPdf) {
+  const result = await subirArchivo(actaPdf);
+  actaUrl = result.data.key;
+}
+
+    
+
+    let fotosUrls = [];
+
+if (fotos.length > 0) {
+  for (const file of fotos) {
+    const result = await subirArchivo(file);
+
+    fotosUrls.push(result.data.key);
+  }
+}
+
+
+    const total =
       Number(estudiantesHombres || 0) +
       Number(estudiantesMujeres || 0) +
       Number(docentesBeneficiados || 0);
@@ -72,24 +94,16 @@ export const createDotacion = async (req, res) => {
         transaction
       });
 
-      if (!depto) {
-        throw new Error('Departamento no encontrado');
-      }
-
       const muni = await Municipio.findOne({
-        where: { 
+        where: {
           nombre: municipio,
           departamentoId: depto.id
         },
         transaction
       });
 
-      if (!muni) {
-        throw new Error('Municipio no encontrado');
-      }
-
       escuela = await Escuela.create({
-        nombreEscuela: nombreEscuela,
+        nombreEscuela,
         codigoEscuela,
         departamentoId: depto.id,
         municipioId: muni.id,
@@ -102,8 +116,6 @@ export const createDotacion = async (req, res) => {
       }, { transaction });
 
     } else {
-    
-
       escuela.director = nombreDirector;
       escuela.telefono = telefono;
       escuela.correo = correo;
@@ -113,7 +125,6 @@ export const createDotacion = async (req, res) => {
 
       await escuela.save({ transaction });
     }
-
 
     const dotacion = await Dotacion.create({
       id_escuela: escuela.id,
@@ -131,28 +142,32 @@ export const createDotacion = async (req, res) => {
       total
     }, { transaction });
 
-    if (actaPdf) {
+
+    if (actaUrl) {
       await Acta.create({
         dotacion_id: dotacion.id,
         fecha_entrega: fecha,
-        acta_pdf: actaPdf.filename
+        acta_pdf: actaUrl
       }, { transaction });
     }
 
-    if (fotos.length > 0) {
+
+    if (fotosUrls.length > 0) {
       await DotacionImagen.bulkCreate(
-        fotos.map(f => ({
+        fotosUrls.map(url => ({
           dotacion_id: dotacion.id,
-          url: f.filename
+          url: url
         })),
         { transaction }
       );
     }
 
+
+
     if (equipos.length > 0) {
       const registros = equipos.map(e => ({
         dotacion_id: dotacion.id,
-        equipo_id: e.id   
+        equipo_id: e.id
       }));
 
       await DotacionEquipo.bulkCreate(registros, { transaction });

@@ -9,6 +9,11 @@ const Acta = sequelize.define('Acta', {
     primaryKey: true,
   },
 
+  no_acta: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+
   dotacion_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -17,10 +22,22 @@ const Acta = sequelize.define('Acta', {
 
   fecha_entrega: {
     type: DataTypes.DATEONLY,
+    allowNull: true,
+  },
+
+  folios: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+
+  correlativo: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
 
   acta_pdf: {
     type: DataTypes.STRING,
+    allowNull: true,
   },
 
 }, {
@@ -28,6 +45,13 @@ const Acta = sequelize.define('Acta', {
   timestamps: true,
 })
 
+Acta.associate = (models) => {
 
+  Acta.belongsTo(models.Dotacion, {
+    foreignKey: 'dotacion_id',
+    as: 'dotacion'
+  })
+
+}
 
 export default Acta

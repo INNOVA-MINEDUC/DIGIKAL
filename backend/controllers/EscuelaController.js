@@ -7,7 +7,12 @@ import TipoEquipo from '../models/TipoEquipo.js';
 import Beneficiario from '../models/Beneficiado.js';
 import Departamento from "../models/Departamento.js";
 import Municipio from "../models/Municipio.js";
+import Internet from "../models/Internet.js";
 import axios from "axios";
+import { obtenerUrlFirmada } from '../services/bucketService.js';
+
+import dotenv from 'dotenv'
+dotenv.config()
 
 export const getEscuelaByCodigo = async (req, res) => {
   try {
@@ -140,8 +145,11 @@ const escuelaLocal = await Escuela.findOne({
   }
 };
 
+
 export const getEscuelByCodigoMineduc = async (req, res) => {
+
   try {
+
     const { codigo } = req.params;
 
     if (!codigo) {
@@ -151,60 +159,150 @@ export const getEscuelByCodigoMineduc = async (req, res) => {
     }
 
     const escuela = await Escuela.findOne({
-      where: { codigoEscuela: codigo },
+
+      where: {
+        codigoEscuela: codigo
+      },
 
       include: [
+
+        /* =====================================
+           DOTACIONES
+        ===================================== */
+
         {
           model: Dotacion,
           as: "dotaciones",
+
           include: [
+
+            /* =================================
+               INTERNET
+            ================================= */
+
+            {
+              model: Internet,
+              as: "internet"
+            },
+
+            /* =================================
+               EQUIPOS
+            ================================= */
+
             {
               model: Equipo,
               as: "equipos",
+
+              through: {
+                attributes: []
+              },
+
               include: [
+
                 {
                   model: ModeloEquipo,
                   as: "modelo",
+
                   include: [
+
                     {
                       model: TipoEquipo,
                       as: "tipo"
                     }
+
                   ]
                 }
+
               ]
             },
+
+            /* =================================
+               IMAGENES
+            ================================= */
+
             {
               model: DotacionImagen,
               as: "imagenes"
-            },
+            }
+
           ]
         },
+
+        /* =====================================
+           BENEFICIARIOS
+        ===================================== */
 
         {
           model: Beneficiario,
           as: "beneficiarios"
         }
+
       ]
     });
 
     if (!escuela) {
+
       return res.status(404).json({
         message: "Escuela no encontrada"
       });
+
+    }
+
+    const escuelaData = escuela.toJSON();
+
+    /* =========================================
+       FIRMAR IMAGENES
+    ========================================= */
+
+    if (escuelaData.dotaciones?.length > 0) {
+
+      escuelaData.dotaciones = await Promise.all(
+
+        escuelaData.dotaciones.map(async (dotacion) => {
+
+          if (dotacion.imagenes?.length > 0) {
+
+            dotacion.imagenes = await Promise.all(
+
+              dotacion.imagenes.map(async (img) => {
+
+                const signed = await obtenerUrlFirmada(img.url);
+
+                return {
+                  ...img,
+                  signedUrl: signed
+                };
+
+              })
+
+            );
+
+          }
+
+          return dotacion;
+
+        })
+
+      );
+
     }
 
     return res.status(200).json({
       source: "local",
-      data: escuela
+      data: escuelaData
     });
 
   } catch (error) {
+
+    console.error(error);
+
     return res.status(500).json({
       message: "Error al obtener la escuela",
       error: error.message
     });
+
   }
+
 };
 
 

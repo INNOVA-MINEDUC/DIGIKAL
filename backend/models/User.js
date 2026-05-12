@@ -1,7 +1,6 @@
 import { DataTypes } from 'sequelize'
 import sequelize from '../config/connection.js'
 
-
 const User = sequelize.define('User', {
   id: {
     type: DataTypes.INTEGER,
@@ -25,11 +24,17 @@ const User = sequelize.define('User', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+
+  // 🔥 NUEVO CAMPO
+  active: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  }
+
 }, {
-  tableName: 'users',
+  tableName: 'Users', // ⚠️ importante: coincide con la migración
   timestamps: true,
 })
-
-
 
 export default User

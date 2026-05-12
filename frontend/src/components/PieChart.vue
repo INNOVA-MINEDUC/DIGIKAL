@@ -1,119 +1,158 @@
 <template>
-  <div id="chartdivpie" style="width: 100%; height: 300px;"></div>
+  <div id="chartdivpie"></div>
 </template>
 
 <script setup>
 import * as am5 from "@amcharts/amcharts5"
 import * as am5percent from "@amcharts/amcharts5/percent"
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated"
-import { onMounted, onBeforeUnmount } from "vue"
+
+import { onMounted, onBeforeUnmount, watch } from "vue"
+import { useEstablecimientosStore } from "@/stores/escuelasStore"
+
+const store = useEstablecimientosStore()
 
 let root
+let series
 
 onMounted(() => {
-  
+
   root = am5.Root.new("chartdivpie")
 
-  root.setThemes([am5themes_Animated.new(root)])
+  root._logo.dispose()
+
+  root.setThemes([
+    am5themes_Animated.new(root)
+  ])
 
   const chart = root.container.children.push(
     am5percent.PieChart.new(root, {
-      layout: root.verticalLayout,
+      layout: root.verticalLayout
     })
   )
 
-  root._logo.dispose(); 
-
-  const series = chart.series.push(
+  series = chart.series.push(
     am5percent.PieSeries.new(root, {
-      valueField: "percent",
-      categoryField: "type",
-      fillField: "color",
-      alignLabels: false,
+
+      valueField: "value",
+
+      categoryField: "category",
+
+      alignLabels: true
+
     })
   )
 
+  /* =========================================
+     COLORES INSTITUCIONALES
+  ========================================= */
 
-  series.slices.template.set("templateField", "sliceSettings")
-  series.labels.template.set("radius", 30)
+  series.get("colors").set("colors", [
 
-  let selected
+    am5.color("#0d3b5d"), // azul institucional
+    am5.color("#117a8b"), // turquesa
+    am5.color("#1d4e89"), // azul medio
+    am5.color("#6c757d")  // gris institucional
 
-console.log(series.get("colors").getIndex(0))
+  ])
 
+  series.labels.template.setAll({
 
-  const types = [
+    text: "{category}: {value}",
+
+    fontSize: 13,
+
+    fill: am5.color("#0d3b5d")
+
+  })
+
+  series.ticks.template.setAll({
+    visible: true,
+    stroke: am5.color("#0d3b5d")
+  })
+
+  series.slices.template.setAll({
+
+    strokeWidth: 2,
+
+    stroke: am5.color("#ffffff"),
+
+    tooltipText: "{category}: {value}"
+
+  })
+
+  loadData()
+
+})
+
+/* =========================================
+   CARGAR DATA DESDE EL STORE
+========================================= */
+
+const loadData = () => {
+
+  const data = [
+
     {
-      type: "estudiando",
-      percent: 70,
-      color: series.get("colors").getIndex(0),
-      subs: [
-        { type: "Oil", percent: 15 },
-        { type: "Coal", percent: 35 },
-        { type: "Nuclear", percent: 20 },
-      ],
+      category: "Mayas",
+      value: store.totalMayas
     },
+
     {
-      type: "No estudiando",
-      percent: 30,
-      color: series.get("colors").getIndex(1),
-      subs: [
-        { type: "Hydro", percent: 15 },
-        { type: "Wind", percent: 10 },
-        { type: "Other", percent: 5 },
-      ],
+      category: "Xincas",
+      value: store.totalXincas
     },
+
+    {
+      category: "Garífunas",
+      value: store.totalGarifunas
+    },
+
+    {
+      category: "Otros",
+      value: store.totalOtros
+    }
+
   ]
 
-  
-  function generateChartData() {
-    const chartData = []
-    for (let i = 0; i < types.length; i++) {
-      if (i === selected) {
-        for (let x = 0; x < types[i].subs.length; x++) {
-          chartData.push({
-            type: types[i].subs[x].type,
-            percent: types[i].subs[x].percent,
-            color: types[i].color,
-            pulled: true,
-            sliceSettings: { active: true },
-          })
-        }
-      } else {
-        chartData.push({
-          type: types[i].type,
-          percent: types[i].percent,
-          color: types[i].color,
-          id: i,
-        })
-      }
+  series.data.setAll(data)
+
+}
+
+/* =========================================
+   ACTUALIZAR AUTOMÁTICAMENTE
+========================================= */
+
+watch(
+
+  () => [
+    store.totalMayas,
+    store.totalXincas,
+    store.totalGarifunas,
+    store.totalOtros
+  ],
+
+  () => {
+
+    if (series) {
+      loadData()
     }
-    return chartData
+
   }
 
-
-  series.data.setAll(generateChartData())
-
-
-  series.slices.template.events.on("click", (event) => {
-    const dataContext = event.target.dataItem.dataContext
-    if (dataContext.id !== undefined) {
-      selected = dataContext.id
-    } else {
-      selected = undefined
-    }
-    series.data.setAll(generateChartData())
-  })
-})
+)
 
 onBeforeUnmount(() => {
-  if (root) root.dispose()
+
+  if (root) {
+    root.dispose()
+  }
+
 })
 </script>
-
 <style scoped>
-#chartdiv {
+#chartdivpie {
   width: 100%;
-  height: 500px;
+  height: 300px;
 }
 </style>

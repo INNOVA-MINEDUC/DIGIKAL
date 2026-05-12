@@ -39,10 +39,12 @@
           <h3>Numero de Estudiantes Beneficiados</h3>
           <p class="value">{{ formatNumber(totalEstudiantes) }}</p>
         </div>
-        <div class="stat-card">
-          <h3>Estudiantes Restantes</h3>
-          <p class="value">100%</p>
-        </div>
+  <div class="stat-card">
+  <h3>Escuelas con Internet</h3>
+  <p class="value">
+    {{ formatNumber(totalInternet) }}
+  </p>
+</div>
       </div>
 
 
@@ -58,6 +60,20 @@
           </div>
         </div>
       </div>
+
+          <div class="section">
+        <h2>Trending</h2>
+        <div class="charts-grid">
+          <div class="chart-placeholder">
+            <LineChart2 />
+
+          </div>
+          <div class="chart-placeholder" style="background-color: white;">
+            <PieChart />
+          </div>
+        </div>
+      </div>
+
 
 
 
@@ -95,6 +111,7 @@ const store = useEstablecimientosStore()
 const totalEstablecimientos = computed(() => store.totalEstablecimientos)
 const totalEstudiantes = computed(() => store.totalEstudiantes)
 const totalEquipos = computed(() => store.totalEquipos)
+const totalInternet = computed(() => store.totalInternet)
 
 
 

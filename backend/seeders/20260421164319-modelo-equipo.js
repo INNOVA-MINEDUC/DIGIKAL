@@ -4,7 +4,6 @@ export default {
   async up(queryInterface, Sequelize) {
 
     return 
-
     await queryInterface.bulkInsert('modelo_equipos', [
       {
         tipo_id: 1, 
@@ -35,26 +34,12 @@ export default {
         updatedAt: new Date(),
       },
       {
-        tipo_id: 4, // UPS
+        tipo_id: 3, // UPS
         nombre_modelo: 'APC Back-UPS 600VA',
         descripcion_tecnica: 'Protección eléctrica básica',
         createdAt: new Date(),
         updatedAt: new Date(),
-      },
-      {
-        tipo_id: 5, // Tablet
-        nombre_modelo: 'Samsung Galaxy Tab A8',
-        descripcion_tecnica: 'Pantalla 10.5", 64GB',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        tipo_id: 6, // Router
-        nombre_modelo: 'TP-Link Archer C6',
-        descripcion_tecnica: 'Router WiFi AC1200',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
+      }
     ]);
   },
 

@@ -10,7 +10,12 @@ await queryInterface.createTable('roles', {
     primaryKey: true,
     allowNull: false,
   },
-  name: {
+  nombre: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true, // admin, user, etc.
+  },
+  descripcion: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true, // admin, user, etc.

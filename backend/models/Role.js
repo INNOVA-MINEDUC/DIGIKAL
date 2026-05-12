@@ -6,17 +6,21 @@ const Role = sequelize.define('Role', {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false,
   },
-  name: {
+  nombre: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
+  descripcion: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  }
 }, {
   tableName: 'roles',
   timestamps: true,
 })
-
-
 
 export default Role

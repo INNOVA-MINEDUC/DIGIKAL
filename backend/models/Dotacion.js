@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize'
 import sequelize from '../config/connection.js'
 
 const Dotacion = sequelize.define('Dotacion', {
+
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -18,6 +19,11 @@ const Dotacion = sequelize.define('Dotacion', {
     allowNull: false,
   },
 
+  id_internet: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+
   fecha_entrega: {
     type: DataTypes.DATE,
   },
@@ -30,7 +36,5 @@ const Dotacion = sequelize.define('Dotacion', {
   tableName: 'dotaciones',
   timestamps: true,
 })
-
-
 
 export default Dotacion
