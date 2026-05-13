@@ -154,5 +154,6 @@ onBeforeUnmount(() => {
 #chartdivpie {
   width: 100%;
   height: 300px;
+   filter: drop-shadow(2px 20px 12px);
 }
 </style>

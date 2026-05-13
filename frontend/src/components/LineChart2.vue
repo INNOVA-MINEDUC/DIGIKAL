@@ -208,5 +208,6 @@ onBeforeUnmount(() => {
 #chartdivline {
   width: 100%;
   height: 400px;
+ filter: drop-shadow(2px 20px 12px);
 }
 </style>

@@ -106,9 +106,13 @@
                 <template v-slot:item.tipos="{ value }">
             <p>  {{ value || "internet" }} </p>
             </template>
+
+                    <template v-slot:item.modelos="{ value }">
+            <p>  {{ value || "conexión" }} </p>
+            </template>
             <template v-slot:item.cantidad="{ value }">
               <v-chip variant="tonal" color="indigo" size="small" class="font-weight-bold">
-                {{ value }} unidades
+                {{ value !== 0 ? value + " unidades" : "sin unidades" }} 
               </v-chip>
             </template>
 

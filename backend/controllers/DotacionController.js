@@ -208,7 +208,15 @@ export const getDotaciones = async (req, res) => {
             {
               model: Beneficiario,
               as: 'beneficiarios'
-            }
+            },
+            {
+              model: Departamento,
+              as: "departamento"
+            },
+            {
+              model: Municipio,
+              as: "municipio"
+            },
           ]
         },
         {
