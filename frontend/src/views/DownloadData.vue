@@ -620,6 +620,11 @@ const descargar = async (formato) => {
     } else if (formato === 'pdf') {
       await descargarPdf(rows)
     }
+
+    api.post('/api/v1/audit/log-download', {
+      format: formato,
+      filtros: filters.value
+    }).catch((err) => console.error('No se pudo registrar la descarga en auditoría:', err))
   } catch (error) {
     console.error('Error exportando:', error)
     Swal.fire({

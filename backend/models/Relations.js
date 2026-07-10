@@ -13,6 +13,7 @@ import Acta from "./Acta.js"
 import DotacionImagen from "./DotacionImagen.js";
 import Proyecto from "./Proyecto.js";
 import Internet from "./Internet.js";
+import AuditLog from "./AuditLog.js";
 
 Dotacion.belongsTo(Internet, {
   foreignKey: 'id_internet',
@@ -137,4 +138,14 @@ Departamento.hasMany(Escuela, {
 Municipio.hasMany(Escuela, {
   foreignKey: "municipioId",
   as: "escuelas"
+})
+
+AuditLog.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user"
+})
+
+User.hasMany(AuditLog, {
+  foreignKey: "userId",
+  as: "auditLogs"
 })

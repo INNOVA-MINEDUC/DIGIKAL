@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import User from "../models/User.js"
 import Role from "../models/Role.js"
 import dotenv from 'dotenv'
+import { logAction } from "../services/auditService.js"
 dotenv.config()
 
 export const AuthLogin = async (req, res) => {
@@ -19,12 +20,26 @@ export const AuthLogin = async (req, res) => {
     })
 
     if (!user) {
+      await logAction(req, {
+        action: 'LOGIN_FAILED',
+        module: 'AUTH',
+        description: `Intento de inicio de sesión fallido para ${email} (usuario no encontrado)`,
+        status: 'ERROR',
+        userOverride: { email },
+      })
       return res.status(404).json({ message: 'Credenciales incorrectas' })
     }
 
     if (!user.active) {
-      return res.status(403).json({ 
-        message: 'Usuario inactivo. Contacte al administrador.' 
+      await logAction(req, {
+        action: 'LOGIN_FAILED',
+        module: 'AUTH',
+        description: `Intento de inicio de sesión de usuario inactivo: ${email}`,
+        status: 'ERROR',
+        userOverride: { id: user.id, email: user.email, name: user.name },
+      })
+      return res.status(403).json({
+        message: 'Usuario inactivo. Contacte al administrador.'
       })
     }
 
@@ -32,6 +47,13 @@ export const AuthLogin = async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password)
 
     if (!validPassword) {
+      await logAction(req, {
+        action: 'LOGIN_FAILED',
+        module: 'AUTH',
+        description: `Intento de inicio de sesión fallido para ${email} (contraseña incorrecta)`,
+        status: 'ERROR',
+        userOverride: { id: user.id, email: user.email, name: user.name },
+      })
       return res.status(401).json({ message: 'Credenciales incorrectas' })
     }
 
@@ -45,6 +67,13 @@ export const AuthLogin = async (req, res) => {
       process.env.JWT_SECRET || "secret",
       { expiresIn: '1d' }
     )
+
+    await logAction(req, {
+      action: 'LOGIN_SUCCESS',
+      module: 'AUTH',
+      description: `Inicio de sesión exitoso: ${user.email}`,
+      userOverride: { id: user.id, email: user.email, name: user.name },
+    })
 
     // 5. Respuesta
     return res.json({

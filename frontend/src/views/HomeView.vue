@@ -4,7 +4,11 @@
     <img src="/banner-30.png" class="hero-bg" />
 
     <div class="hero-content">
-      <img src="/politica.png" class="hero-img" />
+      <div class="hero-container">
+        <img src="/logos/LOGOS-02.webp" class="hero-img" />
+        <img src="/logos/LOGOS-03.webp" class="hero-img" />
+        <img src="/logos/LOGOS-04.webp" class="hero-img" />
+      </div>
 
       <h1>Resultados de Nuestros Esfuerzos</h1>
 
@@ -19,33 +23,43 @@
     </section>
 
 
-      <section class="innovation">
-    <div class="innovation-text">
-    <h2> Juntos exploramos, creamos y descubrimos usos innovadores de la tecnología para transformar las experiencias de aprendizaje en todo el sistema educativo. </h2> <p> Desde la Dirección General de Calidad Educativa (DIGECADE) y la Subdirección de Innovación, trabajamos como un motor de cambio que impulsa la integración significativa de la tecnología en los procesos educativos. Nuestro compromiso es fortalecer las competencias digitales, promover metodologías activas y fomentar entornos de aprendizaje más dinámicos, inclusivos y centrados en el estudiante. </p> 
+    <section class="innovation">
+      <div class="innovation-text">
+        <h2> Juntos exploramos, creamos y descubrimos usos innovadores de la tecnología para transformar las
+          experiencias de aprendizaje en todo el sistema educativo. </h2>
+        <p> Desde la Dirección General de Calidad Educativa (DIGECADE) y la Subdirección de Innovación, trabajamos como
+          un motor de cambio que impulsa la integración significativa de la tecnología en los procesos educativos.
+          Nuestro compromiso es fortalecer las competencias digitales, promover metodologías activas y fomentar entornos
+          de aprendizaje más dinámicos, inclusivos y centrados en el estudiante. </p>
 
-      <button>Mas sobre DIGECADE</button>
-    </div>
+        <button>Mas sobre DIGECADE</button>
+      </div>
 
-    <div class="innovation-image">
-      <img src="/astro8.png" alt="astronauta" />
-    </div>
-  </section>
+      <div class="innovation-image">
+        <img src="/astro8.png" alt="astronauta" />
+      </div>
+    </section>
 
     <section class="digecade">
-  <div class="digecade-media">
-    <img src="/astro7.png" />
-  </div>
+      <div class="digecade-media">
+        <img src="/astro7.png" />
+      </div>
 
-  <div class="digecade-panel">
-    <h2>Innovación en Digecade</h2>
+      <div class="digecade-panel">
+        <h2>Innovación en Digecade</h2>
 
-    <p>
-      La innovación de DIGECADE impulsa el desarrollo educativo mediante la implementación de laboratorios tecnológicos equipados con herramientas de última generación, garantizando así una formación más práctica y efectiva para los estudiantes. Además, ofrece cursos diseñados para fortalecer el aprendizaje y un plan de estudios innovador que responde a las demandas actuales. Como complemento, se asegura el acceso a internet en todos los establecimientos, facilitando el uso de recursos digitales y promoviendo una educación más conectada, dinámica y de calidad.
-    </p>
+        <p>
+          La innovación de DIGECADE impulsa el desarrollo educativo mediante la implementación de laboratorios
+          tecnológicos equipados con herramientas de última generación, garantizando así una formación más práctica y
+          efectiva para los estudiantes. Además, ofrece cursos diseñados para fortalecer el aprendizaje y un plan de
+          estudios innovador que responde a las demandas actuales. Como complemento, se asegura el acceso a internet en
+          todos los establecimientos, facilitando el uso de recursos digitales y promoviendo una educación más
+          conectada, dinámica y de calidad.
+        </p>
 
-    <button>Más sobre DIGECADE</button>
-  </div>
-</section>
+        <button>Más sobre DIGECADE</button>
+      </div>
+    </section>
 
 
     <section class="services">
@@ -59,10 +73,12 @@
 
       <div class="platforms">
         <h2>Principales plataformas académicas</h2>
-<div class="separator"></div> 
-   <p class="intro">
-   La Dirección General de Gestión de Calidad Educativa impulsa la innovación en el ámbito educativo mediante plataformas educativas gratuitas con certificación. Además, ofrece diversos sistemas de apoyo tanto para docentes como para estudiantes, fortaleciendo el proceso de enseñanza y aprendizaje.
-      </p>
+        <div class="separator"></div>
+        <p class="intro">
+          La Dirección General de Gestión de Calidad Educativa impulsa la innovación en el ámbito educativo mediante
+          plataformas educativas gratuitas con certificación. Además, ofrece diversos sistemas de apoyo tanto para
+          docentes como para estudiantes, fortaleciendo el proceso de enseñanza y aprendizaje.
+        </p>
         <CardOptions :cards="sistemas" />
       </div>
     </section>
@@ -81,17 +97,27 @@ const sistemas = [
   {
     title: "AVi",
     img: "/logo-avi.png",
-    url: "https://avi.mineduc.edu.gt/s2/"
+    url: "https://avi.mineduc.edu.gt/"
   },
   {
-    title: "Ciudadania",
+    title: "Ciudadanía",
     img: "/ciudadania.png",
     url: "https://ciudadania.mineduc.edu.gt/"
   },
   {
-    title: "Cosmos",
+    title: "Cosmo",
     img: "/astro4.png",
     url: "https://www.mineduc.edu.gt/"
+  },
+  {
+    title: "Salud Escolar",
+    img: "/logo_salud_escolar.png",
+    url: "https://saludescolar.mineduc.edu.gt/"
+  },
+  {
+    title: "SIRCE",
+    img: "/logo_sirce.png",
+    url: "https://sigec-dev.mineduc.edu.gt/"
   }
 ]
 </script>
@@ -128,17 +154,20 @@ const sistemas = [
   font-weight: 500;
 }
 
-.hero-img {
-  width: 100rem;
-  margin-bottom: 20px;
-  padding: 0;
-  transform: translateX(-25%);
+.hero-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin-block: 5rem;
 }
 
-/* MAIN */
+.hero-img {
+  width: 15rem;
+  padding: 0;
+}
 
 
-/* CAROUSEL */
 .carousel {
   width: 85%;
   display: flex;
@@ -204,7 +233,8 @@ const sistemas = [
 /* 🔥 EFECTO COMO TU DISEÑO */
 .innovation-image img {
   position: absolute;
-  bottom: -25px; /* aquí está el truco */
+  bottom: -25px;
+  /* aquí está el truco */
   width: 120%;
 }
 

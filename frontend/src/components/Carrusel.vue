@@ -36,11 +36,11 @@
 import { ref, computed } from 'vue'
 
 const items = ref([
-  { title: 'Conectividad', img: "/img2.png" },
-  { title: 'Dotación de Equipo', img: "/img3.png" },
-  { title: 'Contenido Digital', img: "/img4.png" },
-  { title: 'Formación', img: "/img2.png" },
-  { title: 'SIGE', img: "/img3.png" }
+  { title: 'Conectividad', img: "/img_6.webp" },
+  { title: 'Dotación de Equipo', img: "/img_4.webp" },
+  { title: 'Contenido Digital', img: "/img_5.webp" },
+  { title: 'Formación', img: "/img_2.webp" },
+  { title: 'SIGE', img: "/img_1.webp" }
 ])
 
 const current = ref(0)

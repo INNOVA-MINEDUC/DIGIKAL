@@ -3,13 +3,14 @@ import {
   obtenerProyectos,
   crearProyecto
 } from '../controllers/ProyectoController.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
 
 router.get('/', obtenerProyectos);
 
-router.post('/', crearProyecto);
+router.post('/', authMiddleware, crearProyecto);
 
 
 

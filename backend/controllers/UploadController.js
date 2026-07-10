@@ -18,6 +18,7 @@ import Departamento from '../models/Departamento.js'
 import Municipio from '../models/Municipio.js'
 import Internet from '../models/Internet.js'
 import Proyecto from '../models/Proyecto.js'
+import { logAction } from '../services/auditService.js'
 
 const clean = (value) => {
   if (value === undefined || value === null) return null
@@ -995,6 +996,13 @@ export const importarExcelDotaciones = async (req, res) => {
         }
       }
     }
+
+    await logAction(req, {
+      action: 'EXCEL_BULK_UPLOAD',
+      module: 'UPLOAD',
+      description: `Cargó archivo Excel: ${filasProcesadas} fila(s) procesadas, ${filasExitosas} exitosas, ${filasDuplicadas} duplicadas, ${errores.length} con error`,
+      status: errores.length > 0 ? 'ERROR' : 'SUCCESS',
+    })
 
     return res.status(200).json({
       message: 'Importación terminada',

@@ -5,6 +5,7 @@ import {
   crearCategoriaEquipo,
   crearEquipo
 } from '../controllers/EquipoController.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
@@ -14,9 +15,9 @@ router.get('/', getEquipos);
 
 router.get('/:id', getEquiposPorModelo);
 
-router.post('/categoria', crearCategoriaEquipo);
+router.post('/categoria', authMiddleware, crearCategoriaEquipo);
 
-router.post('/detalle', crearEquipo);
+router.post('/detalle', authMiddleware, crearEquipo);
 
 
 

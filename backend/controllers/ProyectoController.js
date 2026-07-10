@@ -1,4 +1,5 @@
 import Proyecto from '../models/Proyecto.js'
+import { logAction } from '../services/auditService.js'
 
 export const obtenerProyectos = async (req, res) => {
   try {
@@ -36,6 +37,13 @@ export const crearProyecto = async (req, res) => {
     const nuevoProyecto = await Proyecto.create({
       nombre,
       description
+    })
+
+    await logAction(req, {
+      action: 'PROYECTO_CREATED',
+      module: 'PROYECTOS',
+      resourceId: nuevoProyecto.id,
+      description: `Creó el proyecto "${nombre}"`,
     })
 
     res.status(201).json({

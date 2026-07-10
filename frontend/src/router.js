@@ -15,6 +15,7 @@ import CreateEvents from './views/CreateEvents.vue'
 import CatalogosView from './views/CatalogosView.vue'
 import UserManagement from './views/UserManagement.vue'
 import CargaView from './views/CargaView.vue';
+import AuditLogView from './views/AuditLogView.vue';
 
 const routes = [
   {
@@ -88,6 +89,13 @@ const routes = [
     name: 'catalogos',
     component: CatalogosView,
     meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+  },
+
+  {
+    path: '/auditoria',
+    name: 'auditoria',
+    component: AuditLogView,
+    meta: { requiresAuth: true, allowedRoles: ['admin'] }
   },
 ]
 

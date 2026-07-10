@@ -4,6 +4,7 @@ import multer from 'multer';
 import {
   importarExcelDotaciones
 } from '../controllers/UploadController.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
@@ -52,7 +53,7 @@ const upload = multer({
 // =========================
 // RUTA IMPORTAR EXCEL
 // =========================
-router.post('/', (req, res, next) => {
+router.post('/', authMiddleware, (req, res, next) => {
 
     upload.single('excel')(
       req,

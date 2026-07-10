@@ -1,165 +1,177 @@
 <template>
   <v-app class="bg-container" style="user-select: none;">
+    <v-app-bar color="white" height="80" elevation="2">
+      <v-container fluid class="d-flex align-center fill-height px-0">
+        <v-app-bar-nav-icon
+          class="d-lg-none ml-2"
+          @click="drawer = !drawer"
+        />
 
-    <!-- NAVBAR -->
-    <v-app-bar app color="white" height="80" elevation="2">
+        <img src="/icono2.png" class="navigation-icon ml-2" />
 
-      <!-- BOTON MOBILE -->
-      <v-app-bar-nav-icon
-        class="d-flex d-md-none"
-        @click="drawer = !drawer"
-      />
+        <v-spacer />
 
-      <!-- LOGO -->
-      <img src="/icono2.png" class="navigation-icon" />
+        <div class="navigation-right d-none d-lg-flex">
+          <v-btn to="/" variant="text">Inicio</v-btn>
+          <v-btn to="/about" variant="text">Sobre Nosotros</v-btn>
+          <v-btn to="/dashboard" variant="text">Estadísticas</v-btn>
 
-      <!-- MENU DESKTOP -->
-      <div class="navigation-right d-none d-md-flex">
+          <v-btn
+            v-if="logged && (isAdmin || isUser)"
+            to="/cargar-datos"
+            variant="text"
+          >
+            Cargar Datos
+          </v-btn>
 
-        <v-btn to="/" text>Inicio</v-btn>
+          <v-btn
+            v-if="logged && isAdmin"
+            to="/upload-data"
+            variant="text"
+          >
+            Crear Dotación
+          </v-btn>
 
-        <v-btn to="/about" text>
-          Sobre Nosotros
-        </v-btn>
+          <v-btn
+            v-if="logged && (isAdmin || isUser)"
+            to="/catalogos"
+            variant="text"
+          >
+            Catálogo
+          </v-btn>
 
-        <v-btn to="/dashboard" text>
-          Estadísticas
-        </v-btn>
+          <v-btn
+            v-if="logged && (isAdmin || isUser)"
+            to="/download-data"
+            variant="text"
+          >
+            Dotaciones
+          </v-btn>
 
-        <v-btn
-          v-if="logged && (isAdmin || isUser)"
-          to="/cargar-datos"
-          text
-        >
-          Cargar Datos
-        </v-btn>
+          <v-btn
+            v-if="logged && isAdmin"
+            to="/usuarios"
+            variant="text"
+          >
+            Usuarios
+          </v-btn>
 
-        <v-btn
-          v-if="logged && isAdmin"
-          to="/upload-data"
-          text
-        >
-          Crear Dotación
-        </v-btn>
+          <v-btn
+            v-if="logged && isAdmin"
+            to="/auditoria"
+            variant="text"
+          >
+            Auditoría
+          </v-btn>
 
-        <v-btn
-          v-if="logged && (isAdmin || isUser)"
-          to="/catalogos"
-          text
-        >
-          Catálogo de Equipos
-        </v-btn>
+          <v-btn
+            v-if="!logged"
+            to="/login"
+            variant="elevated"
+            color="primary"
+            class="ml-2"
+          >
+            Iniciar sesión
+          </v-btn>
 
-        <v-btn
-          v-if="logged && (isAdmin || isUser)"
-          to="/download-data"
-          text
-        >
-          Dotaciones
-        </v-btn>
-
-        <v-btn
-          v-if="logged && isAdmin"
-          to="/usuarios"
-          text
-        >
-          Usuarios
-        </v-btn>
-
-        <v-btn
-          v-if="!logged"
-          to="/login"
-          text
-        >
-          Iniciar sesión
-        </v-btn>
-
-        <v-tooltip text="Cerrar sesión" location="bottom">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-if="logged"
-              v-bind="props"
-              icon="mdi-logout"
-              @click="logout"
-            />
-          </template>
-        </v-tooltip>
-
-      </div>
+          <v-tooltip v-if="logged" text="Cerrar sesión" location="bottom">
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                icon="mdi-logout"
+                color="error"
+                variant="text"
+                @click="logout"
+                class="mr-2"
+              />
+            </template>
+          </v-tooltip>
+        </div>
+      </v-container>
     </v-app-bar>
 
-    <!-- DRAWER MOBILE -->
     <v-navigation-drawer
       v-model="drawer"
       temporary
       location="left"
+      width="300"
     >
+      <v-list-item
+        prepend-avatar="/icono2.png"
+        title="Menú"
+        class="pa-4"
+      />
 
-      <v-list>
+      <v-divider />
 
-        <v-list-item to="/" title="Inicio" />
+      <v-list nav density="compact">
+        <v-list-item prepend-icon="mdi-home" to="/" title="Inicio" />
+        <v-list-item prepend-icon="mdi-information" to="/about" title="Sobre Nosotros" />
+        <v-list-item prepend-icon="mdi-chart-bar" to="/dashboard" title="Estadísticas" />
 
-        <v-list-item
-          to="/about"
-          title="Sobre Nosotros"
-        />
-
-        <v-list-item
-          to="/dashboard"
-          title="Estadísticas"
-        />
+        <v-divider class="my-2" v-if="logged" />
 
         <v-list-item
           v-if="logged && (isAdmin || isUser)"
+          prepend-icon="mdi-database-import"
           to="/cargar-datos"
           title="Cargar Datos"
         />
-
         <v-list-item
           v-if="logged && isAdmin"
+          prepend-icon="mdi-plus-box"
           to="/upload-data"
           title="Crear Dotación"
         />
-
         <v-list-item
           v-if="logged && (isAdmin || isUser)"
+          prepend-icon="mdi-format-list-bulleted"
           to="/catalogos"
           title="Catálogo de Equipos"
         />
-
         <v-list-item
           v-if="logged && (isAdmin || isUser)"
+          prepend-icon="mdi-download"
           to="/download-data"
           title="Dotaciones"
         />
-
         <v-list-item
           v-if="logged && isAdmin"
+          prepend-icon="mdi-account-group"
           to="/usuarios"
           title="Usuarios"
         />
+        <v-list-item
+          v-if="logged && isAdmin"
+          prepend-icon="mdi-clipboard-text-clock"
+          to="/auditoria"
+          title="Auditoría"
+        />
+
+        <v-divider class="my-2" />
 
         <v-list-item
           v-if="!logged"
+          prepend-icon="mdi-login"
           to="/login"
           title="Iniciar sesión"
+          color="primary"
         />
-
         <v-list-item
           v-if="logged"
+          prepend-icon="mdi-logout"
           @click="logout"
           title="Cerrar sesión"
+          color="error"
         />
-
       </v-list>
-
     </v-navigation-drawer>
 
-    <!-- CONTENIDO -->
     <v-main>
-      <router-view />
+      <v-container fluid class="pa-0">
+        <router-view />
+      </v-container>
     </v-main>
-
   </v-app>
 </template>
 
@@ -173,7 +185,6 @@ const user = computed(() => getUser())
 const logged = computed(() => isAuthenticated())
 
 const role = computed(() => user.value?.role)
-
 const isAdmin = computed(() => role.value === 'admin')
 const isUser = computed(() => role.value === 'user')
 
@@ -183,30 +194,47 @@ function logout() {
 }
 </script>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
+<style scoped>
+.bg-container {
+  overflow-x: hidden;
 }
 
 .navigation-icon {
-  margin-left: 10px;
-  height: 60px;
+  height: 50px;
+  width: auto;
   object-fit: contain;
+  display: block;
 }
 
 .navigation-right {
-  margin-left: auto;
+  display: flex;
   align-items: center;
-  gap: 0.3rem;
-  margin-right: 1rem;
+  gap: 4px;
+  margin-left: auto;
+  padding-right: 4px;
 }
 
-@media (max-width: 768px) {
+.v-btn {
+  text-transform: none;
+  font-weight: 500;
+  letter-spacing: normal;
+  font-size: 0.85rem;
+}
+
+:deep(.v-toolbar__content) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+@media (max-width: 1264px) {
   .navigation-icon {
-    height: 50px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .navigation-icon {
+    height: 36px;
   }
 }
 </style>

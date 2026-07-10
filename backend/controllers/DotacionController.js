@@ -16,6 +16,7 @@ import Departamento from '../models/Departamento.js';
 import Municipio from '../models/Municipio.js';
 import Proyecto from "../models/Proyecto.js"
 import fs from 'fs';
+import { logAction } from '../services/auditService.js';
 
 
 const Escuela = EscuelaModel;
@@ -174,6 +175,13 @@ if (fotos.length > 0) {
     }
 
     await transaction.commit();
+
+    await logAction(req, {
+      action: 'DOTACION_CREATED',
+      module: 'DOTACIONES',
+      resourceId: dotacion.id,
+      description: `Registró una dotación con ${equipos.length} equipo(s) para la escuela ${codigoEscuela}`,
+    });
 
     return res.status(201).json({
       message: 'Dotación registrada correctamente',

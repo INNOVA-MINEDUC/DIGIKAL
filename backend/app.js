@@ -12,6 +12,7 @@ import proyectosRoutes from './routes/proyectos.routes.js';
 import userRoutes from './routes/user.routes.js';
 import roleRoutes from './routes/roles.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
+import auditRoutes from './routes/audit.routes.js';
 import "./models/Relations.js";
 import path from 'path';
 
@@ -52,7 +53,8 @@ app.use('/api/v1/dotacion', dotacionRoutes);
 app.use('/api/v1/proyectos', proyectosRoutes); 
 app.use('/api/v1/user', userRoutes); 
 app.use('/api/v1/role', roleRoutes); 
-app.use('/api/v1/upload', uploadRoutes); 
+app.use('/api/v1/upload', uploadRoutes);
+app.use('/api/v1/audit', auditRoutes);
 
 
 

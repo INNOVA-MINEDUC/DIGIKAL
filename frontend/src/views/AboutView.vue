@@ -21,7 +21,7 @@
       </div>
 
       <div class="card large">
-        <img src="/about/img_8.png" class="image-placeholder" />
+        <img src="/img_7.webp" class="image-placeholder" />
         <div class="content">
           <h2>Nuestra Visión:</h2>
           <p>
@@ -85,7 +85,7 @@ const cards = [
     gradientOpacity: 0.9
   },
   {
-    img: "/about/img_8.png",
+    img: "/img_6.webp",
     title: "Trabajo Colaborativo",
     text: "Equipos multidisciplinarios integrados por estudiantes, docentes y profesionales, replicando dinámicas reales de la industria tecnológica.",
     gradientColor: "0,50,120",

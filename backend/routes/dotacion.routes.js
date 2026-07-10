@@ -5,6 +5,7 @@ import {
   createDotacion,
   getDotaciones
 } from '../controllers/DotacionController.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
@@ -62,6 +63,7 @@ const uploadFields = upload.fields([
 
 router.post(
   '/',
+  authMiddleware,
   (req, res, next) => {
 
     uploadFields(req, res, function (err) {
@@ -92,6 +94,6 @@ router.post(
 );
 
 
-router.get('/', getDotaciones);
+router.get('/', authMiddleware, getDotaciones);
 
 export default router;

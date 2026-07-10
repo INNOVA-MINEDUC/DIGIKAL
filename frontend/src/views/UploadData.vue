@@ -849,16 +849,63 @@ onMounted(() => {
 
 <style scoped>
 .bg-img {
+  min-height: 100vh;
+  width: 100%;
+
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
+
   background-image: url("/upload/img.png");
+
   background-repeat: no-repeat;
+
+  /* IMPORTANTE */
   background-size: cover;
-  background-position: center;
+
+  /* CENTRADO PERFECTO */
+  background-position: center center;
+
+  overflow: hidden;
 }
 
+/* Overlay elegante */
+.bg-img::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  z-index: 0;
+}
+
+/* TODO el contenido encima del overlay */
+.bg-img > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* CARD PRINCIPAL */
 .border-top-gt {
   border-top: 8px solid #0094D3 !important;
+
+  backdrop-filter: blur(8px);
+
+  background: rgba(255, 255, 255, 0.96);
+
+  overflow: hidden;
 }
 
+/* Stepper */
 :deep(.v-stepper-header) {
   box-shadow: none !important;
   border-bottom: 1px solid #e0e0e0;
@@ -874,5 +921,58 @@ onMounted(() => {
 
 .img-uploaded {
   border-radius: 10px;
+}
+
+/* TABLAS */
+:deep(.v-table) {
+  border-radius: 12px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1264px) {
+  .bg-img {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+/* TABLETS */
+@media (max-width: 960px) {
+  .bg-img {
+    padding: 16px;
+  }
+
+  :deep(.v-card) {
+    border-radius: 16px !important;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .bg-img {
+    padding: 10px;
+
+    background-position: center;
+  }
+
+  :deep(.v-card) {
+    border-radius: 14px !important;
+  }
+
+  :deep(.v-stepper-header) {
+    overflow-x: auto;
+  }
+
+  :deep(.v-stepper-item__title) {
+    font-size: 0.75rem !important;
+  }
+
+  :deep(.v-btn) {
+    font-size: 0.75rem;
+  }
+
+  .img-uploaded {
+    border-radius: 8px;
+  }
 }
 </style>
