@@ -50,10 +50,7 @@ const handleSelection = async (type = "all", data = {}) => {
             muni: data.municipio
           }
 
-    const res = await api.post(
-      `/api/v1/dashboard`,
-      payload
-    )
+    const res = await api.post('/api/v1/dashboard', payload)
 
     establecimientosStore.setData(res.data)
 

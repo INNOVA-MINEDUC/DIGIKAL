@@ -9,17 +9,12 @@
     <img src="/politica.png" style="width: 80%;  display: flex; justify-self: center; z-index: 0;">
 
     <section class="innovation-section">
-      <h2>IAvances en la Educacion de Guatemala</h2>
+      <h2>Avances en la Transformación Digital Educativa de Guatemala</h2>
       <p style="max-width: 70%; justify-self: center;">
-        Guatemala avanza hacia una educación más conectada e inclusiva mediante la incorporación de tecnología y
-        conectividad en los establecimientos del nivel diversificado. La implementación de laboratorios equipados y
-        acceso a
-        internet fortalece los procesos de enseñanza y aprendizaje, reduciendo la brecha digital y ampliando las
-        oportunidades
-        para estudiantes y docentes. Un paso firme hacia entornos educativos modernos que promueven la innovación, el
-        acceso
-
-        al conocimiento y el desarrollo de competencias necesarias para el futuro.
+        La Política DIGIKAL 2025-2035 impulsa la transformación del sistema educativo guatemalteco garantizando
+        conectividad en el 100% de los establecimientos para 2035. Actualmente menos del 75% de los establecimientos
+        cuentan con acceso a internet, siendo las comunidades rurales y vulnerables las más afectadas por la brecha
+        digital. Estos indicadores reflejan el avance acumulado del programa de dotación tecnológica de DIGECADE.
       </p>
     </section>
 
@@ -32,24 +27,37 @@
         </div>
 
         <div class="stat-card">
-          <h3>Numero de Equipos Dotados</h3>
-          <p class="value">{{ formatNumber(totalEquipos) }}</p>
+          <h3>Con Dotación de Equipos</h3>
+          <p class="value">{{ formatNumber(establecimientosDotados) }}</p>
+          <span class="sub">{{ formatNumber(totalEquipos) }} equipos entregados</span>
         </div>
+
         <div class="stat-card">
-          <h3>Numero de Estudiantes Beneficiados</h3>
+          <h3>Estudiantes Inscritos</h3>
           <p class="value">{{ formatNumber(totalEstudiantes) }}</p>
+          <span class="sub">{{ formatNumber(estudiantesDotados) }} con equipo dotado</span>
         </div>
-  <div class="stat-card">
-  <h3>Escuelas con Internet</h3>
-  <p class="value">
-    {{ formatNumber(totalInternet) }}
-  </p>
-</div>
+
+        <div class="stat-card">
+          <h3>Escuelas con Conectividad</h3>
+          <p class="value">{{ formatNumber(totalInternet) }}</p>
+        </div>
+      </div>
+
+      <div class="section" v-if="modelosEquipos.length">
+        <h2>Modelos de Equipo Dotados</h2>
+        <div class="modelos-grid">
+          <div class="modelo-card" v-for="m in modelosEquipos" :key="m.tipo + m.modelo">
+            <span class="modelo-tipo">{{ m.tipo }}</span>
+            <span class="modelo-nombre">{{ m.modelo }}</span>
+            <span class="modelo-cantidad">{{ formatNumber(m.cantidad) }}</span>
+          </div>
+        </div>
       </div>
 
 
       <div class="section">
-        <h2>Trending</h2>
+        <h2>Distribución por Departamento</h2>
         <div class="charts-grid">
           <div class="chart-placeholder">
             <GuateMap2 />
@@ -62,7 +70,7 @@
       </div>
 
           <div class="section">
-        <h2>Trending</h2>
+        <h2>Evolución del Programa de Dotación</h2>
         <div class="charts-grid">
           <div class="chart-placeholder">
             <LineChart2 />
@@ -112,6 +120,9 @@ const totalEstablecimientos = computed(() => store.totalEstablecimientos)
 const totalEstudiantes = computed(() => store.totalEstudiantes)
 const totalEquipos = computed(() => store.totalEquipos)
 const totalInternet = computed(() => store.totalInternet)
+const establecimientosDotados = computed(() => store.establecimientosDotados)
+const estudiantesDotados = computed(() => store.estudiantesDotados)
+const modelosEquipos = computed(() => store.modelosEquipos)
 
 
 
@@ -190,6 +201,48 @@ const formatNumber = (num) => {
   font-size: 24px;
   font-weight: bold;
   margin: 0;
+}
+
+.stat-card .sub {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #888;
+}
+
+.modelos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.modelo-card {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modelo-tipo {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #03bfcb;
+  font-weight: 600;
+}
+
+.modelo-nombre {
+  font-size: 14px;
+  color: #333;
+}
+
+.modelo-cantidad {
+  font-size: 22px;
+  font-weight: bold;
+  color: #0d3b5d;
 }
 
 

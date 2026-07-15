@@ -11,11 +11,12 @@
       <div class="card large">
         <img src="/about/img_9.png" class="image-placeholder" />
         <div class="content">
-          <h2>Nuestra misión:</h2>
+          <h2>Misión de DIGIKAL:</h2>
           <p>
-            Proveer soluciones tecnológicas innovadoras que impulsen el
-            crecimiento de nuestros clientes, manteniendo la excelencia
-            técnica y el compromiso humano.
+            Promover un sistema educativo inclusivo, equitativo y de calidad en Guatemala mediante la integración
+            de tecnologías digitales, reduciendo la brecha digital y fortaleciendo las competencias tecnológicas
+            de estudiantes y docentes, alineándose con los principios de sostenibilidad, ética y derechos
+            humanos establecidos por la UNESCO.
           </p>
         </div>
       </div>
@@ -23,11 +24,12 @@
       <div class="card large">
         <img src="/img_7.webp" class="image-placeholder" />
         <div class="content">
-          <h2>Nuestra Visión:</h2>
+          <h2>Visión 2035:</h2>
           <p>
-            Ser referentes globales en el desarrollo de software,
-            reconocidos por nuestra ética de trabajo y la capacidad
-            de resolver problemas complejos.
+            Para el año 2035, el sistema educativo guatemalteco habrá alcanzado una transformación digital
+            inclusiva y sostenible, garantizando el ejercicio del derecho a una educación de calidad mediante
+            el uso ético, seguro y protegido, con acceso equitativo a tecnologías digitales, conectividad
+            confiable, contenidos pedagógicos culturalmente relevantes y sistemas de gestión eficientes.
           </p>
         </div>
       </div>
@@ -35,16 +37,13 @@
 
 
     <section class="innovation-section">
-      <h2>Innovación en Digecade</h2>
+      <h2>Diagnóstico Nacional — ¿Por qué DIGIKAL?</h2>
       <p style="max-width: 70%; justify-self: center;">
-        Guatemala avanza hacia una educación más conectada e inclusiva mediante la incorporación de tecnología y
-        conectividad en los establecimientos del nivel diversificado. La implementación de laboratorios equipados y
-        acceso a
-        internet fortalece los procesos de enseñanza y aprendizaje, reduciendo la brecha digital y ampliando las
-        oportunidades
-        para estudiantes y docentes. Un paso firme hacia entornos educativos modernos que promueven la innovación, el
-
-        acceso al conocimiento y el desarrollo de competencias necesarias para el futuro.
+        Actualmente menos del 75% de los establecimientos educativos tienen acceso a conectividad. Los recursos e
+        infraestructura tecnológica básica continúan siendo un reto, incluyendo acceso estable a energía eléctrica y
+        redes confiables. Persisten disparidades significativas entre áreas urbanas y rurales, siendo las comunidades
+        en situación de vulnerabilidad las más afectadas. DIGIKAL nace como respuesta a esta realidad para garantizar
+        igualdad de oportunidades digitales en todo el territorio nacional.
       </p>
     </section>
 
@@ -65,29 +64,29 @@ import InfoCards from '@/components/InfoCards.vue';
 const cards = [
   {
     img: "/about/img_6.png",
-    title: "Origen Académico",
-    text: "iniciativa estudiantil dentro del ámbito universitario, donde durante más de una década se han desarrollado soluciones enfocadas en resolver problemáticas reales mediante tecnología, investigación aplicada y aprendizaje colaborativo.",
+    title: "Marco Internacional",
+    text: "La política se alinea con el Marco de Competencias Digitales de la UNESCO, el Marco de Transformación Digital del Banco Mundial y el Marco de Competencia Digital de la Unión Europea, adaptando estándares globales al contexto guatemalteco.",
     gradientColor: "0,50,120",
     gradientOpacity: 0.9
   },
   {
     img: "/about/img_5.png",
-    title: "Cultura de Innovación",
-    text: "La innovación estudiantil ha sido el motor principal del crecimiento, fomentando la creatividad, el pensamiento crítico y la experimentación constante como parte del proceso de formación profesional.",
+    title: "Diagnóstico Nacional",
+    text: "Menos del 75% de los establecimientos tienen acceso a conectividad. Persisten brechas digitales, sociales, económicas y de género que limitan el desarrollo de competencias tecnológicas, especialmente en comunidades rurales e indígenas.",
     gradientColor: "0,50,120",
     gradientOpacity: 0.9
   },
   {
     img: "/about/img_10.png",
-    title: "Impacto y Evolución",
-    text: "Muchos proyectos estudiantiles evolucionaron hacia productos reales, emprendimientos tecnológicos, startups y soluciones adoptadas por comunidades educativas y organizaciones.",
+    title: "Marco Normativo",
+    text: "La política se sustenta en el Decreto 39-2022 (Ciberdelincuencia), el Decreto 57-2008 (Acceso a la Información Pública), la Constitución Política de Guatemala y estándares internacionales como el GDPR y la Ley Modelo de Protección de Datos de la OEA.",
     gradientColor: "0,50,120",
     gradientOpacity: 0.9
   },
   {
     img: "/img_6.webp",
-    title: "Trabajo Colaborativo",
-    text: "Equipos multidisciplinarios integrados por estudiantes, docentes y profesionales, replicando dinámicas reales de la industria tecnológica.",
+    title: "Visión 2035",
+    text: "Para 2035: conectividad en el 100% de establecimientos, docentes capacitados en competencias digitales, contenidos educativos en español e idiomas nacionales, estándares robustos de ciberseguridad y uso ético de la inteligencia artificial.",
     gradientColor: "0,50,120",
     gradientOpacity: 0.9
   }

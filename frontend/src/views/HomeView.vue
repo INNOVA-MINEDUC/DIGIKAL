@@ -10,12 +10,12 @@
         <img src="/logos/LOGOS-04.webp" class="hero-img" />
       </div>
 
-      <h1>Resultados de Nuestros Esfuerzos</h1>
+      <h1>Política de Transformación Digital DIGIKAL</h1>
 
       <p>
-        Los resultados de nuestros esfuerzos se reflejan de manera concreta en las mejoras alcanzadas gracias a la
-        donación y modernización de equipamiento proporcionada por el Ministerio de Educación (MINEDUC).
-        Esta contribución ha permitido fortalecer los procesos educativos.
+        La Política de Transformación Digital DIGIKAL busca promover un sistema educativo inclusivo, equitativo
+        y de calidad en Guatemala mediante la integración de tecnologías digitales, reduciendo la brecha digital
+        y fortaleciendo las competencias tecnológicas de estudiantes y docentes en todo el país.
       </p>
     </div>
     <section class="carousel">
@@ -25,12 +25,11 @@
 
     <section class="innovation">
       <div class="innovation-text">
-        <h2> Juntos exploramos, creamos y descubrimos usos innovadores de la tecnología para transformar las
-          experiencias de aprendizaje en todo el sistema educativo. </h2>
-        <p> Desde la Dirección General de Calidad Educativa (DIGECADE) y la Subdirección de Innovación, trabajamos como
-          un motor de cambio que impulsa la integración significativa de la tecnología en los procesos educativos.
-          Nuestro compromiso es fortalecer las competencias digitales, promover metodologías activas y fomentar entornos
-          de aprendizaje más dinámicos, inclusivos y centrados en el estudiante. </p>
+        <h2>Hacia una educación digital inclusiva y sostenible para Guatemala 2025–2035</h2>
+        <p>Desde la Dirección General de Calidad Educativa (DIGECADE), impulsamos la transformación del sistema
+          educativo guatemalteco garantizando que todos los establecimientos cuenten con infraestructura tecnológica,
+          conectividad confiable y recursos digitales adaptados a la diversidad cultural y lingüística del país,
+          alineados con los Objetivos de Desarrollo Sostenible ODS 4 y ODS 10.</p>
 
         <button>Mas sobre DIGECADE</button>
       </div>
@@ -46,15 +45,14 @@
       </div>
 
       <div class="digecade-panel">
-        <h2>Innovación en Digecade</h2>
+        <h2>Cinco Ejes de la Transformación Digital</h2>
 
         <p>
-          La innovación de DIGECADE impulsa el desarrollo educativo mediante la implementación de laboratorios
-          tecnológicos equipados con herramientas de última generación, garantizando así una formación más práctica y
-          efectiva para los estudiantes. Además, ofrece cursos diseñados para fortalecer el aprendizaje y un plan de
-          estudios innovador que responde a las demandas actuales. Como complemento, se asegura el acceso a internet en
-          todos los establecimientos, facilitando el uso de recursos digitales y promoviendo una educación más
-          conectada, dinámica y de calidad.
+          La política DIGIKAL articula cinco ejes estratégicos: <strong>Conectividad</strong> en el 100% de los
+          establecimientos para 2035; <strong>Dotación tecnológica</strong> con equipo actualizado y accesible;
+          <strong>Contenido digital</strong> en español e idiomas nacionales; <strong>Formación docente</strong>
+          continua en competencias digitales; y un <strong>Sistema de Información</strong> para la gestión
+          educativa (SIGE) que permita una toma de decisiones basada en datos.
         </p>
 
         <button>Más sobre DIGECADE</button>
@@ -62,22 +60,30 @@
     </section>
 
 
-    <section class="services">
-      <!-- <h2>Funciones Principales</h2>
+    <section class="principios">
+      <h2>Principios Rectores de DIGIKAL</h2>
       <div class="separator"></div>
-
       <p class="intro">
-        La Dirección General de Gestión de Calidad Educativa impulsa la innovación educativa.
-      </p> -->
+        La Política de Transformación Digital se rige por cinco principios fundamentales que garantizan una
+        implementación ética, inclusiva y sostenible en todo el sistema educativo nacional.
+      </p>
+      <div class="principios-grid">
+        <div class="principio-card" v-for="p in principios" :key="p.titulo">
+          <div class="principio-numero">{{ p.num }}</div>
+          <h3 class="principio-titulo">{{ p.titulo }}</h3>
+          <p class="principio-texto">{{ p.texto }}</p>
+        </div>
+      </div>
+    </section>
 
-
+    <section class="services">
       <div class="platforms">
-        <h2>Principales plataformas académicas</h2>
+        <h2>Plataformas Educativas MINEDUC</h2>
         <div class="separator"></div>
         <p class="intro">
-          La Dirección General de Gestión de Calidad Educativa impulsa la innovación en el ámbito educativo mediante
-          plataformas educativas gratuitas con certificación. Además, ofrece diversos sistemas de apoyo tanto para
-          docentes como para estudiantes, fortaleciendo el proceso de enseñanza y aprendizaje.
+          Como parte del eje de contenido digital educativo de la política DIGIKAL, el Ministerio de Educación
+          pone a disposición plataformas educativas gratuitas con certificación para fortalecer las competencias
+          digitales de toda la comunidad educativa guatemalteca.
         </p>
         <CardOptions :cards="sistemas" />
       </div>
@@ -92,6 +98,34 @@
 import CardOptions from '@/components/CardOptions.vue'
 import Carrusel from '@/components/Carrusel.vue'
 import HomeFooter from '@/components/HomeFooter.vue'
+
+const principios = [
+  {
+    num: '01',
+    titulo: 'Ética',
+    texto: 'Fomentar el uso responsable de las tecnologías, respetando los derechos y la privacidad de todos los actores educativos.'
+  },
+  {
+    num: '02',
+    titulo: 'Sostenibilidad',
+    texto: 'Implementar estrategias que garanticen el uso continuo y efectivo de las tecnologías a lo largo del tiempo.'
+  },
+  {
+    num: '03',
+    titulo: 'Derechos Humanos',
+    texto: 'Promover la equidad, la libertad de expresión y la protección de datos en el ámbito digital.'
+  },
+  {
+    num: '04',
+    titulo: 'Inclusión',
+    texto: 'Asegurar que estudiantes y docentes, especialmente en comunidades rurales y marginadas, tengan acceso a recursos tecnológicos.'
+  },
+  {
+    num: '05',
+    titulo: 'Transparencia',
+    texto: 'Diseñar procesos claros y accesibles en la gestión de recursos tecnológicos y educativos.'
+  },
+]
 
 const sistemas = [
   {
@@ -327,5 +361,60 @@ const sistemas = [
 .platforms {
   margin-top: 40px;
   width: 100%;
+}
+
+/* PRINCIPIOS RECTORES */
+.principios {
+  padding: 60px 20px;
+  text-align: center;
+  background: #f0f7ff;
+}
+
+.principios h2 {
+  font-size: 28px;
+  color: #0d3b5d;
+  font-weight: 700;
+}
+
+.principios-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 36px;
+  max-width: 1100px;
+  margin-inline: auto;
+}
+
+.principio-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 20px;
+  flex: 1 1 170px;
+  max-width: 210px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-top: 4px solid #27b6c8;
+  text-align: center;
+}
+
+.principio-numero {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #27b6c8;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.principio-titulo {
+  color: #0d3b5d;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.principio-texto {
+  color: #555;
+  font-size: 0.82rem;
+  line-height: 1.5;
 }
 </style>
