@@ -141,7 +141,7 @@ const sistemas = [
   {
     title: "Cosmo",
     img: "/astro4.png",
-    url: "https://www.mineduc.edu.gt/"
+    url: "https://cosmo.mineduc.edu.gt/"
   },
   {
     title: "Salud Escolar",

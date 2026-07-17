@@ -21,6 +21,9 @@ export const useEstablecimientosStore = defineStore('establecimientos', {
     estudiantesDotados: 0,
     modelosEquipos: [],
 
+    // Distribución de establecimientos por nivel educativo
+    nivelesDistribucion: [],
+
     loading: false,
 
     /* =========================================
@@ -124,6 +127,7 @@ export const useEstablecimientosStore = defineStore('establecimientos', {
       this.establecimientosDotados = data.establecimientosDotados || 0
       this.estudiantesDotados      = data.estudiantesDotados      || 0
       this.modelosEquipos          = data.modelosEquipos          || []
+      this.nivelesDistribucion     = data.nivelesDistribucion     || []
     },
 
     setEstablecimientos(data) {

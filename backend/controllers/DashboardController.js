@@ -28,6 +28,7 @@ const EMPTY_RESPONSE = {
   establecimientosDotados: 0,
   estudiantesDotados: 0,
   modelosEquipos: [],
+  nivelesDistribucion: [],
   escuelas: [],
 };
 
@@ -41,6 +42,31 @@ const norm = (s) => {
     .replace(/[^\w\s]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+};
+
+// Valores canónicos del sistema (enum NivelEstablecimiento del API MDM).
+const NIVELES_CANONICOS = ['PRE_PRIMARIA', 'PRIMARIA', 'BASICO', 'DIVERSIFICADO'];
+
+// Normaliza cualquier grafía de nivel al valor del sistema. Acepta el array
+// que devuelve el API (["DIVERSIFICADO"]) o el string local ("Ciclo Básico").
+// Devuelve un array de niveles canónicos (una escuela puede tener varios).
+const normalizeNiveles = (value) => {
+  if (value == null) return [];
+  const partes = Array.isArray(value) ? value : String(value).split(/[,;/]+/);
+  const encontrados = new Set();
+
+  for (const parte of partes) {
+    const base = String(parte).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    if (!base.trim()) continue;
+
+    if (/pre[\s_-]*primari|parvul|inicial|pre[\s_-]*escolar/.test(base)) encontrados.add('PRE_PRIMARIA');
+    const sinPre = base.replace(/pre[\s_-]*primari\w*/g, ' ');
+    if (/primari/.test(sinPre)) encontrados.add('PRIMARIA');
+    if (/basic/.test(base)) encontrados.add('BASICO');
+    if (/diversific|bachiller/.test(base)) encontrados.add('DIVERSIFICADO');
+  }
+
+  return NIVELES_CANONICOS.filter((n) => encontrados.has(n));
 };
 
 const gqlPost = async (query) => {
@@ -125,7 +151,7 @@ const getMuniId = async (muniName, deptId) => {
 // La jornada se toma de la tabla local `escuelas`, donde es un STRING libre.
 const ESTABLECIMIENTO_FIELDS = `
   id nombre codigoMineduc
-  poseeConectividad velocidadConectividad fechaConectividad
+  poseeConectividad velocidadConectividad fechaConexion
   fechaDatacion inscritos2026 estudiantesInscritos
   cantidadHombres cantidadMujeres
   telefono correoElectronico direccion latitud longitud
@@ -165,7 +191,7 @@ const getDotacionesPorCodigo = async (codigos) => {
 
   const escuelas = await Escuela.findAll({
     where: { codigoEscuela: { [Op.in]: codigos } },
-    attributes: ['id', 'codigoEscuela', 'jornada'],
+    attributes: ['id', 'codigoEscuela', 'jornada', 'nivel'],
     include: [{
       model: Dotacion,
       as: 'dotaciones',
@@ -216,7 +242,11 @@ const getDotacionesPorCodigo = async (codigos) => {
       }
     }
 
-    porCodigo.set(escuela.codigoEscuela, { equipos, fechaEntrega, internet, jornada: escuela.jornada });
+    porCodigo.set(escuela.codigoEscuela, {
+      equipos, fechaEntrega, internet,
+      jornada: escuela.jornada,
+      nivel: escuela.nivel,
+    });
   }
 
   return porCodigo;
@@ -265,6 +295,9 @@ export const getEscuelasDotadas = async (req, res) => {
       const dotado = fechaDotacion != null || equipos.length > 0;
       const estudiantes = e.inscritos2026 ?? e.estudiantesInscritos ?? 0;
 
+      // Nivel: se prefiere el local (curado en la carga) y si no, el del API.
+      const niveles = local?.nivel ? normalizeNiveles(local.nivel) : normalizeNiveles(e.nivel);
+
       return {
         id: e.id,
         nombreEscuela: e.nombre,
@@ -274,7 +307,7 @@ export const getEscuelasDotadas = async (req, res) => {
 
         poseeConectividad: e.poseeConectividad ?? false,
         velocidadConectividad: e.velocidadConectividad,
-        fechaConectividad: e.fechaConectividad,
+        fechaConectividad: e.fechaConexion,
         empresaInternet: e.empresaConectividad?.nombre ?? local?.internet?.empresa ?? null,
 
         dotado,
@@ -291,11 +324,33 @@ export const getEscuelasDotadas = async (req, res) => {
         direccion: e.direccion,
         latitud: e.latitud,
         longitud: e.longitud,
-        nivel: Array.isArray(e.nivel) ? e.nivel.join(', ') : e.nivel,
+        nivel: niveles.join(', '),
+        niveles,
         jornada: local?.jornada ?? null,
         opf: e.opf,
       };
     });
+
+    // Desglose por nivel educativo: cuántos establecimientos hay en cada nivel.
+    // Una escuela con varios niveles cuenta en cada uno.
+    const conteoNiveles = new Map();
+    for (const escuela of escuelas) {
+      const nivelesEsc = escuela.niveles.length ? escuela.niveles : ['SIN_NIVEL'];
+      for (const nivel of nivelesEsc) {
+        conteoNiveles.set(nivel, (conteoNiveles.get(nivel) || 0) + 1);
+      }
+    }
+    const ETIQUETAS_NIVEL = {
+      PRE_PRIMARIA: 'Pre-primaria',
+      PRIMARIA: 'Primaria',
+      BASICO: 'Básico',
+      DIVERSIFICADO: 'Diversificado',
+      SIN_NIVEL: 'Sin nivel',
+    };
+    const ordenNivel = [...NIVELES_CANONICOS, 'SIN_NIVEL'];
+    const nivelesDistribucion = ordenNivel
+      .filter((n) => conteoNiveles.has(n))
+      .map((n) => ({ nivel: n, etiqueta: ETIQUETAS_NIVEL[n] || n, cantidad: conteoNiveles.get(n) }));
 
     // Desglose de modelos: cuántas unidades de cada modelo se han dotado.
     const conteoModelos = new Map();
@@ -321,6 +376,7 @@ export const getEscuelasDotadas = async (req, res) => {
       totalEquipos: escuelas.reduce((a, e) => a + e.cantidadEquipos, 0),
       estudiantesDotados: dotadas.reduce((a, e) => a + e.inscritos2026, 0),
       modelosEquipos,
+      nivelesDistribucion,
 
       totalInternet: escuelas.filter((e) => e.poseeConectividad).length,
 

@@ -91,29 +91,10 @@ onMounted(() => {
 
 const loadData = () => {
 
-  const data = [
-
-    {
-      category: "Mayas",
-      value: store.totalMayas
-    },
-
-    {
-      category: "Xincas",
-      value: store.totalXincas
-    },
-
-    {
-      category: "Garífunas",
-      value: store.totalGarifunas
-    },
-
-    {
-      category: "Otros",
-      value: store.totalOtros
-    }
-
-  ]
+  const data = (store.nivelesDistribucion || []).map((n) => ({
+    category: n.etiqueta || n.nivel,
+    value: n.cantidad
+  }))
 
   series.data.setAll(data)
 
@@ -125,12 +106,7 @@ const loadData = () => {
 
 watch(
 
-  () => [
-    store.totalMayas,
-    store.totalXincas,
-    store.totalGarifunas,
-    store.totalOtros
-  ],
+  () => store.nivelesDistribucion,
 
   () => {
 
@@ -138,7 +114,9 @@ watch(
       loadData()
     }
 
-  }
+  },
+
+  { deep: true }
 
 )
 

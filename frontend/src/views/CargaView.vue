@@ -95,6 +95,34 @@
             {{ statusMessage }}
           </v-alert>
         </v-expand-transition>
+
+        <v-expand-transition>
+          <v-card
+            v-if="errores.length"
+            variant="tonal"
+            color="error"
+            class="mt-3"
+            rounded="lg"
+          >
+            <v-card-text class="py-2">
+              <div class="text-caption font-weight-bold mb-1">
+                Detalle de errores ({{ errores.length }})
+              </div>
+              <div class="errores-scroll">
+                <div
+                  v-for="(e, i) in errores.slice(0, 50)"
+                  :key="i"
+                  class="text-caption"
+                >
+                  <strong>Fila {{ e.fila ?? e.escuela }}:</strong> {{ e.error }}
+                </div>
+                <div v-if="errores.length > 50" class="text-caption mt-1 font-italic">
+                  …y {{ errores.length - 50 }} más
+                </div>
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-expand-transition>
       </v-card>
     </v-responsive>
   </v-container>
@@ -109,6 +137,7 @@ const uploading = ref(false)
 
 const statusMessage = ref('')
 const statusError = ref(false)
+const errores = ref([])
 
 const uploadFile = async () => {
   if (!selectedFile.value) return
@@ -125,19 +154,39 @@ const uploadFile = async () => {
   formData.append('excel', fileToUpload)
 
   try {
-    await api.post('/api/v1/upload', formData, {
+    const { data } = await api.post('/api/v1/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
 
-    statusError.value = false
-    statusMessage.value = '¡Archivo procesado con éxito!'
+    // El backend responde 200 aunque TODAS las filas fallen la validación;
+    // hay que mirar filasExitosas / filasConError, no solo el status HTTP.
+    const exitosas = data.filasExitosas ?? 0
+    const conError = data.filasConError ?? 0
+    const procesadas = data.filasProcesadas ?? 0
 
-    selectedFile.value = null
+    errores.value = data.errores || []
+
+    if (exitosas === 0) {
+      statusError.value = true
+      statusMessage.value =
+        `No se importó ninguna fila (${procesadas} procesadas, ${conError} con error). ` +
+        `Revisa que las columnas del Excel coincidan con la plantilla.`
+    } else if (conError > 0) {
+      statusError.value = false
+      statusMessage.value =
+        `Importación parcial: ${exitosas} fila(s) cargadas, ${conError} con error.`
+      selectedFile.value = null
+    } else {
+      statusError.value = false
+      statusMessage.value = `¡Listo! ${exitosas} fila(s) importadas correctamente.`
+      selectedFile.value = null
+    }
 
   } catch (error) {
     statusError.value = true
+    errores.value = []
 
     statusMessage.value =
       error.response?.data?.message ||
@@ -199,6 +248,11 @@ const uploadFile = async () => {
 
 .upload-card:hover {
   transform: translateY(-4px);
+}
+
+.errores-scroll {
+  max-height: 180px;
+  overflow-y: auto;
 }
 
 @media (max-width: 600px) {

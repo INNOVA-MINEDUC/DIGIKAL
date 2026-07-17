@@ -199,6 +199,45 @@ const normalizeData = (data) => {
   return out
 }
 
+// Valores canónicos de nivel que usa el sistema (enum NivelEstablecimiento del API MDM).
+const NIVELES_CANONICOS = ['PRE_PRIMARIA', 'PRIMARIA', 'BASICO', 'DIVERSIFICADO']
+
+/**
+ * Normaliza el nivel educativo tal como viene en el Excel (cualquier grafía:
+ * "primaria", "Nivel Primario", "básicos", "Ciclo Básico", "diversificada"…)
+ * al valor canónico del sistema. Una celda puede traer varios niveles
+ * ("Primaria y Básico") y se devuelven todos, separados por coma.
+ */
+const normalizeNivel = (value) => {
+  const text = clean(value)
+  if (!text) return null
+
+  const base = text
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '') // sin tildes
+    .toLowerCase()
+
+  const encontrados = new Set()
+
+  // Pre-primaria primero: "pre primaria" contiene "primaria" y dispararía PRIMARIA.
+  if (/pre[\s_-]*primari|parvul|inicial|pre[\s_-]*escolar/.test(base)) {
+    encontrados.add('PRE_PRIMARIA')
+  }
+
+  // Se quitan los tokens de pre-primaria antes de buscar primaria.
+  const sinPre = base.replace(/pre[\s_-]*primari\w*/g, ' ')
+
+  if (/primari/.test(sinPre)) encontrados.add('PRIMARIA')
+  if (/basic/.test(base)) encontrados.add('BASICO')
+  if (/diversific|bachiller/.test(base)) encontrados.add('DIVERSIFICADO')
+
+  // Si no se reconoció nada, se conserva el texto original (en mayúsculas) para no perder el dato.
+  if (encontrados.size === 0) return text.toUpperCase()
+
+  // Se devuelven en orden canónico estable.
+  return NIVELES_CANONICOS.filter((n) => encontrados.has(n)).join(', ')
+}
+
 const normalizeRegistroTipo = (value) => {
   const text = cleanLower(value)
   if (!text) return null
@@ -298,7 +337,7 @@ const upsertEscuela = async (data, transaction) => {
     correo: clean(data.correo_electronico),
     director: clean(data.director),
     jornada: clean(data.jornada),
-    nivel: clean(data.nivel)
+    nivel: normalizeNivel(data.nivel)
   }
 
   if (!escuela) {

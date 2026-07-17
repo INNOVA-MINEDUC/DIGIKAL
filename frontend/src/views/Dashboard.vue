@@ -76,7 +76,8 @@
             <LineChart2 />
 
           </div>
-          <div class="chart-placeholder" style="background-color: white;">
+          <div class="chart-placeholder chart-nivel" style="background-color: white;">
+            <h3 class="chart-title">Establecimientos por Nivel Educativo</h3>
             <PieChart />
           </div>
         </div>
@@ -269,5 +270,19 @@ const formatNumber = (num) => {
   justify-content: center;
   color: #777;
   font-size: 16px;
+}
+
+.chart-nivel {
+  flex-direction: column;
+  padding: 16px;
+}
+
+.chart-title {
+  width: 100%;
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0d3b5d;
+  text-align: center;
 }
 </style>
