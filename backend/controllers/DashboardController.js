@@ -8,8 +8,11 @@ import ModeloEquipo from '../models/ModeloEquipo.js';
 import TipoEquipo from '../models/TipoEquipo.js';
 import Internet from '../models/Internet.js';
 
-const GRAPHQL_URL  = 'https://api-mdm-dev.mineduc.edu.gt/graphql';
-const PUBLIC_TOKEN = 'publicTk';
+// URL y token del API MDM configurables por entorno. Por defecto apuntan al
+// dev público; para usar un backend local con el campo `inventario`, definir
+// MDM_GRAPHQL_URL (y opcionalmente MDM_PUBLIC_TOKEN) en el .env.
+const GRAPHQL_URL  = process.env.MDM_GRAPHQL_URL  || 'https://api-mdm-dev.mineduc.edu.gt/graphql';
+const PUBLIC_TOKEN = process.env.MDM_PUBLIC_TOKEN || 'publicTk';
 const TIMEOUT_MS   = 30_000;
 const MAX_RETRIES  = 2;
 
@@ -386,5 +389,78 @@ export const getEscuelasDotadas = async (req, res) => {
   } catch (error) {
     console.error('[Dashboard] Error:', error.message);
     return res.status(200).json({ ...EMPTY_RESPONSE, _warning: error.message });
+  }
+};
+
+/* ── Detalle de un establecimiento + su inventario ──────────────────────────
+   Corre la query establecimiento(id) contra MDM_GRAPHQL_URL. El campo
+   `inventario` sólo existe en la versión nueva del API (backend local); si el
+   endpoint configurado no lo tiene, se reintenta sin inventario para al menos
+   devolver los datos del establecimiento.                                     */
+
+const ESTABLECIMIENTO_DETALLE_FIELDS = `
+  id nombre codigoMineduc
+  cantidadHombres cantidadMujeres estudiantesInscritos inscritos2026
+  correoElectronico telefono opf
+  departamentoId municipioId
+  poseeConectividad velocidadConectividad fechaConexion fechaDatacion
+  latitud longitud
+`;
+
+const INVENTARIO_FIELDS = `
+  inventario {
+    id nombre marca modelo serie sicoin estado valor
+    tipoId origenId encargadoId propietarioId establecimientoId
+    creadoPorId editadoPorId fechaCreacion fechaEdicion atributosExtra
+  }
+`;
+
+export const getEstablecimientoDetalle = async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(400).json({ message: 'id de establecimiento inválido' });
+  }
+
+  const buildDetalleQuery = (conInventario) => `
+    query {
+      establecimiento(id: ${id}) {
+        ${ESTABLECIMIENTO_DETALLE_FIELDS}
+        ${conInventario ? INVENTARIO_FIELDS : ''}
+      }
+    }
+  `;
+
+  try {
+    // 1er intento: con inventario.
+    let data;
+    let sinInventario = false;
+    try {
+      data = await gqlData(buildDetalleQuery(true));
+    } catch (errConInv) {
+      // El endpoint configurado no expone `inventario`: reintentar sin él.
+      if (/inventario/i.test(errConInv.message)) {
+        console.warn('[Dashboard] El API no expone `inventario`; se devuelve el establecimiento sin inventario.');
+        sinInventario = true;
+        data = await gqlData(buildDetalleQuery(false));
+      } else {
+        throw errConInv;
+      }
+    }
+
+    const est = data?.establecimiento;
+    if (!est) {
+      return res.status(404).json({ message: `No se encontró el establecimiento con id ${id}` });
+    }
+
+    return res.status(200).json({
+      establecimiento: {
+        ...est,
+        inventario: est.inventario || [],
+      },
+      _sinInventario: sinInventario || undefined,
+    });
+  } catch (error) {
+    console.error('[Dashboard] Error detalle establecimiento:', error.message);
+    return res.status(502).json({ message: 'Error al consultar el establecimiento en el API', error: error.message });
   }
 };

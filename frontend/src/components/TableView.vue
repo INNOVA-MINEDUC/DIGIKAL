@@ -144,6 +144,8 @@ function formatFecha(f) {
 }
 
 function showDetails(item) {
-  router.push({ name: 'details', query: { codigoMineduc: item.codigoEscuela } })
+  // Se pasa el id del establecimiento (lo requiere la query establecimiento(id))
+  // y el código como respaldo/lectura.
+  router.push({ name: 'details', query: { id: item.id, codigoMineduc: item.codigoEscuela } })
 }
 </script>
