@@ -4,6 +4,10 @@
 
         <!-- ── PANEL INSTITUCIONAL ─────────────────────────────── -->
         <aside class="panel-inst d-none d-md-flex">
+          <!-- Destellos decorativos del fondo -->
+          <span class="glow glow--1" aria-hidden="true"></span>
+          <span class="glow glow--2" aria-hidden="true"></span>
+
           <div class="panel-inner">
             <img src="/icono2.png" alt="Ministerio de Educación de Guatemala" class="panel-logo" />
 
@@ -16,6 +20,21 @@
               Plataforma oficial de registro y seguimiento de la dotación tecnológica
               y conectividad en los establecimientos educativos del país.
             </p>
+
+            <ul class="panel-features">
+              <li>
+                <span class="feature-ic"><v-icon size="20">mdi-laptop</v-icon></span>
+                Registro de dotación tecnológica
+              </li>
+              <li>
+                <span class="feature-ic"><v-icon size="20">mdi-wifi</v-icon></span>
+                Seguimiento de conectividad
+              </li>
+              <li>
+                <span class="feature-ic"><v-icon size="20">mdi-file-document-check-outline</v-icon></span>
+                Actas y reportes oficiales
+              </li>
+            </ul>
           </div>
 
           <footer class="panel-footer">
@@ -190,14 +209,15 @@ async function login() {
 .panel-inst {
   position: relative;
   flex-direction: column;
-  justify-content: space-between;
   padding: 56px 64px;
-  background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 55%, #06203f 100%);
+  background:
+    radial-gradient(120% 90% at 15% 10%, #1d3a73 0%, transparent 55%),
+    linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 55%, #06203f 100%);
   color: #fff;
   overflow: hidden;
 }
 
-/* Franja de acento institucional */
+/* Franja de acento institucional en el borde derecho */
 .panel-inst::after {
   content: '';
   position: absolute;
@@ -206,32 +226,64 @@ async function login() {
   background: linear-gradient(180deg, var(--celeste), var(--azul));
 }
 
+/* Destellos suaves que dan profundidad al fondo */
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.glow--1 {
+  top: -80px;
+  right: -60px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, var(--azul), transparent 70%);
+}
+
+.glow--2 {
+  bottom: -100px;
+  left: -80px;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, var(--celeste), transparent 70%);
+  opacity: 0.28;
+}
+
+/* El contenido ocupa el espacio disponible y se centra verticalmente;
+   el footer queda abajo. */
 .panel-inner {
   position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   max-width: 460px;
-  margin-top: auto;
 }
 
 /* Se usa icono2.png y no logo.png: éste último trae un fondo blanco opaco
    (85% de sus píxeles) y al invertirlo se convierte en un bloque blanco.
    icono2.png sí es transparente, así que el filtro lo deja en blanco limpio. */
 .panel-logo {
-  width: 320px;
+  width: 260px;
   max-width: 100%;
-  margin-bottom: 44px;
+  margin-bottom: 40px;
   filter: brightness(0) invert(1);
 }
 
 .panel-title {
-  font-size: 44px;
+  font-size: 46px;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   line-height: 1.1;
   margin: 0;
 }
 
 .panel-subtitle {
-  margin: 8px 0 0;
+  margin: 10px 0 0;
   font-size: 15px;
   font-weight: 300;
   letter-spacing: 0.5px;
@@ -241,8 +293,9 @@ async function login() {
 .panel-rule {
   width: 64px;
   height: 3px;
-  margin: 28px 0;
-  background: var(--celeste);
+  margin: 26px 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--celeste), var(--azul));
 }
 
 .panel-text {
@@ -250,12 +303,44 @@ async function login() {
   font-size: 15px;
   font-weight: 300;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Lista de características */
+.panel-features {
+  list-style: none;
+  margin: 36px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel-features li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14.5px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.feature-ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 11px;
+  color: var(--celeste);
+  background: rgba(117, 193, 213, 0.14);
+  border: 1px solid rgba(117, 193, 213, 0.22);
 }
 
 .panel-footer {
   position: relative;
-  margin-top: auto;
+  z-index: 1;
   padding-top: 40px;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.65);

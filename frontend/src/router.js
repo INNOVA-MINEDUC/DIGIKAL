@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { getToken, removeToken } from '../utils/auth'
 import { apiRequest } from '../services/authService'
 
@@ -110,7 +110,10 @@ const routes = [
 
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_ | URL),
+  // Hash mode: la ruta va después de `#`, así el servidor sólo ve `/` y el
+  // refresh funciona en cualquier hosting sin necesitar la regla
+  // `try_files ... /index.html` en su nginx (que es lo que causaba el 403).
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes
 })
 
