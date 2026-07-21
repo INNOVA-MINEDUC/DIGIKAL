@@ -16,6 +16,7 @@ import CatalogosView from './views/CatalogosView.vue'
 import UserManagement from './views/UserManagement.vue'
 import CargaView from './views/CargaView.vue';
 import AuditLogView from './views/AuditLogView.vue';
+import DashboardEstadisticas from './views/DashboardEstadisticas.vue'
 
 const routes = [
   {
@@ -30,12 +31,12 @@ const routes = [
     component: AboutView,
         meta: { requiresAuth: false }
   },
-  {
-    path: '/cargar-datos',
-    name: 'carga',
-    component: CargaView,
-    meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
-  },
+  // {
+  //   path: '/cargar-datos',
+  //   name: 'carga',
+  //   component: CargaView,
+  //   meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+  // },
   {
     path: '/details',
     name: 'details',
@@ -47,6 +48,13 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
+    meta: { requiresAuth: false }
+  },
+
+  {
+    path: '/dashboard/estadisticas',
+    name: 'dashboard-estadisticas',
+    component: DashboardEstadisticas,
     meta: { requiresAuth: false }
   },
 
@@ -84,12 +92,12 @@ const routes = [
      meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
   },
 
-  {
-    path: '/catalogos',
-    name: 'catalogos',
-    component: CatalogosView,
-    meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
-  },
+  // {
+  //   path: '/catalogos',
+  //   name: 'catalogos',
+  //   component: CatalogosView,
+  //   meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+  // },
 
   {
     path: '/auditoria',

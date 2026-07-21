@@ -16,7 +16,8 @@ dotenv.config()
 
 export const getEscuelaByCodigo = async (req, res) => {
   try {
-    const { CodigoEscuela } = req.body;
+
+    const CodigoEscuela = String(req.body?.CodigoEscuela ?? '').trim();
 
     if (!CodigoEscuela) {
       return res.status(400).json({
@@ -25,7 +26,9 @@ export const getEscuelaByCodigo = async (req, res) => {
     }
 
 const escuelaLocal = await Escuela.findOne({
-  where: { CodigoEscuela },
+  // El atributo del modelo es `codigoEscuela` (minúscula): MySQL tolera la
+  // otra grafía, pero cualquier otro motor revienta con "unknown column".
+  where: { codigoEscuela: CodigoEscuela },
   include: [
     {
       model: Departamento,
@@ -83,8 +86,19 @@ const escuelaLocal = await Escuela.findOne({
   }
 `;
 
+    // Configuradas en backend/.env (ver .env.example). Sin URL axios.post
+    // recibe undefined y revienta con un 500 sin explicación.
+    const API_URL = process.env.MDM_GRAPHQL_URL;
+    const API_TOKEN = process.env.MDM_PUBLIC_TOKEN;
+
+    if (!API_URL) {
+      return res.status(500).json({
+        message: "MDM_GRAPHQL_URL no está configurada en el backend"
+      });
+    }
+
     const response = await axios.post(
-      process.env.API_MDM_URL,
+      API_URL,
       {
         query,
         variables: {
@@ -94,25 +108,29 @@ const escuelaLocal = await Escuela.findOne({
       {
         headers: {
           "Content-Type": "application/json",
-          "publicToken": process.env.API_MDM_TOKEN
-        }
+          "publicToken": API_TOKEN
+        },
+        timeout: 30000,
+        validateStatus: () => true
       }
     );
 
-    console.log(response)
-    console.log("GRAPHQL RAW RESPONSE:");
-    console.log(JSON.stringify(response.data, null, 2));
+    if (response.status >= 400) {
+      console.error("MDM status", response.status, response.data);
+      return res.status(502).json({
+        message: `El API del MINEDUC respondió ${response.status}`
+      });
+    }
 
-    const resultado = response.data?.data?.establecimientos?.[0];
-
-
-    if (response.data.errors) {
+    if (response.data?.errors) {
       console.error("GraphQL ERROR:", response.data.errors);
       return res.status(500).json({
         message: "Error en GraphQL",
         error: response.data.errors
       });
     }
+
+    const resultado = response.data?.data?.establecimientos?.[0];
 
     if (!resultado) {
       return res.status(404).json({

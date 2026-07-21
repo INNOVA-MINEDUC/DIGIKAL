@@ -8,6 +8,10 @@
       :loading="store.loading"
       class="elevation-2"
       :items-per-page="10"
+      :items-per-page-options="[
+        { value: 10, title: '10' },
+        { value: 25, title: '25' },
+      ]"
       density="compact"
     >
       <!-- Departamento -->
@@ -42,33 +46,6 @@
       <!-- Proveedor de internet -->
       <template #item.empresaInternet="{ item }">
         <span v-if="item.empresaInternet">{{ item.empresaInternet }}</span>
-        <span v-else class="text-disabled">—</span>
-      </template>
-
-      <!-- Cantidad de equipos -->
-      <template #item.cantidadEquipos="{ item }">
-        <v-chip
-          :color="item.cantidadEquipos > 0 ? 'primary' : 'default'"
-          size="small"
-          variant="flat"
-        >
-          {{ item.cantidadEquipos > 0 ? item.cantidadEquipos : 'Sin dotar' }}
-        </v-chip>
-      </template>
-
-      <!-- Modelos dotados -->
-      <template #item.equipos="{ item }">
-        <div v-if="item.equipos?.length" class="d-flex flex-wrap ga-1 py-1">
-          <v-chip
-            v-for="m in resumenModelos(item.equipos)"
-            :key="m.modelo"
-            size="x-small"
-            variant="tonal"
-            color="indigo"
-          >
-            {{ m.modelo }} <strong v-if="m.cantidad > 1" class="ml-1">x{{ m.cantidad }}</strong>
-          </v-chip>
-        </div>
         <span v-else class="text-disabled">—</span>
       </template>
 
@@ -116,8 +93,6 @@ const headers = [
   { title: 'Conectividad',       key: 'poseeConectividad',     sortable: true  },
   { title: 'Velocidad',          key: 'velocidadConectividad', sortable: true  },
   { title: 'Proveedor',          key: 'empresaInternet',       sortable: true  },
-  { title: 'Equipos',            key: 'cantidadEquipos',       sortable: true  },
-  { title: 'Modelos dotados',    key: 'equipos',               sortable: false },
   { title: 'Fecha dotación',     key: 'fechaDatacion',         sortable: true  },
   { title: 'Inscritos 2026',     key: 'inscritos2026',         sortable: true  },
   { title: '',                   key: 'acciones',              sortable: false },
@@ -126,16 +101,6 @@ const headers = [
 // El API MDM devuelve los nombres en mayúsculas ("GUATEMALA", "SANTA CRUZ DEL QUICHE")
 const titulo = (s) =>
   s.toLowerCase().replace(/(^|\s)\S/g, (c) => c.toUpperCase())
-
-// Agrupa los equipos de una escuela por modelo: "Laptop HP 240 G9 x3"
-function resumenModelos(equipos) {
-  if (!equipos?.length) return []
-  const conteo = new Map()
-  for (const e of equipos) {
-    conteo.set(e.modelo, (conteo.get(e.modelo) || 0) + 1)
-  }
-  return [...conteo.entries()].map(([modelo, cantidad]) => ({ modelo, cantidad }))
-}
 
 function formatFecha(f) {
   if (!f) return '—'

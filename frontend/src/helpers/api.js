@@ -18,4 +18,21 @@ api.interceptors.request.use(config => {
   return config;
 });
 
+/**
+ * Convierte una ruta de archivo devuelta por el backend en una URL absoluta.
+ *
+ * El backend entrega `/uploads/...` cuando el archivo se guardó en disco (el
+ * respaldo que se usa si el bucket no responde). Como el front corre en otro
+ * puerto y no hay proxy, esa ruta relativa apuntaría al servidor de Vite: hay
+ * que anteponerle la baseURL del API. Las URLs absolutas (bucket) se dejan
+ * intactas.
+ */
+export const urlArchivo = (ruta) => {
+  if (!ruta) return null;
+  if (/^https?:\/\//i.test(ruta)) return ruta;
+
+  const base = (api.defaults.baseURL || '').replace(/\/$/, '');
+  return `${base}${ruta.startsWith('/') ? '' : '/'}${ruta}`;
+};
+
 export default api;

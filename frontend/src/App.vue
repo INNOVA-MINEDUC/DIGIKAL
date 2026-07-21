@@ -15,14 +15,15 @@
           <v-btn to="/" variant="text">Inicio</v-btn>
           <v-btn to="/about" variant="text">Sobre Nosotros</v-btn>
           <v-btn to="/dashboard" variant="text">Estadísticas</v-btn>
+          <v-btn to="/dashboard/estadisticas" variant="text">Indicadores</v-btn>
 
-          <v-btn
+          <!-- <v-btn
             v-if="logged && (isAdmin || isUser)"
             to="/cargar-datos"
             variant="text"
           >
             Cargar Datos
-          </v-btn>
+          </v-btn> -->
 
           <v-btn
             v-if="logged && isAdmin"
@@ -32,13 +33,13 @@
             Crear Dotación
           </v-btn>
 
-          <v-btn
+          <!-- <v-btn
             v-if="logged && (isAdmin || isUser)"
             to="/catalogos"
             variant="text"
           >
             Catálogo
-          </v-btn>
+          </v-btn> -->
 
           <v-btn
             v-if="logged && (isAdmin || isUser)"
@@ -108,27 +109,28 @@
         <v-list-item prepend-icon="mdi-home" to="/" title="Inicio" />
         <v-list-item prepend-icon="mdi-information" to="/about" title="Sobre Nosotros" />
         <v-list-item prepend-icon="mdi-chart-bar" to="/dashboard" title="Estadísticas" />
+        <v-list-item prepend-icon="mdi-chart-box" to="/dashboard/estadisticas" title="Indicadores" />
 
         <v-divider class="my-2" v-if="logged" />
 
-        <v-list-item
+        <!-- <v-list-item
           v-if="logged && (isAdmin || isUser)"
           prepend-icon="mdi-database-import"
           to="/cargar-datos"
           title="Cargar Datos"
-        />
+        /> -->
         <v-list-item
           v-if="logged && isAdmin"
           prepend-icon="mdi-plus-box"
           to="/upload-data"
           title="Crear Dotación"
         />
-        <v-list-item
+        <!-- <v-list-item
           v-if="logged && (isAdmin || isUser)"
           prepend-icon="mdi-format-list-bulleted"
           to="/catalogos"
           title="Catálogo de Equipos"
-        />
+        /> -->
         <v-list-item
           v-if="logged && (isAdmin || isUser)"
           prepend-icon="mdi-download"

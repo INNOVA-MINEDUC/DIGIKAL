@@ -48,14 +48,28 @@ export const getAuditLogs = async (req, res) => {
   }
 };
 
+// Traduce el objeto de filtros del front a una frase legible para la bitácora.
+const describirFiltros = (filtros) => {
+  if (!filtros || typeof filtros !== "object") return "sin filtros";
+
+  const partes = [];
+  if (filtros.departamento) partes.push(`departamento ${filtros.departamento}`);
+  if (filtros.municipio) partes.push(`municipio ${filtros.municipio}`);
+  if (filtros.origen) partes.push(`origen ${filtros.origen}`);
+
+  return partes.length ? partes.join(", ") : "sin filtros";
+};
+
 export const logDownload = async (req, res) => {
   try {
     const { format, filtros } = req.body;
 
+    const formato = String(format || "").toUpperCase() || "DESCONOCIDO";
+
     await logAction(req, {
       action: "DATA_DOWNLOAD",
       module: "REPORTES",
-      description: `Descargó reporte de dotaciones en formato ${format || "desconocido"}${filtros ? ` con filtros: ${JSON.stringify(filtros)}` : ""}`,
+      description: `Descargó el reporte de dotaciones en ${formato} (${describirFiltros(filtros)})`,
     });
 
     res.status(201).json({ message: "Descarga registrada" });

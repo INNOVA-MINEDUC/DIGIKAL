@@ -1,7 +1,7 @@
 import sequelize from '../config/connection.js';
 import { DataTypes } from 'sequelize';
 
-import { subirArchivo } from '../services/bucketService.js';
+import { subirArchivo, resolverUrl } from '../services/bucketService.js';
 
 import EscuelaModel from '../models/Escuela.js';
 import DotacionModel from '../models/Dotacion.js';
@@ -14,7 +14,6 @@ import TipoEquipo from '../models/TipoEquipo.js';
 import ModeloEquipo from '../models/ModeloEquipo.js';
 import Departamento from '../models/Departamento.js';
 import Municipio from '../models/Municipio.js';
-import Proyecto from "../models/Proyecto.js"
 import fs from 'fs';
 import { logAction } from '../services/auditService.js';
 
@@ -41,7 +40,6 @@ export const createDotacion = async (req, res) => {
       nombreDirector,
       telefono,
       correo,
-      fecha,
       departamento,
       municipio,
       direccion,
@@ -49,33 +47,100 @@ export const createDotacion = async (req, res) => {
       descripcionEntrega
     } = req.body;
 
+    const ORIGENES = ['DONACION', 'COMPRA'];
+
     let equipos = [];
     if (req.body.equipos) {
       equipos = JSON.parse(req.body.equipos);
     }
 
-    const actaPdf = req.files?.['acta_pdf']?.[0] || null;
+    const actasPdf = req.files?.['acta_pdf'] || [];
     const fotos = req.files?.['imagenes_entrega'] || [];
 
+    // El front manda un PDF por acta en `acta_pdf` y, en paralelo, un JSON
+    // `actas` con el número, la fecha y el origen de cada una EN EL MISMO
+    // ORDEN. Se emparejan por índice, así que ambos arreglos tienen que venir
+    // del mismo v-for.
+    let actasMeta = [];
+    if (req.body.actas) {
+      try {
+        actasMeta = JSON.parse(req.body.actas);
+      } catch {
+        await transaction.rollback();
+        return res.status(400).json({ message: 'El campo `actas` no es un JSON válido' });
+      }
+    }
 
-    let actaUrl = null;
+    if (!Array.isArray(actasMeta) || actasMeta.length === 0) {
+      await transaction.rollback();
+      return res.status(400).json({ message: 'Debe registrarse al menos un acta' });
+    }
 
- if (actaPdf) {
-  const result = await subirArchivo(actaPdf);
-  actaUrl = result.data.key;
-}
+    if (actasMeta.length !== actasPdf.length) {
+      await transaction.rollback();
+      return res.status(400).json({
+        message: `Llegaron ${actasMeta.length} número(s) de acta y ${actasPdf.length} PDF(s): cada acta necesita su archivo`
+      });
+    }
 
-    
+    if (actasMeta.some((a) => !String(a?.numero ?? '').trim())) {
+      await transaction.rollback();
+      return res.status(400).json({ message: 'Todas las actas necesitan número' });
+    }
 
-    let fotosUrls = [];
+    // Cada acta trae su propia fecha y su propio origen.
+    // La fecha se maneja como texto YYYY-MM-DD y se guarda sin convertir:
+    // `fecha_entrega` es DATEONLY y pasarla por `new Date()` la corría un día
+    // al reinterpretarla en la zona horaria del servidor.
+    const ES_FECHA = /^\d{4}-\d{2}-\d{2}$/;
 
-if (fotos.length > 0) {
-  for (const file of fotos) {
-    const result = await subirArchivo(file);
+    const actasNormalizadas = actasMeta.map((a) => ({
+      no_acta: String(a.numero).trim(),
+      origen: String(a?.origen ?? '').trim().toUpperCase(),
+      fecha_entrega: String(a?.fecha ?? '').trim(),
+    }));
 
-    fotosUrls.push(result.data.key);
-  }
-}
+    if (actasNormalizadas.some((a) => !ORIGENES.includes(a.origen))) {
+      await transaction.rollback();
+      return res.status(400).json({
+        message: `El origen de cada acta debe ser uno de: ${ORIGENES.join(', ')}`
+      });
+    }
+
+    const fechaInvalida = actasNormalizadas.some((a) => {
+      if (!ES_FECHA.test(a.fecha_entrega)) return true;
+      // Descarta fechas con forma válida pero inexistentes (2026-02-31).
+      const d = new Date(`${a.fecha_entrega}T00:00:00Z`);
+      return Number.isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== a.fecha_entrega;
+    });
+
+    if (fechaInvalida) {
+      await transaction.rollback();
+      return res.status(400).json({
+        message: 'Todas las actas necesitan una fecha de entrega válida (YYYY-MM-DD)'
+      });
+    }
+
+    // La dotación conserva un origen y una fecha para que los filtros y
+    // reportes que consultan a nivel de dotación sigan funcionando: se toman
+    // los de la primera acta.
+    const origenNormalizado = actasNormalizadas[0].origen;
+    const fecha = actasNormalizadas[0].fecha_entrega;
+
+    const actas = [];
+    for (let i = 0; i < actasPdf.length; i++) {
+      const result = await subirArchivo(actasPdf[i], 'actas');
+      actas.push({
+        ...actasNormalizadas[i],
+        acta_pdf: result.data.key
+      });
+    }
+
+    const fotosUrls = [];
+    for (const file of fotos) {
+      const result = await subirArchivo(file, 'imgs');
+      fotosUrls.push(result.data.key);
+    }
 
 
     const total =
@@ -117,9 +182,12 @@ if (fotos.length > 0) {
       }, { transaction });
 
     } else {
-      escuela.director = nombreDirector;
-      escuela.telefono = telefono;
-      escuela.correo = correo;
+      // El paso "Beneficiados" está deshabilitado en el front, así que estos
+      // campos llegan vacíos: sólo se pisan si vienen con dato, para no borrar
+      // el director/teléfono/correo que ya tenga registrada la escuela.
+      if (nombreDirector) escuela.director = nombreDirector;
+      if (telefono) escuela.telefono = telefono;
+      if (correo) escuela.correo = correo;
 
       escuela.cantidadEquipoEntregado += equipos.length;
       escuela.cantidadEstudiantesBeneficiados += total;
@@ -129,7 +197,7 @@ if (fotos.length > 0) {
 
     const dotacion = await Dotacion.create({
       id_escuela: escuela.id,
-      id_proyecto: 1,
+      origen: origenNormalizado,
       fecha_entrega: fecha,
       descripcion: descripcionEntrega
     }, { transaction });
@@ -144,13 +212,16 @@ if (fotos.length > 0) {
     }, { transaction });
 
 
-    if (actaUrl) {
-      await Acta.create({
+    await Acta.bulkCreate(
+      actas.map(a => ({
         dotacion_id: dotacion.id,
-        fecha_entrega: fecha,
-        acta_pdf: actaUrl
-      }, { transaction });
-    }
+        no_acta: a.no_acta,
+        fecha_entrega: a.fecha_entrega,
+        origen: a.origen,
+        acta_pdf: a.acta_pdf
+      })),
+      { transaction }
+    );
 
 
     if (fotosUrls.length > 0) {
@@ -205,10 +276,6 @@ export const getDotaciones = async (req, res) => {
   try {
     const dotaciones = await Dotacion.findAll({
       include: [
-            {
-      model: Proyecto,
-      as: 'proyecto'
-    },
         {
           model: Escuela,
           as: 'escuela',
@@ -229,7 +296,7 @@ export const getDotaciones = async (req, res) => {
         },
         {
           model: Acta,
-          as: 'acta'
+          as: 'actas'
         },
         {
           model: DotacionImagen,
@@ -256,10 +323,31 @@ export const getDotaciones = async (req, res) => {
           }
         }
       ],
-      order: [['createdAt', 'DESC']]
+      order: [
+        ['createdAt', 'DESC'],
+        [{ model: Acta, as: 'actas' }, 'fecha_entrega', 'ASC']
+      ]
     });
 
-    return res.status(200).json(dotaciones);
+    // El front no debe saber si el archivo vive en el bucket o en disco: se le
+    // entrega la URL ya resuelta junto a la clave original.
+    const resultado = dotaciones.map((d) => {
+      const plano = d.toJSON();
+
+      plano.actas = (plano.actas || []).map((a) => ({
+        ...a,
+        url: resolverUrl(a.acta_pdf)
+      }));
+
+      plano.imagenes = (plano.imagenes || []).map((img) => ({
+        ...img,
+        url_publica: resolverUrl(img.url)
+      }));
+
+      return plano;
+    });
+
+    return res.status(200).json(resultado);
 
   } catch (error) {
     console.error('❌ Error al obtener dotaciones:', error);

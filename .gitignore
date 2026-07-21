@@ -81,3 +81,6 @@ coverage/
 # =========================
 .AppleDouble
 .LSOverride
+
+# Respaldo local de archivos cuando el bucket no responde (bucketService.js)
+backend/uploads/

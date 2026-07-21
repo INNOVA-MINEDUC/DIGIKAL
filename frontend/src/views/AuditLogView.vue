@@ -111,10 +111,14 @@
         </tbody>
       </v-table>
 
-      <div class="d-flex justify-center py-4">
+      <div class="d-flex flex-wrap align-center justify-space-between px-4 py-4 ga-2">
+        <span class="text-caption text-grey-darken-1">
+          {{ total }} registro(s) · página {{ page }} de {{ totalPages }}
+        </span>
         <v-pagination
           v-model="page"
           :length="totalPages"
+          :total-visible="7"
           @update:model-value="getLogs"
           density="comfortable"
         />
@@ -132,6 +136,8 @@ const API_URL = "/api/v1/audit"
 const logs = ref([]);
 const page = ref(1);
 const totalPages = ref(1);
+const total = ref(0);
+const PER_PAGE = 10;
 
 const modules = ['AUTH', 'USERS', 'EQUIPOS', 'DOTACIONES', 'UPLOAD', 'PROYECTOS', 'REPORTES'];
 const actions = [
@@ -156,7 +162,7 @@ const formatDate = (value) => {
 
 const getLogs = async () => {
   try {
-    const params = { page: page.value, limit: 20 };
+    const params = { page: page.value, limit: PER_PAGE };
 
     if (filters.startDate) params.startDate = filters.startDate;
     if (filters.endDate) params.endDate = filters.endDate;
@@ -167,6 +173,7 @@ const getLogs = async () => {
 
     logs.value = res.data.data;
     totalPages.value = res.data.totalPages || 1;
+    total.value = res.data.total || 0;
   } catch (error) {
     console.error('Error al obtener la bitácora de auditoría:', error);
   }

@@ -61,8 +61,9 @@ export const AuthLogin = async (req, res) => {
     const token = jwt.sign(
       {
         id: user.id,
+        name: user.name,   // el nombre viaja en el token para que la auditoría lo registre
         email: user.email,
-        role: user.role?.nombre 
+        role: user.role?.nombre
       },
       process.env.JWT_SECRET || "secret",
       { expiresIn: '1d' }

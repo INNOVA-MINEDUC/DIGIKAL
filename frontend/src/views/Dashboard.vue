@@ -58,18 +58,11 @@
 
       <div class="section">
         <h2>Distribución por Departamento</h2>
-        <div class="charts-grid">
-          <div class="chart-placeholder">
-            <GuateMap2 />
-
-          </div>
-          <div class="chart-placeholder" style="background-color: white;">
-            <TableView />
-          </div>
-        </div>
+        <GuateMap2 />
+        <TableView />
       </div>
 
-          <div class="section">
+          <!-- <div class="section">
         <h2>Evolución del Programa de Dotación</h2>
         <div class="charts-grid">
           <div class="chart-placeholder">
@@ -81,7 +74,7 @@
             <PieChart />
           </div>
         </div>
-      </div>
+      </div> -->
 
 
 

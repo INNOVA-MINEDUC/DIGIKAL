@@ -54,8 +54,10 @@ const upload = multer({
 
 
 
+// Una dotación puede llevar varias actas: no se sabe de antemano cuántas hay
+// por establecimiento, así que se permite un lote.
 const uploadFields = upload.fields([
-  { name: 'acta_pdf', maxCount: 1 },
+  { name: 'acta_pdf', maxCount: 20 },
   { name: 'imagenes_entrega', maxCount: 10 }
 ]);
 

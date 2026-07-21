@@ -8,11 +8,11 @@ import dashboardRoutes from './routes/dashboard.routes.js';
 import equipoRoutes from './routes/equipo.routes.js';
 import tipoequipoRoutes from './routes/tipoequipo.routes.js';
 import dotacionRoutes from './routes/dotacion.routes.js';
-import proyectosRoutes from './routes/proyectos.routes.js';
 import userRoutes from './routes/user.routes.js';
 import roleRoutes from './routes/roles.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
 import auditRoutes from './routes/audit.routes.js';
+import estadisticasRoutes from './routes/estadisticas.routes.js';
 import "./models/Relations.js";
 import path from 'path';
 
@@ -41,8 +41,10 @@ try {
   console.error('❌ Error de conexión:', error);
 }
 
-app.use('/uploads/actas', express.static('uploads/actas'));
-app.use('/uploads/imgs', express.static('uploads/imgs'));
+// Respaldo local de bucketService: cuando el bucket no está disponible los
+// archivos se guardan aquí. Ruta absoluta para no depender del cwd con el que
+// se arranque el proceso (npm start vs docker).
+app.use('/uploads', express.static(path.resolve('uploads')));
 
 app.use('/api/v1/auth', loginRoutes);
 app.use('/api/v1/escuelas', escuelaRoutes);
@@ -50,11 +52,11 @@ app.use('/api/v1/dashboard', dashboardRoutes);
 app.use('/api/v1/equipos', equipoRoutes);
 app.use('/api/v1/tipo_equipos', tipoequipoRoutes);
 app.use('/api/v1/dotacion', dotacionRoutes); 
-app.use('/api/v1/proyectos', proyectosRoutes); 
 app.use('/api/v1/user', userRoutes); 
 app.use('/api/v1/role', roleRoutes); 
 app.use('/api/v1/upload', uploadRoutes);
 app.use('/api/v1/audit', auditRoutes);
+app.use('/api/v1/estadisticas', estadisticasRoutes);
 
 
 

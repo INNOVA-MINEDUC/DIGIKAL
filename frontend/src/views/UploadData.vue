@@ -3,7 +3,9 @@
   <v-container fluid class="fill-height bg-img py-10">
     <v-row justify="center">
       <v-col cols="8">
-        <v-card elevation="6" class="rounded-xl border-top-gt" :style="step === 3 ? 'min-height: 80vh' : ''">
+        <!-- El min-height sólo servía para el paso de Equipos (deshabilitado):
+             :style="step === 3 ? 'min-height: 80vh' : ''" -->
+        <v-card elevation="6" class="rounded-xl border-top-gt">
           <v-sheet color="#003366" class="pa-6 text-white">
             <div class="d-flex align-center">
               <v-avatar size="60" class="bg-white pa-2 mr-4" elevation="2">
@@ -16,7 +18,7 @@
             </div>
           </v-sheet>
           <v-form ref="formRef">
-            <v-stepper v-model="step" :items="['Establecimiento', 'Beneficiados', 'Equipos', 'Documentación']"
+            <v-stepper v-model="step" :items="['Establecimiento', /* 'Beneficiados', 'Equipos', */ 'Documentación']"
               hide-actions class="elevation-0">
               <template v-slot:item.1>
                 <v-card variant="flat" class="pa-4">
@@ -110,6 +112,14 @@
                 </v-card>
               </template>
 
+              <!-- ==========================================================
+                   PASO "BENEFICIADOS" — DESHABILITADO
+                   Comentado, no eliminado, para poder reactivarlo. Igual que
+                   con Equipos, si se reactiva hay que revertir el :items del
+                   v-stepper, la numeracion de los slots, `puedeAvanzar`, el
+                   `step < 2` de los botones y el clamp en onMounted.
+              ===========================================================
+
               <template v-slot:item.2>
                 <v-card variant="flat" class="pa-4">
                   <h3 class="text-h6 mb-4 text-[#003366]">2. Información de los Beneficiados</h3>
@@ -131,9 +141,8 @@
                     </v-col>
 
                     <v-col cols="12" md="6">
-                      <!-- <v-select v-model="form.etnia" :items="['Maya', 'Ladina', 'Xinka', 'Garífuna', 'Otro']"
-                        label="Etnia predominante" variant="outlined" prepend-inner-icon="mdi-account-group"
-                        color="#0094D3" :rules="[required]" /> -->
+                      [ Aqui iba el v-select de "Etnia predominante", ya deshabilitado.
+                        Se quita el comentario HTML porque no se pueden anidar. ]
                     </v-col>
                     <v-divider class="my-4 border-opacity-25" color="#003366"></v-divider>
                     <v-col cols="12">
@@ -154,6 +163,20 @@
                   </v-row>
                 </v-card>
               </template>
+
+              ========================================================== -->
+
+              <!-- ==========================================================
+                   PASO "EQUIPOS" — DESHABILITADO
+                   Se comenta completo, no se elimina, para poder reactivarlo.
+                   Si se reactiva hay que revertir también:
+                     · el item 'Equipos' del :items del v-stepper
+                     · renombrar el slot item.3 de Documentación a item.4
+                     · el paso 3/4 de `puedeAvanzar`
+                     · el `step < 3` de los botones
+                     · la validación de equipos en `validarYEnviar`
+                     · el clamp de `step` en onMounted
+              ===========================================================
 
               <template v-slot:item.3>
                 <v-row>
@@ -247,60 +270,165 @@
                 </v-row>
               </template>
 
-              <template v-slot:item.4>
+              ========================================================== -->
+
+              <template v-slot:item.2>
                 <v-card variant="flat" class="pa-4">
-                  <h3 class="text-h6 mb-4 text-[#003366]">4. Evidencia y Fecha</h3>
+                  <h3 class="text-h6 mb-4 text-[#003366]">2. Evidencia y Fecha</h3>
 
                   <v-row>
 
 
-                    <v-col cols="6" class="d-flex justify-center">
-                      <v-menu v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y
-                        min-width="auto">
-                        <!-- Input -->
-                        <template v-slot:activator="{ props }">
-                          <v-text-field :model-value="fechaFormateada" label="Seleccionar fecha" readonly
-                            prepend-inner-icon="mdi-calendar" v-bind="props" variant="outlined"></v-text-field>
-                        </template>
+                    <!-- ACTAS: una tarjeta por acta, se agregan y quitan a demanda.
+                         Cada acta lleva su propia fecha de entrega y su origen. -->
+                    <v-col cols="12">
+                      <div class="seccion-titulo">
+                        <v-icon color="#003366" size="22" class="mr-2">mdi-file-document-multiple</v-icon>
+                        <span class="seccion-titulo__texto">Actas de entrega</span>
+                        <v-chip size="small" color="#003366" variant="tonal" class="ml-2 font-weight-bold">
+                          {{ form.actas.length }}
+                        </v-chip>
+                        <v-spacer />
+                      </div>
 
-                        <!-- Calendar -->
-                        <v-date-picker v-model="form.fecha" color="primary"
-                          @update:model-value="menu = false"></v-date-picker>
-                      </v-menu>
+                      <v-card v-for="(acta, index) in form.actas" :key="acta.uid"
+                        class="acta-card mb-4" elevation="0">
 
+                        <!-- Cabecera: número de acta, estado y acciones -->
+                        <div class="acta-card__head">
+                          <div class="d-flex align-center">
+                            <v-avatar size="28" color="#003366" class="mr-3">
+                              <span class="text-caption font-weight-bold text-white">{{ index + 1 }}</span>
+                            </v-avatar>
 
-                    </v-col>
-                    <v-col cols="6" class="d-flex justify-center">
+                            <span class="text-subtitle-2 font-weight-bold text-blue-darken-4">
+                              {{ acta.numero?.trim() || `Acta ${index + 1}` }}
+                            </span>
 
-                      <v-select v-model="form.proyecto" :items="proyectos" item-title="nombre" item-value="id"
-                        label="Tipo de proyecto" prepend-inner-icon="mdi-briefcase" variant="outlined" clearable
-                        :rules="[required]"></v-select>
-                    </v-col>
+                            <v-chip size="x-small" class="ml-3 font-weight-medium"
+                              :color="archivoDeActa(acta) ? 'success' : 'grey'" variant="tonal"
+                              :prepend-icon="archivoDeActa(acta) ? 'mdi-check-circle' : 'mdi-alert-circle-outline'">
+                              {{ archivoDeActa(acta) ? 'PDF adjunto' : 'Sin PDF' }}
+                            </v-chip>
+                          </div>
 
+                          <div class="d-flex align-center">
+                            <v-tooltip location="top"
+                              :text="archivoDeActa(acta) ? 'Ver acta' : 'Adjunta el PDF para verlo'">
+                              <template #activator="{ props }">
+                                <v-btn v-bind="props" icon="mdi-eye-outline" variant="text" size="small"
+                                  color="#0094D3" :disabled="!archivoDeActa(acta)" @click="verActa(acta)" />
+                              </template>
+                            </v-tooltip>
 
+                            <v-tooltip location="top"
+                              :text="form.actas.length === 1 ? 'Debe quedar al menos un acta' : 'Eliminar acta'">
+                              <template #activator="{ props }">
+                                <v-btn v-bind="props" icon="mdi-trash-can-outline" variant="text" size="small"
+                                  color="red-darken-1" :disabled="form.actas.length === 1"
+                                  @click="eliminarActa(index)" />
+                              </template>
+                            </v-tooltip>
+                          </div>
+                        </div>
 
-                    <v-col cols="12" md="6">
-                      <v-file-input v-model="form.archivos" label="Subir Acta (PDF)" variant="outlined"
-                        prepend-inner-icon="mdi-file-pdf-box" color="#003366" accept="application/pdf"
-                        :rules="[validarPDF]" />
-                    </v-col>
+                        <v-divider />
 
-                    <v-col cols="12" md="6">
-                      <v-file-input v-model="form.imagenes" label="Subir Fotografías" variant="outlined"
-                        prepend-inner-icon="mdi-image-multiple" color="#0094D3" multiple accept="image/*"
-                        :rules="[validarImagenes]" @change="previsualizarImagenes" />
+                        <!-- Campos -->
+                        <div class="acta-card__body">
+                          <v-row dense>
+                            <v-col cols="12" md="4">
+                              <v-text-field v-model="acta.numero" label="No. de acta"
+                                placeholder="Ej. 015-2026" variant="outlined" density="comfortable"
+                                hide-details="auto" prepend-inner-icon="mdi-pound" color="#003366"
+                                :rules="[required]" />
+                            </v-col>
+
+                            <v-col cols="12" md="4">
+                              <!-- El menú del calendario vive en la propia acta: con un
+                                   solo ref compartido se abrirían todos a la vez. -->
+                              <v-menu v-model="acta.menuFecha" :close-on-content-click="false"
+                                transition="scale-transition" offset-y min-width="auto">
+                                <template v-slot:activator="{ props }">
+                                  <v-text-field :model-value="formatearFecha(acta.fecha)"
+                                    label="Fecha de entrega" placeholder="dd/mm/aaaa" readonly
+                                    prepend-inner-icon="mdi-calendar-check" v-bind="props"
+                                    variant="outlined" density="comfortable" hide-details="auto"
+                                    color="#003366" :rules="[required]" />
+                                </template>
+
+                                <v-date-picker v-model="acta.fecha" color="#003366"
+                                  @update:model-value="acta.menuFecha = false" />
+                              </v-menu>
+                            </v-col>
+
+                            <v-col cols="12" md="4">
+                              <v-select v-model="acta.origen" :items="ORIGENES" item-title="titulo"
+                                item-value="valor" label="Origen" prepend-inner-icon="mdi-source-branch"
+                                variant="outlined" density="comfortable" hide-details="auto"
+                                color="#003366" :rules="[required]" />
+                            </v-col>
+
+                            <v-col cols="12">
+                              <v-file-input v-model="acta.archivo" label="Archivo del acta (PDF)"
+                                variant="outlined" density="comfortable" hide-details="auto"
+                                prepend-inner-icon="mdi-file-pdf-box" color="#003366"
+                                accept="application/pdf" show-size :rules="[validarPDF]" />
+                            </v-col>
+                          </v-row>
+                        </div>
+                      </v-card>
+
+                      <!-- Agregar: acción principal de la sección, a lo ancho -->
+                      <v-btn block variant="outlined" color="#003366" size="large"
+                        prepend-icon="mdi-plus-circle-outline" class="text-none btn-agregar-acta"
+                        @click="agregarActa">
+                        Agregar otra acta
+                      </v-btn>
                     </v-col>
 
                     <v-col cols="12">
-                      <v-textarea v-model="form.descripcionEntrega" label="Descripción de la entrega" variant="outlined"
-                        prepend-inner-icon="mdi-text" rows="3" auto-grow :rules="[required]" />
+                      <v-divider class="my-2" />
                     </v-col>
 
+                    <v-col cols="12">
+                      <div class="seccion-titulo">
+                        <v-icon color="#0094D3" size="22" class="mr-2">mdi-image-multiple</v-icon>
+                        <span class="seccion-titulo__texto">Fotos de evidencia</span>
+                        <v-chip v-if="urlsImagenes.length" size="small" color="#0094D3" variant="tonal"
+                          class="ml-2 font-weight-bold">
+                          {{ urlsImagenes.length }}
+                        </v-chip>
+                      </div>
+
+                      <v-file-input v-model="form.imagenes" label="Subir fotografías" variant="outlined"
+                        density="comfortable" prepend-inner-icon="mdi-camera-plus-outline" color="#0094D3"
+                        multiple accept="image/*" show-size counter :rules="[validarImagenes]"
+                        @change="previsualizarImagenes" />
+                    </v-col>
+
+                    <!-- <v-col cols="12">
+                      <v-textarea v-model="form.descripcionEntrega" label="Descripción de la entrega" variant="outlined"
+                        prepend-inner-icon="mdi-text" rows="3" auto-grow :rules="[required]" />
+                    </v-col> -->
+
                     <v-col cols="12" v-if="urlsImagenes.length > 0">
-                      <div class="text-subtitle-2 mb-2">Previsualización:</div>
-                      <v-row>
-                        <v-col v-for="(url, index) in urlsImagenes" :key="index" cols="3" md="2">
-                          <v-img :src="url" aspect-ratio="1" cover class="img-uploaded" />
+                      <p class="text-caption text-grey-darken-1 mb-2">
+                        Clic en una foto para ampliarla.
+                      </p>
+                      <v-row dense>
+                        <v-col v-for="(url, index) in urlsImagenes" :key="url" cols="4" sm="3" md="2">
+                          <div class="foto-evidencia">
+                            <v-img :src="url" aspect-ratio="1" cover class="foto-evidencia__img"
+                              @click="verImagen(index)" />
+
+                            <div class="foto-evidencia__velo">
+                              <v-icon color="white" size="26">mdi-magnify-plus-outline</v-icon>
+                            </div>
+
+                            <v-btn icon="mdi-close" size="x-small" color="error" variant="flat"
+                              class="foto-evidencia__quitar" @click.stop="eliminarImagen(index)" />
+                          </div>
                         </v-col>
                       </v-row>
                     </v-col>
@@ -323,7 +451,7 @@
             <v-btn v-if="step > 1" variant="text" color="grey-darken-1" prepend-icon="mdi-chevron-left"
               @click="step--">Anterior</v-btn>
             <v-spacer></v-spacer>
-            <v-btn v-if="step < 4" color="#003366" class="text-white px-8" append-icon="mdi-chevron-right"
+            <v-btn v-if="step < 2" color="#003366" class="text-white px-8" append-icon="mdi-chevron-right"
               variant="flat" @click="step++" :disabled="!puedeAvanzar">Siguiente</v-btn>
             <v-btn v-else color="#0094D3" class="text-white px-8" append-icon="mdi-check-bold" variant="flat"
               @click="validarYEnviar" :disabled="!puedeAvanzar">
@@ -337,6 +465,24 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <!-- Visor de las fotos de evidencia -->
+    <v-dialog v-model="visorImagen" max-width="900">
+      <v-card class="rounded-lg">
+        <v-toolbar density="compact" color="#003366">
+          <v-toolbar-title class="text-body-2">
+            Foto {{ indiceImagen + 1 }} de {{ urlsImagenes.length }}
+          </v-toolbar-title>
+          <v-spacer />
+          <v-btn icon="mdi-chevron-left" :disabled="indiceImagen === 0"
+            @click="indiceImagen--" />
+          <v-btn icon="mdi-chevron-right" :disabled="indiceImagen >= urlsImagenes.length - 1"
+            @click="indiceImagen++" />
+          <v-btn icon="mdi-close" @click="visorImagen = false" />
+        </v-toolbar>
+        <v-img :src="urlsImagenes[indiceImagen]" max-height="70vh" contain />
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -347,7 +493,6 @@ import Swal from 'sweetalert2'
 import { required, numberMin1, email, phone, onlyLetters, fileRequired } from '@/helpers/validators';
 
 const formRef = ref(null)
-const menu = ref(false)
 
 const equiposTabla = ref([])
 const selectedIds = ref([])
@@ -361,6 +506,46 @@ const error = ref('')
 const success = ref('')
 const todosEquipos = ref([])
 
+// `uid` sirve de :key estable en el v-for: con el índice, borrar una fila
+// intermedia hace que Vue reutilice el input equivocado y el PDF se ve movido
+// de acta.
+let contadorActa = 0
+function nuevaActa() {
+  return {
+    uid: `acta-${++contadorActa}`,
+    numero: '',
+    archivo: null,
+    fecha: null,
+    origen: null,
+    menuFecha: false,
+  }
+}
+
+// v-file-input devuelve File o File[] según la versión de Vuetify.
+const archivoDeActa = (acta) =>
+  Array.isArray(acta.archivo) ? acta.archivo[0] : acta.archivo
+
+const agregarActa = () => {
+  form.value.actas.push(nuevaActa())
+}
+
+const eliminarActa = (index) => {
+  if (form.value.actas.length === 1) return
+  form.value.actas.splice(index, 1)
+}
+
+const verActa = (acta) => {
+  const archivo = archivoDeActa(acta)
+  if (!archivo) return
+
+  // El PDF todavía no se ha subido: se abre el File que está en memoria.
+  const url = URL.createObjectURL(archivo)
+  window.open(url, '_blank')
+
+  // No se revoca de inmediato porque la pestaña aún lo está leyendo.
+  setTimeout(() => URL.revokeObjectURL(url), 60000)
+}
+
 const form = ref({
   codigoEscuela: '',
   estudiantesHombres: null,
@@ -369,38 +554,46 @@ const form = ref({
   nombreDirector: '',
   telefono: '',
   correo: '',
-  fecha: null,
-  proyecto: null,
   descripcionEntrega: '',
-  archivos: [],
+  // Una fila por acta. Arranca con una; el usuario agrega las que necesite.
+  // La fecha y el origen viven dentro de cada acta, no aquí.
+  actas: [nuevaActa()],
   imagenes: []
 })
 
-const fechaFormateada = computed(() => {
-  if (!form.value.fecha) return ''
+const formatearFecha = (valor) => {
+  if (!valor) return ''
 
-  const fecha = new Date(form.value.fecha)
+  const fecha = new Date(valor)
 
   const dia = String(fecha.getDate()).padStart(2, '0')
   const mes = String(fecha.getMonth() + 1).padStart(2, '0')
   const anio = fecha.getFullYear()
 
   return `${dia}/${mes}/${anio}`
-})
-
-const proyectos = ref([])
-
-const obtenerProyectos = async () => {
-  try {
-    const res = await api.get(`/api/v1/proyectos`)
-
-    proyectos.value = res.data
-    console.log(proyectos.value)
-
-  } catch (error) {
-    console.error('Error al obtener proyectos:', error)
-  }
 }
+
+// `actas.fecha_entrega` es DATEONLY: se manda YYYY-MM-DD armado con los
+// componentes LOCALES. Con toISOString() la fecha se convierte a UTC y en
+// Guatemala (GMT-6) el día seleccionado se guardaba corrido uno hacia atrás.
+const fechaParaBackend = (valor) => {
+  if (!valor) return null
+
+  const fecha = new Date(valor)
+
+  const anio = fecha.getFullYear()
+  const mes = String(fecha.getMonth() + 1).padStart(2, '0')
+  const dia = String(fecha.getDate()).padStart(2, '0')
+
+  return `${anio}-${mes}-${dia}`
+}
+
+// Refleja el ENUM de actas.origen en la base. Al ser dos valores fijos
+// ya no se piden al backend: antes esto era un GET /api/v1/proyectos.
+const ORIGENES = [
+  { valor: 'DONACION', titulo: 'Donación' },
+  { valor: 'COMPRA', titulo: 'Compra' },
+]
 
 const validarYEnviar = async () => {
   const { valid } = await formRef.value.validate()
@@ -414,13 +607,22 @@ const validarYEnviar = async () => {
     return
   }
 
-  if (seleccionadosGlobal.value.length === 0) {
-    Swal.fire('Error', 'Debes seleccionar al menos un equipo', 'error')
-    return
-  }
+  // Paso "Equipos" deshabilitado: ya no se exige selección de equipos.
+  // if (seleccionadosGlobal.value.length === 0) {
+  //   Swal.fire('Error', 'Debes seleccionar al menos un equipo', 'error')
+  //   return
+  // }
 
-  if (!form.value.archivos) {
-    Swal.fire('Error', 'Debes subir un PDF', 'error')
+  const incompletas = form.value.actas.filter(
+    a => !a.numero?.trim() || !archivoDeActa(a) || !a.fecha || !a.origen
+  )
+
+  if (incompletas.length > 0) {
+    Swal.fire(
+      'Error',
+      'Cada acta necesita su número, su PDF, su fecha de entrega y su origen',
+      'error'
+    )
     return
   }
 
@@ -461,6 +663,27 @@ const previsualizarImagenes = (event) => {
   }
 }
 
+/* --- Visor de fotos de evidencia --- */
+
+const visorImagen = ref(false)
+const indiceImagen = ref(0)
+
+const verImagen = (index) => {
+  indiceImagen.value = index
+  visorImagen.value = true
+}
+
+const eliminarImagen = (index) => {
+  // Quitar el File dispara el watch de form.imagenes, que regenera las URLs.
+  form.value.imagenes = form.value.imagenes.filter((_, i) => i !== index)
+
+  if (indiceImagen.value >= form.value.imagenes.length) {
+    indiceImagen.value = Math.max(0, form.value.imagenes.length - 1)
+  }
+
+  if (form.value.imagenes.length === 0) visorImagen.value = false
+}
+
 const equiposSeleccionadosFiltrados = computed(() => {
   if (!searchSeleccionados.value) return seleccionadosGlobal.value
 
@@ -489,8 +712,19 @@ watch(equiposTabla, () => {
 watch(
   [form, step, escuela],
   ([formVal, stepVal, escuelaVal]) => {
+    // Un File no sobrevive a JSON.stringify (queda como {}), así que se
+    // guardan sólo los números de acta y se descartan los archivos: al
+    // recuperar el borrador hay que volver a adjuntarlos.
     localStorage.setItem('registroDonacion', JSON.stringify({
-      form: formVal,
+      form: {
+        ...formVal,
+        actas: formVal.actas?.map(a => ({
+          numero: a.numero,
+          fecha: a.fecha,
+          origen: a.origen,
+        })) || [],
+        imagenes: [],
+      },
       step: stepVal,
       escuela: escuelaVal
     }))
@@ -638,18 +872,27 @@ const obtenerEquipos = async () => {
 
 const puedeAvanzar = computed(() => {
   if (step.value === 1) return !!escuela.value && !loading.value
-  if (step.value === 2) return !!form.value.nombreDirector && !!form.value.correo
-  if (step.value === 3) return seleccionadosGlobal.value.length > 0
-  if (step.value === 4) {
-    if (!form.value.proyecto) return false
-    if (!form.value.fecha) return false
-    if (!form.value.descripcionEntrega) return false
+  // Pasos "Beneficiados" y "Equipos" deshabilitados:
+  // if (step.value === 2) return !!form.value.nombreDirector && !!form.value.correo
+  // if (step.value === 3) return seleccionadosGlobal.value.length > 0
+  if (step.value === 2) {
+    // `descripcionEntrega` ya no se valida: su textarea está comentado en el
+    // template, así que nunca se llena y dejaba el botón Finalizar desactivado.
 
-    const archivos = form.value.archivos
     const imagenes = form.value.imagenes
 
-    if (!archivos || archivos.length === 0) return false
-    if (validarPDF(archivos) !== true) return false
+    // Toda acta necesita número, PDF válido, fecha y origen.
+    if (form.value.actas.length === 0) return false
+
+    for (const acta of form.value.actas) {
+      if (!acta.numero?.trim()) return false
+      if (!acta.fecha) return false
+      if (!acta.origen) return false
+
+      const archivo = archivoDeActa(acta)
+      if (!archivo) return false
+      if (validarPDF(archivo) !== true) return false
+    }
 
     if (!imagenes || imagenes.length === 0) return false
     if (validarImagenes(imagenes) !== true) return false
@@ -694,25 +937,22 @@ const resetEscuela = () => {
 
 const submit = async () => {
 
-  const payloadPreview = {
-    ...form.value,
-    fecha: form.value.fecha ? new Date(form.value.fecha).toISOString() : null,
-    equipos: seleccionadosGlobal.value,
-  };
-
+  // Confirmación con un resumen legible (antes se mostraba el JSON crudo).
+  const nombreEscuela = escuela.value?.nombreEscuela || escuela.value?.nombre || 'el establecimiento'
   const confirmacion = await Swal.fire({
-    title: 'Confirmar Datos de Envío',
+    title: '¿Registrar la dotación?',
     html: `
-      <p class="text-caption text-left mb-2">Revisa la estructura del JSON antes de finalizar:</p>
-      <pre style="text-align:left; max-height:300px; overflow:auto; font-size: 11px; background: #f4f4f4; padding: 10px; border-radius: 5px;">
-${JSON.stringify(payloadPreview, null, 2)}
-      </pre>
+      <div style="text-align:left; font-size:14px; line-height:1.9;">
+        <div><strong>Establecimiento:</strong> ${nombreEscuela}</div>
+        <div><strong>Actas:</strong> ${form.value.actas.length}</div>
+        <div><strong>Fotos de evidencia:</strong> ${form.value.imagenes?.length || 0}</div>
+      </div>
     `,
-    width: 700,
+    icon: 'question',
     showCancelButton: true,
     confirmButtonColor: '#003366',
     cancelButtonColor: '#cfd8dc',
-    confirmButtonText: 'Sí, registrar todo',
+    confirmButtonText: 'Sí, registrar',
     cancelButtonText: 'Regresar y editar',
   });
 
@@ -734,14 +974,25 @@ ${JSON.stringify(payloadPreview, null, 2)}
       formData.append('nombreDirector', form.value.nombreDirector);
       formData.append('telefono', form.value.telefono);
       formData.append('correo', form.value.correo);
-      formData.append('proyectoId', form.value.proyecto)
-      formData.append('fecha', payloadPreview.fecha);
-formData.append('descripcionEntrega', form.value.descripcionEntrega);
+      formData.append('descripcionEntrega', form.value.descripcionEntrega);
       formData.append('equipos', JSON.stringify(seleccionadosGlobal.value));
 
-      if (form.value.archivos) {
-        formData.append('acta_pdf', form.value.archivos)
-      }
+      // Los PDFs van en `acta_pdf` y el resto de datos de cada acta en el JSON
+      // `actas`, EN EL MISMO ORDEN: el backend los empareja por índice.
+      // La fecha y el origen de la dotación los deriva el backend de la
+      // primera acta, por eso ya no se mandan sueltos.
+      formData.append(
+        'actas',
+        JSON.stringify(form.value.actas.map(a => ({
+          numero: a.numero.trim(),
+          fecha: fechaParaBackend(a.fecha),
+          origen: a.origen,
+        })))
+      )
+
+      form.value.actas.forEach((acta) => {
+        formData.append('acta_pdf', archivoDeActa(acta))
+      })
 
       if (form.value.imagenes && form.value.imagenes.length > 0) {
         form.value.imagenes.forEach((foto) => {
@@ -759,34 +1010,31 @@ formData.append('descripcionEntrega', form.value.descripcionEntrega);
       // return console.log(data)
 
 
-      const res = await api.post(`/api/v1/dotacion`, formData, {
+      await api.post(`/api/v1/dotacion`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 
-      // console.log('Respuesta del servidor:', res.data);
+      // Sólo si el POST fue exitoso: se avisa y se limpia todo el formulario.
+      // resetFormularioCompleto() también pone loading en false y vuelve al paso 1.
+      resetFormularioCompleto();
 
       await Swal.fire({
-        title: '¡Registro Exitoso!',
-        text: 'La donación tecnológica se ha guardado correctamente.',
+        title: '¡Registro exitoso!',
+        text: 'La dotación tecnológica se guardó correctamente.',
         icon: 'success',
         confirmButtonColor: '#003366'
       });
 
-      // resetEscuela();
-      // step.value = 1;
-      // window.location.reload();
-
     } catch (err) {
       console.error('Error al enviar:', err);
+      // En error NO se limpia el formulario, para que el usuario reintente.
+      loading.value = false;
       Swal.fire({
         title: 'Error en el registro',
         text: err.response?.data?.message || 'No se pudo conectar con el servidor.',
         icon: 'error',
         confirmButtonColor: '#0094D3'
       });
-    } finally {
-      // loading.value = false;
-      // resetFormularioCompleto();
     }
   }
 };
@@ -802,8 +1050,7 @@ const resetFormularioCompleto = () => {
     telefono: '',
     correo: '',
     descripcionEntrega: '',
-    fecha: null,
-    archivos: [],
+    actas: [nuevaActa()],
     imagenes: []
   }
 
@@ -827,8 +1074,8 @@ const resetFormularioCompleto = () => {
 }
 
 onMounted(() => {
-  obtenerEquipos();
-  obtenerProyectos();
+  // Sólo alimenta el paso "Equipos" (deshabilitado):
+  // obtenerEquipos();
 
   const dataEquipos = localStorage.getItem('equiposSeleccionados')
   if (dataEquipos) {
@@ -840,7 +1087,24 @@ onMounted(() => {
     const parsed = JSON.parse(data)
 
     form.value = parsed.form || form.value
-    step.value = parsed.step || 1
+
+    // Se rehidratan las actas con uid nuevo y sin archivo (los File no se
+    // persisten). Un borrador viejo puede no traer `actas`: se deja una vacía.
+    const actasGuardadas = Array.isArray(parsed.form?.actas) ? parsed.form.actas : []
+    form.value.actas = actasGuardadas.length > 0
+      ? actasGuardadas.map(a => ({
+          ...nuevaActa(),
+          numero: a.numero || '',
+          fecha: a.fecha || null,
+          origen: a.origen || null,
+        }))
+      : [nuevaActa()]
+
+    form.value.imagenes = []
+
+    // Se acota a 2: un borrador viejo pudo quedar guardado en un paso ya
+    // deshabilitado (Beneficiados / Equipos / el antiguo paso 4).
+    step.value = Math.min(parsed.step || 1, 2)
     escuela.value = parsed.escuela || null
   }
 })
@@ -919,8 +1183,92 @@ onMounted(() => {
   opacity: 0.8;
 }
 
-.img-uploaded {
+/* ===== Encabezado de sección (Actas / Fotos) ===== */
+.seccion-titulo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 51, 102, 0.12);
+}
+
+.seccion-titulo__texto {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #003366;
+}
+
+/* ===== Tarjeta de acta ===== */
+.acta-card {
+  border: 1px solid rgba(0, 51, 102, 0.16);
+  border-left: 5px solid #003366;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.acta-card:hover {
+  border-color: rgba(0, 148, 211, 0.55);
+  box-shadow: 0 3px 12px rgba(0, 51, 102, 0.1);
+}
+
+/* La franja superior separa la identidad del acta de sus campos. */
+.acta-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  background-color: #f5f8fb;
+}
+
+.acta-card__body {
+  padding: 18px 16px 16px;
+}
+
+.btn-agregar-acta {
+  border-style: dashed;
+  border-width: 2px;
+  letter-spacing: 0.01em;
+}
+
+/* ===== Miniatura de evidencia ===== */
+.foto-evidencia {
+  position: relative;
   border-radius: 10px;
+  overflow: hidden;
+}
+
+.foto-evidencia__img {
+  border-radius: 10px;
+  cursor: zoom-in;
+}
+
+/* Velo con lupa: aparece al pasar el cursor sobre la miniatura. */
+.foto-evidencia__velo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 51, 102, 0.45);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.foto-evidencia:hover .foto-evidencia__velo {
+  opacity: 1;
+}
+
+.foto-evidencia__quitar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
 }
 
 /* TABLAS */
@@ -971,8 +1319,19 @@ onMounted(() => {
     font-size: 0.75rem;
   }
 
-  .img-uploaded {
+  .foto-evidencia,
+  .foto-evidencia__img {
     border-radius: 8px;
+  }
+
+  /* En móvil la cabecera del acta se apila para que no se apriete. */
+  .acta-card__head {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .acta-card__body {
+    padding: 14px 12px 12px;
   }
 }
 </style>
