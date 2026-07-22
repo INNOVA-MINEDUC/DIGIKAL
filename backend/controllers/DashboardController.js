@@ -1,4 +1,5 @@
 import axios from 'axios';
+import https from 'https';
 import { Op } from 'sequelize';
 import '../models/Relations.js';
 import Escuela from '../models/Escuela.js';
@@ -11,10 +12,23 @@ import Internet from '../models/Internet.js';
 // URL y token del API MDM configurables por entorno. Por defecto apuntan al
 // dev público; para usar un backend local con el campo `inventario`, definir
 // MDM_GRAPHQL_URL (y opcionalmente MDM_PUBLIC_TOKEN) en el .env.
-const GRAPHQL_URL  = process.env.MDM_GRAPHQL_URL  || 'https://api-mdm-dev.mineduc.edu.gt/graphql';
-const PUBLIC_TOKEN = process.env.MDM_PUBLIC_TOKEN || 'publicTk';
+const GRAPHQL_URL  = process.env.MDM_GRAPHQL_URL;
+const PUBLIC_TOKEN = process.env.MDM_PUBLIC_TOKEN;
 const TIMEOUT_MS   = 30_000;
-const MAX_RETRIES  = 2;
+const MAX_RETRIES  = 4;
+
+// Traer todas las escuelas son ~23 peticiones seguidas; el API MDM corta la
+// conexión (ECONNRESET) si se le abren muchas conexiones nuevas muy rápido.
+// Un agente con keep-alive reutiliza la conexión y reduce esos cortes.
+const httpsAgent = new https.Agent({ keepAlive: true, maxSockets: 3 });
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Los dos endpoints del MINEDUC son complementarios: `api-mdm` tiene la lista
+// (`establecimientos`) pero NO el campo `inventario`; `api-ayuda` tiene
+// `establecimiento(id).inventario` pero NO la lista. Los IDs coinciden entre
+// ambos, así que el detalle se consulta contra el de ayuda.
+const AYUDA_GRAPHQL_URL = process.env.AYUDA_GRAPHQL_URL;
 
 // El API pagina: sin tamanoPagina solo devuelve 10 registros.
 // 5000 revienta su base de datos (ECONNRESET); 500 es estable.
@@ -72,31 +86,37 @@ const normalizeNiveles = (value) => {
   return NIVELES_CANONICOS.filter((n) => encontrados.has(n));
 };
 
-const gqlPost = async (query) => {
+const gqlPost = async (query, url = GRAPHQL_URL) => {
   let lastErr;
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
       return await axios.post(
-        GRAPHQL_URL,
+        url,
         { query },
         {
           headers: { 'Content-Type': 'application/json', publicToken: PUBLIC_TOKEN },
           timeout: TIMEOUT_MS,
+          httpsAgent,
           validateStatus: () => true,
         }
       );
     } catch (err) {
       lastErr = err;
-      const retryable = ['ECONNRESET', 'ECONNABORTED', 'ETIMEDOUT'].includes(err.code);
+      // `read ECONNRESET` a veces llega sin code; se detecta por el mensaje.
+      const msg = String(err.message || '');
+      const retryable =
+        ['ECONNRESET', 'ECONNABORTED', 'ETIMEDOUT'].includes(err.code) ||
+        /ECONNRESET|socket hang up|timeout/i.test(msg);
       if (!retryable || attempt === MAX_RETRIES) break;
-      await new Promise((r) => setTimeout(r, attempt * 800));
+      // Backoff creciente: 0.6s, 1.2s, 1.8s…
+      await sleep(attempt * 600);
     }
   }
   throw lastErr;
 };
 
-const gqlData = async (query) => {
-  const res = await gqlPost(query);
+const gqlData = async (query, url = GRAPHQL_URL) => {
+  const res = await gqlPost(query, url);
   if (res.status >= 400) {
     throw new Error(`API MDM status ${res.status}: ${JSON.stringify(res.data).slice(0, 200)}`);
   }
@@ -106,52 +126,84 @@ const gqlData = async (query) => {
   return res.data?.data;
 };
 
-/* ── Resolución de IDs (los del API, no los de la BD local) ─────────────── */
+/* ── Ubicaciones (departamentos/municipios) para traducir ids ↔ nombres ───
+   estadisticasEstablecimientos (api-ayuda) sólo devuelve departamentoId y
+   municipioId; los nombres se toman de estas tablas de referencia del api-mdm,
+   que sí las expone. Se cargan una vez y se cachean. */
 
-let deptCache = null;
+let ubicacionesCache = null;
 
-const getDeptId = async (deptName) => {
-  if (!deptCache) {
-    const data = await gqlData(
-      `query { departamentos(filtro: { tamanoPagina: 50 }) { id nombre } }`
-    );
-    deptCache = {};
-    for (const d of data?.departamentos || []) deptCache[norm(d.nombre)] = d.id;
+const cargarUbicaciones = async () => {
+  if (ubicacionesCache) return ubicacionesCache;
+
+  const [dd, mm] = await Promise.all([
+    gqlData(`query { departamentos(filtro: { tamanoPagina: 50 }) { id nombre } }`),
+    gqlData(`query { municipios(filtro: { tamanoPagina: 600 }) { id nombre departamentoId } }`),
+  ]);
+
+  const deptNombrePorId = new Map();
+  const deptIdPorNombre = new Map();
+  for (const d of dd?.departamentos || []) {
+    deptNombrePorId.set(d.id, d.nombre);
+    deptIdPorNombre.set(norm(d.nombre), d.id);
   }
-  return deptCache[norm(deptName)] ?? null;
+
+  const muniNombrePorId = new Map();
+  const muniPorDept = new Map(); // deptId -> [{ norm, id }]
+  for (const m of mm?.municipios || []) {
+    muniNombrePorId.set(m.id, m.nombre);
+    if (!muniPorDept.has(m.departamentoId)) muniPorDept.set(m.departamentoId, []);
+    muniPorDept.get(m.departamentoId).push({ norm: norm(m.nombre), id: m.id });
+  }
+
+  ubicacionesCache = { deptNombrePorId, deptIdPorNombre, muniNombrePorId, muniPorDept };
+  return ubicacionesCache;
 };
 
-const muniCacheByDept = {};
-
-const getMuniId = async (muniName, deptId) => {
-  if (!muniCacheByDept[deptId]) {
-    const data = await gqlData(
-      `query { municipios(filtro: { departamentoId: ${deptId}, tamanoPagina: 100 }) { id nombre } }`
-    );
-    const map = new Map();
-    for (const m of data?.municipios || []) map.set(norm(m.nombre), m.id);
-    muniCacheByDept[deptId] = map;
-  }
-
-  const map = muniCacheByDept[deptId];
+// El mapa manda nombres del GeoJSON (a veces cortos): "chichicastenango" ⊂
+// "santo tomas chichicastenango". Se resuelve el municipio a su id para poder
+// filtrar la lista localmente (estadisticasEstablecimientos sólo filtra por
+// departamento).
+const resolverMuniId = (ubic, deptName, muniName) => {
+  const deptId = ubic.deptIdPorNombre.get(norm(deptName));
+  if (deptId == null) return null;
+  const lista = ubic.muniPorDept.get(deptId) || [];
   const busq = norm(muniName);
   if (!busq) return null;
 
-  if (map.has(busq)) return map.get(busq);
-  // El GeoJSON usa nombres cortos: "chichicastenango" ⊂ "santo tomas chichicastenango"
-  for (const [nombre, id] of map) if (nombre.includes(busq)) return id;
-  for (const [nombre, id] of map) if (busq.includes(nombre) && nombre.length >= 4) return id;
-
-  console.warn(`[Dashboard] Municipio no resuelto: "${muniName}" en dept ${deptId}`);
-  return null;
+  let hit = lista.find((m) => m.norm === busq);
+  if (!hit) hit = lista.find((m) => m.norm.includes(busq));
+  if (!hit) hit = lista.find((m) => busq.includes(m.norm) && m.norm.length >= 4);
+  return hit?.id ?? null;
 };
 
-/* ── Establecimientos del API MDM (paginado) ────────────────────────────── */
+/* ── Establecimientos del API de ayuda (estadisticasEstablecimientos) ──────
+   Una sola llamada devuelve los totales del país (o del departamento filtrado)
+   y la lista completa. El filtro es por NOMBRE de departamento. Los campos por
+   escuela vienen en su mayoría null: el detalle rico está en establecimiento(id). */
+const AYUDA_LISTA_FIELDS = `
+  id nombre codigoMineduc
+  departamentoId municipioId
+  poseeConectividad velocidadConectividad fechaConexion fechaDatacion
+  inscritos2026 estudiantesInscritos cantidadHombres cantidadMujeres
+  telefono correoElectronico latitud longitud opf dotado
+`;
 
-// OJO: no se pide `jornada`. El enum JornadaEstablecimiento del API sólo acepta
-// DOBLE/INTERMEDIA/MATUTINA/NOCTURNA/SIN_JORNADA/VESPERTINA, pero su base tiene
-// filas con "MIXTA" y "FIN_DE_SEMANA", y el campo revienta la consulta entera.
-// La jornada se toma de la tabla local `escuelas`, donde es un STRING libre.
+const fetchDesdeAyuda = async (dept) => {
+  const arg = dept ? `(filtro: { departamento: ${JSON.stringify(dept)} })` : '';
+  const data = await gqlData(
+    `query {
+      estadisticasEstablecimientos${arg} {
+        totalEstablecimientos totalEstudiantesInscritos2026 totalHombres totalMujeres
+        establecimientos { ${AYUDA_LISTA_FIELDS} }
+      }
+    }`,
+    AYUDA_GRAPHQL_URL
+  );
+  return data?.estadisticasEstablecimientos || null;
+};
+
+// Conservado sólo por si se necesita el fetch paginado del api-mdm en el futuro.
 const ESTABLECIMIENTO_FIELDS = `
   id nombre codigoMineduc
   poseeConectividad velocidadConectividad fechaConexion
@@ -179,6 +231,10 @@ const fetchEstablecimientos = async (deptId, muniId) => {
     todos.push(...pagina_actual);
 
     if (pagina_actual.length < PAGE_SIZE) break;
+
+    // Respiro entre páginas: el API resetea la conexión si se le piden muchas
+    // páginas seguidas sin pausa.
+    await sleep(150);
   }
 
   return todos;
@@ -261,28 +317,30 @@ export const getEscuelasDotadas = async (req, res) => {
   try {
     const { dept, muni } = req.body || {};
 
-    let deptId = null;
-    let muniId = null;
-
-    if (dept) {
-      deptId = await getDeptId(dept);
-      // Sin este corte, un nombre no resuelto haría una consulta sin filtro y
-      // devolvería los ~1100 establecimientos del país como si fueran del depto.
-      if (deptId == null) {
-        console.warn(`[Dashboard] Departamento no resuelto: "${dept}"`);
-        return res.status(200).json({ ...EMPTY_RESPONSE, _warning: `Departamento no encontrado: ${dept}` });
-      }
+    // Tablas de referencia para traducir ids ↔ nombres (no debe tumbar todo si
+    // falla el api-mdm de referencia).
+    let ubic = null;
+    try {
+      ubic = await cargarUbicaciones();
+    } catch (refErr) {
+      console.error('[Dashboard] No se pudieron cargar ubicaciones de referencia:', refErr.message);
     }
-    if (muni && deptId != null) {
-      muniId = await getMuniId(muni, deptId);
-      if (muniId == null) {
+
+    // La lista y los totales salen del api-ayuda en una sola llamada. El filtro
+    // de departamento va por nombre; el de municipio se aplica localmente por id.
+    const stats = await fetchDesdeAyuda(dept);
+    let lista = stats?.establecimientos || [];
+
+    if (muni && dept && ubic) {
+      const muniId = resolverMuniId(ubic, dept, muni);
+      if (muniId != null) {
+        lista = lista.filter((e) => e.municipioId === muniId);
+      } else {
         console.warn(`[Dashboard] Municipio no resuelto: "${muni}" — se muestra el departamento completo`);
       }
     }
 
-    const lista = await fetchEstablecimientos(deptId, muniId);
-
-    // La BD local puede estar caída o vacía: no debe tumbar los datos del MDM.
+    // La BD local puede estar caída o vacía: no debe tumbar los datos del API.
     let dotacionesLocales = new Map();
     try {
       const codigos = lista.map((e) => e.codigoMineduc).filter(Boolean);
@@ -295,23 +353,25 @@ export const getEscuelasDotadas = async (req, res) => {
       const local = dotacionesLocales.get(e.codigoMineduc);
       const equipos = local?.equipos ?? [];
       const fechaDotacion = e.fechaDatacion ?? local?.fechaEntrega ?? null;
-      const dotado = fechaDotacion != null || equipos.length > 0;
+      // El API de ayuda ya trae `dotado`; se combina con la señal local.
+      const dotado = Boolean(e.dotado) || fechaDotacion != null || equipos.length > 0;
       const estudiantes = e.inscritos2026 ?? e.estudiantesInscritos ?? 0;
 
-      // Nivel: se prefiere el local (curado en la carga) y si no, el del API.
-      const niveles = local?.nivel ? normalizeNiveles(local.nivel) : normalizeNiveles(e.nivel);
+      const niveles = local?.nivel ? normalizeNiveles(local.nivel) : [];
 
       return {
         id: e.id,
         nombreEscuela: e.nombre,
         codigoEscuela: e.codigoMineduc,
-        departamento: { nombre: e.departamento?.nombre ?? '' },
-        municipio: { nombre: e.municipio?.nombre ?? '' },
+        // estadisticasEstablecimientos sólo da los ids; el nombre viene de la
+        // tabla de referencia.
+        departamento: { nombre: ubic?.deptNombrePorId.get(e.departamentoId) ?? '' },
+        municipio: { nombre: ubic?.muniNombrePorId.get(e.municipioId) ?? '' },
 
         poseeConectividad: e.poseeConectividad ?? false,
         velocidadConectividad: e.velocidadConectividad,
         fechaConectividad: e.fechaConexion,
-        empresaInternet: e.empresaConectividad?.nombre ?? local?.internet?.empresa ?? null,
+        empresaInternet: local?.internet?.empresa ?? null,
 
         dotado,
         fechaDatacion: fechaDotacion,
@@ -324,7 +384,7 @@ export const getEscuelasDotadas = async (req, res) => {
 
         telefono: e.telefono,
         correoElectronico: e.correoElectronico,
-        direccion: e.direccion,
+        direccion: null,
         latitud: e.latitud,
         longitud: e.longitud,
         nivel: niveles.join(', '),
@@ -369,11 +429,21 @@ export const getEscuelasDotadas = async (req, res) => {
 
     const dotadas = escuelas.filter((e) => e.dotado);
 
+    // Los totales de estudiantes/hombres/mujeres se toman del API (son exactos);
+    // sumar los campos por escuela daría casi cero porque vienen null. Cuando se
+    // filtra por municipio localmente, el API no tiene ese total, así que se cae
+    // a la suma de la página filtrada.
+    const filtradoLocal = Boolean(muni && dept);
+    const totalApi = (valorApi, sumaLocal) =>
+      (!filtradoLocal && valorApi != null) ? valorApi : sumaLocal;
+
     return res.status(200).json({
-      establecimientos: escuelas.length,
-      totalEstudiantes: escuelas.reduce((a, e) => a + e.inscritos2026, 0),
-      totalHombres: escuelas.reduce((a, e) => a + e.cantidadHombres, 0),
-      totalMujeres: escuelas.reduce((a, e) => a + e.cantidadMujeres, 0),
+      establecimientos: filtradoLocal
+        ? escuelas.length
+        : (stats?.totalEstablecimientos ?? escuelas.length),
+      totalEstudiantes: totalApi(stats?.totalEstudiantesInscritos2026, escuelas.reduce((a, e) => a + e.inscritos2026, 0)),
+      totalHombres: totalApi(stats?.totalHombres, escuelas.reduce((a, e) => a + e.cantidadHombres, 0)),
+      totalMujeres: totalApi(stats?.totalMujeres, escuelas.reduce((a, e) => a + e.cantidadMujeres, 0)),
 
       establecimientosDotados: dotadas.length,
       totalEquipos: escuelas.reduce((a, e) => a + e.cantidadEquipos, 0),
@@ -431,15 +501,16 @@ export const getEstablecimientoDetalle = async (req, res) => {
   `;
 
   try {
-    // 1er intento: con inventario.
+    // El inventario vive en el endpoint de ayuda; el detalle se consulta ahí.
+    // Si por lo que sea ese endpoint no expone `inventario`, se reintenta sin
+    // él contra el endpoint principal para al menos mostrar el establecimiento.
     let data;
     let sinInventario = false;
     try {
-      data = await gqlData(buildDetalleQuery(true));
+      data = await gqlData(buildDetalleQuery(true), AYUDA_GRAPHQL_URL);
     } catch (errConInv) {
-      // El endpoint configurado no expone `inventario`: reintentar sin él.
       if (/inventario/i.test(errConInv.message)) {
-        console.warn('[Dashboard] El API no expone `inventario`; se devuelve el establecimiento sin inventario.');
+        console.warn('[Dashboard] El endpoint de ayuda no expone `inventario`; se devuelve el establecimiento sin inventario.');
         sinInventario = true;
         data = await gqlData(buildDetalleQuery(false));
       } else {
