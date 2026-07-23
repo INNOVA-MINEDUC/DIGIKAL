@@ -2,7 +2,6 @@
 
 export default {
   async up(queryInterface, Sequelize) {
-    return 
     await queryInterface.bulkInsert('equipos', [
       {
 
@@ -48,7 +47,7 @@ export default {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    ]);
+    ], { ignoreDuplicates: true });
   },
 
   async down(queryInterface, Sequelize) {

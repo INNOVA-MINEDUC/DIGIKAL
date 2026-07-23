@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import Role from '../models/Role.js';
 import bcrypt from 'bcryptjs';
+import { logAction } from '../services/auditService.js';
 
 
 // 🔍 GET TODOS LOS USUARIOS
@@ -88,6 +89,13 @@ export const createUser = async (req, res) => {
       roleId
     });
 
+    await logAction(req, {
+      action: 'USER_CREATED',
+      module: 'USERS',
+      resourceId: user.id,
+      description: `Creó al usuario ${user.email} con roleId ${roleId ?? 'sin rol'}`,
+    });
+
     return res.status(201).json({
       message: 'Usuario creado correctamente',
       user: {
@@ -136,6 +144,13 @@ export const updateUser = async (req, res) => {
       active
     });
 
+    await logAction(req, {
+      action: 'USER_UPDATED',
+      module: 'USERS',
+      resourceId: user.id,
+      description: `Actualizó al usuario ${user.email}`,
+    });
+
     return res.status(200).json({
       message: 'Usuario actualizado correctamente',
       user
@@ -164,7 +179,16 @@ export const deleteUser = async (req, res) => {
       });
     }
 
+    const deletedEmail = user.email;
+
     await user.destroy();
+
+    await logAction(req, {
+      action: 'USER_DELETED',
+      module: 'USERS',
+      resourceId: id,
+      description: `Eliminó al usuario ${deletedEmail}`,
+    });
 
     return res.status(200).json({
       message: 'Usuario eliminado correctamente'

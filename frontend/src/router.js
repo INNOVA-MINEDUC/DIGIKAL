@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { getToken, removeToken } from '../utils/auth'
 import { apiRequest } from '../services/authService'
 
@@ -15,48 +15,61 @@ import CreateEvents from './views/CreateEvents.vue'
 import CatalogosView from './views/CatalogosView.vue'
 import UserManagement from './views/UserManagement.vue'
 import CargaView from './views/CargaView.vue';
+import AuditLogView from './views/AuditLogView.vue';
+import DashboardEstadisticas from './views/DashboardEstadisticas.vue'
 
 const routes = [
-  { path: '/', 
-    name: 'home', 
-    component: HomeView
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView,
+        meta: { requiresAuth: false }
   },
-  { 
-    path: '/about', 
-    name: 'about', 
-    component: AboutView 
+  {
+    path: '/about',
+    name: 'about',
+    component: AboutView,
+        meta: { requiresAuth: false }
   },
-  { 
-    path: '/cargar-datos', 
-    name: 'carga', 
-    component: CargaView,
+  // {
+  //   path: '/cargar-datos',
+  //   name: 'carga',
+  //   component: CargaView,
+  //   meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+  // },
+  {
+    path: '/details',
+    name: 'details',
+    component: SchoolView,
+        meta: { requiresAuth: false }
+  },
+
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard,
+    meta: { requiresAuth: false }
+  },
+
+  {
+    path: '/dashboard/estadisticas',
+    name: 'dashboard-estadisticas',
+    component: DashboardEstadisticas,
+    meta: { requiresAuth: false }
+  },
+
+  {
+    path: '/upload-data',
+    name: 'uploaddata',
+    component: UploadData,
     meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
   },
-  { 
-    path: '/details', 
-    name: 'details', 
-    component: SchoolView 
-  },
 
-  { 
-    path: '/dashboard', 
-    name: 'dashboard', 
-    component: Dashboard,
-    // meta: { requiresAuth: true }
-  },
-
-  { 
-    path: '/upload-data', 
-    name: 'uploaddata', 
-    component: UploadData,
-meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
-  },
-
-  { 
-    path: '/download-data', 
-    name: 'downloaddata', 
+  {
+    path: '/download-data',
+    name: 'downloaddata',
     component: DownloadData,
-  meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+    meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
   },
 
   //   { 
@@ -66,29 +79,41 @@ meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
   //   // meta: { requiresAuth: true }
   // },
 
-  { 
-    path: '/login', 
-    name: 'login', 
-    component: LoginView
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+        meta: { requiresAuth: false }
   },
-  { 
-    path: '/usuarios', 
-    name: 'usuarios', 
-    component: UserManagement
+  {
+    path: '/usuarios',
+    name: 'usuarios',
+    component: UserManagement,
+     meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
   },
 
-    { 
-    path: '/catalogos', 
-    name: 'catalogos', 
-    component: CatalogosView,
-    meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+  // {
+  //   path: '/catalogos',
+  //   name: 'catalogos',
+  //   component: CatalogosView,
+  //   meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+  // },
+
+  {
+    path: '/auditoria',
+    name: 'auditoria',
+    component: AuditLogView,
+    meta: { requiresAuth: true, allowedRoles: ['admin'] }
   },
 ]
 
 
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_|URL),     
+  // Hash mode: la ruta va después de `#`, así el servidor sólo ve `/` y el
+  // refresh funciona en cualquier hosting sin necesitar la regla
+  // `try_files ... /index.html` en su nginx (que es lo que causaba el 403).
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes
 })
 
@@ -110,7 +135,7 @@ router.beforeEach(async (to, from, next) => {
   try {
     // 3. Validar token con el backend y obtener datos del usuario
     // Es vital que el backend devuelva { role: 'admin' } o similar
-const user = await apiRequest('/api/v1/auth/validate-token');
+    const user = await apiRequest('/api/v1/auth/validate-token');
 
     if (!user) {
       throw new Error('Usuario no válido');
@@ -122,7 +147,7 @@ const user = await apiRequest('/api/v1/auth/validate-token');
         next(); // Rol autorizado
       } else {
         // Rol no autorizado: Mandar a una página segura o inicio
-        next({ name: 'home' }); 
+        next({ name: 'home' });
       }
     } else {
       // Si la ruta requiere auth pero no especifica roles, dejamos pasar

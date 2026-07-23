@@ -1,11 +1,20 @@
 import express from 'express';
 import multer from 'multer';
+import rateLimit from 'express-rate-limit';
 
 import {
   importarExcelDotaciones
 } from '../controllers/UploadController.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
+
+const uploadRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100, // máximo 100 requests por IP en la ventana
+  standardHeaders: true,
+  legacyHeaders: false
+});
 
 
 // =========================
@@ -52,7 +61,7 @@ const upload = multer({
 // =========================
 // RUTA IMPORTAR EXCEL
 // =========================
-router.post('/', (req, res, next) => {
+router.post('/', uploadRateLimiter, authMiddleware, (req, res, next) => {
 
     upload.single('excel')(
       req,

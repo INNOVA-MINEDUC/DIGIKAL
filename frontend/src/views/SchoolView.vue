@@ -1,202 +1,156 @@
 <template>
-  <v-container v-if="escuela" class="py-8">
-    <v-btn variant="text" class="text-weight-bold mb-4" prepend-icon="mdi-arrow-left" @click="goBack">
+  <v-container class="py-8">
+    <v-btn variant="text" class="mb-4" prepend-icon="mdi-arrow-left" @click="goBack">
       Regresar al listado
     </v-btn>
 
-    <v-card class="pa-6 mb-8 overflow-hidden" elevation="3" style="border-radius: 16px; border-top: 8px solid #0D47A1;">
-      <v-row align="center">
-        <v-col cols="12" md="auto" class="text-center">
-          <v-avatar size="100" color="blue-lighten-5" class="border-secondary">
-            <v-icon size="60" color="primary">mdi-school</v-icon>
-          </v-avatar>
+    <!-- Cargando -->
+    <div v-if="loading" class="text-center py-16">
+      <v-progress-circular indeterminate color="primary" size="48" />
+      <div class="mt-3 text-grey">Cargando establecimiento…</div>
+    </div>
+
+    <template v-else-if="establecimiento">
+      <!-- Encabezado -->
+      <v-card class="pa-6 mb-6 overflow-hidden" elevation="3"
+        style="border-radius: 16px; border-top: 8px solid #142957;">
+        <v-row align="center">
+          <v-col cols="12" md="auto" class="text-center">
+            <v-avatar size="90" color="blue-lighten-5">
+              <v-icon size="52" color="#142957">mdi-school</v-icon>
+            </v-avatar>
+          </v-col>
+          <v-col>
+            <div class="d-flex align-center flex-wrap mb-2">
+              <h1 class="text-h4 font-weight-black mr-4 uppercase" style="color: #142957;">
+                {{ establecimiento.nombre || 'Sin nombre' }}
+              </h1>
+              <v-chip color="#142957" label variant="flat" size="small" class="font-weight-bold">
+                CÓDIGO: {{ establecimiento.codigoMineduc || '—' }}
+              </v-chip>
+            </div>
+            <div class="text-subtitle-2 text-grey-darken-1">
+              <v-icon size="small" class="mr-1">mdi-identifier</v-icon>ID: {{ establecimiento.id }}
+              <span v-if="tieneCoords" class="ml-4">
+                <v-icon size="small" class="mr-1">mdi-map-marker</v-icon>
+                {{ establecimiento.latitud?.toFixed(5) }}, {{ establecimiento.longitud?.toFixed(5) }}
+              </span>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card>
+
+      <!-- Aviso: el API configurado no expone inventario -->
+      <v-alert v-if="sinInventario" type="info" variant="tonal" density="compact" class="mb-6">
+        El API configurado no expone el inventario de equipos. Se muestran solo los datos del establecimiento.
+        Para ver el inventario, configura <code>MDM_GRAPHQL_URL</code> hacia el backend que lo provee.
+      </v-alert>
+
+      <!-- Tarjetas resumen -->
+      <v-row class="mb-6">
+        <v-col cols="12" sm="4">
+          <v-card class="pa-5 text-center text-white" elevation="4" rounded="xl" style="background:#142957;">
+            <div class="text-h3 font-weight-black">{{ totalInventario }}</div>
+            <div class="text-uppercase text-caption font-weight-bold">Equipos en inventario</div>
+          </v-card>
         </v-col>
-
-        <v-col>
-          <div class="d-flex align-center flex-wrap mb-2">
-            <h1 class="text-h4 font-weight-black mr-4 text-blue-darken-4 uppercase">
-              {{ escuela.nombreEscuela }}
-            </h1>
-            <v-chip color="blue-darken-3" label variant="flat" size="small" class="font-weight-bold">
-              CÓDIGO: {{ escuela.codigoEscuela }}
-            </v-chip>
-          </div>
-
-          <v-row dense>
-            <v-col cols="12" md="8">
-              <div class="text-subtitle-1 mb-1 font-weight-medium text-grey-darken-3">
-                <v-icon color="primary" class="mr-2" size="small">mdi-map-marker</v-icon> 
-                {{ escuela.direccion || 'Dirección no disponible' }}
-              </div>
-    
-            </v-col>
-            <v-col cols="12" md="4" class="text-right d-none d-md-block">
-              <v-img src="politica.png" max-width="150" class="ml-auto" opacity="0.8" />
-            </v-col>
-          </v-row>
+        <v-col cols="12" sm="4">
+          <v-card class="pa-5 text-center" elevation="4" rounded="xl"
+            style="border: 2px solid #142957; color:#142957;">
+            <div class="text-h3 font-weight-black">{{ estudiantes }}</div>
+            <div class="text-uppercase text-caption font-weight-bold">Estudiantes</div>
+          </v-card>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <v-card class="pa-5 text-center"
+            :class="establecimiento.poseeConectividad ? 'text-white' : 'text-grey'"
+            :style="establecimiento.poseeConectividad ? 'background:#1b7a43;' : 'background:#eceff1;'"
+            elevation="4" rounded="xl">
+            <v-icon size="30" class="mb-1">{{ establecimiento.poseeConectividad ? 'mdi-wifi' : 'mdi-wifi-off' }}</v-icon>
+            <div class="text-h6 font-weight-bold">
+              {{ establecimiento.poseeConectividad ? 'CONECTADO' : 'SIN INTERNET' }}
+            </div>
+            <div v-if="establecimiento.velocidadConectividad" class="text-caption">
+              {{ establecimiento.velocidadConectividad }} Mbps
+            </div>
+          </v-card>
         </v-col>
       </v-row>
-    </v-card>
 
-    <v-row class="mb-8">
-      <v-col cols="12" sm="4">
-        <v-card class="pa-5 text-center bg-blue-darken-4 text-white" elevation="4" rounded="xl">
-          <div class="text-h3 font-weight-black">{{ totalEquiposContados }}</div>
-          <div class="text-uppercase text-caption font-weight-bold">Equipos en esta consulta</div>
-        </v-card>
-      </v-col>
-      <v-col cols="12" sm="4">
-        <v-card class="pa-5 text-center bg-white text-blue-darken-4" elevation="4" rounded="xl" style="border: 2px solid #0D47A1;">
-          <div class="text-h3 font-weight-black">{{ totalEstudiantes }}</div>
-          <div class="text-uppercase text-caption font-weight-bold">Alumnos Beneficiados</div>
-        </v-card>
-      </v-col>
-      <v-col cols="12" sm="4">
-        <v-card class="pa-5 text-center" :class="tieneInternet ? 'bg-green-darken-4 text-white' : 'bg-grey-lighten-3 text-grey'" elevation="4" rounded="xl">
-          <v-icon size="32" class="mb-1">{{ tieneInternet ? 'mdi-wifi' : 'mdi-wifi-off' }}</v-icon>
-          <div class="text-h5 font-weight-bold">{{ tieneInternet ? 'CONECTADO' : 'SIN INTERNET' }}</div>
-          <div class="text-uppercase text-caption font-weight-bold">Estado de Red</div>
-        </v-card>
-      </v-col>
-    </v-row>
+      <v-row>
+        <!-- Datos del establecimiento -->
+        <v-col cols="12" lg="4">
+          <h3 class="text-h6 font-weight-bold mb-4" style="color:#142957;">
+            <v-icon class="mr-2">mdi-information-outline</v-icon>Datos del Establecimiento
+          </h3>
+          <v-card variant="outlined" rounded="xl" class="pa-2">
+            <v-list density="compact">
+              <v-list-item v-for="d in datosEstablecimiento" :key="d.label">
+                <template #prepend>
+                  <v-icon size="small" color="#142957" class="mr-2">{{ d.icon }}</v-icon>
+                </template>
+                <v-list-item-title class="text-caption text-grey-darken-1">{{ d.label }}</v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 text-black">{{ d.value }}</v-list-item-subtitle>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-col>
 
-    <v-row>
-      <v-col cols="12" lg="4">
-        <h3 class="text-h6 font-weight-bold mb-4 text-blue-darken-4">
-          <v-icon class="mr-2">mdi-account-group</v-icon>Desglose de Población
-        </h3>
-        
-        <v-alert v-if="escuela.beneficiarios?.length === 0" type="info" variant="tonal" text="No hay registros de beneficiarios." />
+        <!-- Inventario -->
+        <v-col cols="12" lg="8">
+          <h3 class="text-h6 font-weight-bold mb-4" style="color:#142957;">
+            <v-icon class="mr-2">mdi-devices</v-icon>Inventario de Equipos ({{ totalInventario }})
+          </h3>
 
-        <v-card v-for="b in escuela.beneficiarios" :key="b.id" class="mb-6 pa-4" variant="outlined" border rounded="xl">
-          <div class="d-flex justify-space-between align-center mb-4">
-            <span class="text-h6 font-weight-bold text-primary">Ciclo {{ b.ciclo_educativo }}</span>
-            <v-chip size="x-small" color="grey-darken-3">REF-{{ b.id }}</v-chip>
-          </div>
+          <v-card v-if="totalInventario === 0" variant="tonal" color="grey" rounded="xl" class="pa-6 text-center text-grey">
+            No hay equipos registrados en el inventario de este establecimiento.
+          </v-card>
 
-          <v-row no-gutters class="text-center mb-4 bg-blue-lighten-5 pa-2 rounded-lg">
-            <v-col cols="4">
-              <div class="text-subtitle-2 font-weight-bold">{{ b.hombres }}</div>
-              <div class="text-caption">Hombres</div>
-            </v-col>
-            <v-col cols="4" class="border-x">
-              <div class="text-subtitle-2 font-weight-bold">{{ b.mujeres }}</div>
-              <div class="text-caption">Mujeres</div>
-            </v-col>
-            <v-col cols="4">
-              <div class="text-subtitle-2 font-weight-bold">{{ b.docentes }}</div>
-              <div class="text-caption">Docentes</div>
-            </v-col>
-          </v-row>
-
-          <div class="text-caption font-weight-bold mb-2 text-grey-darken-2">PERTENENCIA CULTURAL:</div>
-          <v-row dense>
-            <v-col cols="6">
-              <v-chip size="x-small" block variant="outlined" class="w-100 justify-start">
-                <v-icon start size="14" color="brown">mdi-account</v-icon> Mayas: <b>{{ b.mayas }}</b>
-              </v-chip>
-            </v-col>
-            <v-col cols="6">
-              <v-chip size="x-small" block variant="outlined" class="w-100 justify-start">
-                <v-icon start size="14" color="orange">mdi-account</v-icon> Xincas: <b>{{ b.xincas }}</b>
-              </v-chip>
-            </v-col>
-            <v-col cols="6">
-              <v-chip size="x-small" block variant="outlined" class="w-100 justify-start">
-                <v-icon start size="14" color="blue">mdi-account</v-icon> Garífunas: <b>{{ b.garifunas }}</b>
-              </v-chip>
-            </v-col>
-            <v-col cols="6">
-              <v-chip size="x-small" block variant="outlined" class="w-100 justify-start">
-                <v-icon start size="14" color="grey">mdi-account</v-icon> Otros: <b>{{ b.otros }}</b>
-              </v-chip>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" lg="8">
-        <h3 class="text-h6 font-weight-bold mb-4 text-blue-darken-4">
-          <v-icon class="mr-2">mdi-history</v-icon>Línea de Tiempo de Dotaciones
-        </h3>
-        
-        <v-card class="pa-6" elevation="2" rounded="xl">
-          <v-timeline align="start" side="end" density="compact">
-            <v-timeline-item
-              v-for="dotacion in escuela.dotaciones"
-              :key="dotacion.id"
-              :dot-color="dotacion.internet ? 'green-darken-2' : 'blue-darken-2'"
-              size="small"
-            >
-              <template #opposite>
-                <div class="text-caption font-weight-bold text-grey">{{ formatDate(dotacion.fecha_entrega) }}</div>
-              </template>
-
-              <v-card class="pa-4 mb-4 border" variant="flat" color="grey-lighten-5" rounded="lg">
-                <div class="d-flex justify-space-between align-center mb-3">
-                  <div class="text-subtitle-1 font-weight-bold text-blue-darken-3">
-                    {{ dotacion.descripcion }}
-                  </div>
-                  <v-chip size="x-small" variant="tonal">{{ formatDate(dotacion.fecha_entrega) }}</v-chip>
-                </div>
-
-                <v-alert
-                  v-if="dotacion.internet"
-                  icon="mdi-wifi"
-                  color="green-darken-4"
-                  variant="tonal"
-                  class="mb-2"
-                >
-                  <div class="text-body-2">
-                    <b>Proveedor:</b> {{ dotacion.internet.empresa?.toUpperCase() }}<br>
-                    <b>Instalación:</b> {{ dotacion.internet.fecha_instalacion }}
-                  </div>
-                </v-alert>
-
-                <div v-if="dotacion.equipos?.length > 0">
-                  <v-table density="compact" class="bg-transparent rounded-lg border overflow-hidden">
-                    <thead class="bg-blue-grey-lighten-5">
-                      <tr>
-                        <th class="text-left text-caption font-weight-bold">EQUIPO / ESPECIFICACIONES</th>
-                        <th class="text-center text-caption font-weight-bold" style="width: 80px;">CANT.</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="grupo in agruparEquipos(dotacion.equipos)" :key="grupo.modelo_id">
-                        <td class="py-2">
-                          <div class="d-flex align-start">
-                            <v-icon size="small" class="mr-2 mt-1" color="primary">{{ getIconType(grupo.tipo) }}</v-icon>
-                            <div>
-                              <div class="text-body-2 font-weight-bold">{{ grupo.modelo }}</div>
-                              <div class="text-caption text-grey-darken-1 line-height-1" style="font-size: 0.7rem !important;">
-                                {{ grupo.especificaciones }}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="text-center">
-                          <v-chip size="x-small" color="primary" variant="flat">{{ grupo.cantidad }}</v-chip>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </v-table>
-                </div>
-
-                <v-row v-if="dotacion.imagenes?.length > 0" class="mt-3" dense>
-                  <v-col v-for="img in dotacion.imagenes" :key="img.id" cols="4" sm="3">
-                    <v-img :src="img.signedUrl" cover aspect-ratio="1" class="rounded-lg hover-zoom border" />
-                  </v-col>
-                </v-row>
-                
-                <div v-if="!dotacion.internet && dotacion.equipos?.length === 0" class="text-caption italic text-grey">
-                  No se detallaron equipos o servicios en este registro.
-                </div>
-              </v-card>
-            </v-timeline-item>
-          </v-timeline>
-        </v-card>
-      </v-col>
-    </v-row>
+          <v-card v-else variant="outlined" rounded="xl" class="overflow-hidden">
+            <v-table density="compact">
+              <thead style="background:#eef2f8;">
+                <tr>
+                  <th class="text-left text-caption font-weight-bold">EQUIPO</th>
+                  <th class="text-left text-caption font-weight-bold">MARCA / MODELO</th>
+                  <th class="text-left text-caption font-weight-bold">SERIE</th>
+                  <th class="text-left text-caption font-weight-bold">SICOIN</th>
+                  <th class="text-left text-caption font-weight-bold">ESTADO</th>
+                  <th class="text-right text-caption font-weight-bold">VALOR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="eq in establecimiento.inventario" :key="eq.id">
+                  <td class="py-2">
+                    <div class="d-flex align-start">
+                      <v-icon size="small" class="mr-2 mt-1" color="#142957">{{ iconoTipo(eq) }}</v-icon>
+                      <div>
+                        <div class="text-body-2 font-weight-bold">{{ eq.nombre || 'Equipo' }}</div>
+                        <div v-if="atributos(eq).length" class="mt-1">
+                          <v-chip v-for="a in atributos(eq)" :key="a" size="x-small" variant="tonal"
+                            color="indigo" class="mr-1">{{ a }}</v-chip>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-body-2">
+                    <div>{{ eq.marca || '—' }}</div>
+                    <div class="text-caption text-grey-darken-1">{{ eq.modelo || '' }}</div>
+                  </td>
+                  <td class="text-body-2">{{ eq.serie || '—' }}</td>
+                  <td class="text-body-2">{{ eq.sicoin || '—' }}</td>
+                  <td>
+                    <v-chip size="x-small" :color="colorEstado(eq.estado)" variant="flat">
+                      {{ eq.estado || '—' }}
+                    </v-chip>
+                  </td>
+                  <td class="text-right text-body-2">{{ formatValor(eq.valor) }}</td>
+                </tr>
+              </tbody>
+            </v-table>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
   </v-container>
 </template>
 
@@ -208,90 +162,93 @@ import Swal from 'sweetalert2'
 
 const route = useRoute()
 const router = useRouter()
-const escuela = ref(null)
+
+const establecimiento = ref(null)
+const sinInventario = ref(false)
 const loading = ref(false)
-const codigoMineduc = route.query.codigoMineduc
 
-// --- COMPUTED PROPERTIES ---
+const id = route.query.id
 
-const tieneInternet = computed(() => {
-  return escuela.value?.dotaciones?.some(d => d.internet !== null) || false
+const totalInventario = computed(() => establecimiento.value?.inventario?.length || 0)
+
+const estudiantes = computed(() => {
+  const e = establecimiento.value
+  if (!e) return 0
+  return e.inscritos2026 ?? e.estudiantesInscritos ?? 0
 })
 
-const totalEstudiantes = computed(() => {
-  if (!escuela.value?.beneficiarios) return 0
-  return escuela.value.beneficiarios.reduce((acc, curr) => acc + (curr.hombres + curr.mujeres), 0)
-})
+const tieneCoords = computed(() =>
+  establecimiento.value?.latitud != null && establecimiento.value?.longitud != null
+)
 
-const totalEquiposContados = computed(() => {
-  if (!escuela.value?.dotaciones) return 0
-  return escuela.value.dotaciones.reduce((acc, dot) => acc + (dot.equipos?.length || 0), 0)
+const datosEstablecimiento = computed(() => {
+  const e = establecimiento.value
+  if (!e) return []
+  const fecha = (f) => (f ? new Date(f).toLocaleDateString('es-GT') : '—')
+  return [
+    { label: 'Correo electrónico', value: e.correoElectronico || '—', icon: 'mdi-email-outline' },
+    { label: 'Teléfono', value: e.telefono || '—', icon: 'mdi-phone-outline' },
+    { label: 'Estudiantes inscritos', value: estudiantes.value, icon: 'mdi-account-group-outline' },
+    { label: 'Hombres / Mujeres', value: `${e.cantidadHombres ?? '—'} / ${e.cantidadMujeres ?? '—'}`, icon: 'mdi-human-male-female' },
+    { label: 'Conectividad', value: e.poseeConectividad ? `Sí${e.velocidadConectividad ? ' · ' + e.velocidadConectividad + ' Mbps' : ''}` : 'No', icon: 'mdi-wifi' },
+    { label: 'Fecha de conexión', value: fecha(e.fechaConexion), icon: 'mdi-calendar-check' },
+    { label: 'Fecha de datación', value: fecha(e.fechaDatacion), icon: 'mdi-calendar-clock' },
+    { label: 'OPF', value: e.opf || '—', icon: 'mdi-tag-outline' },
+    { label: 'Departamento / Municipio (id)', value: `${e.departamentoId ?? '—'} / ${e.municipioId ?? '—'}`, icon: 'mdi-map-marker-outline' },
+  ]
 })
-
-// --- MÉTODOS ---
 
 function goBack() {
   router.back()
 }
 
-function agruparEquipos(equipos) {
-  if (!equipos) return []
-  const grupos = {}
-
-  equipos.forEach(item => {
-    // Manejo de seguridad por si el objeto modelo viene nulo
-    const mod = item.modelo || {}
-    const id = item.modelo_id || 'sin-id'
-    
-    if (!grupos[id]) {
-      grupos[id] = {
-        modelo_id: id,
-        modelo: mod.nombre_modelo || 'Equipo Genérico',
-        tipo: mod.tipo?.nombre || 'Dispositivo',
-        especificaciones: mod.descripcion_tecnica || 'Sin descripción técnica',
-        cantidad: 0
-      }
-    }
-    grupos[id].cantidad++
-  })
-
-  return Object.values(grupos)
+function atributos(eq) {
+  const extra = eq?.atributosExtra
+  if (!extra || typeof extra !== 'object') return []
+  return Object.entries(extra).map(([k, v]) => `${k}: ${v}`)
 }
 
-function formatDate(date) {
-  if (!date) return 'S/F'
-  return new Intl.DateTimeFormat('es-GT', {
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit'
-  }).format(new Date(date))
-}
-
-function getIconType(tipo) {
-  const t = tipo?.toLowerCase() || ''
-  if (t.includes('laptop')) return 'mdi-laptop'
-  if (t.includes('desktop') || t.includes('computadora')) return 'mdi-desktop-tower'
-  if (t.includes('impresora')) return 'mdi-printer'
-  if (t.includes('ups')) return 'mdi-battery-charging'
-  if (t.includes('tablet')) return 'mdi-tablet-android'
+function iconoTipo(eq) {
+  const t = `${eq?.nombre || ''} ${eq?.modelo || ''} ${eq?.marca || ''}`.toLowerCase()
+  if (t.includes('laptop') || t.includes('portátil')) return 'mdi-laptop'
+  if (t.includes('tomi') || t.includes('proyector')) return 'mdi-projector'
+  if (t.includes('tablet')) return 'mdi-tablet'
+  if (t.includes('impresora') || t.includes('printer')) return 'mdi-printer'
+  if (t.includes('comp') || t.includes('desktop') || t.includes('dell')) return 'mdi-desktop-tower'
   return 'mdi-devices'
 }
 
+function colorEstado(estado) {
+  const e = (estado || '').toUpperCase()
+  if (e === 'ASIGNADO') return 'success'
+  if (e === 'DISPONIBLE') return 'primary'
+  if (e === 'BAJA' || e === 'DAÑADO') return 'error'
+  return 'grey'
+}
+
+function formatValor(v) {
+  if (v == null || v === '') return '—'
+  const n = Number(v)
+  if (!Number.isFinite(n)) return String(v)
+  return `Q ${n.toLocaleString('es-GT')}`
+}
+
 onMounted(async () => {
-  if (!codigoMineduc) {
-    Swal.fire('Error', 'Código Mineduc no recibido', 'error')
+  if (!id) {
+    Swal.fire('Error', 'No se recibió el id del establecimiento', 'error')
     router.back()
     return
   }
 
   loading.value = true
   try {
-    const url = `/api/v1/escuelas/${codigoMineduc}`
-    const { data } = await api.get(url)
-    escuela.value = data.data
+    const { data } = await api.get(`/api/v1/dashboard/establecimiento/${id}`)
+    establecimiento.value = data.establecimiento
+    sinInventario.value = !!data._sinInventario
   } catch (error) {
-    console.error("ERROR API:", error)
-    Swal.fire('Error', 'No se pudieron cargar los datos', 'error')
+    console.error('ERROR API detalle:', error)
+    Swal.fire('Error', error.response?.data?.message || 'No se pudo cargar el establecimiento', 'error')
+    router.back()
   } finally {
     loading.value = false
   }
@@ -299,23 +256,11 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.italic { font-style: italic; }
 .uppercase { text-transform: uppercase; }
-.hover-zoom { transition: transform 0.3s; cursor: pointer; }
-.hover-zoom:hover { transform: scale(1.1); z-index: 10; }
-.line-height-1 { line-height: 1.2; }
-
 :deep(.v-table) { background: transparent !important; }
 :deep(.v-table th) {
   font-size: 0.7rem !important;
   letter-spacing: 0.5px;
   color: #455A64 !important;
-}
-
-/* Timeline adjustment for mobile */
-@media (max-width: 600px) {
-  :deep(.v-timeline-item__opposite) {
-    display: none;
-  }
 }
 </style>

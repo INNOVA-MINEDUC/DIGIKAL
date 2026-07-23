@@ -11,8 +11,18 @@ export const useEstablecimientosStore = defineStore('establecimientos', {
 
     totalEstablecimientos: 0,
     totalEstudiantes: 0,
+    totalHombres: 0,
+    totalMujeres: 0,
     totalEquipos: 0,
     totalInternet: 0,
+
+    // Dotación de equipos (viene de la BD local, no del API MDM)
+    establecimientosDotados: 0,
+    estudiantesDotados: 0,
+    modelosEquipos: [],
+
+    // Distribución de establecimientos por nivel educativo
+    nivelesDistribucion: [],
 
     loading: false,
 
@@ -106,83 +116,18 @@ export const useEstablecimientosStore = defineStore('establecimientos', {
   actions: {
 
     setData(data) {
+      this.establecimientos      = data.escuelas || []
+      this.totalEstablecimientos = data.establecimientos || 0
+      this.totalEstudiantes      = data.totalEstudiantes  || 0
+      this.totalHombres          = data.totalHombres      || 0
+      this.totalMujeres          = data.totalMujeres      || 0
+      this.totalEquipos          = data.totalEquipos      || 0
+      this.totalInternet         = data.totalInternet     || 0
 
-      /* =========================================
-         DATA PRINCIPAL
-      ========================================= */
-
-      this.establecimientos = data.escuelas || []
-
-      this.totalEstablecimientos =
-        data.establecimientos || 0
-
-      this.totalEstudiantes =
-        data.totalEstudiantes || 0
-
-      this.totalEquipos =
-        data.totalEquipos || 0
-
-      this.totalInternet =
-        data.totalInternet || 0
-
-      /* =========================================
-         BENEFICIARIOS
-      ========================================= */
-
-      const beneficiarios = this.establecimientos.flatMap(
-        (escuela) => escuela.beneficiarios || []
-      )
-
-      this.beneficiarios = beneficiarios
-
-      /* =========================================
-         ETNIAS
-      ========================================= */
-
-      this.totalMayas = beneficiarios.reduce(
-        (acc, b) => acc + Number(b.mayas || 0),
-        0
-      )
-
-      this.totalXincas = beneficiarios.reduce(
-        (acc, b) => acc + Number(b.xincas || 0),
-        0
-      )
-
-      this.totalGarifunas = beneficiarios.reduce(
-        (acc, b) => acc + Number(b.garifunas || 0),
-        0
-      )
-
-      this.totalOtros = beneficiarios.reduce(
-        (acc, b) => acc + Number(b.otros || 0),
-        0
-      )
-
-      /* =========================================
-         EDADES
-      ========================================= */
-
-      this.totalEdad013 = beneficiarios.reduce(
-        (acc, b) => acc + Number(b.edad_0_13 || 0),
-        0
-      )
-
-      this.totalEdad1330 = beneficiarios.reduce(
-        (acc, b) => acc + Number(b.edad_13_30 || 0),
-        0
-      )
-
-      this.totalEdad3060 = beneficiarios.reduce(
-        (acc, b) => acc + Number(b.edad_30_60 || 0),
-        0
-      )
-
-      this.totalEdadMas60 = beneficiarios.reduce(
-        (acc, b) => acc + Number(b.edad_mas_60 || 0),
-        0
-      )
-
+      this.establecimientosDotados = data.establecimientosDotados || 0
+      this.estudiantesDotados      = data.estudiantesDotados      || 0
+      this.modelosEquipos          = data.modelosEquipos          || []
+      this.nivelesDistribucion     = data.nivelesDistribucion     || []
     },
 
     setEstablecimientos(data) {

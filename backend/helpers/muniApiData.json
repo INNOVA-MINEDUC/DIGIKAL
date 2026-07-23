@@ -1,0 +1,1702 @@
+[
+  {
+    "id": 1,
+    "nombre": "san jose la maquina",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 2,
+    "nombre": "raxruha",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 3,
+    "nombre": "sanarate",
+    "departamento": "el progreso"
+  },
+  {
+    "id": 4,
+    "nombre": "chinautla",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 5,
+    "nombre": "petatan",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 6,
+    "nombre": "santa eulalia",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 7,
+    "nombre": "san pedro pinula",
+    "departamento": "jalapa"
+  },
+  {
+    "id": 8,
+    "nombre": "yupiltepeque",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 9,
+    "nombre": "comitancillo",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 10,
+    "nombre": "san jose ojetenam",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 11,
+    "nombre": "santa cruz naranjo",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 12,
+    "nombre": "san juan bautista",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 13,
+    "nombre": "san cristobal verapaz",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 14,
+    "nombre": "sansare",
+    "departamento": "el progreso"
+  },
+  {
+    "id": 15,
+    "nombre": "chuarrancho",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 16,
+    "nombre": "san antonio huista",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 17,
+    "nombre": "santiago chimaltenango",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 18,
+    "nombre": "agua blanca",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 19,
+    "nombre": "zapotitlan",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 20,
+    "nombre": "concepcion tutuapa",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 21,
+    "nombre": "san marcos",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 22,
+    "nombre": "santa maria ixhuatan",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 23,
+    "nombre": "san lorenzo",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 24,
+    "nombre": "san juan chamelco",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 25,
+    "nombre": "escuintla",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 26,
+    "nombre": "guatemala",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 27,
+    "nombre": "san gaspar ixchil",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 28,
+    "nombre": "tectitan",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 29,
+    "nombre": "asuncion mita",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 30,
+    "nombre": "dolores",
+    "departamento": "peten"
+  },
+  {
+    "id": 31,
+    "nombre": "el quetzal",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 32,
+    "nombre": "san miguel ixtahuacan",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 33,
+    "nombre": "santa rosa de lima",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 34,
+    "nombre": "san miguel panam",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 35,
+    "nombre": "san miguel tucuru",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 36,
+    "nombre": "guanagazapa",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 37,
+    "nombre": "palencia",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 38,
+    "nombre": "san ildefonso ixtahuacan",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 39,
+    "nombre": "todos santos cuchumatan",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 40,
+    "nombre": "atescatempa",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 41,
+    "nombre": "el chal",
+    "departamento": "peten"
+  },
+  {
+    "id": 42,
+    "nombre": "el tumbador",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 43,
+    "nombre": "san pablo",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 44,
+    "nombre": "taxisco",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 45,
+    "nombre": "san pablo jocopilas",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 46,
+    "nombre": "san pedro carcha",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 47,
+    "nombre": "iztapa",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 48,
+    "nombre": "san jose del golfo",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 49,
+    "nombre": "san juan atitan",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 50,
+    "nombre": "union cantinil",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 51,
+    "nombre": "comapa",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 52,
+    "nombre": "flores",
+    "departamento": "peten"
+  },
+  {
+    "id": 53,
+    "nombre": "esquipulas palo gordo",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 54,
+    "nombre": "san pedro sacatepequez",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 55,
+    "nombre": "chicacao",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 56,
+    "nombre": "santa barbara",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 57,
+    "nombre": "santa cruz verapaz",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 58,
+    "nombre": "la democracia",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 59,
+    "nombre": "san pedro ayampuc",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 60,
+    "nombre": "san juan ixcoy",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 61,
+    "nombre": "el estor",
+    "departamento": "izabal"
+  },
+  {
+    "id": 62,
+    "nombre": "conguaco",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 63,
+    "nombre": "las cruces",
+    "departamento": "peten"
+  },
+  {
+    "id": 64,
+    "nombre": "ixchiguan",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 65,
+    "nombre": "san rafael pie de la cuesta",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 66,
+    "nombre": "cuyotenango",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 67,
+    "nombre": "santo domingo suchitepequez",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 68,
+    "nombre": "santa maria cahabon",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 69,
+    "nombre": "la gomera",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 70,
+    "nombre": "aguacatan",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 71,
+    "nombre": "san mateo ixtatan",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 72,
+    "nombre": "livingston",
+    "departamento": "izabal"
+  },
+  {
+    "id": 73,
+    "nombre": "el adelanto",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 74,
+    "nombre": "melchor de mencos",
+    "departamento": "peten"
+  },
+  {
+    "id": 75,
+    "nombre": "la blanca",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 76,
+    "nombre": "sibinal",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 77,
+    "nombre": "barberena",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 78,
+    "nombre": "mazatenango",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 79,
+    "nombre": "santo tomas la union",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 80,
+    "nombre": "senahu",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 81,
+    "nombre": "masagua",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 82,
+    "nombre": "chiantla",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 83,
+    "nombre": "san miguel acatan",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 84,
+    "nombre": "los amates",
+    "departamento": "izabal"
+  },
+  {
+    "id": 85,
+    "nombre": "el progreso",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 86,
+    "nombre": "poptun",
+    "departamento": "peten"
+  },
+  {
+    "id": 87,
+    "nombre": "la reforma",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 88,
+    "nombre": "sipacapa",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 89,
+    "nombre": "casillas",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 90,
+    "nombre": "patulul",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 91,
+    "nombre": "zunilito",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 92,
+    "nombre": "tactic",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 93,
+    "nombre": "nueva concepcion",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 94,
+    "nombre": "colotenango",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 95,
+    "nombre": "san pedro necta",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 96,
+    "nombre": "morales",
+    "departamento": "izabal"
+  },
+  {
+    "id": 97,
+    "nombre": "jalpatagua",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 98,
+    "nombre": "san andres",
+    "departamento": "peten"
+  },
+  {
+    "id": 99,
+    "nombre": "malacatan",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 100,
+    "nombre": "tacana",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 101,
+    "nombre": "chiquimulilla",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 102,
+    "nombre": "pueblo nuevo",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 103,
+    "nombre": "chahal",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 104,
+    "nombre": "tamahu",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 105,
+    "nombre": "palin",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 106,
+    "nombre": "concepcion huista",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 107,
+    "nombre": "san pedro soloma",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 108,
+    "nombre": "puerto barrios",
+    "departamento": "izabal"
+  },
+  {
+    "id": 109,
+    "nombre": "jerez",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 110,
+    "nombre": "san benito",
+    "departamento": "peten"
+  },
+  {
+    "id": 111,
+    "nombre": "nuevo progreso",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 112,
+    "nombre": "tajumulco",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 113,
+    "nombre": "cuilapa",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 114,
+    "nombre": "rio bravo",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 115,
+    "nombre": "chisec",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 116,
+    "nombre": "el jicaro",
+    "departamento": "el progreso"
+  },
+  {
+    "id": 117,
+    "nombre": "san jose",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 118,
+    "nombre": "cuilco",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 119,
+    "nombre": "san rafael la independencia",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 120,
+    "nombre": "jalapa",
+    "departamento": "jalapa"
+  },
+  {
+    "id": 121,
+    "nombre": "jutiapa",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 122,
+    "nombre": "san francisco",
+    "departamento": "peten"
+  },
+  {
+    "id": 123,
+    "nombre": "ocos",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 124,
+    "nombre": "tejutla",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 125,
+    "nombre": "guazacapan",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 126,
+    "nombre": "samayac",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 127,
+    "nombre": "san antonio suchitepequez",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 128,
+    "nombre": "coban",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 129,
+    "nombre": "guastatoya",
+    "departamento": "el progreso"
+  },
+  {
+    "id": 130,
+    "nombre": "san vicente pacaya",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 131,
+    "nombre": "huehuetenango",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 132,
+    "nombre": "san rafael petzal",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 133,
+    "nombre": "mataquescuintla",
+    "departamento": "jalapa"
+  },
+  {
+    "id": 134,
+    "nombre": "moyuta",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 135,
+    "nombre": "san luis",
+    "departamento": "peten"
+  },
+  {
+    "id": 136,
+    "nombre": "pajapita",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 137,
+    "nombre": "nueva santa rosa",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 138,
+    "nombre": "san bernardino",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 139,
+    "nombre": "fray bartolome de las casas",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 140,
+    "nombre": "morazan",
+    "departamento": "el progreso"
+  },
+  {
+    "id": 141,
+    "nombre": "santa lucia cotzumalguapa",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 142,
+    "nombre": "jacaltenango",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 143,
+    "nombre": "san sebastian coatan",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 144,
+    "nombre": "monjas",
+    "departamento": "jalapa"
+  },
+  {
+    "id": 145,
+    "nombre": "pasaco",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 146,
+    "nombre": "santa ana",
+    "departamento": "peten"
+  },
+  {
+    "id": 147,
+    "nombre": "rio blanco",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 148,
+    "nombre": "oratorio",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 149,
+    "nombre": "san francisco zapotitlan",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 150,
+    "nombre": "la tinta",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 151,
+    "nombre": "san agustin acasaguastlan",
+    "departamento": "el progreso"
+  },
+  {
+    "id": 152,
+    "nombre": "sipacate",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 153,
+    "nombre": "la libertad",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 154,
+    "nombre": "san sebastian huehuetenango",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 155,
+    "nombre": "san carlos alzatate",
+    "departamento": "jalapa"
+  },
+  {
+    "id": 156,
+    "nombre": "quesada",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 157,
+    "nombre": "sayaxche",
+    "departamento": "peten"
+  },
+  {
+    "id": 158,
+    "nombre": "san antonio sacatepequez",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 159,
+    "nombre": "pueblo nuevo vinas",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 160,
+    "nombre": "san gabriel",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 161,
+    "nombre": "lanquin",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 162,
+    "nombre": "san antonio la paz",
+    "departamento": "el progreso"
+  },
+  {
+    "id": 163,
+    "nombre": "siquinala",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 164,
+    "nombre": "malacatancito",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 165,
+    "nombre": "santa ana huista",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 166,
+    "nombre": "san luis jilotepeque",
+    "departamento": "jalapa"
+  },
+  {
+    "id": 167,
+    "nombre": "san jose acatempa",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 168,
+    "nombre": "ayutla",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 169,
+    "nombre": "san cristobal cucho",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 170,
+    "nombre": "san juan tecuaco",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 171,
+    "nombre": "san jose el idolo",
+    "departamento": "suchitepequez"
+  },
+  {
+    "id": 172,
+    "nombre": "panzos",
+    "departamento": "alta verapaz"
+  },
+  {
+    "id": 173,
+    "nombre": "san cristobal acasaguastlan",
+    "departamento": "el progreso"
+  },
+  {
+    "id": 174,
+    "nombre": "tiquisate",
+    "departamento": "escuintla"
+  },
+  {
+    "id": 175,
+    "nombre": "nenton",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 176,
+    "nombre": "santa cruz barillas",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 177,
+    "nombre": "san manuel chaparron",
+    "departamento": "jalapa"
+  },
+  {
+    "id": 178,
+    "nombre": "santa catarina mita",
+    "departamento": "jutiapa"
+  },
+  {
+    "id": 179,
+    "nombre": "catarina",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 180,
+    "nombre": "san jose el rodeo",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 181,
+    "nombre": "san rafael las flores",
+    "departamento": "santa rosa"
+  },
+  {
+    "id": 182,
+    "nombre": "san lorenzo",
+    "departamento": "san marcos"
+  },
+  {
+    "id": 183,
+    "nombre": "la democracia",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 184,
+    "nombre": "santa barbara",
+    "departamento": "huehuetenango"
+  },
+  {
+    "id": 185,
+    "nombre": "salama",
+    "departamento": "baja verapaz"
+  },
+  {
+    "id": 186,
+    "nombre": "cubulco",
+    "departamento": "baja verapaz"
+  },
+  {
+    "id": 187,
+    "nombre": "granados",
+    "departamento": "baja verapaz"
+  },
+  {
+    "id": 188,
+    "nombre": "purulha",
+    "departamento": "baja verapaz"
+  },
+  {
+    "id": 189,
+    "nombre": "rabinal",
+    "departamento": "baja verapaz"
+  },
+  {
+    "id": 190,
+    "nombre": "san jeronimo",
+    "departamento": "baja verapaz"
+  },
+  {
+    "id": 191,
+    "nombre": "san miguel chicaj",
+    "departamento": "baja verapaz"
+  },
+  {
+    "id": 192,
+    "nombre": "santa cruz el chol",
+    "departamento": "baja verapaz"
+  },
+  {
+    "id": 193,
+    "nombre": "acatenango",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 194,
+    "nombre": "chimaltenango",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 195,
+    "nombre": "el tejar",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 196,
+    "nombre": "parramos",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 197,
+    "nombre": "patzicia",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 198,
+    "nombre": "patzun",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 199,
+    "nombre": "san miguel pochuta",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 200,
+    "nombre": "san andres itzapa",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 201,
+    "nombre": "san jose poaquil",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 202,
+    "nombre": "san juan comalapa",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 203,
+    "nombre": "san martin jilotepeque",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 204,
+    "nombre": "san pedro yepocapa",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 205,
+    "nombre": "santa apolonia",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 206,
+    "nombre": "santa cruz balanya",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 207,
+    "nombre": "tecpan guatemala",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 208,
+    "nombre": "zaragoza",
+    "departamento": "chimaltenango"
+  },
+  {
+    "id": 209,
+    "nombre": "chiquimula",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 210,
+    "nombre": "esquipulas",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 211,
+    "nombre": "jocotan",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 212,
+    "nombre": "camotan",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 213,
+    "nombre": "concepcion las minas",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 214,
+    "nombre": "ipala",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 215,
+    "nombre": "san juan ermita",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 216,
+    "nombre": "olopa",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 217,
+    "nombre": "quezaltepeque",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 218,
+    "nombre": "san jacinto",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 219,
+    "nombre": "san jose la arada",
+    "departamento": "chiquimula"
+  },
+  {
+    "id": 220,
+    "nombre": "amatitlan",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 221,
+    "nombre": "fraijanes",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 222,
+    "nombre": "mixco",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 223,
+    "nombre": "san jose pinula",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 224,
+    "nombre": "san juan sacatepequez",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 225,
+    "nombre": "san miguel petapa",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 226,
+    "nombre": "san pedro sacatepequez",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 227,
+    "nombre": "san raymundo",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 228,
+    "nombre": "santa catarina pinula",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 229,
+    "nombre": "villa canales",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 230,
+    "nombre": "villa nueva",
+    "departamento": "guatemala"
+  },
+  {
+    "id": 231,
+    "nombre": "la libertad",
+    "departamento": "peten"
+  },
+  {
+    "id": 232,
+    "nombre": "san jose",
+    "departamento": "peten"
+  },
+  {
+    "id": 233,
+    "nombre": "almolonga",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 234,
+    "nombre": "cabrican",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 235,
+    "nombre": "cajola",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 236,
+    "nombre": "cantel",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 237,
+    "nombre": "coatepeque",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 238,
+    "nombre": "colomba costa cuca",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 239,
+    "nombre": "el palmar",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 240,
+    "nombre": "flores costa cuca",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 241,
+    "nombre": "genova costa cuca",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 242,
+    "nombre": "huitan",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 243,
+    "nombre": "la esperanza",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 244,
+    "nombre": "olintepeque",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 245,
+    "nombre": "palestina de los altos",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 246,
+    "nombre": "quetzaltenango",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 247,
+    "nombre": "salcaja",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 248,
+    "nombre": "san carlos sija",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 249,
+    "nombre": "san francisco la union",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 250,
+    "nombre": "san martin sacatepequez",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 251,
+    "nombre": "san mateo",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 252,
+    "nombre": "san miguel siguila",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 253,
+    "nombre": "sibilia",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 254,
+    "nombre": "zunil",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 255,
+    "nombre": "san juan ostuncalco",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 256,
+    "nombre": "concepcion chiquirichapa",
+    "departamento": "quetzaltenango"
+  },
+  {
+    "id": 257,
+    "nombre": "canilla",
+    "departamento": "quiche"
+  },
+  {
+    "id": 258,
+    "nombre": "chajul",
+    "departamento": "quiche"
+  },
+  {
+    "id": 259,
+    "nombre": "chicaman",
+    "departamento": "quiche"
+  },
+  {
+    "id": 260,
+    "nombre": "chiche",
+    "departamento": "quiche"
+  },
+  {
+    "id": 261,
+    "nombre": "santo tomas chichicastenango",
+    "departamento": "quiche"
+  },
+  {
+    "id": 262,
+    "nombre": "chinique",
+    "departamento": "quiche"
+  },
+  {
+    "id": 263,
+    "nombre": "cunen",
+    "departamento": "quiche"
+  },
+  {
+    "id": 264,
+    "nombre": "ixcan",
+    "departamento": "quiche"
+  },
+  {
+    "id": 265,
+    "nombre": "joyabaj",
+    "departamento": "quiche"
+  },
+  {
+    "id": 266,
+    "nombre": "nebaj",
+    "departamento": "quiche"
+  },
+  {
+    "id": 267,
+    "nombre": "pachalun",
+    "departamento": "quiche"
+  },
+  {
+    "id": 268,
+    "nombre": "patzite",
+    "departamento": "quiche"
+  },
+  {
+    "id": 269,
+    "nombre": "sacapulas",
+    "departamento": "quiche"
+  },
+  {
+    "id": 270,
+    "nombre": "san andres sajcabaja",
+    "departamento": "quiche"
+  },
+  {
+    "id": 271,
+    "nombre": "san antonio ilotenango",
+    "departamento": "quiche"
+  },
+  {
+    "id": 272,
+    "nombre": "san bartolome jocotenango",
+    "departamento": "quiche"
+  },
+  {
+    "id": 273,
+    "nombre": "san juan cotzal",
+    "departamento": "quiche"
+  },
+  {
+    "id": 274,
+    "nombre": "san pedro jocopilas",
+    "departamento": "quiche"
+  },
+  {
+    "id": 275,
+    "nombre": "santa cruz del quiche",
+    "departamento": "quiche"
+  },
+  {
+    "id": 276,
+    "nombre": "san miguel uspantan",
+    "departamento": "quiche"
+  },
+  {
+    "id": 277,
+    "nombre": "zacualpa",
+    "departamento": "quiche"
+  },
+  {
+    "id": 278,
+    "nombre": "champerico",
+    "departamento": "retalhuleu"
+  },
+  {
+    "id": 279,
+    "nombre": "el asintal",
+    "departamento": "retalhuleu"
+  },
+  {
+    "id": 280,
+    "nombre": "nuevo san carlos",
+    "departamento": "retalhuleu"
+  },
+  {
+    "id": 281,
+    "nombre": "retalhuleu",
+    "departamento": "retalhuleu"
+  },
+  {
+    "id": 282,
+    "nombre": "san andres villa seca",
+    "departamento": "retalhuleu"
+  },
+  {
+    "id": 283,
+    "nombre": "san felipe",
+    "departamento": "retalhuleu"
+  },
+  {
+    "id": 284,
+    "nombre": "san martin zapotitlan",
+    "departamento": "retalhuleu"
+  },
+  {
+    "id": 285,
+    "nombre": "san sebastian",
+    "departamento": "retalhuleu"
+  },
+  {
+    "id": 286,
+    "nombre": "santa cruz mulua",
+    "departamento": "retalhuleu"
+  },
+  {
+    "id": 287,
+    "nombre": "alotenango",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 288,
+    "nombre": "antigua guatemala",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 289,
+    "nombre": "ciudad vieja",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 290,
+    "nombre": "jocotenango",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 291,
+    "nombre": "magdalena milpas altas",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 292,
+    "nombre": "pastores",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 293,
+    "nombre": "san antonio aguas calientes",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 294,
+    "nombre": "san bartolome milpas altas",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 295,
+    "nombre": "san lucas sacatepequez",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 296,
+    "nombre": "san miguel duenas",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 297,
+    "nombre": "santa catarina barahona",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 298,
+    "nombre": "santa lucia milpas altas",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 299,
+    "nombre": "santa maria de jesus",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 300,
+    "nombre": "santiago sacatepequez",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 301,
+    "nombre": "santo domingo xenacoj",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 302,
+    "nombre": "sumpango",
+    "departamento": "sacatepequez"
+  },
+  {
+    "id": 303,
+    "nombre": "concepcion",
+    "departamento": "solola"
+  },
+  {
+    "id": 304,
+    "nombre": "nahuala",
+    "departamento": "solola"
+  },
+  {
+    "id": 305,
+    "nombre": "panajachel",
+    "departamento": "solola"
+  },
+  {
+    "id": 306,
+    "nombre": "san andres semetabaj",
+    "departamento": "solola"
+  },
+  {
+    "id": 307,
+    "nombre": "san antonio palopo",
+    "departamento": "solola"
+  },
+  {
+    "id": 308,
+    "nombre": "san jose chacaya",
+    "departamento": "solola"
+  },
+  {
+    "id": 309,
+    "nombre": "san juan la laguna",
+    "departamento": "solola"
+  },
+  {
+    "id": 310,
+    "nombre": "san lucas toliman",
+    "departamento": "solola"
+  },
+  {
+    "id": 311,
+    "nombre": "san marcos la laguna",
+    "departamento": "solola"
+  },
+  {
+    "id": 312,
+    "nombre": "san pablo la laguna",
+    "departamento": "solola"
+  },
+  {
+    "id": 313,
+    "nombre": "san pedro la laguna",
+    "departamento": "solola"
+  },
+  {
+    "id": 314,
+    "nombre": "santa catarina ixtahuacan",
+    "departamento": "solola"
+  },
+  {
+    "id": 315,
+    "nombre": "santa catarina palopo",
+    "departamento": "solola"
+  },
+  {
+    "id": 316,
+    "nombre": "santa clara la laguna",
+    "departamento": "solola"
+  },
+  {
+    "id": 317,
+    "nombre": "santa cruz la laguna",
+    "departamento": "solola"
+  },
+  {
+    "id": 318,
+    "nombre": "santa lucia utatlan",
+    "departamento": "solola"
+  },
+  {
+    "id": 319,
+    "nombre": "santa maria visitacion",
+    "departamento": "solola"
+  },
+  {
+    "id": 320,
+    "nombre": "santiago atitlan",
+    "departamento": "solola"
+  },
+  {
+    "id": 321,
+    "nombre": "solola",
+    "departamento": "solola"
+  },
+  {
+    "id": 322,
+    "nombre": "momostenango",
+    "departamento": "totonicapan"
+  },
+  {
+    "id": 323,
+    "nombre": "san andres xecul",
+    "departamento": "totonicapan"
+  },
+  {
+    "id": 324,
+    "nombre": "san bartolo aguas calientes",
+    "departamento": "totonicapan"
+  },
+  {
+    "id": 325,
+    "nombre": "san francisco el alto",
+    "departamento": "totonicapan"
+  },
+  {
+    "id": 326,
+    "nombre": "santa lucia la reforma",
+    "departamento": "totonicapan"
+  },
+  {
+    "id": 327,
+    "nombre": "santa maria chiquimula",
+    "departamento": "totonicapan"
+  },
+  {
+    "id": 328,
+    "nombre": "totonicapan",
+    "departamento": "totonicapan"
+  },
+  {
+    "id": 329,
+    "nombre": "san cristobal totonicapan",
+    "departamento": "totonicapan"
+  },
+  {
+    "id": 330,
+    "nombre": "cabanas",
+    "departamento": "zacapa"
+  },
+  {
+    "id": 331,
+    "nombre": "estanzuela",
+    "departamento": "zacapa"
+  },
+  {
+    "id": 332,
+    "nombre": "gualan",
+    "departamento": "zacapa"
+  },
+  {
+    "id": 333,
+    "nombre": "huite",
+    "departamento": "zacapa"
+  },
+  {
+    "id": 334,
+    "nombre": "la union",
+    "departamento": "zacapa"
+  },
+  {
+    "id": 335,
+    "nombre": "rio hondo",
+    "departamento": "zacapa"
+  },
+  {
+    "id": 336,
+    "nombre": "san diego",
+    "departamento": "zacapa"
+  },
+  {
+    "id": 337,
+    "nombre": "teculutan",
+    "departamento": "zacapa"
+  },
+  {
+    "id": 338,
+    "nombre": "usumatlan",
+    "departamento": "zacapa"
+  },
+  {
+    "id": 339,
+    "nombre": "zacapa",
+    "departamento": "zacapa"
+  },
+  {
+    "id": 340,
+    "nombre": "san jorge",
+    "departamento": "zacapa"
+  }
+]

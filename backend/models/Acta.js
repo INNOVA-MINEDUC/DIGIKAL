@@ -14,10 +14,10 @@ const Acta = sequelize.define('Acta', {
     allowNull: true,
   },
 
+  // Sin unique: una dotación puede tener varias actas.
   dotacion_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    unique: true,
   },
 
   fecha_entrega: {
@@ -38,6 +38,14 @@ const Acta = sequelize.define('Acta', {
   acta_pdf: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+
+  // Cada acta tiene su propio origen; `dotaciones.origen` guarda el de la
+  // primera acta para que los filtros y reportes por dotación sigan andando.
+  origen: {
+    type: DataTypes.ENUM('DONACION', 'COMPRA'),
+    allowNull: false,
+    defaultValue: 'DONACION',
   },
 
 }, {

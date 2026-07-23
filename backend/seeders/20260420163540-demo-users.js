@@ -17,7 +17,7 @@ const password1 = await bcrypt.hash('Guatemala/2026.25', 10);
         createdAt: new Date(),
         updatedAt: new Date(),
       }
-    ]);
+    ], { ignoreDuplicates: true });
   },
 
   async down(queryInterface, Sequelize) {

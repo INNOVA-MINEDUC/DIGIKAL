@@ -14,9 +14,11 @@ const Dotacion = sequelize.define('Dotacion', {
     allowNull: false,
   },
 
-  id_proyecto: {
-    type: DataTypes.INTEGER,
+  // Sustituye al antiguo id_proyecto (FK a `proyectos`, tabla eliminada).
+  origen: {
+    type: DataTypes.ENUM('DONACION', 'COMPRA'),
     allowNull: false,
+    defaultValue: 'DONACION',
   },
 
   id_internet: {

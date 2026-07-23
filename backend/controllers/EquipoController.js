@@ -2,6 +2,7 @@ import { Sequelize, Op } from 'sequelize'
 import Equipo from '../models/Equipo.js'
 import ModeloEquipo from '../models/ModeloEquipo.js'
 import TipoEquipo from '../models/TipoEquipo.js'
+import { logAction } from '../services/auditService.js'
 
 
 export const crearEquipo = async (req, res) => {
@@ -40,6 +41,13 @@ export const crearEquipo = async (req, res) => {
       numero_serie,
       codigo_sicoin,
       valor
+    })
+
+    await logAction(req, {
+      action: 'EQUIPO_CREATED',
+      module: 'EQUIPOS',
+      resourceId: nuevoEquipo.id,
+      description: `Registró el equipo con serie ${numero_serie} (SICOIN ${codigo_sicoin})`,
     })
 
     return res.status(201).json({
@@ -172,6 +180,13 @@ export const crearCategoriaEquipo = async (req, res) => {
       nombre_modelo: modelo,
       descripcion_tecnica: descripcion,
       tipo_id: tipoEquipo.id
+    })
+
+    await logAction(req, {
+      action: 'EQUIPO_CATEGORIA_CREATED',
+      module: 'EQUIPOS',
+      resourceId: nuevoModelo.id,
+      description: `Creó la categoría/modelo "${modelo}" de tipo "${tipo}"`,
     })
 
     return res.status(201).json({

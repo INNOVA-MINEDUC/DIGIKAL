@@ -11,8 +11,8 @@ import DotacionEquipo from "./DotacionEquipo.js";
 import Beneficiario from "./Beneficiado.js"
 import Acta from "./Acta.js"
 import DotacionImagen from "./DotacionImagen.js";
-import Proyecto from "./Proyecto.js";
 import Internet from "./Internet.js";
+import AuditLog from "./AuditLog.js";
 
 Dotacion.belongsTo(Internet, {
   foreignKey: 'id_internet',
@@ -24,15 +24,8 @@ Internet.hasOne(Dotacion, {
   as: 'dotacion'
 })
 
-Dotacion.belongsTo(Proyecto, {
-  foreignKey: 'id_proyecto',
-  as: 'proyecto'
-})
-
-Proyecto.hasMany(Dotacion, {
-  foreignKey: 'id_proyecto',
-  as: 'dotaciones'
-})
+// `proyecto` dejó de ser una relación: ahora es la columna ENUM
+// `dotaciones.origen` ('DONACION' | 'COMPRA'), sin tabla ni FK.
 
 Dotacion.hasMany(DotacionImagen, {
   foreignKey: 'dotacion_id',
@@ -44,9 +37,9 @@ DotacionImagen.belongsTo(Dotacion, {
   as: 'dotacion'
 });
 
-Dotacion.hasOne(Acta, {
+Dotacion.hasMany(Acta, {
   foreignKey: 'dotacion_id',
-  as: 'acta'
+  as: 'actas'
 });
 
 Acta.belongsTo(Dotacion, {
@@ -137,4 +130,14 @@ Departamento.hasMany(Escuela, {
 Municipio.hasMany(Escuela, {
   foreignKey: "municipioId",
   as: "escuelas"
+})
+
+AuditLog.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user"
+})
+
+User.hasMany(AuditLog, {
+  foreignKey: "userId",
+  as: "auditLogs"
 })

@@ -17,6 +17,7 @@ import ModeloEquipo from '../models/ModeloEquipo.js'
 import Departamento from '../models/Departamento.js'
 import Municipio from '../models/Municipio.js'
 import Internet from '../models/Internet.js'
+import { logAction } from '../services/auditService.js'
 
 const clean = (value) => {
   if (value === undefined || value === null) return null
@@ -197,6 +198,45 @@ const normalizeData = (data) => {
   return out
 }
 
+// Valores canónicos de nivel que usa el sistema (enum NivelEstablecimiento del API MDM).
+const NIVELES_CANONICOS = ['PRE_PRIMARIA', 'PRIMARIA', 'BASICO', 'DIVERSIFICADO']
+
+/**
+ * Normaliza el nivel educativo tal como viene en el Excel (cualquier grafía:
+ * "primaria", "Nivel Primario", "básicos", "Ciclo Básico", "diversificada"…)
+ * al valor canónico del sistema. Una celda puede traer varios niveles
+ * ("Primaria y Básico") y se devuelven todos, separados por coma.
+ */
+const normalizeNivel = (value) => {
+  const text = clean(value)
+  if (!text) return null
+
+  const base = text
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '') // sin tildes
+    .toLowerCase()
+
+  const encontrados = new Set()
+
+  // Pre-primaria primero: "pre primaria" contiene "primaria" y dispararía PRIMARIA.
+  if (/pre[\s_-]*primari|parvul|inicial|pre[\s_-]*escolar/.test(base)) {
+    encontrados.add('PRE_PRIMARIA')
+  }
+
+  // Se quitan los tokens de pre-primaria antes de buscar primaria.
+  const sinPre = base.replace(/pre[\s_-]*primari\w*/g, ' ')
+
+  if (/primari/.test(sinPre)) encontrados.add('PRIMARIA')
+  if (/basic/.test(base)) encontrados.add('BASICO')
+  if (/diversific|bachiller/.test(base)) encontrados.add('DIVERSIFICADO')
+
+  // Si no se reconoció nada, se conserva el texto original (en mayúsculas) para no perder el dato.
+  if (encontrados.size === 0) return text.toUpperCase()
+
+  // Se devuelven en orden canónico estable.
+  return NIVELES_CANONICOS.filter((n) => encontrados.has(n)).join(', ')
+}
+
 const normalizeRegistroTipo = (value) => {
   const text = cleanLower(value)
   if (!text) return null
@@ -296,7 +336,7 @@ const upsertEscuela = async (data, transaction) => {
     correo: clean(data.correo_electronico),
     director: clean(data.director),
     jornada: clean(data.jornada),
-    nivel: clean(data.nivel)
+    nivel: normalizeNivel(data.nivel)
   }
 
   if (!escuela) {
@@ -342,24 +382,12 @@ const buildDescripcionTecnica = (data) => {
   if (cantidad) partes.push(`Cantidad: ${cantidad}`)
   if (monto) partes.push(`Monto: ${monto}`)
 
-  return partes.join(' | ')
+  return partes.join(' | ').substring(0, 1000)
 }
 
 const resolveTipoYModelo = async (data, transaction) => {
-  const tipoNombre = clean(data.tipo_equipo)
-  const modeloNombre = clean(data.modelo)
-
-  if (!tipoNombre && !modeloNombre) {
-    return { tipo: null, modelo: null }
-  }
-
-  if (!tipoNombre) {
-    throw new Error('tipo_equipo es requerido para filas de equipo')
-  }
-
-  if (!modeloNombre) {
-    throw new Error('modelo es requerido para filas de equipo')
-  }
+  const tipoNombre = clean(data.tipo_equipo) || 'SIN TIPO'
+  const modeloNombre = clean(data.modelo) || 'SIN MODELO'
 
   let tipo = await TipoEquipo.findOne({
     where: where(fn('LOWER', col('nombre')), tipoNombre.toLowerCase()),
@@ -456,12 +484,8 @@ const upsertEquipo = async (data, modeloId, transaction) => {
 }
 
 const upsertInternet = async (data, transaction) => {
-  const empresa = clean(data.empresa_conexion)
+  const empresa = clean(data.empresa_conexion) || 'SIN EMPRESA'
   const fechaInstalacion = toDateOnly(data.fecha_conexion) || todayDateOnly()
-
-  if (!empresa) {
-    throw new Error('empresa_conexion es requerida para filas de internet')
-  }
 
   let internet = await Internet.findOne({
     where: {
@@ -496,7 +520,7 @@ const upsertInternet = async (data, transaction) => {
   return internet
 }
 
-const upsertDotacion = async ({ escuelaId, fechaEntrega, descripcion, idInternet = null }, transaction) => {
+const upsertDotacion = async ({ escuelaId, origen, fechaEntrega, descripcion, idInternet = null }, transaction) => {
   const fecha = fechaEntrega || todayDateOnly()
   const desc = descripcion || 'DOTACION'
 
@@ -513,7 +537,7 @@ const upsertDotacion = async ({ escuelaId, fechaEntrega, descripcion, idInternet
     dotacion = await Dotacion.create(
       {
         id_escuela: escuelaId,
-        id_proyecto: 1,
+        origen,
         id_internet: idInternet,
         fecha_entrega: fecha,
         descripcion: desc
@@ -659,12 +683,10 @@ const validateRow = (data) => {
   if (!tipoRegistro) {
     errores.push('Falta tipo_registro')
   } else if (tipoRegistro === 'internet') {
-    if (!clean(data.empresa_conexion)) {
-      errores.push('Falta empresa_conexion para registro de internet')
-    }
+    // empresa_conexion es opcional: si falta se usará 'SIN EMPRESA' como fallback
   } else {
-    if (!clean(data.tipo_equipo)) errores.push('Falta tipo_equipo para registro de equipo')
-    if (!clean(data.modelo)) errores.push('Falta modelo para registro de equipo')
+    // serie y sicoin son requeridos (son UNIQUE en la BD)
+    // modelo/tipo_equipo son opcionales: se usará 'SIN MODELO'/'SIN TIPO' como fallback
     if (!clean(data.serie)) errores.push('Falta serie para registro de equipo')
     if (!clean(data.sicoin)) errores.push('Falta sicoin para registro de equipo')
   }
@@ -745,6 +767,11 @@ export const importarExcelDotaciones = async (req, res) => {
         message: 'No se encontró la primera hoja del Excel'
       })
     }
+
+    // El Excel no trae la columna de origen, así que todo lo importado se
+    // registra como DONACION. Antes esto buscaba un proyecto por defecto en la
+    // tabla `proyectos`, que ya no existe.
+    const ORIGEN_DEFAULT = 'DONACION';
 
     const headers = []
     sheet.getRow(1).eachCell((cell, colNumber) => {
@@ -849,6 +876,7 @@ export const importarExcelDotaciones = async (req, res) => {
             const dotacionInternet = await upsertDotacion(
               {
                 escuelaId: escuela.id,
+                origen: ORIGEN_DEFAULT,
                 fechaEntrega,
                 descripcion: 'CONEXION INTERNET',
                 idInternet: internet.id
@@ -897,6 +925,7 @@ export const importarExcelDotaciones = async (req, res) => {
             dotacionEquipo = await upsertDotacion(
               {
                 escuelaId: escuela.id,
+                origen: ORIGEN_DEFAULT,
                 fechaEntrega,
                 descripcion: 'DOTACION DE EQUIPO'
               },
@@ -993,6 +1022,13 @@ export const importarExcelDotaciones = async (req, res) => {
         }
       }
     }
+
+    await logAction(req, {
+      action: 'EXCEL_BULK_UPLOAD',
+      module: 'UPLOAD',
+      description: `Cargó archivo Excel: ${filasProcesadas} fila(s) procesadas, ${filasExitosas} exitosas, ${filasDuplicadas} duplicadas, ${errores.length} con error`,
+      status: errores.length > 0 ? 'ERROR' : 'SUCCESS',
+    })
 
     return res.status(200).json({
       message: 'Importación terminada',

@@ -28,11 +28,17 @@ onMounted(() => {
     am5map.MapChart.new(root, {
       panX: "translateX",
       panY: "translateY",
-      wheelX: "zoomX",
-      wheelY: "zoomY",
+      // La rueda NO hace zoom: así capturarla no bloquea el scroll de la
+      // página cuando el cursor está sobre el mapa. El zoom queda en los
+      // botones +/- y en el clic sobre cada departamento.
+      wheelX: "none",
+      wheelY: "none",
       projection: am5map.geoMercator()
     })
   )
+
+  // Botones de zoom, en reemplazo del zoom con rueda.
+  chart.set("zoomControl", am5map.ZoomControl.new(root, {}))
 
   const establecimientosStore = useEstablecimientosStore()
 
@@ -50,10 +56,7 @@ const handleSelection = async (type = "all", data = {}) => {
             muni: data.municipio
           }
 
-    const res = await api.post(
-      `/api/v1/dashboard`,
-      payload
-    )
+    const res = await api.post('/api/v1/dashboard', payload)
 
     establecimientosStore.setData(res.data)
 

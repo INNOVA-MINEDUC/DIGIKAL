@@ -1,12 +1,16 @@
 import express from 'express';
 import {
-  getEscuelasDotadas
+  getEscuelasDotadas,
+  getEstablecimientoDetalle
 } from '../controllers/DashboardController.js';
 
 const router = express.Router();
 
 
 router.post('/', getEscuelasDotadas);
+
+// Detalle de un establecimiento + inventario (query establecimiento(id) del API MDM)
+router.get('/establecimiento/:id', getEstablecimientoDetalle);
 
 //  /**
 //  * GET BY ID
