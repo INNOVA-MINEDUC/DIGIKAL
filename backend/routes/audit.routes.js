@@ -13,7 +13,7 @@ const auditRateLimiter = rateLimit({
 });
 
 // 📜 Listar bitácora de auditoría (solo admin)
-router.get('/', authMiddleware, requireAdmin, auditRateLimiter, getAuditLogs);
+router.get('/', auditRateLimiter, authMiddleware, requireAdmin, getAuditLogs);
 
 // ⬇️ Registrar una descarga de reporte
 router.post('/log-download', auditRateLimiter, authMiddleware, logDownload);
