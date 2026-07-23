@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import rateLimit from 'express-rate-limit';
+import rateLimit from 'express-rate-limit';
 
 import {
   createDotacion,
@@ -9,6 +10,13 @@ import {
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
+const dotacionRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100, // máximo 100 requests por IP en la ventana
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
 
 const dotacionRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -65,6 +73,7 @@ const upload = multer({
 // Una dotación puede llevar varias actas: no se sabe de antemano cuántas hay
 // por establecimiento, así que se permite un lote.
 const uploadFields = upload.fields([
+  dotacionRateLimiter,
   { name: 'acta_pdf', maxCount: 20 },
   { name: 'imagenes_entrega', maxCount: 10 }
 ]);
@@ -96,7 +105,7 @@ router.post(
 
       }
 
-      next();
+router.get('/', dotacionRateLimiter, authMiddleware, getDotaciones);
 
     });
 
