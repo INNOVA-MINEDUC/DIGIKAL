@@ -86,13 +86,13 @@ const normalizeNiveles = (value) => {
   return NIVELES_CANONICOS.filter((n) => encontrados.has(n));
 };
 
-const gqlPost = async (query, url = GRAPHQL_URL) => {
+const gqlPost = async (query, url = GRAPHQL_URL, variables = undefined) => {
   let lastErr;
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
       return await axios.post(
         url,
-        { query },
+        { query, variables },
         {
           headers: { 'Content-Type': 'application/json', publicToken: PUBLIC_TOKEN },
           timeout: TIMEOUT_MS,
@@ -115,8 +115,8 @@ const gqlPost = async (query, url = GRAPHQL_URL) => {
   throw lastErr;
 };
 
-const gqlData = async (query, url = GRAPHQL_URL) => {
-  const res = await gqlPost(query, url);
+const gqlData = async (query, url = GRAPHQL_URL, variables = undefined) => {
+  const res = await gqlPost(query, url, variables);
   if (res.status >= 400) {
     throw new Error(`API MDM status ${res.status}: ${JSON.stringify(res.data).slice(0, 200)}`);
   }
@@ -190,15 +190,15 @@ const AYUDA_LISTA_FIELDS = `
 `;
 
 const fetchDesdeAyuda = async (dept) => {
-  const arg = dept ? `(filtro: { departamento: ${JSON.stringify(dept)} })` : '';
   const data = await gqlData(
-    `query {
-      estadisticasEstablecimientos${arg} {
+    `query($departamento: String) {
+      estadisticasEstablecimientos(filtro: { departamento: $departamento }) {
         totalEstablecimientos totalEstudiantesInscritos2026 totalHombres totalMujeres
         establecimientos { ${AYUDA_LISTA_FIELDS} }
       }
     }`,
-    AYUDA_GRAPHQL_URL
+    AYUDA_GRAPHQL_URL,
+    { departamento: dept ?? null }
   );
   return data?.estadisticasEstablecimientos || null;
 };
