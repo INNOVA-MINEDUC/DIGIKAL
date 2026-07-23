@@ -7,7 +7,7 @@ export default {
 
 const password1 = await bcrypt.hash('Guatemala/2026.25', 10);
 
-    await queryInterface.bulkInsert('users', [
+    await queryInterface.bulkInsert('Users', [
       {
         name: 'superAdmin',
         email: 'superAdmin@mineduc.edu.gt',
