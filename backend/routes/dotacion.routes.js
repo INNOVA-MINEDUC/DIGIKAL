@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import rateLimit from 'express-rate-limit';
 
 import {
   createDotacion,
@@ -8,6 +9,13 @@ import {
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
+
+const dotacionRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false
+});
 
 
 const storage = multer.memoryStorage();
@@ -65,6 +73,7 @@ const uploadFields = upload.fields([
 
 router.post(
   '/',
+  dotacionRateLimiter,
   authMiddleware,
   (req, res, next) => {
 
@@ -96,6 +105,6 @@ router.post(
 );
 
 
-router.get('/', authMiddleware, getDotaciones);
+router.get('/', dotacionRateLimiter, authMiddleware, getDotaciones);
 
 export default router;
