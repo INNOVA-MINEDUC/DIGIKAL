@@ -1,6 +1,5 @@
 import express from 'express';
 import rateLimit from 'express-rate-limit';
-import rateLimit from 'express-rate-limit';
 import {
   getUsers,
   getUserById,
@@ -16,13 +15,6 @@ const userRateLimiter = rateLimit({
   max: 100, // máximo 100 solicitudes por IP en la ventana
   standardHeaders: true,
   legacyHeaders: false
-});
-
-router.use(userRateLimiter);
-
-const userRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // máximo 100 solicitudes por IP en la ventana
 });
 
 router.use(userRateLimiter);

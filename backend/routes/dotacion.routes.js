@@ -1,7 +1,6 @@
 import express from 'express';
 import multer from 'multer';
 import rateLimit from 'express-rate-limit';
-import rateLimit from 'express-rate-limit';
 
 import {
   createDotacion,
@@ -10,6 +9,7 @@ import {
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
+
 const dotacionRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
   max: 100, // máximo 100 requests por IP en la ventana
@@ -17,17 +17,7 @@ const dotacionRateLimiter = rateLimit({
   legacyHeaders: false
 });
 
-
-const dotacionRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false
-});
-
-
 const storage = multer.memoryStorage();
-
 
 const fileFilter = (req, file, cb) => {
 
@@ -58,8 +48,6 @@ const fileFilter = (req, file, cb) => {
   cb(new Error('Campo no válido'));
 };
 
-
-
 const upload = multer({
   storage,
   fileFilter,
@@ -68,17 +56,12 @@ const upload = multer({
   }
 });
 
-
-
 // Una dotación puede llevar varias actas: no se sabe de antemano cuántas hay
 // por establecimiento, así que se permite un lote.
 const uploadFields = upload.fields([
-  dotacionRateLimiter,
   { name: 'acta_pdf', maxCount: 20 },
   { name: 'imagenes_entrega', maxCount: 10 }
 ]);
-
-
 
 router.post(
   '/',
@@ -105,14 +88,13 @@ router.post(
 
       }
 
-router.get('/', dotacionRateLimiter, authMiddleware, getDotaciones);
+      next();
 
     });
 
   },
   createDotacion
 );
-
 
 router.get('/', dotacionRateLimiter, authMiddleware, getDotaciones);
 
