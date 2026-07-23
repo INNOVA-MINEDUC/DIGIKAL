@@ -16,6 +16,6 @@ const auditRateLimiter = rateLimit({
 router.get('/', authMiddleware, requireAdmin, auditRateLimiter, getAuditLogs);
 
 // ⬇️ Registrar una descarga de reporte
-router.post('/log-download', authMiddleware, auditRateLimiter, logDownload);
+router.post('/log-download', auditRateLimiter, authMiddleware, logDownload);
 
 export default router;
