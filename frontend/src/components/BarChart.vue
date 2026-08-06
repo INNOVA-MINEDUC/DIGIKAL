@@ -9,6 +9,8 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated"
 import { onMounted, onBeforeUnmount } from "vue"
 import data from "@/helpers/data.json"
 
+//hola mundo
+
 let root
 
 onMounted(() => {
