@@ -46,6 +46,7 @@ const EMPTY_RESPONSE = {
   estudiantesDotados: 0,
   modelosEquipos: [],
   nivelesDistribucion: [],
+  paginacion: { pagina: 1, tamanoPagina: 10, total: 0, totalPaginas: 1 },
   escuelas: [],
 };
 
@@ -187,18 +188,65 @@ const AYUDA_LISTA_FIELDS = `
   poseeConectividad velocidadConectividad fechaConexion fechaDatacion
   inscritos2026 estudiantesInscritos cantidadHombres cantidadMujeres
   telefono correoElectronico latitud longitud opf dotado
+  empresaConectividadId tipoConectividadId
+  empresaConectividad { id nombre }
 `;
 
-const fetchDesdeAyuda = async (dept) => {
+/**
+ * Trae una página de establecimientos del api-ayuda.
+ *
+ * El API pagina en el servidor (pagina/tamanoPagina) y filtra por NOMBRE de
+ * departamento y de municipio. `totalEstablecimientos` es el total global del
+ * filtro (no de la página), así que sirve para armar el paginador.
+ * `empresaConectividad { id nombre }` da el proveedor de internet directo del
+ * API, sin depender de la BD local.
+ *
+ * Todos los filtros booleanos usan la misma convención: null = no filtrar (ojo,
+ * no es lo mismo que false, que traería sólo los que NO cumplen).
+ *   - `intervenida`: por defecto true (sólo intervenidos); null trae todos.
+ *   - `dotado` / `conectividad`: null salvo que la tabla los active.
+ *   - `codigoMineduc` (String; null = no filtrar).
+ *
+ * Nota: entre los intervenidos, todos están dotados y conectados, así que esos
+ * dos filtros sólo cambian el resultado cuando `intervenida` está apagado.
+ */
+const fetchDesdeAyuda = async ({
+  dept = null,
+  muni = null,
+  intervenida = true,
+  dotado = null,
+  conectividad = null,
+  codigoMineduc = null,
+  pagina = 1,
+  tamanoPagina = 10,
+} = {}) => {
   const data = await gqlData(
-    `query($departamento: String) {
-      estadisticasEstablecimientos(filtro: { departamento: $departamento }) {
+    `query($departamento: String, $municipio: String, $intervenida: Boolean, $dotado: Boolean, $conectividad: Boolean, $codigoMineduc: String, $pagina: Int, $tamanoPagina: Int) {
+      estadisticasEstablecimientos(filtro: {
+        intervenida: $intervenida
+        departamento: $departamento
+        municipio: $municipio
+        dotado: $dotado
+        conectividad: $conectividad
+        codigoMineduc: $codigoMineduc
+        pagina: $pagina
+        tamanoPagina: $tamanoPagina
+      }) {
         totalEstablecimientos totalEstudiantesInscritos2026 totalHombres totalMujeres
         establecimientos { ${AYUDA_LISTA_FIELDS} }
       }
     }`,
     AYUDA_GRAPHQL_URL,
-    { departamento: dept ?? null }
+    {
+      departamento: dept ?? null,
+      municipio: muni ?? null,
+      intervenida: intervenida ?? null,
+      dotado: dotado ?? null,
+      conectividad: conectividad ?? null,
+      codigoMineduc: codigoMineduc ?? null,
+      pagina,
+      tamanoPagina,
+    }
   );
   return data?.estadisticasEstablecimientos || null;
 };
@@ -313,9 +361,41 @@ const getDotacionesPorCodigo = async (codigos) => {
 
 /* ── Handler ────────────────────────────────────────────────────────────── */
 
+// Paginación server-side. Límites defensivos: el API resetea la conexión con
+// páginas enormes, así que se topa el tamaño.
+const PAGINA_DEFAULT = 1;
+const TAMANO_DEFAULT = 10;
+const TAMANO_MAX = 500;
+
+const aEntero = (valor, porDefecto) => {
+  const n = Number.parseInt(valor, 10);
+  return Number.isFinite(n) ? n : porDefecto;
+};
+
+const clampPagina = (valor) => Math.max(1, aEntero(valor, PAGINA_DEFAULT));
+const clampTamano = (valor) =>
+  Math.min(TAMANO_MAX, Math.max(1, aEntero(valor, TAMANO_DEFAULT)));
+
+// Filtros booleanos de la tabla: sólo se aplican cuando vienen en true. Un
+// false o ausente => null (no filtrar), para no traer justo lo contrario.
+const soloSiTrue = (valor) => (valor === true ? true : null);
+
+// Código MINEDUC: se limpia y, si queda vacío, no filtra.
+const limpiarCodigo = (valor) => {
+  const texto = (valor ?? '').toString().trim();
+  return texto ? texto : null;
+};
+
 export const getEscuelasDotadas = async (req, res) => {
   try {
     const { dept, muni } = req.body || {};
+    const pagina = clampPagina(req.body?.pagina);
+    const tamanoPagina = clampTamano(req.body?.tamanoPagina);
+    // Por defecto sólo intervenidos; la tabla puede apagarlo para ver todos.
+    const intervenida = req.body?.intervenida === undefined ? true : soloSiTrue(req.body?.intervenida);
+    const dotado = soloSiTrue(req.body?.dotado);
+    const conectividad = soloSiTrue(req.body?.conectividad);
+    const codigoMineduc = limpiarCodigo(req.body?.codigoMineduc);
 
     // Tablas de referencia para traducir ids ↔ nombres (no debe tumbar todo si
     // falla el api-mdm de referencia).
@@ -326,19 +406,35 @@ export const getEscuelasDotadas = async (req, res) => {
       console.error('[Dashboard] No se pudieron cargar ubicaciones de referencia:', refErr.message);
     }
 
-    // La lista y los totales salen del api-ayuda en una sola llamada. El filtro
-    // de departamento va por nombre; el de municipio se aplica localmente por id.
-    const stats = await fetchDesdeAyuda(dept);
-    let lista = stats?.establecimientos || [];
-
-    if (muni && dept && ubic) {
-      const muniId = resolverMuniId(ubic, dept, muni);
-      if (muniId != null) {
-        lista = lista.filter((e) => e.municipioId === muniId);
-      } else {
-        console.warn(`[Dashboard] Municipio no resuelto: "${muni}" — se muestra el departamento completo`);
+    // El municipio del GeoJSON puede venir con otra grafía que la del API. Se
+    // resuelve al nombre canónico de la tabla de referencia para poder empujar
+    // el filtro al API (y que la paginación sea correcta). Si no se resuelve, se
+    // pagina el departamento completo, como antes.
+    let muniNombre = null;
+    if (muni && dept) {
+      if (ubic) {
+        const muniId = resolverMuniId(ubic, dept, muni);
+        muniNombre = muniId != null ? (ubic.muniNombrePorId.get(muniId) ?? null) : null;
+      }
+      if (!muniNombre) {
+        console.warn(`[Dashboard] Municipio no resuelto: "${muni}" — se pagina el departamento completo`);
       }
     }
+
+    // Una sola llamada trae la página y los totales globales del filtro. El
+    // filtro de departamento y municipio va por nombre; la paginación y los
+    // filtros de dotado/conectividad/código los resuelve el API.
+    const stats = await fetchDesdeAyuda({
+      dept,
+      muni: muniNombre,
+      intervenida,
+      dotado,
+      conectividad,
+      codigoMineduc,
+      pagina,
+      tamanoPagina,
+    });
+    const lista = stats?.establecimientos || [];
 
     // La BD local puede estar caída o vacía: no debe tumbar los datos del API.
     let dotacionesLocales = new Map();
@@ -371,7 +467,11 @@ export const getEscuelasDotadas = async (req, res) => {
         poseeConectividad: e.poseeConectividad ?? false,
         velocidadConectividad: e.velocidadConectividad,
         fechaConectividad: e.fechaConexion,
-        empresaInternet: local?.internet?.empresa ?? null,
+        // El proveedor sale directo del API; la BD local queda como respaldo.
+        empresaInternet: e.empresaConectividad?.nombre ?? local?.internet?.empresa ?? null,
+        empresaConectividad: e.empresaConectividad ?? null,
+        empresaConectividadId: e.empresaConectividadId ?? null,
+        tipoConectividadId: e.tipoConectividadId ?? null,
 
         dotado,
         fechaDatacion: fechaDotacion,
@@ -429,29 +529,29 @@ export const getEscuelasDotadas = async (req, res) => {
 
     const dotadas = escuelas.filter((e) => e.dotado);
 
-    // Los totales de estudiantes/hombres/mujeres se toman del API (son exactos);
-    // sumar los campos por escuela daría casi cero porque vienen null. Cuando se
-    // filtra por municipio localmente, el API no tiene ese total, así que se cae
-    // a la suma de la página filtrada.
-    const filtradoLocal = Boolean(muni && dept);
-    const totalApi = (valorApi, sumaLocal) =>
-      (!filtradoLocal && valorApi != null) ? valorApi : sumaLocal;
+    // Totales GLOBALES del filtro (todo el país / departamento / municipio),
+    // los da el API sin importar la página: alimentan las tarjetas de KPI y el
+    // paginador, así no cambian al pasar de página.
+    const total = stats?.totalEstablecimientos ?? escuelas.length;
+    const totalPaginas = Math.max(1, Math.ceil(total / tamanoPagina));
 
     return res.status(200).json({
-      establecimientos: filtradoLocal
-        ? escuelas.length
-        : (stats?.totalEstablecimientos ?? escuelas.length),
-      totalEstudiantes: totalApi(stats?.totalEstudiantesInscritos2026, escuelas.reduce((a, e) => a + e.inscritos2026, 0)),
-      totalHombres: totalApi(stats?.totalHombres, escuelas.reduce((a, e) => a + e.cantidadHombres, 0)),
-      totalMujeres: totalApi(stats?.totalMujeres, escuelas.reduce((a, e) => a + e.cantidadMujeres, 0)),
+      establecimientos: total,
+      totalEstudiantes: stats?.totalEstudiantesInscritos2026 ?? 0,
+      totalHombres: stats?.totalHombres ?? 0,
+      totalMujeres: stats?.totalMujeres ?? 0,
 
+      // OJO: estos agregados se calculan sobre la PÁGINA visible (la dotación de
+      // equipos vive en la BD local y sólo se consulta para los códigos de la
+      // página). Reflejan la página, no el total del filtro.
       establecimientosDotados: dotadas.length,
       totalEquipos: escuelas.reduce((a, e) => a + e.cantidadEquipos, 0),
       estudiantesDotados: dotadas.reduce((a, e) => a + e.inscritos2026, 0),
       modelosEquipos,
       nivelesDistribucion,
-
       totalInternet: escuelas.filter((e) => e.poseeConectividad).length,
+
+      paginacion: { pagina, tamanoPagina, total, totalPaginas },
 
       escuelas,
     });

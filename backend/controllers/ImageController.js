@@ -1,89 +1,16 @@
-import axios from 'axios';
-import FormData from 'form-data';
-import fs from 'fs';
-import dotenv from 'dotenv'
-dotenv.config()
+/**
+ * Este archivo tenía una segunda implementación del bucket, con los nombres
+ * viejos de variables (BUCKET_API_*) y leyendo el archivo desde disco. Ninguna
+ * ruta lo importa. Se deja como reexport de `bucketService` para que, si algo
+ * llega a usarlo, pase por la única implementación real (STORAGE_SERVICE_URL /
+ * STORAGE_API_KEY, respaldo local incluido) y no por credenciales que ya no
+ * existen en el .env.
+ */
 
-export const subirArchivo = async (filePath) => {
-  try {
-    const form = new FormData();
-    form.append('file', fs.createReadStream(filePath));
-
-    const response = await axios.post(process.env.BUCKET_API_URL, form, {
-      headers: {
-        ...form.getHeaders(),
-        'X-API-Key': process.env.BUCKET_API_KEY
-      }
-    });
-
-    return response.data; 
-  } catch (error) {
-    console.error('Error subiendo archivo:', error.response?.data || error.message);
-    throw new Error('Error al subir archivo');
-  }
-};
-
-
-
-export const obtenerUrlFirmada = async (filename) => {
-  try {
-    const response = await axios.get(
-      `${process.env.BUCKET_API_URL}/${filename}/url`,
-      {
-        headers: {
-          'X-API-Key': process.env.BUCKET_API_KEY
-        }
-      }
-    );
-
-    return response.data;
-  } catch (error) {
-    console.error('Error obteniendo URL:', error.response?.data || error.message);
-    throw new Error('Error al obtener URL');
-  }
-};
-
-
-
-export const eliminarArchivo = async (filename) => {
-  try {
-    await axios.delete(`${process.env.BUCKET_API_URL}/${filename}`, {
-      headers: {
-        'X-API-Key': process.env.BUCKET_API_KEY
-      }
-    });
-
-    return true;
-  } catch (error) {
-    console.error('Error eliminando archivo:', error.response?.data || error.message);
-    throw new Error('Error al eliminar archivo');
-  }
-};
-
-
-
-export const subirMultiples = async (files) => {
-  try {
-    const form = new FormData();
-
-    files.forEach(file => {
-      form.append('files', fs.createReadStream(file.path));
-    });
-
-    const response = await axios.post(
-      `${process.env.BUCKET_API_URL}/batch`,
-      form,
-      {
-        headers: {
-          ...form.getHeaders(),
-          'X-API-Key': process.env.BUCKET_API_KEY
-        }
-      }
-    );
-
-    return response.data;
-  } catch (error) {
-    console.error('Error subiendo múltiples:', error.response?.data || error.message);
-    throw new Error('Error al subir múltiples archivos');
-  }
-};
+export {
+  subirArchivo,
+  obtenerUrlFirmada,
+  eliminarArchivo,
+  subirMultiples,
+  resolverUrl
+} from '../services/bucketService.js';

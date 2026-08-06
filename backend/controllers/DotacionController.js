@@ -132,14 +132,14 @@ export const createDotacion = async (req, res) => {
       const result = await subirArchivo(actasPdf[i], 'actas');
       actas.push({
         ...actasNormalizadas[i],
-        acta_pdf: result.data.key
+        acta_pdf: result.data.direccion
       });
     }
 
     const fotosUrls = [];
     for (const file of fotos) {
       const result = await subirArchivo(file, 'imgs');
-      fotosUrls.push(result.data.key);
+      fotosUrls.push(result.data.direccion);
     }
 
 
