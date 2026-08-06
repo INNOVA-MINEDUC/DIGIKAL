@@ -1,4 +1,31 @@
 import { defineStore } from 'pinia'
+import api from '@/helpers/api.js'
+
+// Persistimos el filtro y la página en sessionStorage para que sobrevivan al
+// navegar al detalle de una escuela y volver, e incluso a un F5. Se usa
+// sessionStorage (no localStorage) para que sea por pestaña y no quede pegado
+// para siempre.
+const PERSIST_KEY = 'digikal.dashboard.filtro'
+
+const FILTRO_DEFECTO = {
+  dept: null,
+  muni: null,
+  intervenida: true,
+  dotado: false,
+  conectividad: false,
+  codigoMineduc: '',
+}
+
+const cargarPersistido = () => {
+  try {
+    const raw = sessionStorage.getItem(PERSIST_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+const persistido = cargarPersistido()
 
 export const useEstablecimientosStore = defineStore('establecimientos', {
 
@@ -23,6 +50,29 @@ export const useEstablecimientosStore = defineStore('establecimientos', {
 
     // Distribución de establecimientos por nivel educativo
     nivelesDistribucion: [],
+
+    /* =========================================
+       PAGINACIÓN (server-side)
+    ========================================= */
+    // La tabla pide una página a la vez; el backend pagina contra el API.
+    // Se restauran de sessionStorage si el usuario ya tenía filtros puestos.
+    pagina: persistido?.pagina ?? 1,
+    tamanoPagina: persistido?.tamanoPagina ?? 10,
+    totalPaginas: 1,
+
+    // Filtro activo. `dept`/`muni` los pone el mapa; `intervenida`, `dotado`,
+    // `conectividad` y `codigoMineduc` los pone la tabla. Se guarda todo junto
+    // para que al cambiar de página (o de un filtro) se vuelva a pedir con el
+    // resto intacto, y se restaura de sessionStorage al volver del detalle.
+    filtroActual: { ...FILTRO_DEFECTO, ...(persistido?.filtroActual || {}) },
+
+    // Marca si ya se hizo la primera carga: al volver del detalle no se debe
+    // resetear el filtro con una carga "todo" desde cero.
+    inicializado: false,
+
+    // Clave de la última consulta pedida, para no repetir la misma llamada
+    // (evita el doble fetch entre el mapa y la tabla al montar).
+    _ultimaConsulta: null,
 
     loading: false,
 
@@ -128,6 +178,13 @@ export const useEstablecimientosStore = defineStore('establecimientos', {
       this.estudiantesDotados      = data.estudiantesDotados      || 0
       this.modelosEquipos          = data.modelosEquipos          || []
       this.nivelesDistribucion     = data.nivelesDistribucion     || []
+
+      // El servidor es la fuente de verdad de la paginación.
+      if (data.paginacion) {
+        this.pagina       = data.paginacion.pagina       ?? this.pagina
+        this.tamanoPagina = data.paginacion.tamanoPagina ?? this.tamanoPagina
+        this.totalPaginas = data.paginacion.totalPaginas ?? 1
+      }
     },
 
     setEstablecimientos(data) {
@@ -136,6 +193,73 @@ export const useEstablecimientosStore = defineStore('establecimientos', {
 
     setLoading(value) {
       this.loading = value
+    },
+
+    // Guarda el filtro y la página para restaurarlos al volver del detalle o
+    // tras un F5.
+    persistirFiltro() {
+      try {
+        sessionStorage.setItem(PERSIST_KEY, JSON.stringify({
+          filtroActual: this.filtroActual,
+          pagina: this.pagina,
+          tamanoPagina: this.tamanoPagina,
+        }))
+      } catch {
+        // sessionStorage puede no estar disponible (modo privado, etc.): no es crítico.
+      }
+    },
+
+    /**
+     * Carga inicial del dashboard. Sólo pide datos la primera vez; al volver del
+     * detalle de una escuela, el estado (filtros, página y datos) ya sigue vivo
+     * en el store, así que no se vuelve a pedir ni se resetea nada.
+     */
+    async iniciar() {
+      if (this.inicializado) return
+      await this.fetchDashboard(
+        { ...this.filtroActual, pagina: this.pagina, tamanoPagina: this.tamanoPagina },
+        { force: true }
+      )
+    },
+
+    /**
+     * Pide una página del dashboard al backend (paginación server-side).
+     *
+     * Los cambios que se pasan se combinan sobre el filtro actual, así que cada
+     * quien toca sólo lo suyo sin borrar el resto:
+     *   - el mapa manda { dept, muni, pagina: 1 } al elegir ubicación;
+     *   - la tabla manda { dotado, conectividad, codigoMineduc, pagina: 1 } al
+     *     cambiar un filtro, o { pagina, tamanoPagina } al pasar de página.
+     */
+    async fetchDashboard(cambios = {}, { force = false } = {}) {
+      const { pagina = 1, tamanoPagina = this.tamanoPagina, ...cambiosFiltro } = cambios
+
+      const filtro = { ...this.filtroActual, ...cambiosFiltro }
+      const clave = JSON.stringify({ ...filtro, pagina, tamanoPagina })
+
+      // Misma consulta ya cargada: no repetir (evita doble fetch mapa+tabla).
+      if (!force && clave === this._ultimaConsulta) return
+      this._ultimaConsulta = clave
+
+      this.filtroActual = filtro
+      this.pagina = pagina
+      this.tamanoPagina = tamanoPagina
+      this.persistirFiltro()
+      this.setLoading(true)
+
+      try {
+        const { data } = await api.post('/api/v1/dashboard', { ...filtro, pagina, tamanoPagina })
+        this.setData(data)
+        this.inicializado = true
+        // La página real la fija el servidor; se re-persiste ya normalizada.
+        this.persistirFiltro()
+      } catch (error) {
+        console.error('Error cargando dashboard:', error)
+        // Permite reintentar la misma consulta tras un fallo.
+        this._ultimaConsulta = null
+      } finally {
+        this.setLoading(false)
+      }
     }
 
   }

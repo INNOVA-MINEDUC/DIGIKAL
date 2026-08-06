@@ -13,7 +13,6 @@ import { useEstablecimientosStore } from '@/stores/escuelasStore'
 
 import guatemalaDepartamentos from "../helpers/Departamentos.json"
 import guatemalaMunicipios from "../helpers/Municipios.json"
-import api from '@/helpers/api.js'
 
 const mapStore = useMapStore()
 
@@ -37,32 +36,13 @@ onMounted(() => {
   const establecimientosStore = useEstablecimientosStore()
 
   const handleSelection = async (type = "all", data = {}) => {
-    try {
-      establecimientosStore.setLoading(true)
-
-      const payload =
-        type === "all"
-          ? {} 
-          : {
-            dept: data.NAME_1,
-            muni: data.nombreCorregidoMunicipio
-          }
-
-      const res = await api.post(
-        `/api/v1/dashboard`,
-        payload
-      )
-
-
-      console.log(res.data)
-
-      establecimientosStore.setData(res.data)
-
-    } catch (error) {
-      console.error("Error cargando dashboard:", error)
-    } finally {
-      establecimientosStore.setLoading(false)
-    }
+    // Al cambiar el filtro se vuelve a la primera página. La llamada y la
+    // paginación las maneja el store (server-side).
+    await establecimientosStore.fetchDashboard({
+      dept: type === "all" ? null : data.NAME_1,
+      muni: type === "all" ? null : data.nombreCorregidoMunicipio,
+      pagina: 1,
+    })
 
     mapStore.setSelection({
       type,
@@ -71,7 +51,9 @@ onMounted(() => {
     })
   }
 
-  handleSelection("all")
+  // Sólo carga la primera vez. Al volver del detalle de una escuela, el filtro,
+  // la página y los datos siguen vivos en el store: no se resetea nada.
+  establecimientosStore.iniciar()
 
 
   const departamentosSeries = chart.series.push(

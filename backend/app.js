@@ -20,11 +20,11 @@ import path from 'path';
 
 const app = express();
 app.set('trust proxy', 1); // Confiar en el proxy reverso (Nginx/Docker) para express-rate-limit
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173", 
+  origin: process.env.FRONTEND_URL, 
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
