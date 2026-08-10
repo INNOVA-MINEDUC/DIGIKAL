@@ -17,6 +17,7 @@ import UserManagement from './views/UserManagement.vue'
 import CargaView from './views/CargaView.vue';
 import AuditLogView from './views/AuditLogView.vue';
 import DashboardEstadisticas from './views/DashboardEstadisticas.vue'
+import NotFound from './views/NotFound.vue'
 
 const routes = [
   {
@@ -51,12 +52,12 @@ const routes = [
     meta: { requiresAuth: false }
   },
 
-  {
-    path: '/dashboard/estadisticas',
-    name: 'dashboard-estadisticas',
-    component: DashboardEstadisticas,
-    meta: { requiresAuth: false }
-  },
+  // {
+  //   path: '/dashboard/estadisticas',
+  //   name: 'dashboard-estadisticas',
+  //   component: DashboardEstadisticas,
+  //   meta: { requiresAuth: false }
+  // },
 
   {
     path: '/upload-data',
@@ -104,6 +105,15 @@ const routes = [
     name: 'auditoria',
     component: AuditLogView,
     meta: { requiresAuth: true, allowedRoles: ['admin'] }
+  },
+
+  // Catch-all: cualquier URL que no coincida con las rutas de arriba muestra la
+  // página 404. Debe ir al final para que no tape a las demás.
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: NotFound,
+    meta: { requiresAuth: false }
   },
 ]
 
