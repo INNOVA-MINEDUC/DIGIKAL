@@ -87,10 +87,10 @@
             <v-list density="compact">
               <v-list-item v-for="d in datosEstablecimiento" :key="d.label">
                 <template #prepend>
-                  <v-icon size="small" color="#142957" class="mr-2">{{ d.icon }}</v-icon>
+                  <v-icon size="small" color="#142957" class="mr-3">{{ d.icon }}</v-icon>
                 </template>
-                <v-list-item-title class="text-caption text-grey-darken-1">{{ d.label }}</v-list-item-title>
-                <!-- <v-list-item-subtitle class="text-body-2 text-black">{{ d.value }}</v-list-item-subtitle> -->
+                <div class="text-caption text-grey-darken-1">{{ d.label }}</div>
+                <div class="text-body-2 font-weight-medium" style="color:#1a1a1a;">{{ d.value }}</div>
               </v-list-item>
             </v-list>
           </v-card>
@@ -181,20 +181,28 @@ const tieneCoords = computed(() =>
   establecimiento.value?.latitud != null && establecimiento.value?.longitud != null
 )
 
+// OPF llega como texto ('SI' / 'NO' / null). Se muestra como Sí/No: "tiene OPF"
+// es cuando el valor es SI.
+const tieneOpf = computed(() =>
+  String(establecimiento.value?.opf ?? '').trim().toUpperCase() === 'SI'
+)
+
 const datosEstablecimiento = computed(() => {
   const e = establecimiento.value
   if (!e) return []
   const fecha = (f) => (f ? new Date(f).toLocaleDateString('es-GT') : '—')
+  const num = (v) => (v ?? '—')
   return [
+    { label: 'OPF', value: tieneOpf.value ? 'Sí' : 'No', icon: 'mdi-tag-check-outline' },
+    { label: 'Estudiantes inscritos 2026', value: num(e.inscritos2026), icon: 'mdi-account-school-outline' },
+    { label: 'Estudiantes inscritos (total)', value: num(e.estudiantesInscritos), icon: 'mdi-account-group-outline' },
+    { label: 'Hombres', value: num(e.cantidadHombres), icon: 'mdi-human-male' },
+    { label: 'Mujeres', value: num(e.cantidadMujeres), icon: 'mdi-human-female' },
     { label: 'Correo electrónico', value: e.correoElectronico || '—', icon: 'mdi-email-outline' },
     { label: 'Teléfono', value: e.telefono || '—', icon: 'mdi-phone-outline' },
-    { label: 'Estudiantes inscritos', value: estudiantes.value, icon: 'mdi-account-group-outline' },
-    { label: 'Hombres / Mujeres', value: `${e.cantidadHombres ?? '—'} / ${e.cantidadMujeres ?? '—'}`, icon: 'mdi-human-male-female' },
     { label: 'Conectividad', value: e.poseeConectividad ? `Sí${e.velocidadConectividad ? ' · ' + e.velocidadConectividad + ' Mbps' : ''}` : 'No', icon: 'mdi-wifi' },
     { label: 'Fecha de conexión', value: fecha(e.fechaConexion), icon: 'mdi-calendar-check' },
     { label: 'Fecha de dotación', value: fecha(e.fechaDatacion), icon: 'mdi-calendar-clock' },
-    { label: 'OPF', value: e.opf || '—', icon: 'mdi-tag-outline' },
-    { label: 'Departamento / Municipio (id)', value: `${e.departamentoId ?? '—'} / ${e.municipioId ?? '—'}`, icon: 'mdi-map-marker-outline' },
   ]
 })
 
