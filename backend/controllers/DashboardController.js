@@ -574,6 +574,7 @@ const ESTABLECIMIENTO_DETALLE_FIELDS = `
   correoElectronico telefono opf
   departamentoId municipioId
   poseeConectividad velocidadConectividad fechaConexion fechaDatacion
+  empresaConectividadId tipoConectividadId
   latitud longitud
 `;
 
