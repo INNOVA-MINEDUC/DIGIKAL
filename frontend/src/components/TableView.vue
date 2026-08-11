@@ -160,7 +160,7 @@ const codigoMineduc = ref(store.filtroActual.codigoMineduc || '')
 
 const headers = [
   { title: 'Establecimiento',    key: 'nombreEscuela',         sortable: true  },
-  // { title: 'Código MINEDUC',     key: 'codigoEscuela',         sortable: false },
+  { title: 'Código del Establecimiento',     key: 'codigoEscuela',         sortable: false },
   { title: 'Departamento',       key: 'departamento.nombre',   sortable: true  },
   { title: 'Municipio',          key: 'municipio.nombre',      sortable: true  },
   { title: 'Conectividad',       key: 'poseeConectividad',     sortable: true  },
