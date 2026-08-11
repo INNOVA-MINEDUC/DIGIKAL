@@ -6,79 +6,75 @@
         <!-- LOGO Y DESCRIPCIÓN -->
         <v-col cols="12" md="4">
           <div class="logo-section">
-            <img src="/footer/img_18.png" class="logo" />
-            <p>Dirección General de Gestión de Calidad Educativa</p>
+            <img src="/footer/img_18.png" class="logo" alt="MINEDUC" />
+            <p>Dirección General de Gestión de Calidad Educativa (DIGECADE)</p>
           </div>
+        </v-col>
+
+        <!-- ESTRUCTURA INSTITUCIONAL -->
+        <v-col cols="12" md="4">
+          <h3>Estructura institucional</h3>
+
+          <ul class="estructura">
+            <li class="nivel-1">
+              <v-icon size="18" class="mr-2">mdi-bank</v-icon>
+              <div>
+                <strong>MINEDUC</strong>
+                <span>Ministerio de Educación</span>
+              </div>
+            </li>
+
+            <li class="nivel-1">
+              <v-icon size="18" class="mr-2">mdi-office-building</v-icon>
+              <div>
+                <strong>DIGECADE</strong>
+                <span>Dirección General de Gestión de Calidad Educativa</span>
+              </div>
+            </li>
+
+            <li class="nivel-1">
+              <v-icon size="18" class="mr-2">mdi-lightbulb-on-outline</v-icon>
+              <div>
+                <strong>INNOVA</strong>
+                <span>Subdirección de DIGECADE</span>
+              </div>
+            </li>
+          </ul>
+        </v-col>
+
+        <!-- CONTACTO -->
+        <v-col cols="12" md="4">
+          <h3>Contacto</h3>
 
           <div class="info">
             <div class="item">
-              <img src="/footer/img_6.png" alt="ubicación" style="">
+              <v-icon size="18">mdi-map-marker</v-icon>
               <p>6a. Calle 1-87, Zona 10, Ciudad de Guatemala</p>
             </div>
 
             <div class="item">
-              <img src="/footer/img_12.png" alt="teléfono">
+              <v-icon size="18">mdi-phone</v-icon>
               <p>PBX +502 2411-9595</p>
             </div>
 
             <div class="item">
-              <img src="/footer/img_12.png" alt="correo">
-              <p>cegarcia@mineduc.gob.gt</p>
-            </div>
-
-            <div class="item">
-              <img src="/footer/img_12.png" alt="web">
-              <p>edu.mineduc.gob.gt/DIGECADE</p>
-            </div>
-          </div>
-        </v-col>
-
-        <!-- SUBDIRECCIÓN -->
-        <v-col cols="12" md="4">
-          <h3>SUBDIRECCIÓN / CONTACTOS</h3>
-
-          <div class="info">
-            <div class="item">
-              <img src="/footer/img_12.png" alt="directora">
-              <p>Directora: Claudia E. Morales García</p>
-            </div>
-
-            <div class="item">
-              <img src="/footer/img_12.png" alt="extensiones">
-              <p>Extensiones internas</p>
-            </div>
-
-            <div class="item">
-              <img src="/footer/img_12.png" alt="directorio">
-              <p>Directorio oficial MINEDUC</p>
-            </div>
-          </div>
-        </v-col>
-
-        <!-- CONTACTOS EXTRA -->
-        <v-col cols="12" md="4">
-          <h3>SUBDIRECCIÓN / CONTACTOS</h3>
-
-          <div class="info">
-            <div class="item">
-              <img src="/footer/img_12.png" alt="innovación">
-              <p>Centro de Capacitación Tecnológica - INNOVA</p>
-            </div>
-
-            <div class="item">
-              <img src="/footer/img_12.png" alt="blog">
-              <p>cctmineduc.blogspot.com</p>
-            </div>
-
-            <div class="item">
-              <img src="/footer/img_12.png" alt="contacto">
-              <p>Contacto vía DIGECADE / MINEDUC</p>
-            </div>
-
-            <div class="item nota-item">
-              <img src="/footer/img_12.png" alt="nota">
+              <v-icon size="18">mdi-email-outline</v-icon>
               <p>
-                Información pública tomada del sitio oficial del Ministerio de Educación de Guatemala.
+                <a href="mailto:ayuda@mineduc.edu.gt" class="enlace">ayuda@mineduc.edu.gt</a>
+              </p>
+            </div>
+
+            <div class="item">
+              <v-icon size="18">mdi-web</v-icon>
+              <p>
+                <a
+                  href="https://edu.mineduc.gob.gt/DIGECADE"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="enlace"
+                >
+                  edu.mineduc.gob.gt/DIGECADE
+                </a>
               </p>
             </div>
           </div>
@@ -91,7 +87,7 @@
 
       <!-- COPYRIGHT -->
       <div class="text-center copy">
-        © 2023 ByteSpace. All rights reserved.
+        © 2026. Ministerio de Educación - Guatemala
       </div>
 
     </v-container>
@@ -118,48 +114,95 @@
 
 .logo-section p {
   font-size: 14px;
-  opacity: 0.8;
+  opacity: 0.85;
+  line-height: 1.5;
 }
 
 /* TITULOS */
 h3 {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   font-size: 16px;
+  font-weight: 600;
 }
 
-/* GRID GENERAL */
+/* ESTRUCTURA (jerarquía MINEDUC / DIGECADE / INNOVA) */
+.estructura {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.estructura li {
+  display: flex;
+  align-items: flex-start;
+}
+
+.estructura li div {
+  display: flex;
+  flex-direction: column;
+}
+
+.estructura strong {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.estructura span {
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 1.3;
+}
+
+/* Sangría progresiva para reflejar la dependencia */
+.nivel-2 {
+  margin-left: 18px;
+}
+
+.nivel-3 {
+  margin-left: 36px;
+}
+
+.estructura .v-icon {
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+/* CONTACTO (ICONO + TEXTO) */
 .info {
   display: grid;
   gap: 12px;
 }
 
-/* ITEM (ICONO + TEXTO) */
 .item {
   display: grid;
-  grid-template-columns: 20px 1fr;
+  grid-template-columns: 22px 1fr;
   align-items: start;
   gap: 10px;
 }
 
-/* ICONOS */
-.item img {
-  width: 16px;
-  height: 16px;
-  object-fit: contain;
-  margin-top: 3px;
+.item .v-icon {
+  opacity: 0.9;
+  margin-top: 2px;
 }
 
-/* TEXTO */
 .item p {
   margin: 0;
   font-size: 14px;
   line-height: 1.4;
 }
 
-/* NOTA */
-.nota-item p {
-  font-size: 13px;
-  opacity: 0.8;
+/* ENLACES */
+.enlace {
+  color: #ffffff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  transition: border-color 0.2s ease;
+}
+
+.enlace:hover {
+  border-bottom-color: #ffffff;
 }
 
 /* COPYRIGHT */
@@ -175,17 +218,16 @@ h3 {
   }
 
   .item {
-    grid-template-columns: 18px 1fr;
+    grid-template-columns: 20px 1fr;
     gap: 8px;
-  }
-
-  .item img {
-    width: 14px;
-    height: 14px;
   }
 
   .logo {
     width: 160px;
   }
+
+  /* En móvil se reduce la sangría para no comprimir el texto */
+  .nivel-2 { margin-left: 10px; }
+  .nivel-3 { margin-left: 20px; }
 }
 </style>
