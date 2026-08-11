@@ -30,7 +30,7 @@
               </v-chip>
             </div>
             <div class="text-subtitle-2 text-grey-darken-1">
-              <v-icon size="small" class="mr-1">mdi-identifier</v-icon>ID: {{ establecimiento.id }}
+              <!-- <v-icon size="small" class="mr-1">mdi-identifier</v-icon>ID: {{ establecimiento.id }} -->
               <span v-if="tieneCoords" class="ml-4">
                 <v-icon size="small" class="mr-1">mdi-map-marker</v-icon>
                 {{ establecimiento.latitud?.toFixed(5) }}, {{ establecimiento.longitud?.toFixed(5) }}
@@ -90,7 +90,7 @@
                   <v-icon size="small" color="#142957" class="mr-2">{{ d.icon }}</v-icon>
                 </template>
                 <v-list-item-title class="text-caption text-grey-darken-1">{{ d.label }}</v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 text-black">{{ d.value }}</v-list-item-subtitle>
+                <!-- <v-list-item-subtitle class="text-body-2 text-black">{{ d.value }}</v-list-item-subtitle> -->
               </v-list-item>
             </v-list>
           </v-card>
@@ -192,7 +192,7 @@ const datosEstablecimiento = computed(() => {
     { label: 'Hombres / Mujeres', value: `${e.cantidadHombres ?? '—'} / ${e.cantidadMujeres ?? '—'}`, icon: 'mdi-human-male-female' },
     { label: 'Conectividad', value: e.poseeConectividad ? `Sí${e.velocidadConectividad ? ' · ' + e.velocidadConectividad + ' Mbps' : ''}` : 'No', icon: 'mdi-wifi' },
     { label: 'Fecha de conexión', value: fecha(e.fechaConexion), icon: 'mdi-calendar-check' },
-    { label: 'Fecha de datación', value: fecha(e.fechaDatacion), icon: 'mdi-calendar-clock' },
+    { label: 'Fecha de dotación', value: fecha(e.fechaDatacion), icon: 'mdi-calendar-clock' },
     { label: 'OPF', value: e.opf || '—', icon: 'mdi-tag-outline' },
     { label: 'Departamento / Municipio (id)', value: `${e.departamentoId ?? '—'} / ${e.municipioId ?? '—'}`, icon: 'mdi-map-marker-outline' },
   ]

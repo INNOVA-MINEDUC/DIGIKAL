@@ -29,13 +29,13 @@
         <div class="stat-card">
           <h3>Con Dotación de Equipos</h3>
           <p class="value">{{ formatNumber(establecimientosDotados) }}</p>
-          <span class="sub">{{ formatNumber(totalEquipos) }} equipos entregados</span>
+          <!-- <span class="sub">{{ formatNumber(totalEquipos) }} equipos entregados</span> -->
         </div>
 
         <div class="stat-card">
-          <h3>Estudiantes Inscritos</h3>
+          <h3>Estudiantes Beneficiados</h3>
           <p class="value">{{ formatNumber(totalEstudiantes) }}</p>
-          <span class="sub">{{ formatNumber(estudiantesDotados) }} con equipo dotado</span>
+          <!-- <span class="sub">{{ formatNumber(estudiantesDotados) }} con equipo dotado</span> -->
         </div>
 
         <div class="stat-card">
