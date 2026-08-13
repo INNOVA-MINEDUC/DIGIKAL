@@ -30,6 +30,30 @@ const User = sequelize.define('User', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: true,
+  },
+
+  /**
+   * Se incrementa para invalidar de golpe todos los tokens ya emitidos a este
+   * usuario (cambio de contraseña, desactivación, cierre de sesión forzado).
+   * El JWT lleva una copia; si no coincide con esta columna, no vale.
+   */
+  tokenVersion: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
+
+  /** Intentos de login fallidos consecutivos; se limpia al entrar bien. */
+  failedLoginAttempts: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
+
+  /** Si es una fecha futura, la cuenta está bloqueada hasta ese momento. */
+  lockedUntil: {
+    type: DataTypes.DATE,
+    allowNull: true,
   }
 
 }, {

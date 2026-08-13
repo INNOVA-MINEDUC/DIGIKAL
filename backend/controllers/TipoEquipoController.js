@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize'
 import TipoEquipo from '../models/TipoEquipo.js'
+import { errorServidor } from '../utils/http.js';
 
 export const getTiposEquipo = async (req, res) => {
   try {
@@ -10,10 +11,7 @@ export const getTiposEquipo = async (req, res) => {
     return res.json(tipos)
 
   } catch (error) {
-    return res.status(500).json({
-      message: 'Error al obtener tipos de equipo',
-      error: error.message
-    })
+    return errorServidor(res, '[TipoEquipo]', error, "Error al obtener tipos de equipo")
   }
 }
 
@@ -38,6 +36,6 @@ export const crearTipoEquipo = async (req, res) => {
     return res.status(201).json(nuevo)
 
   } catch (error) {
-    return res.status(500).json({ message: error.message })
+    return errorServidor(res, '[TipoEquipo]', error, "Error interno del servidor")
   }
 }

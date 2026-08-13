@@ -18,6 +18,7 @@ import Departamento from '../models/Departamento.js'
 import Municipio from '../models/Municipio.js'
 import Internet from '../models/Internet.js'
 import { logAction } from '../services/auditService.js'
+import { errorServidor } from '../utils/http.js';
 
 const clean = (value) => {
   if (value === undefined || value === null) return null
@@ -1041,10 +1042,7 @@ export const importarExcelDotaciones = async (req, res) => {
       errores
     })
   } catch (error) {
-    return res.status(500).json({
-      message: 'Error al importar Excel',
-      error: error.message
-    })
+    return errorServidor(res, '[Upload]', error, "Error al importar Excel")
   }
 }
 

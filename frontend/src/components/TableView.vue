@@ -5,7 +5,7 @@
       <div class="tabla-header__titulo">
         <v-icon size="26" class="mr-2">mdi-office-building-marker</v-icon>
         <div>
-          <h2 class="text-h6 font-weight-bold mb-0">Establecimientos intervenidos</h2>
+          <h2 class="text-h6 font-weight-bold mb-0">Establecimientos dotados</h2>
           <span class="text-caption text-medium-emphasis">
             {{ store.totalEstablecimientos }} establecimiento(s) según el filtro actual
           </span>
@@ -18,10 +18,24 @@
     <!-- Barra de filtros -->
     <div class="tabla-filtros">
       <v-text-field
+        v-model="busqueda"
+        label="Buscar por nombre"
+        placeholder="Nombre del establecimiento"
+        prepend-inner-icon="mdi-magnify"
+        variant="outlined"
+        density="compact"
+        hide-details
+        clearable
+        class="tabla-filtros__codigo"
+        @keyup.enter="aplicarFiltros"
+        @click:clear="limpiarBusqueda"
+      />
+
+      <v-text-field
         v-model="codigoMineduc"
         label="Código MINEDUC"
         placeholder="Ej. 02-03-0022-46"
-        prepend-inner-icon="mdi-magnify"
+        prepend-inner-icon="mdi-barcode"
         variant="outlined"
         density="compact"
         hide-details
@@ -31,7 +45,7 @@
         @click:clear="limpiarCodigo"
       />
 
-      <v-switch
+      <!-- <v-switch
         v-model="intervenida"
         label="Solo intervenidos"
         color="indigo"
@@ -39,7 +53,7 @@
         hide-details
         inset
         @update:model-value="aplicarFiltros"
-      />
+      /> -->
 
       <v-switch
         v-model="dotado"
@@ -157,15 +171,17 @@ const intervenida   = ref(store.filtroActual.intervenida ?? true)
 const dotado        = ref(store.filtroActual.dotado || false)
 const conectividad  = ref(store.filtroActual.conectividad || false)
 const codigoMineduc = ref(store.filtroActual.codigoMineduc || '')
+const busqueda      = ref(store.filtroActual.busqueda || '')
 
 const headers = [
+  { title: '#',                  key: 'correlativo',           sortable: false, width: 56 },
   { title: 'Establecimiento',    key: 'nombreEscuela',         sortable: true  },
   { title: 'Código del Establecimiento',     key: 'codigoEscuela',         sortable: false },
   { title: 'Departamento',       key: 'departamento.nombre',   sortable: true  },
   { title: 'Municipio',          key: 'municipio.nombre',      sortable: true  },
   { title: 'Conectividad',       key: 'poseeConectividad',     sortable: true  },
   { title: 'Dotación',           key: 'dotado',                sortable: true  },
-  { title: 'Beneficiados',     key: 'inscritos2026',         sortable: true  },
+  { title: 'Estudiantes beneficiados', key: 'inscritos2026',   sortable: true  },
   { title: '',                   key: 'acciones',              sortable: false },
 ]
 
@@ -187,6 +203,7 @@ function aplicarFiltros() {
     dotado: dotado.value,
     conectividad: conectividad.value,
     codigoMineduc: codigoMineduc.value,
+    busqueda: busqueda.value,
     pagina: 1,
   })
 }
@@ -196,11 +213,17 @@ function limpiarCodigo() {
   aplicarFiltros()
 }
 
+function limpiarBusqueda() {
+  busqueda.value = ''
+  aplicarFiltros()
+}
+
 function limpiarFiltros() {
   intervenida.value = true
   dotado.value = false
   conectividad.value = false
   codigoMineduc.value = ''
+  busqueda.value = ''
   aplicarFiltros()
 }
 
@@ -279,5 +302,47 @@ function onOptions({ page, itemsPerPage }) {
   text-transform: uppercase;
   font-size: 11px;
   letter-spacing: 0.3px;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .tabla-header {
+    padding: 12px;
+  }
+  .tabla-header h2 {
+    font-size: 1rem;
+  }
+
+  /* Los filtros se apilan a lo ancho para no quedar apretados */
+  .tabla-filtros {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 12px;
+  }
+  .tabla-filtros__codigo {
+    max-width: 100%;
+    flex: 1 1 auto;
+  }
+  /* Switches alineados a la izquierda, cada uno en su línea */
+  .tabla-filtros :deep(.v-switch) {
+    margin-left: 2px;
+  }
+  /* Los botones Buscar/Limpiar a ancho completo */
+  .tabla-filtros > .v-btn {
+    width: 100%;
+  }
+  /* El v-spacer no aporta cuando está en columna */
+  .tabla-filtros > .v-spacer {
+    display: none;
+  }
+
+  .tabla-datos {
+    font-size: 12px;
+  }
+  .tabla-datos :deep(td),
+  .tabla-datos :deep(th) {
+    padding: 0 8px !important;
+  }
 }
 </style>

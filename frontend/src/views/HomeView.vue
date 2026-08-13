@@ -417,4 +417,86 @@ const sistemas = [
   font-size: 0.82rem;
   line-height: 1.5;
 }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────── */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 960px) {
+  .hero { height: auto; }
+  .hero-bg { height: auto; }
+
+  .hero-content { max-width: 90%; }
+
+  .hero-container {
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-block: 2.5rem;
+  }
+  .hero-img { width: 9rem; }
+
+  /* Innovation: pasa de fila a columna */
+  .innovation {
+    flex-direction: column;
+    width: 90%;
+    padding: 28px 24px;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .innovation-text { max-width: 100%; }
+
+  /* La imagen dejaba de estar posicionada con translate para no salirse */
+  .innovation-image {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    transform: none;
+    margin-top: 20px;
+  }
+  .innovation-image img {
+    position: static;
+    bottom: auto;
+    width: 100%;
+  }
+
+  /* DIGECADE: apila media + panel */
+  .digecade {
+    flex-direction: column;
+    height: auto;
+    border-radius: 0;
+  }
+  .digecade-media {
+    width: 100%;
+    padding: 28px 0;
+  }
+  .digecade-media img { width: 55%; }
+  .digecade-panel {
+    width: 100%;
+    padding: 32px 24px;
+  }
+}
+
+/* Teléfonos */
+@media (max-width: 600px) {
+  .hero-container {
+    gap: 1.25rem;
+    margin-block: 1.5rem;
+  }
+  .hero-img { width: 6.5rem; }
+
+  .carousel { width: 96%; }
+
+  .innovation-text h2,
+  .digecade-panel h2,
+  .principios h2,
+  .platforms h2 {
+    font-size: 22px;
+  }
+
+  .services,
+  .principios {
+    padding: 40px 16px;
+  }
+
+  .digecade-media img { width: 70%; }
+}
 </style>

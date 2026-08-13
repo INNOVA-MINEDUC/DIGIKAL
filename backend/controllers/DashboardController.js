@@ -8,6 +8,7 @@ import Equipo from '../models/Equipo.js';
 import ModeloEquipo from '../models/ModeloEquipo.js';
 import TipoEquipo from '../models/TipoEquipo.js';
 import Internet from '../models/Internet.js';
+import { errorServidor } from '../utils/http.js';
 
 // URL y token del API MDM configurables por entorno. Por defecto apuntan al
 // dev público; para usar un backend local con el campo `inventario`, definir
@@ -396,6 +397,8 @@ export const getEscuelasDotadas = async (req, res) => {
     const dotado = soloSiTrue(req.body?.dotado);
     const conectividad = soloSiTrue(req.body?.conectividad);
     const codigoMineduc = limpiarCodigo(req.body?.codigoMineduc);
+    // Búsqueda por nombre: el API no la soporta, se filtra en memoria.
+    const busqueda = (req.body?.busqueda ?? '').toString().trim().toLowerCase();
 
     // Tablas de referencia para traducir ids ↔ nombres (no debe tumbar todo si
     // falla el api-mdm de referencia).
@@ -421,9 +424,11 @@ export const getEscuelasDotadas = async (req, res) => {
       }
     }
 
-    // Una sola llamada trae la página y los totales globales del filtro. El
-    // filtro de departamento y municipio va por nombre; la paginación y los
-    // filtros de dotado/conectividad/código los resuelve el API.
+    // Se trae el conjunto COMPLETO del filtro (sin paginar: pagina/tamanoPagina
+    // en null). Así los KPIs (establecimientos, dotados, conectados, estudiantes)
+    // se calculan sobre todo el universo filtrado y son consistentes entre sí,
+    // en vez de reflejar sólo la página visible. La paginación de la tabla se
+    // hace luego en memoria.
     const stats = await fetchDesdeAyuda({
       dept,
       muni: muniNombre,
@@ -431,8 +436,8 @@ export const getEscuelasDotadas = async (req, res) => {
       dotado,
       conectividad,
       codigoMineduc,
-      pagina,
-      tamanoPagina,
+      pagina: null,
+      tamanoPagina: null,
     });
     const lista = stats?.establecimientos || [];
 
@@ -445,7 +450,7 @@ export const getEscuelasDotadas = async (req, res) => {
       console.error('[Dashboard] No se pudieron leer dotaciones locales:', dbErr.message);
     }
 
-    const escuelas = lista.map((e) => {
+    const escuelasMapeadas = lista.map((e) => {
       const local = dotacionesLocales.get(e.codigoMineduc);
       const equipos = local?.equipos ?? [];
       const fechaDotacion = e.fechaDatacion ?? local?.fechaEntrega ?? null;
@@ -494,6 +499,12 @@ export const getEscuelasDotadas = async (req, res) => {
       };
     });
 
+    // Búsqueda por nombre (en memoria, porque el API no la soporta). Todos los
+    // KPIs y la paginación de abajo trabajan ya sobre este conjunto filtrado.
+    const escuelas = busqueda
+      ? escuelasMapeadas.filter((e) => (e.nombreEscuela || '').toLowerCase().includes(busqueda))
+      : escuelasMapeadas;
+
     // Desglose por nivel educativo: cuántos establecimientos hay en cada nivel.
     // Una escuela con varios niveles cuenta en cada uno.
     const conteoNiveles = new Map();
@@ -529,21 +540,29 @@ export const getEscuelasDotadas = async (req, res) => {
 
     const dotadas = escuelas.filter((e) => e.dotado);
 
-    // Totales GLOBALES del filtro (todo el país / departamento / municipio),
-    // los da el API sin importar la página: alimentan las tarjetas de KPI y el
-    // paginador, así no cambian al pasar de página.
-    const total = stats?.totalEstablecimientos ?? escuelas.length;
+    // Todos los KPIs se calculan sobre el conjunto COMPLETO del filtro, así que
+    // son consistentes entre sí y no cambian al pasar de página.
+    const total = escuelas.length;
     const totalPaginas = Math.max(1, Math.ceil(total / tamanoPagina));
+
+    // El total de estudiantes: si no hay búsqueda por nombre, se usa el total
+    // exacto del API; con búsqueda se suma sobre el subconjunto encontrado.
+    const estudiantesSuma = escuelas.reduce((a, e) => a + (e.inscritos2026 || 0), 0);
+    const totalEstudiantes = busqueda ? estudiantesSuma : (stats?.totalEstudiantesInscritos2026 ?? estudiantesSuma);
+
+    // Página para la tabla: se corta en memoria y se numera con un correlativo
+    // continuo (1, 2, 3… a través de las páginas).
+    const inicio = (pagina - 1) * tamanoPagina;
+    const escuelasPagina = escuelas
+      .slice(inicio, inicio + tamanoPagina)
+      .map((e, i) => ({ ...e, correlativo: inicio + i + 1 }));
 
     return res.status(200).json({
       establecimientos: total,
-      totalEstudiantes: stats?.totalEstudiantesInscritos2026 ?? 0,
+      totalEstudiantes,
       totalHombres: stats?.totalHombres ?? 0,
       totalMujeres: stats?.totalMujeres ?? 0,
 
-      // OJO: estos agregados se calculan sobre la PÁGINA visible (la dotación de
-      // equipos vive en la BD local y sólo se consulta para los códigos de la
-      // página). Reflejan la página, no el total del filtro.
       establecimientosDotados: dotadas.length,
       totalEquipos: escuelas.reduce((a, e) => a + e.cantidadEquipos, 0),
       estudiantesDotados: dotadas.reduce((a, e) => a + e.inscritos2026, 0),
@@ -553,12 +572,19 @@ export const getEscuelasDotadas = async (req, res) => {
 
       paginacion: { pagina, tamanoPagina, total, totalPaginas },
 
-      escuelas,
+      escuelas: escuelasPagina,
     });
 
   } catch (error) {
-    console.error('[Dashboard] Error:', error.message);
-    return res.status(200).json({ ...EMPTY_RESPONSE, _warning: error.message });
+    // Esta ruta es pública: `_warning` llevaba el mensaje de error interno
+    // (fallos de Sequelize o del API del MINEDUC) a cualquier visitante. Se
+    // conserva el aviso para que el front sepa que los datos vienen vacíos,
+    // pero sin contar por qué.
+    console.error('[Dashboard] Error:', error);
+    return res.status(200).json({
+      ...EMPTY_RESPONSE,
+      _warning: 'No fue posible obtener los datos en este momento.',
+    });
   }
 };
 
@@ -632,7 +658,14 @@ export const getEstablecimientoDetalle = async (req, res) => {
       _sinInventario: sinInventario || undefined,
     });
   } catch (error) {
-    console.error('[Dashboard] Error detalle establecimiento:', error.message);
-    return res.status(502).json({ message: 'Error al consultar el establecimiento en el API', error: error.message });
+    // El detalle del error se queda en el log: si el API del MINEDUC devuelve
+    // un mensaje con su estructura interna, no tiene por qué llegar al cliente.
+    return errorServidor(
+      res,
+      '[Dashboard] detalle establecimiento',
+      error,
+      'Error al consultar el establecimiento en el API',
+      502
+    );
   }
 };

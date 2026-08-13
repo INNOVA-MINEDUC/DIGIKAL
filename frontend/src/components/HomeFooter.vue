@@ -41,7 +41,7 @@
             </li>
           </ul>
         </v-col>
-
+        
         <!-- CONTACTO -->
         <v-col cols="12" md="4">
           <h3>Contacto</h3>
