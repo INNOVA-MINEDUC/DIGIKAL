@@ -12,7 +12,7 @@ import { apiLimiter, escrituraLimiter } from '../middlewares/rateLimit.middlewar
 const router = express.Router();
 
 // Todo el catálogo exige sesión: antes no había ningún middleware aquí.
-router.use(authMiddleware);
+router.use(apiLimiter, authMiddleware);
 
 // Leer la lista la necesita el formulario de usuarios (que ya es solo admin),
 // pero se deja a cualquier autenticado porque no revela nada sensible.
