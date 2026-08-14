@@ -2,17 +2,20 @@
 
   <v-container fluid class="fill-height bg-img py-10">
     <v-row justify="center">
-      <v-col cols="8">
+      <!-- El ancho era `cols="8"` fijo en todos los tamaños: en un teléfono el
+           formulario ocupaba dos tercios de la pantalla y dejaba los campos
+           apretados entre dos márgenes enormes. Ahora escala por breakpoint. -->
+      <v-col cols="12" sm="11" md="10" lg="9" xl="8">
         <!-- El min-height sólo servía para el paso de Equipos (deshabilitado):
              :style="step === 3 ? 'min-height: 80vh' : ''" -->
         <v-card elevation="6" class="rounded-xl border-top-gt">
-          <v-sheet color="#003366" class="pa-6 text-white">
-            <div class="d-flex align-center">
-              <v-avatar size="60" class="bg-white pa-2 mr-4" elevation="2">
+          <v-sheet color="#003366" class="pa-4 pa-sm-6 text-white">
+            <div class="d-flex align-center encabezado">
+              <v-avatar size="60" class="bg-white pa-2 mr-3 mr-sm-4 encabezado__logo" elevation="2">
                 <v-img src="digecade.png"></v-img>
               </v-avatar>
-              <div>
-                <h1 class="text-h5 font-weight-bold mb-0">Ministerio de Educación</h1>
+              <div class="encabezado__texto">
+                <h1 class="text-subtitle-1 text-sm-h5 font-weight-bold mb-0">Ministerio de Educación</h1>
                 <p class="text-caption text-uppercase mb-0 opacity-80">Registro Nacional de Donaciones Tecnológicas</p>
               </div>
             </div>
@@ -23,14 +26,17 @@
               <template v-slot:item.1>
                 <v-card variant="flat" class="pa-4">
                   <h3 class="text-h6 mb-4 text-[#003366]">1. Datos del Establecimiento</h3>
-                  <v-row>
-                    <v-col cols="12" md="6">
+                  <v-row align="center">
+                    <v-col cols="12" sm="7" md="6">
                       <v-text-field v-model="form.codigoEscuela" label="Código UDI" placeholder="00-00-00000-00"
-                        variant="outlined" color="#0094D3" :disabled="!!escuela" />
+                        variant="outlined" color="#0094D3" :disabled="!!escuela" hide-details="auto" />
                     </v-col>
-                    <v-col cols="12" md="4">
+                    <!-- En móvil el botón ocupa el ancho completo: suelto y a la
+                         izquierda quedaba como un elemento perdido bajo el campo. -->
+                    <v-col cols="12" sm="5" md="4">
                       <v-btn :append-icon="escuela ? 'mdi-refresh' : 'mdi-magnify'"
-                        @click="escuela ? resetEscuela() : buscarEscuela()" variant="elevated" elevation="5">
+                        @click="escuela ? resetEscuela() : buscarEscuela()" variant="elevated" elevation="5"
+                        class="btn-buscar" size="large">
                         {{ escuela ? 'Reset' : 'Buscar' }}
                       </v-btn>
                     </v-col>
@@ -54,15 +60,15 @@
 
                       <v-card v-if="escuela" elevation="2" class="pa-0 overflow-hidden"
                         style="border-left: 8px solid #003366; border-radius: 12px;">
-                        <v-card-text class="pa-6">
+                        <v-card-text class="pa-4 pa-sm-6">
                           <v-row align="center">
                             <v-col cols="12" md="6" class="d-flex align-center">
-                              <v-avatar color="#f0f4f8" size="80" class="mr-4 rounded-lg">
+                              <v-avatar color="#f0f4f8" size="80" class="mr-4 rounded-lg ficha__avatar">
                                 <v-icon size="48" color="#003366">mdi-school</v-icon>
                               </v-avatar>
-                              <div>
+                              <div class="ficha__datos">
                                 <div class="text-overline text-grey-darken-1 mb-n1">Institución Educativa</div>
-                                <h3 class="text-h5 font-weight-bold text-blue-darken-4">
+                                <h3 class="text-h6 text-sm-h5 font-weight-bold text-blue-darken-4">
                                   {{ escuela.nombreEscuela }}
                                 </h3>
                                 <v-chip size="x-small" color="#0094D3" variant="flat" class="mt-1">
@@ -447,10 +453,13 @@
             </v-stepper>
           </v-form>
           <v-divider></v-divider>
-          <v-card-actions class="pa-6 bg-grey-lighten-5">
+          <!-- En móvil los botones se apilan y ocupan todo el ancho: son la
+               acción principal del paso y con `px-8` quedaban estrechos y
+               difíciles de acertar con el dedo. -->
+          <v-card-actions class="pa-4 pa-sm-6 bg-grey-lighten-5 acciones-paso">
             <v-btn v-if="step > 1" variant="text" color="grey-darken-1" prepend-icon="mdi-chevron-left"
               @click="step--">Anterior</v-btn>
-            <v-spacer></v-spacer>
+            <v-spacer class="d-none d-sm-flex"></v-spacer>
             <v-btn v-if="step < 2" color="#003366" class="text-white px-8" append-icon="mdi-chevron-right"
               variant="flat" @click="step++" :disabled="!puedeAvanzar">Siguiente</v-btn>
             <v-btn v-else color="#0094D3" class="text-white px-8" append-icon="mdi-check-bold" variant="flat"
@@ -1276,6 +1285,21 @@ onMounted(() => {
   border-radius: 12px;
 }
 
+/* El nombre del establecimiento puede ser muy largo ("Escuela Oficial Rural
+   Mixta Aldea..."): sin esto desborda la ficha en pantallas estrechas. */
+.ficha__datos {
+  min-width: 0;
+}
+
+.ficha__datos h3 {
+  overflow-wrap: anywhere;
+}
+
+/* El texto del encabezado no debe empujar al logo fuera de la tarjeta. */
+.encabezado__texto {
+  min-width: 0;
+}
+
 /* RESPONSIVE */
 @media (max-width: 1264px) {
   .bg-img {
@@ -1292,6 +1316,18 @@ onMounted(() => {
 
   :deep(.v-card) {
     border-radius: 16px !important;
+  }
+}
+
+/* El botón de búsqueda acompaña al campo: a lo ancho cuando el campo también
+   lo está, y ajustado a su contenido cuando van uno al lado del otro. */
+.btn-buscar {
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .btn-buscar {
+    width: auto;
   }
 }
 
@@ -1332,6 +1368,36 @@ onMounted(() => {
 
   .acta-card__body {
     padding: 14px 12px 12px;
+  }
+
+  /* Logo más pequeño: a 60 px se comía el ancho útil del título. */
+  .encabezado__logo {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  /* Lo mismo en la ficha del establecimiento, donde el avatar de 80 px
+     dejaba el nombre en una columna de texto de dos palabras por línea. */
+  .ficha__avatar {
+    width: 56px !important;
+    height: 56px !important;
+    margin-right: 12px !important;
+  }
+
+  .ficha__avatar :deep(.v-icon) {
+    font-size: 32px !important;
+  }
+
+  /* Los botones de paso se apilan y ocupan el ancho completo. */
+  .acciones-paso {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .acciones-paso :deep(.v-btn) {
+    width: 100%;
+    margin-inline: 0 !important;
   }
 }
 </style>

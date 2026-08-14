@@ -7,35 +7,33 @@ import {
   deleteEscuela,
   getEscuelByCodigoMineduc
 } from '../controllers/EscuelaController.js';
+import { requireAdmin } from '../middlewares/auth.middleware.js';
+import { apiLimiter, escrituraLimiter } from '../middlewares/rateLimit.middleware.js';
 
 const router = express.Router();
 
 /**
- * GET ALL
- * /api/v1/escuelas
+ * Este archivo no tenía NINGÚN middleware: ni siquiera importaba
+ * `authMiddleware`. Se escribió antes de que existiera el login y nunca se
+ * revisó, así que `DELETE /api/v1/escuelas/:id` borraba establecimientos de la
+ * base sin pedir credenciales, y un bucle sobre el :id vaciaba la tabla.
+ *
+ * La sesión ya la exige la barrera de app.js. Aquí se añade el rol para las
+ * operaciones que modifican datos.
  */
-router.get('/', getEscuelas);
 
-router.get('/:codigo', getEscuelByCodigoMineduc);
+/* ── Lectura: cualquier usuario con sesión ──────────────────────────────── */
 
-/**
- * GET BY ID
- */
-router.post('/udi', getEscuelaByCodigo);
+router.get('/', apiLimiter, getEscuelas);
+router.get('/:codigo', apiLimiter, getEscuelByCodigoMineduc);
 
-/**
- * CREATE
- */
-router.post('/', createEscuela);
+/** Búsqueda por código UDI que usa el formulario de registro de dotaciones. */
+router.post('/udi', apiLimiter, getEscuelaByCodigo);
 
-/**
- * UPDATE
- */
-router.put('/:id', updateEscuela);
+/* ── Escritura: solo administrador ──────────────────────────────────────── */
 
-/**
- * DELETE
- */
-router.delete('/:id', deleteEscuela);
+router.post('/', escrituraLimiter, requireAdmin, createEscuela);
+router.put('/:id', escrituraLimiter, requireAdmin, updateEscuela);
+router.delete('/:id', escrituraLimiter, requireAdmin, deleteEscuela);
 
 export default router;

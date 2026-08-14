@@ -3,6 +3,7 @@ import Equipo from '../models/Equipo.js'
 import ModeloEquipo from '../models/ModeloEquipo.js'
 import TipoEquipo from '../models/TipoEquipo.js'
 import { logAction } from '../services/auditService.js'
+import { errorServidor } from '../utils/http.js';
 
 
 export const crearEquipo = async (req, res) => {
@@ -56,10 +57,7 @@ export const crearEquipo = async (req, res) => {
     })
 
   } catch (error) {
-    return res.status(500).json({
-      message: 'Error al crear equipo',
-      error: error.message
-    })
+    return errorServidor(res, '[Equipos]', error, "Error al crear equipo")
   }
 }
 
@@ -114,10 +112,7 @@ export const getEquipos = async (req, res) => {
     return res.status(200).json(resultado)
 
   } catch (error) {
-    return res.status(500).json({
-      message: 'Error al obtener los equipos',
-      error: error.message
-    })
+    return errorServidor(res, '[Equipos]', error, "Error al obtener los equipos")
   }
 }
 
@@ -134,10 +129,7 @@ export const getEquiposPorModelo = async (req, res) => {
     return res.status(200).json(equipos)
 
   } catch (error) {
-    return res.status(500).json({
-      message: 'Error al obtener equipos por modelo',
-      error: error.message
-    })
+    return errorServidor(res, '[Equipos]', error, "Error al obtener equipos por modelo")
   }
 }
 
@@ -194,10 +186,7 @@ export const crearCategoriaEquipo = async (req, res) => {
     })
 
   } catch (error) {
-    return res.status(500).json({
-      message: 'Error al crear categoría',
-      error: error.message
-    })
+    return errorServidor(res, '[Equipos]', error, "Error al crear categoría")
   }
 }
 

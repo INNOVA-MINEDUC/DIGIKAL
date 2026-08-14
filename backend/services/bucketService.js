@@ -3,6 +3,7 @@ import FormData from 'form-data';
 import fsp from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
+import { extensionSegura } from '../utils/archivos.js';
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -78,11 +79,27 @@ const extraerKey = (direccion) => {
   return key ? decodeURIComponent(key) : null;
 };
 
-/** Nombre único: conserva la extensión y evita colisiones y choques de nombre. */
-const nombreUnico = (originalname) => {
-  const ext = path.extname(originalname || '').toLowerCase();
+/** Perfil de archivo que corresponde a cada carpeta (ver utils/archivos.js). */
+const PERFIL_POR_CARPETA = {
+  actas: 'pdf',
+  imgs: 'imagen',
+};
+
+/**
+ * Nombre único y seguro.
+ *
+ * La extensión se deriva del tipo ya validado, no del nombre que envió el
+ * usuario: es la extensión la que decide con qué Content-Type sirve
+ * express.static el archivo, así que no puede venir de una cadena que controle
+ * el cliente. Antes se conservaba tal cual, y un `payload.html` se acababa
+ * sirviendo como página HTML desde el dominio de la API.
+ */
+const nombreUnico = (file, carpeta) => {
+  const originalname = file?.originalname || '';
+  const ext = extensionSegura(file, PERFIL_POR_CARPETA[carpeta] || 'pdf');
+
   const base = path
-    .basename(originalname || 'archivo', ext)
+    .basename(originalname, path.extname(originalname))
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-zA-Z0-9]+/g, '-')
@@ -98,7 +115,7 @@ const guardarEnDisco = async (file, carpeta) => {
 
   await fsp.mkdir(destino, { recursive: true });
 
-  const nombre = nombreUnico(file.originalname);
+  const nombre = nombreUnico(file, sub);
   await fsp.writeFile(path.join(destino, nombre), file.buffer);
 
   return `${PREFIJO_LOCAL}${sub}/${nombre}`;

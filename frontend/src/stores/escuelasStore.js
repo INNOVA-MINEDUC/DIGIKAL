@@ -14,6 +14,7 @@ const FILTRO_DEFECTO = {
   dotado: false,
   conectividad: false,
   codigoMineduc: '',
+  busqueda: '',
 }
 
 const cargarPersistido = () => {

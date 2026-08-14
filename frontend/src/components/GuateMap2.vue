@@ -266,4 +266,12 @@ onBeforeUnmount(() => {
   height: 650px;
   filter: drop-shadow(2px 20px 12px);
 }
+
+@media (max-width: 960px) {
+  #chartdivmap { height: 480px; }
+}
+
+@media (max-width: 600px) {
+  #chartdivmap { height: 360px; }
+}
 </style>

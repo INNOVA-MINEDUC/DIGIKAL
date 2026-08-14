@@ -180,6 +180,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { getUser, isAuthenticated, removeToken } from '../utils/auth'
+import api from './helpers/api'
 
 const drawer = ref(false)
 
@@ -190,7 +191,16 @@ const role = computed(() => user.value?.role)
 const isAdmin = computed(() => role.value === 'admin')
 const isUser = computed(() => role.value === 'user')
 
-function logout() {
+async function logout() {
+  // Se avisa al backend para que suba `tokenVersion`: así el token deja de
+  // valer de verdad. Borrarlo solo del navegador no lo invalidaba, y una copia
+  // seguía sirviendo hasta que expirara sola.
+  try {
+    await api.post('/api/v1/auth/logout')
+  } catch {
+    // Si la llamada falla (sin red, sesión ya caducada) se cierra igual en local.
+  }
+
   removeToken()
   window.location.href = '/login'
 }

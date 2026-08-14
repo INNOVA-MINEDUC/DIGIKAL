@@ -12,6 +12,7 @@ import axios from "axios";
 import { obtenerUrlFirmada } from '../services/bucketService.js';
 
 import dotenv from 'dotenv'
+import { errorServidor } from '../utils/http.js';
 dotenv.config()
 
 export const getEscuelaByCodigo = async (req, res) => {
@@ -123,10 +124,11 @@ const escuelaLocal = await Escuela.findOne({
     }
 
     if (response.data?.errors) {
+      // Los errores de GraphQL del MDM describen su esquema (tipos, campos,
+      // resolvers). Se registran, pero no se reenvían al cliente.
       console.error("GraphQL ERROR:", response.data.errors);
-      return res.status(500).json({
-        message: "Error en GraphQL",
-        error: response.data.errors
+      return res.status(502).json({
+        message: "El API del MINEDUC devolvió un error al consultar la escuela"
       });
     }
 
@@ -156,10 +158,7 @@ const escuelaLocal = await Escuela.findOne({
 
   } catch (error) {
     console.error(error)
-    return res.status(500).json({
-      message: "Error al buscar escuela",
-      error: error.message
-    });
+    return errorServidor(res, '[Escuelas]', error, "Error al buscar escuela");
   }
 };
 
@@ -314,10 +313,7 @@ export const getEscuelByCodigoMineduc = async (req, res) => {
 
     console.error(error);
 
-    return res.status(500).json({
-      message: "Error al obtener la escuela",
-      error: error.message
-    });
+    return errorServidor(res, '[Escuelas]', error, "Error al obtener la escuela");
 
   }
 
@@ -329,10 +325,7 @@ export const getEscuelas = async (req, res) => {
     const escuelas = await Escuela.findAll();
     return res.status(200).json(escuelas);
   } catch (error) {
-    return res.status(500).json({
-      message: 'Error al obtener las escuelas',
-      error: error.message
-    });
+    return errorServidor(res, '[Escuelas]', error, "Error al obtener las escuelas");
   }
 };
 
@@ -346,10 +339,7 @@ export const createEscuela = async (req, res) => {
 
 
   } catch (error) {
-    return res.status(500).json({
-      message: 'Error al crear escuela',
-      error: error.message
-    });
+    return errorServidor(res, '[Escuelas]', error, "Error al crear escuela");
   }
 };
 
@@ -372,10 +362,7 @@ export const updateEscuela = async (req, res) => {
 
     return res.status(200).json(escuela);
   } catch (error) {
-    return res.status(500).json({
-      message: 'Error al actualizar escuela',
-      error: error.message
-    });
+    return errorServidor(res, '[Escuelas]', error, "Error al actualizar escuela");
   }
 };
 
@@ -396,9 +383,6 @@ export const deleteEscuela = async (req, res) => {
       message: 'Escuela eliminada correctamente'
     });
   } catch (error) {
-    return res.status(500).json({
-      message: 'Error al eliminar escuela',
-      error: error.message
-    });
+    return errorServidor(res, '[Escuelas]', error, "Error al eliminar escuela");
   }
 };

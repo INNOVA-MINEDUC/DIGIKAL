@@ -22,7 +22,7 @@
           </v-col>
           <v-col>
             <div class="d-flex align-center flex-wrap mb-2">
-              <h1 class="text-h4 font-weight-black mr-4 uppercase" style="color: #142957;">
+              <h1 class="text-h4 font-weight-black mr-4 uppercase school-title" style="color: #142957;">
                 {{ establecimiento.nombre || 'Sin nombre' }}
               </h1>
               <v-chip color="#142957" label variant="flat" size="small" class="font-weight-bold">
@@ -51,14 +51,14 @@
         <v-col cols="12" sm="4">
           <v-card class="pa-5 text-center text-white" elevation="4" rounded="xl" style="background:#142957;">
             <div class="text-h3 font-weight-black">{{ totalInventario }}</div>
-            <div class="text-uppercase text-caption font-weight-bold">Equipos en inventario</div>
+            <div class="text-uppercase text-caption font-weight-bold">Equipos dotados</div>
           </v-card>
         </v-col>
         <v-col cols="12" sm="4">
           <v-card class="pa-5 text-center" elevation="4" rounded="xl"
             style="border: 2px solid #142957; color:#142957;">
             <div class="text-h3 font-weight-black">{{ estudiantes }}</div>
-            <div class="text-uppercase text-caption font-weight-bold">Estudiantes</div>
+            <div class="text-uppercase text-caption font-weight-bold">Estudiantes beneficiados</div>
           </v-card>
         </v-col>
         <v-col cols="12" sm="4">
@@ -99,7 +99,7 @@
         <!-- Inventario -->
         <v-col cols="12" lg="8">
           <h3 class="text-h6 font-weight-bold mb-4" style="color:#142957;">
-            <v-icon class="mr-2">mdi-devices</v-icon>Inventario de Equipos ({{ totalInventario }})
+            <v-icon class="mr-2">mdi-devices</v-icon>Equipos dotados ({{ totalInventario }})
           </h3>
 
           <v-card v-if="totalInventario === 0" variant="tonal" color="grey" rounded="xl" class="pa-6 text-center text-grey">
@@ -194,15 +194,14 @@ const datosEstablecimiento = computed(() => {
   const num = (v) => (v ?? '—')
   return [
     { label: 'OPF', value: tieneOpf.value ? 'Sí' : 'No', icon: 'mdi-tag-check-outline' },
-    { label: 'Estudiantes inscritos 2026', value: num(e.inscritos2026), icon: 'mdi-account-school-outline' },
-    { label: 'Estudiantes inscritos (total)', value: num(e.estudiantesInscritos), icon: 'mdi-account-group-outline' },
+    { label: 'Estudiantes beneficiados', value: num(estudiantes.value), icon: 'mdi-account-group-outline' },
     { label: 'Hombres', value: num(e.cantidadHombres), icon: 'mdi-human-male' },
     { label: 'Mujeres', value: num(e.cantidadMujeres), icon: 'mdi-human-female' },
     { label: 'Correo electrónico', value: e.correoElectronico || '—', icon: 'mdi-email-outline' },
     { label: 'Teléfono', value: e.telefono || '—', icon: 'mdi-phone-outline' },
     { label: 'Conectividad', value: e.poseeConectividad ? `Sí${e.velocidadConectividad ? ' · ' + e.velocidadConectividad + ' Mbps' : ''}` : 'No', icon: 'mdi-wifi' },
     { label: 'Fecha de conexión', value: fecha(e.fechaConexion), icon: 'mdi-calendar-check' },
-    { label: 'Fecha de dotación', value: fecha(e.fechaDatacion), icon: 'mdi-calendar-clock' },
+    { label: 'Fecha de dotación', value: fecha(e.fechaDatacion), icon: 'mdi-calendar-clock' }
   ]
 })
 
@@ -270,5 +269,21 @@ onMounted(async () => {
   font-size: 0.7rem !important;
   letter-spacing: 0.5px;
   color: #455A64 !important;
+}
+
+/* La tabla de inventario (6 columnas) hace scroll horizontal dentro de su
+   tarjeta en pantallas chicas, en vez de desbordar la página. */
+:deep(.v-table__wrapper) {
+  overflow-x: auto;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  /* El nombre del establecimiento (text-h4) es muy grande en teléfono */
+  .school-title {
+    font-size: 1.4rem !important;
+    line-height: 1.25;
+    margin-right: 0 !important;
+  }
 }
 </style>

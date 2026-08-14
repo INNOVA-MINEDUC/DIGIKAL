@@ -1,98 +1,58 @@
 import express from 'express';
 import multer from 'multer';
-import rateLimit from 'express-rate-limit';
 
-import {
-  importarExcelDotaciones
-} from '../controllers/UploadController.js';
-import { authMiddleware } from '../middlewares/auth.middleware.js';
+import { importarExcelDotaciones } from '../controllers/UploadController.js';
+import { uploadLimiter } from '../middlewares/rateLimit.middleware.js';
+import { validarMetadatos, validarContenido } from '../utils/archivos.js';
 
 const router = express.Router();
 
-const uploadRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // máximo 100 requests por IP en la ventana
-  standardHeaders: true,
-  legacyHeaders: false
-});
-
-
-// =========================
-// STORAGE
-// =========================
 const storage = multer.memoryStorage();
 
-
-// =========================
-// VALIDAR SOLO EXCEL
-// =========================
+/**
+ * Antes se aceptaba cualquier archivo cuyo `mimetype` declarado fuera de Excel,
+ * sin mirar la extensión ni el contenido.
+ */
 const fileFilter = (req, file, cb) => {
-
-  const tiposValidos = [
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'application/vnd.ms-excel'
-  ];
-
-  if (tiposValidos.includes(file.mimetype)) {
-    return cb(null, true);
-  }
-
-  return cb(
-    new Error(
-      'Solo se permiten archivos Excel (.xlsx o .xls)'
-    )
-  );
+  const error = validarMetadatos(file, 'excel');
+  if (error) return cb(new Error(error));
+  return cb(null, true);
 };
 
-
-// =========================
-// MULTER
-// =========================
 const upload = multer({
   storage,
   fileFilter,
-
   limits: {
-    fileSize: 20 * 1024 * 1024
+    fileSize: 20 * 1024 * 1024,
+    files: 1,
   }
 });
 
+const manejarSubida = (req, res, next) => {
+  upload.single('excel')(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      return res.status(400).json({ message: 'Error de archivo', error: err.message });
+    }
+    if (err) {
+      return res.status(400).json({ message: err.message });
+    }
+    next();
+  });
+};
 
-// =========================
-// RUTA IMPORTAR EXCEL
-// =========================
-router.post('/', uploadRateLimiter, authMiddleware, (req, res, next) => {
+/** Comprobación de los primeros bytes: .xlsx es un ZIP, .xls un contenedor OLE2. */
+const verificarContenido = (req, res, next) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No se recibió ningún archivo' });
+  }
 
-    upload.single('excel')(
-      req,
-      res,
-      function (err) {
+  const error = validarContenido(req.file, 'excel');
+  if (error) return res.status(400).json({ message: error });
 
-        if (err instanceof multer.MulterError) {
+  next();
+};
 
-          return res.status(400).json({
-            message: 'Error de archivo',
-            error: err.message
-          });
-
-        }
-
-        if (err) {
-
-          return res.status(400).json({
-            message: err.message
-          });
-
-        }
-
-        next();
-
-      }
-    );
-
-  },
-
-  importarExcelDotaciones
-);
+// La sesión la exige la barrera de app.js.
+router.post('/', uploadLimiter, manejarSubida, verificarContenido, importarExcelDotaciones);
 
 export default router;

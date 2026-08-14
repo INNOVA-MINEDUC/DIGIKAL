@@ -39,10 +39,13 @@ const routes = [
   //   meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
   // },
   {
+    // La ficha muestra el inventario del establecimiento con número de serie,
+    // código SICOIN y valor de cada equipo, además del contacto del centro.
+    // Estaba abierta: iterando el id se podía descargar ese catálogo completo.
     path: '/details',
     name: 'details',
     component: SchoolView,
-        meta: { requiresAuth: false }
+    meta: { requiresAuth: true }
   },
 
   {
@@ -87,10 +90,12 @@ const routes = [
         meta: { requiresAuth: false }
   },
   {
+    // Gestión de usuarios: solo administrador. Antes dejaba entrar también al
+    // rol `user`, que es el de menor privilegio.
     path: '/usuarios',
     name: 'usuarios',
     component: UserManagement,
-     meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+    meta: { requiresAuth: true, allowedRoles: ['admin'] }
   },
 
   // {

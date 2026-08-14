@@ -2,107 +2,128 @@
   <v-container fluid class="fill-height bg-main pa-0">
     <v-row no-gutters class="fill-height">
       <v-col cols="12" md="3" lg="2" class="bg-white elevation-1 z-index-2 panel-lateral">
-        <div class="pa-6">
-          <div class="d-flex align-center mb-8">
-            <v-img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Escudo_de_Guatemala.svg" width="40" height="40" contain class="mr-3"></v-img>
-            <div>
-              <div class="text-caption font-weight-black text-blue-darken-4 line-height-1">GOBIERNO DE</div>
-              <div class="text-subtitle-2 font-weight-black text-blue-darken-4">GUATEMALA</div>
+        <div class="pa-4 pa-md-6">
+          <div class="d-flex align-center justify-space-between mb-4 mb-md-8">
+            <div class="d-flex align-center">
+              <v-img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Escudo_de_Guatemala.svg" width="40" height="40" contain class="mr-3"></v-img>
+              <div>
+                <div class="text-caption font-weight-black text-blue-darken-4 line-height-1">GOBIERNO DE</div>
+                <div class="text-subtitle-2 font-weight-black text-blue-darken-4">GUATEMALA</div>
+              </div>
             </div>
+
+            <!-- En móvil el panel se apila encima de la tabla. Plegado por
+                 defecto, se llega a los datos sin recorrer toda la columna de
+                 filtros. En escritorio el panel es fijo y este botón no existe. -->
+            <v-btn v-if="esMovil" variant="tonal" color="#003366" size="small"
+              class="text-none font-weight-bold"
+              :prepend-icon="filtrosAbiertos ? 'mdi-chevron-up' : 'mdi-tune-variant'"
+              @click="filtrosAbiertos = !filtrosAbiertos">
+              {{ filtrosAbiertos ? 'Ocultar' : 'Filtros' }}
+              <v-badge v-if="!filtrosAbiertos && filtrosActivos" color="#0094D3" dot inline />
+            </v-btn>
           </div>
 
-          <h3 class="text-overline font-weight-bold text-grey-darken-1 mb-4">Filtros de Reporte</h3>
+          <v-expand-transition>
+            <div v-show="!esMovil || filtrosAbiertos">
 
-          <v-select
-            v-model="filters.departamento"
-            class="mb-4 custom-input"
-            clearable
-            label="Departamento"
-            prepend-inner-icon="mdi-map-marker"
-            density="comfortable"
-            variant="solo-filled"
-            flat
-            :items="departamentosDisponibles"
-            @update:model-value="onDepartamentoChange"
-          ></v-select>
+              <h3 class="text-overline font-weight-bold text-grey-darken-1 mb-4">Filtros de Reporte</h3>
 
-          <v-select
-            v-model="filters.municipio"
-            class="mb-4 custom-input"
-            clearable
-            label="Municipio"
-            prepend-inner-icon="mdi-city-variant-outline"
-            density="comfortable"
-            variant="solo-filled"
-            flat
-            :items="municipiosDisponibles"
-            :disabled="!filters.departamento"
-            :hint="!filters.departamento ? 'Elige un departamento primero' : ''"
-            persistent-hint
-            @update:model-value="aplicarFiltro"
-          ></v-select>
+              <v-select
+                v-model="filters.departamento"
+                class="mb-4 custom-input"
+                clearable
+                label="Departamento"
+                prepend-inner-icon="mdi-map-marker"
+                density="comfortable"
+                variant="solo-filled"
+                flat
+                :items="departamentosDisponibles"
+                @update:model-value="onDepartamentoChange"
+              ></v-select>
 
-          <v-select
-            v-model="filters.origen"
-            class="mb-6 mt-2 custom-input"
-            clearable
-            label="Origen"
-            prepend-inner-icon="mdi-source-branch"
-            density="comfortable"
-            variant="solo-filled"
-            flat
-            :items="ORIGENES"
-            item-title="titulo"
-            item-value="valor"
-            @update:model-value="aplicarFiltro"
-          ></v-select>
-          <v-btn
-            block
-            color="#003366"
-            size="large"
-            class="text-none font-weight-bold rounded-lg mb-2"
-            elevation="0"
-            @click="aplicarFiltro"
-          >
-            Aplicar Filtros
-          </v-btn>
-          
-          <v-btn
-            block
-            variant="text"
-            color="grey-darken-1"
-            class="text-none"
-            @click="limpiarFiltros"
-          >
-            Restablecer
-          </v-btn>
+              <v-select
+                v-model="filters.municipio"
+                class="mb-4 custom-input"
+                clearable
+                label="Municipio"
+                prepend-inner-icon="mdi-city-variant-outline"
+                density="comfortable"
+                variant="solo-filled"
+                flat
+                :items="municipiosDisponibles"
+                :disabled="!filters.departamento"
+                :hint="!filters.departamento ? 'Elige un departamento primero' : ''"
+                persistent-hint
+                @update:model-value="aplicarFiltro"
+              ></v-select>
+
+              <v-select
+                v-model="filters.origen"
+                class="mb-6 mt-2 custom-input"
+                clearable
+                label="Origen"
+                prepend-inner-icon="mdi-source-branch"
+                density="comfortable"
+                variant="solo-filled"
+                flat
+                :items="ORIGENES"
+                item-title="titulo"
+                item-value="valor"
+                @update:model-value="aplicarFiltro"
+              ></v-select>
+              <v-btn
+                block
+                color="#003366"
+                size="large"
+                class="text-none font-weight-bold rounded-lg mb-2"
+                elevation="0"
+                @click="aplicarFiltro"
+              >
+                Aplicar Filtros
+              </v-btn>
+
+              <v-btn
+                block
+                variant="text"
+                color="grey-darken-1"
+                class="text-none"
+                @click="limpiarFiltros"
+              >
+                Restablecer
+              </v-btn>
+
+            </div>
+          </v-expand-transition>
         </div>
       </v-col>
 
-      <v-col cols="12" md="9" lg="10" class="pa-6 pa-lg-10">
-        <div class="d-flex align-center justify-space-between mb-8">
-          <div>
-            <h1 class="text-h4 font-weight-bold text-blue-darken-4">Descargar Reportes y Actas</h1>
-            <p class="text-body-1 text-grey-darken-1">Gestión y exportación de donaciones tecnológicas</p>
+      <v-col cols="12" md="9" lg="10" class="pa-4 pa-sm-6 pa-lg-10">
+        <!-- Título y botones de descarga: en pantallas estrechas se apilan en
+             lugar de comprimirse uno contra otro. -->
+        <div class="cabecera mb-6 mb-md-8">
+          <div class="cabecera__titulo">
+            <h1 class="text-h5 text-sm-h4 font-weight-bold text-blue-darken-4">Descargar Reportes y Actas</h1>
+            <p class="text-body-2 text-sm-body-1 text-grey-darken-1 mb-0">Gestión y exportación de donaciones tecnológicas</p>
           </div>
 
-          <div class="d-flex gap-3">
+          <div class="cabecera__acciones">
             <v-btn
               variant="outlined"
               color="#0094D3"
               prepend-icon="mdi-file-excel"
-              class="text-none font-weight-bold rounded-lg px-6"
-              size="large"
+              class="text-none font-weight-bold rounded-lg"
+              :size="esMovil ? 'default' : 'large'"
               @click="descargar('excel')"
             >
               Excel
-            </v-btn> 
-                  <v-btn
+            </v-btn>
+            <v-btn
               variant="outlined"
               color="#d32f2f"
               prepend-icon="mdi-file-pdf-box"
-              class="text-none font-weight-bold rounded-lg px-6"
-              size="large"
+              class="text-none font-weight-bold rounded-lg"
+              :size="esMovil ? 'default' : 'large'"
               @click="descargar('pdf')"
             >
               PDF
@@ -113,7 +134,7 @@
         <v-card class="rounded-xl border-none elevation-sm">
           <!-- Búsqueda rápida sobre la tabla: cubre código de establecimiento,
                nombre, origen y fecha. -->
-          <div class="pa-4 pb-0">
+          <div class="pa-3 pa-sm-4 pb-0">
             <v-text-field
               v-model="search"
               label="Buscar por código de establecimiento, escuela, origen…"
@@ -142,6 +163,7 @@
             item-value="id"
             hover
             class="custom-table"
+            :mobile-breakpoint="600"
           >
 
             <template v-slot:item.actas="{ item }">
@@ -184,17 +206,19 @@
     </v-row>
 
     <!-- ============ DETALLE COMPLETO DE LA DOTACIÓN ============ -->
-    <v-dialog v-model="dialogDetalle" max-width="900" scrollable>
-      <v-card v-if="detalle" class="rounded-xl">
+    <!-- A pantalla completa en móvil: con `max-width` el detalle quedaba en una
+         columna angosta con cuatro tablas dentro. -->
+    <v-dialog v-model="dialogDetalle" max-width="900" scrollable :fullscreen="esMovil">
+      <v-card v-if="detalle" :class="esMovil ? '' : 'rounded-xl'">
 
         <!-- Cabecera -->
         <div class="detalle-head">
-          <div class="d-flex align-center">
-            <v-avatar color="rgba(255,255,255,0.15)" size="48" class="mr-4">
+          <div class="d-flex align-center detalle-head__info">
+            <v-avatar color="rgba(255,255,255,0.15)" size="48" class="mr-3 mr-sm-4 detalle-head__avatar">
               <v-icon color="white" size="28">mdi-school</v-icon>
             </v-avatar>
-            <div>
-              <div class="text-h6 font-weight-bold text-white">{{ detalle.escuela }}</div>
+            <div class="detalle-head__texto">
+              <div class="text-subtitle-1 text-sm-h6 font-weight-bold text-white">{{ detalle.escuela }}</div>
               <div class="text-caption text-white" style="opacity: 0.85;">
                 UDI {{ detalle.codigo }} · {{ detalle.establecimiento.departamento }} /
                 {{ detalle.establecimiento.municipio }}
@@ -204,7 +228,7 @@
           <v-btn icon="mdi-close" variant="text" color="white" @click="dialogDetalle = false" />
         </div>
 
-        <v-card-text class="pa-6">
+        <v-card-text class="pa-4 pa-sm-6">
 
           <!-- Resumen de la dotación -->
           <div class="d-flex flex-wrap ga-2 mb-6">
@@ -358,8 +382,17 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
 import api, { urlArchivo } from '@/helpers/api.js'
 import Swal from 'sweetalert2'
+
+/* El panel lateral es `cols="12" md="3"`, así que por debajo de 960 px deja de
+   estar al lado y pasa a apilarse encima de la tabla. `smAndDown` marca
+   exactamente ese punto. */
+const { smAndDown: esMovil } = useDisplay()
+
+/** En móvil los filtros arrancan plegados para no tapar los resultados. */
+const filtrosAbiertos = ref(false)
 
 import ExcelJS from 'exceljs'
 import { jsPDF } from 'jspdf'
@@ -373,6 +406,11 @@ const filters = ref({
   municipio: null,
   origen: null
 })
+
+/** Con el panel plegado en móvil, avisa de que hay filtros puestos. */
+const filtrosActivos = computed(() =>
+  Object.values(filters.value).some((v) => v !== null && v !== '')
+)
 
 // Refleja el ENUM de dotaciones.origen en la base.
 const ORIGENES = [
@@ -525,6 +563,10 @@ const filtrarDotaciones = (data) => {
 }
 
 const aplicarFiltro = () => {
+  // En móvil se pliega el panel al aplicar: si no, el usuario se queda mirando
+  // los mismos filtros y tiene que bajar a pulso para ver el resultado.
+  if (esMovil.value) filtrosAbiertos.value = false;
+
   const data = filtrarDotaciones(datosOriginales.value);
 
   // Mapeo y formateo de datos para la tabla
@@ -985,10 +1027,37 @@ onMounted(() => {
 
 /* El panel de filtros abarca toda la altura: `fill-height` en el contenedor
    centra verticalmente su fila, lo que dejaba el panel del tamaño de su
-   contenido. align-self stretch + min-height 100vh lo devuelven a full height. */
+   contenido. align-self stretch + min-height 100vh lo devuelven a full height.
+
+   Ojo: el 100vh SOLO vale cuando el panel está al lado de la tabla. Por debajo
+   de 960 px se apila encima, y esa altura forzada obligaba a recorrer una
+   pantalla entera de filtros antes de ver un solo resultado. */
 .panel-lateral {
   align-self: stretch;
-  min-height: 100vh;
+}
+
+@media (min-width: 960px) {
+  .panel-lateral {
+    min-height: 100vh;
+  }
+}
+
+/* ===== Cabecera: título + botones de descarga ===== */
+.cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cabecera__titulo {
+  min-width: 0;
+}
+
+.cabecera__acciones {
+  display: flex;
+  gap: 12px;
 }
 
 .custom-input :deep(.v-field) {
@@ -1102,5 +1171,70 @@ onMounted(() => {
 
 .elevation-sm {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+}
+
+/* Las tablas del detalle (actas y equipos) tienen 4 y 5 columnas: en pantallas
+   estrechas se desplazan dentro de su propia caja en lugar de estirar el
+   diálogo y provocar scroll horizontal en toda la página. */
+.tabla-actas :deep(.v-table__wrapper) {
+  overflow-x: auto;
+}
+
+.tabla-actas :deep(th),
+.tabla-actas :deep(td) {
+  white-space: nowrap;
+}
+
+/* El nombre del establecimiento no debe empujar la X de cerrar fuera de la
+   cabecera del diálogo. */
+.detalle-head__info {
+  min-width: 0;
+}
+
+.detalle-head__texto {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablets y por debajo: el panel de filtros ya va apilado. */
+@media (max-width: 960px) {
+  .panel-lateral {
+    border-bottom: 1px solid rgba(0, 51, 102, 0.12);
+  }
+}
+
+/* Móvil */
+@media (max-width: 600px) {
+  .cabecera {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Excel y PDF se reparten el ancho: son la acción principal de la vista. */
+  .cabecera__acciones > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .detalle-head {
+    padding: 14px 16px;
+  }
+
+  .detalle-head__avatar {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  /* La rejilla de fotos de evidencia se ajusta al ancho disponible. */
+  .evidencia-mini {
+    width: 84px !important;
+    height: 84px !important;
+  }
+
+  .stat-box__num {
+    font-size: 1.25rem;
+  }
 }
 </style>

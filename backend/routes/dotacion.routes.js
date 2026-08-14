@@ -1,58 +1,45 @@
 import express from 'express';
 import multer from 'multer';
-import rateLimit from 'express-rate-limit';
 
 import {
   createDotacion,
   getDotaciones
 } from '../controllers/DotacionController.js';
-import { authMiddleware } from '../middlewares/auth.middleware.js';
+import { apiLimiter, uploadLimiter } from '../middlewares/rateLimit.middleware.js';
+import { validarMetadatos, validarContenido } from '../utils/archivos.js';
 
 const router = express.Router();
 
-const dotacionRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // máximo 100 requests por IP en la ventana
-  standardHeaders: true,
-  legacyHeaders: false
-});
-
 const storage = multer.memoryStorage();
 
+/** Qué perfil de archivo corresponde a cada campo del formulario. */
+const PERFIL_POR_CAMPO = {
+  acta_pdf: 'pdf',
+  imagenes_entrega: 'imagen',
+};
+
+/**
+ * Primera barrera: nombre y extensión. El filtro anterior solo miraba
+ * `file.mimetype`, que lo escribe el cliente, así que bastaba declarar
+ * "application/pdf" para subir un .html.
+ */
 const fileFilter = (req, file, cb) => {
+  const perfil = PERFIL_POR_CAMPO[file.fieldname];
 
-  if (file.fieldname === 'acta_pdf') {
+  if (!perfil) return cb(new Error('Campo no válido'));
 
-    if (file.mimetype === 'application/pdf') {
-      return cb(null, true);
-    }
+  const error = validarMetadatos(file, perfil);
+  if (error) return cb(new Error(error));
 
-    return cb(new Error('El acta debe ser PDF'));
-
-  }
-
-  if (file.fieldname === 'imagenes_entrega') {
-
-    if (
-      file.mimetype === 'image/jpeg' ||
-      file.mimetype === 'image/png' ||
-      file.mimetype === 'image/jpg'
-    ) {
-      return cb(null, true);
-    }
-
-    return cb(new Error('Solo imágenes JPG o PNG'));
-
-  }
-
-  cb(new Error('Campo no válido'));
+  return cb(null, true);
 };
 
 const upload = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: 20 * 1024 * 1024
+    fileSize: 20 * 1024 * 1024,
+    files: 30,
   }
 });
 
@@ -63,39 +50,36 @@ const uploadFields = upload.fields([
   { name: 'imagenes_entrega', maxCount: 10 }
 ]);
 
-router.post(
-  '/',
-  dotacionRateLimiter,
-  authMiddleware,
-  (req, res, next) => {
+/**
+ * Segunda barrera: el contenido real. Se ejecuta después de Multer, cuando ya
+ * hay búfer, y comprueba los primeros bytes de cada archivo contra la firma que
+ * le corresponde. Un .html renombrado a .pdf no empieza por "%PDF" y aquí cae.
+ */
+const verificarContenido = (req, res, next) => {
+  for (const [campo, perfil] of Object.entries(PERFIL_POR_CAMPO)) {
+    for (const file of req.files?.[campo] ?? []) {
+      const error = validarContenido(file, perfil);
+      if (error) return res.status(400).json({ message: error });
+    }
+  }
+  next();
+};
 
-    uploadFields(req, res, function (err) {
+const manejarSubida = (req, res, next) => {
+  uploadFields(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      return res.status(400).json({ message: 'Error de archivo', error: err.message });
+    }
+    if (err) {
+      return res.status(400).json({ message: err.message });
+    }
+    next();
+  });
+};
 
-      if (err instanceof multer.MulterError) {
+// La sesión la exige la barrera de app.js.
+router.post('/', uploadLimiter, manejarSubida, verificarContenido, createDotacion);
 
-        return res.status(400).json({
-          message: 'Error de archivo',
-          error: err.message
-        });
-
-      }
-
-      if (err) {
-
-        return res.status(400).json({
-          message: err.message
-        });
-
-      }
-
-      next();
-
-    });
-
-  },
-  createDotacion
-);
-
-router.get('/', dotacionRateLimiter, authMiddleware, getDotaciones);
+router.get('/', apiLimiter, getDotaciones);
 
 export default router;

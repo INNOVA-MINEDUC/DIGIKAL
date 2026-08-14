@@ -19,6 +19,37 @@ api.interceptors.request.use(config => {
 });
 
 /**
+ * Sesión caída o revocada.
+ *
+ * El backend ahora puede invalidar un token antes de que expire: al cambiar la
+ * contraseña, al desactivar la cuenta o al cerrar sesión sube `tokenVersion` y
+ * los tokens viejos dejan de servir. Cuando eso pasa responde 401, y aquí se
+ * limpia el token guardado y se manda al login en lugar de dejar la interfaz
+ * fallando en silencio.
+ *
+ * Las rutas de /auth se excluyen: el login devuelve 401 con credenciales
+ * incorrectas y ahí el mensaje lo muestra el propio formulario.
+ */
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error.response?.status;
+    const url = error.config?.url || '';
+
+    if (status === 401 && !url.includes('/api/v1/auth')) {
+      localStorage.removeItem('token');
+
+      // El router usa hash history.
+      if (!window.location.hash.startsWith('#/login')) {
+        window.location.hash = '#/login';
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+/**
  * Convierte una ruta de archivo devuelta por el backend en una URL absoluta.
  *
  * El backend entrega `/uploads/...` cuando el archivo se guardó en disco (el

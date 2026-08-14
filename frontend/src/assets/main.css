@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ── Responsive global ─────────────────────────────────────────────
+   Evita el scroll horizontal en toda la app (la causa más común de que
+   una página "se vea mal" en el teléfono: un elemento se sale y aparece
+   la barra horizontal). Cada tabla/mapa ancho hace su propio scroll
+   interno en su contenedor, no a nivel de página. */
+html,
+body,
+#app {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* En pantallas chicas, ninguna imagen debe desbordar su contenedor. */
+@media (max-width: 600px) {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}

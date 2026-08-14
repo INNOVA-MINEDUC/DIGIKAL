@@ -3,7 +3,12 @@
     <img src="/about/img_1.png" class="hero-bg" alt="Fondo" />
   </div>
 
-  <img src="/politica.png" style="width: 80%;  display: flex; justify-self: center; z-index: 0;">
+  <!-- Mismos logos, mismo orden y mismos tamaños que la portada (HomeView). -->
+  <div class="hero-container">
+    <img src="/logos/LOGOS-02.webp" class="hero-img" alt="Ministerio de Educación" />
+    <img src="/logos/LOGOS-03.webp" class="hero-img" alt="DIGECADE" />
+    <img src="/logos/LOGOS-04.webp" class="hero-img" alt="Política DIGIKAL" />
+  </div>
 
   <div class="home">
 
@@ -38,7 +43,7 @@
 
     <section class="innovation-section">
       <h2>Diagnóstico Nacional — ¿Por qué DIGIKAL?</h2>
-      <p style="max-width: 70%; justify-self: center;">
+      <p class="innovation-texto">
         Actualmente menos del 75% de los establecimientos educativos tienen acceso a conectividad. Los recursos e
         infraestructura tecnológica básica continúan siendo un reto, incluyendo acceso estable a energía eléctrica y
         redes confiables. Persisten disparidades significativas entre áreas urbanas y rurales, siendo las comunidades
@@ -95,25 +100,44 @@ const cards = [
 
 
 <style scoped>
+/* ===== Báner =====
+   Mismas reglas que el hero de la portada (HomeView), para que las tres vistas
+   tengan el báner del mismo tamaño y se comporten igual.
+
+   Antes el `.hero-bg` iba `position: absolute; inset: 0`, lo que lo obligaba a
+   rellenar una caja de alto fijo y recortaba la imagen. En la portada va en
+   flujo normal y por debajo de 960 px pasa a `height: auto`, así que se ve la
+   imagen entera y el báner ocupa lo que le corresponde por su proporción. */
 .hero-wrapper {
   position: relative;
   width: 100%;
   height: 70vh;
-  min-height: 400px;
-  overflow: hidden;
-  display: flex;
-  justify-self: center;
-  align-items: center;
 }
 
 .hero-bg {
-  position: absolute;
-  inset: 0;
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1;
-  /* filter: brightness(0.65); */
+  object-position: center;
+}
+
+/* ===== Fila de logos =====
+   Mismas reglas que la portada. Antes aquí iba `politica.png` con
+   `width:80%; display:flex; justify-self:center` en estilo inline: además de
+   no centrarse (justify-self no aplica fuera de una grilla), era una franja de
+   proporción 7:1 que no casaba con los logos del resto del sitio. */
+.hero-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin-block: 5rem;
+}
+
+.hero-img {
+  width: 15rem;
+  padding: 0;
 }
 
 .footer {
@@ -176,13 +200,23 @@ const cards = [
   color: white;
   text-align: center;
   padding: 150px 20px;
-  width: 100vw;
+  /* 100vw provocaba scroll horizontal (incluye la barra de scroll). */
+  width: 100%;
   background-color: white;
 }
 
 .innovation-section h2 {
   font-size: 32px;
   margin-bottom: 20px;
+}
+
+/* El párrafo llevaba `max-width:70%; justify-self:center` en estilo inline.
+   Igual que el logo, `justify-self` no aplica aquí: la caja quedaba anclada a
+   la izquierda y solo el texto de dentro salía centrado. `margin-inline:auto`
+   sí la centra. */
+.innovation-texto {
+  max-width: 70ch;
+  margin-inline: auto;
 }
 
 
@@ -224,6 +258,41 @@ const cards = [
 
 
 
+@media (max-width: 960px) {
+  /* Igual que en la portada: el báner deja de tener alto fijo y adopta la
+     proporción de la imagen, así se ve completa y no recortada. */
+  .hero-wrapper {
+    height: auto;
+  }
+  .hero-bg {
+    height: auto;
+  }
+  .hero-container {
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-block: 2.5rem;
+  }
+  .hero-img {
+    width: 9rem;
+  }
+  .top-section {
+    padding: 32px 20px;
+  }
+  .image-placeholder {
+    height: 260px;
+  }
+  .innovation-section {
+    padding: 80px 18px;
+  }
+  .innovation-section h2 {
+    font-size: 24px;
+  }
+  /* El párrafo con max-width inline se ensancha en pantallas chicas */
+  .innovation-section p {
+    max-width: 100% !important;
+  }
+}
+
 @media (max-width: 768px) {
   .top-section {
     flex-direction: column;
@@ -232,6 +301,41 @@ const cards = [
   .cards-section {
     flex-direction: column;
     align-items: center;
+    padding: 32px 16px;
+  }
+
+  /* El contenedor de InfoCards con width inline 68% queda muy angosto en móvil */
+  .cards-section > div {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-container {
+    gap: 1.25rem;
+    margin-block: 1.5rem;
+  }
+  .hero-img {
+    width: 6.5rem;
+  }
+  .image-placeholder {
+    height: 200px;
+  }
+  .innovation-section {
+    padding: 48px 16px;
+  }
+}
+
+/* Teléfono en horizontal: la pantalla es muy baja y un báner de 70vh se comía
+   la vista entera antes de llegar al contenido. Como la portada ya usa
+   `height:auto` por debajo de 960 px, aquí sólo hace falta cubrir el caso de
+   pantalla ancha pero muy baja. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero-wrapper {
+    height: auto;
+  }
+  .hero-bg {
+    height: auto;
   }
 }
 </style>

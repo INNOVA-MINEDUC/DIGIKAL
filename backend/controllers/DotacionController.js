@@ -16,6 +16,7 @@ import Departamento from '../models/Departamento.js';
 import Municipio from '../models/Municipio.js';
 import fs from 'fs';
 import { logAction } from '../services/auditService.js';
+import { errorServidor } from '../utils/http.js';
 
 
 const Escuela = EscuelaModel;
@@ -264,10 +265,7 @@ export const createDotacion = async (req, res) => {
 
     console.error('❌ Error en createDotacion:', error);
 
-    return res.status(500).json({
-      message: 'Error al crear la dotación',
-      error: error.message
-    });
+    return errorServidor(res, '[Dotaciones]', error, "Error al crear la dotación");
   }
 };
 
@@ -352,9 +350,6 @@ export const getDotaciones = async (req, res) => {
   } catch (error) {
     console.error('❌ Error al obtener dotaciones:', error);
 
-    return res.status(500).json({
-      message: 'Error al obtener dotaciones',
-      error: error.message
-    });
+    return errorServidor(res, '[Dotaciones]', error, "Error al obtener dotaciones");
   }
 };

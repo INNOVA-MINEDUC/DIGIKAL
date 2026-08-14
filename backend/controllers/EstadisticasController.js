@@ -15,6 +15,7 @@ import {
   resumenPorDepartamento,
 } from '../services/estadisticasService.js';
 import { obtenerRegistros } from '../services/estadisticasData.js';
+import { errorServidor } from '../utils/http.js';
 
 const leerFiltros = (req) => {
   const { anio, ciclo, departamento } = req.query || {};
@@ -31,7 +32,7 @@ const handler = (fn) => async (req, res) => {
     return res.status(200).json(await fn(req));
   } catch (error) {
     console.error('[Estadisticas] Error:', error.message);
-    return res.status(500).json({ message: 'Error al construir las estadísticas', error: error.message });
+    return errorServidor(res, '[Estadisticas]', error, "Error al construir las estadísticas");
   }
 };
 
