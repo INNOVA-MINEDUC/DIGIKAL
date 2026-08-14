@@ -94,6 +94,28 @@ export const ROLES = Object.freeze({
 export const ROLES_VALIDOS = Object.freeze(Object.values(ROLES));
 
 /**
+ * Coste de bcrypt para las contraseñas nuevas.
+ *
+ * Vive aquí para que el alta de usuarios y el hash señuelo del login (ver
+ * AuthController) usen exactamente el mismo valor: si se separan, comparar
+ * contra el señuelo tarda distinto que contra una cuenta real y vuelve a
+ * abrirse el canal de tiempos que ese señuelo existe para cerrar.
+ *
+ * El valor es 10 porque es el coste con el que están grabadas TODAS las
+ * contraseñas actuales de la base (el prefijo del hash lo indica). Medido en
+ * este servidor: coste 10 → 69 ms por comparación, coste 12 → 283 ms. Un
+ * señuelo de coste 12 frente a cuentas de coste 10 tardaba cuatro veces más y
+ * delataba, por el tiempo de respuesta, qué correos NO existen.
+ *
+ * Para subirlo a 12 no basta con cambiar este número: hay que regrabar las
+ * contraseñas existentes. La vía habitual es hacerlo al vuelo tras un inicio
+ * de sesión correcto —comprobando `bcrypt.getRounds(user.password)` y
+ * rehaciendo el hash si se quedó corto— y subir esta constante cuando ya no
+ * queden hashes antiguos.
+ */
+export const BCRYPT_ROUNDS = 10;
+
+/**
  * Deja abiertas sin token las rutas de solo lectura que alimentan el mapa y el
  * tablero públicos del sitio (`/`, `/dashboard`, `/details` en el front).
  * Esas respuestas van filtradas: no incluyen series, códigos SICOIN ni valores

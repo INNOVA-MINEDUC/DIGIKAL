@@ -92,7 +92,9 @@ export function buscarMunicipioApiId(nombre, dept) {
   // 3. Fuse para variantes no cubiertas
   const results = fuse.search(busq);
   if (!results.length) {
-    console.warn(`[municipioSearch] Sin resultados para: "${nombre}" (busq: "${busq}")`);
+    // `nombre` procede del filtro que envía el cliente: se pasa como argumento
+    // y no dentro de la cadena de formato (ver utils/http.js).
+    console.warn('[municipioSearch] Sin resultados para: "%s" (busq: "%s")', nombre, busq);
     return null;
   }
 
@@ -105,7 +107,10 @@ export function buscarMunicipioApiId(nombre, dept) {
   }
 
   if (best.score > 0.25) {
-    console.warn(`[municipioSearch] Score bajo (${best.score.toFixed(3)}) para "${nombre}" → "${best.item.nombre}"`);
+    console.warn(
+      '[municipioSearch] Score bajo (%s) para "%s" → "%s"',
+      best.score.toFixed(3), nombre, best.item.nombre
+    );
     return null;
   }
 

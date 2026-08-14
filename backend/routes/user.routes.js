@@ -18,10 +18,15 @@ const router = express.Router();
  * —incluido el rol más bajo— podía listar la plantilla, cambiar su propio
  * `roleId` a 1 para ascender a administrador y borrar al administrador real.
  */
+// El limitador va antes de `authMiddleware` a propósito: ese middleware
+// consulta la base en cada petición, así que sin tope alguien sin sesión podría
+// forzar una consulta por intento (CodeQL: missing rate limiting).
+// Al estar aquí ya cubre todas las rutas del router; repetirlo abajo consumía
+// dos cupos por petición y dejaba el límite real en la mitad.
 router.use(apiLimiter, authMiddleware, requireAdmin);
 
-router.get('/', apiLimiter, getUsers);
-router.get('/:id', apiLimiter, getUserById);
+router.get('/', getUsers);
+router.get('/:id', getUserById);
 
 router.post('/', escrituraLimiter, createUser);
 router.put('/:id', escrituraLimiter, updateUser);

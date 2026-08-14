@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
+import crypto from 'crypto'
 import User from "../models/User.js"
 import Role from "../models/Role.js"
-import { JWT_SECRET, JWT_EXPIRES_IN } from '../config/env.js'
+import { JWT_SECRET, JWT_EXPIRES_IN, BCRYPT_ROUNDS } from '../config/env.js'
 import { logAction } from "../services/auditService.js"
 
 /* ── Bloqueo por cuenta ───────────────────────────────────────────────────
@@ -18,8 +19,18 @@ const BLOQUEO_MINUTOS = 15;
  * Sin esto, la respuesta llega mucho más rápido para un correo no registrado
  * que para uno real, y esa diferencia de milisegundos permite averiguar qué
  * cuentas existen aunque el mensaje de error sea idéntico.
+ *
+ * Se calcula al arrancar sobre un valor aleatorio, en lugar de ir escrito en
+ * el código. Dos motivos: un hash bcrypt literal en el repositorio dispara los
+ * analizadores de secretos (Semgrep `detected-bcrypt-hash`), y así el coste
+ * coincide siempre con el de las contraseñas reales —que es justo lo que hace
+ * que los tiempos se parezcan—. Nadie conoce la contraseña de origen, así que
+ * ninguna comparación contra él puede dar verdadera.
  */
-const HASH_SEÑUELO = '$2b$10$CwTycUXWue0Thq9StjUM0uJ8f4Q0V8jHkQ2Qb8Zz3Q2Qb8Zz3Q2Qa';
+const HASH_SEÑUELO = bcrypt.hashSync(
+  crypto.randomBytes(32).toString('hex'),
+  BCRYPT_ROUNDS
+);
 
 // Mismo texto para «no existe» y «contraseña incorrecta». Antes devolvía 404 en
 // un caso y 401 en el otro, lo que permitía enumerar los correos registrados.

@@ -18,7 +18,13 @@ import { IS_PROD } from '../config/env.js';
  * @param {number} status
  */
 export const errorServidor = (res, contexto, error, mensaje = 'Error interno del servidor', status = 500) => {
-  console.error(`${contexto}:`, error);
+  // El primer argumento de console.error es la cadena de formato. Antes se
+  // construía con una plantilla —`${contexto}:`— y eso permite, si algún día
+  // `contexto` deja de ser un literal, que un especificador (%s, %d…) colado
+  // en él altere el resto del mensaje y falsee la traza. Con la cadena fija y
+  // los valores como argumentos aparte, la salida es la misma y no hay
+  // forma de inyectar formato.
+  console.error('%s:', contexto, error);
 
   const cuerpo = { message: mensaje };
 

@@ -420,7 +420,10 @@ export const getEscuelasDotadas = async (req, res) => {
         muniNombre = muniId != null ? (ubic.muniNombrePorId.get(muniId) ?? null) : null;
       }
       if (!muniNombre) {
-        console.warn(`[Dashboard] Municipio no resuelto: "${muni}" — se pagina el departamento completo`);
+        // `muni` llega en el cuerpo de una ruta pública: va como argumento y no
+        // dentro de la cadena de formato, para que no pueda colar %s y falsear
+        // el resto de la línea del log.
+        console.warn('[Dashboard] Municipio no resuelto: "%s" — se pagina el departamento completo', muni);
       }
     }
 

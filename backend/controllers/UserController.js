@@ -2,7 +2,7 @@ import User from '../models/User.js';
 import Role from '../models/Role.js';
 import bcrypt from 'bcryptjs';
 import { logAction } from '../services/auditService.js';
-import { ROLES } from '../config/env.js';
+import { ROLES, BCRYPT_ROUNDS } from '../config/env.js';
 import { errorServidor, errorValidacion } from '../utils/http.js';
 import {
   validarPassword,
@@ -85,7 +85,7 @@ export const createUser = async (req, res) => {
       return errorValidacion(res, 'El correo ya está registrado');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
     const user = await User.create({
       name,
@@ -177,7 +177,7 @@ export const updateUser = async (req, res) => {
     if (password) {
       const errPassword = validarPassword(password);
       if (errPassword) return errorValidacion(res, errPassword);
-      hashedPassword = await bcrypt.hash(password, 12);
+      hashedPassword = await bcrypt.hash(password, BCRYPT_ROUNDS);
     }
 
     /* ── Revocación de sesiones ─────────────────────────────────────────── */
