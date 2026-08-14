@@ -18,7 +18,7 @@ const router = express.Router();
  * —incluido el rol más bajo— podía listar la plantilla, cambiar su propio
  * `roleId` a 1 para ascender a administrador y borrar al administrador real.
  */
-router.use(authMiddleware, requireAdmin);
+router.use(apiLimiter, authMiddleware, requireAdmin);
 
 router.get('/', apiLimiter, getUsers);
 router.get('/:id', apiLimiter, getUserById);
