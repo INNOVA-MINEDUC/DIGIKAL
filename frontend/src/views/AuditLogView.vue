@@ -82,7 +82,6 @@
             <th class="text-white font-weight-bold">Acción</th>
             <th class="text-white font-weight-bold">Módulo</th>
             <th class="text-white font-weight-bold">Descripción</th>
-            <th class="text-white font-weight-bold">IP</th>
             <th class="text-white font-weight-bold text-center">Estado</th>
           </tr>
         </thead>
@@ -93,7 +92,6 @@
             <td>{{ log.action }}</td>
             <td>{{ log.module }}</td>
             <td class="text-truncate" style="max-width: 320px">{{ log.description }}</td>
-            <td>{{ log.ipAddress }}</td>
             <td class="text-center">
               <v-chip
                 :color="log.status === 'SUCCESS' ? 'success' : 'error'"
@@ -106,7 +104,8 @@
             </td>
           </tr>
           <tr v-if="logs.length === 0">
-            <td colspan="7" class="text-center py-4 text-grey">No se encontraron registros.</td>
+            <!-- 6 columnas desde que se quitó la de IP -->
+            <td colspan="6" class="text-center py-4 text-grey">No se encontraron registros.</td>
           </tr>
         </tbody>
       </v-table>

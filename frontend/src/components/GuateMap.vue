@@ -207,7 +207,7 @@ onBeforeUnmount(() => {
 <style scoped>
 #chartdivmap {
   width: 100%;
-  height: 650px;
+  height: 600px;
   filter: drop-shadow(2px 20px 12px);
 }
 

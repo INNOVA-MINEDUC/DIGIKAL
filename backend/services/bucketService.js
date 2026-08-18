@@ -4,7 +4,9 @@ import fsp from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
 import { extensionSegura } from '../utils/archivos.js';
+import { REQUERIR_BUCKET } from '../config/env.js';
 import dotenv from 'dotenv'
+import logger from '../utils/logger.js';
 dotenv.config()
 
 /**
@@ -127,6 +129,8 @@ const guardarEnDisco = async (file, carpeta) => {
  * sólo aplica al respaldo local.
  */
 export const subirArchivo = async (file, carpeta = 'actas') => {
+  let motivoFallo = 'motivo desconocido';
+
   if (bucketConfigurado()) {
     try {
       const form = new FormData();
@@ -161,16 +165,41 @@ export const subirArchivo = async (file, carpeta = 'actas') => {
         };
       }
 
-      console.error('El bucket respondió sin `key`:', response.data);
+      motivoFallo = 'el bucket respondió sin `key`';
+      logger.error('[bucket] Respuesta sin `key`:', response.data);
 
     } catch (error) {
-      console.error(
-        'Bucket no disponible, se guarda en disco:',
-        error.response?.data || error.message
+      motivoFallo = error.response
+        ? `el bucket respondió HTTP ${error.response.status}`
+        : (error.code || error.message);
+
+      logger.error(
+        '[bucket] Subida fallida (%s): %s',
+        motivoFallo,
+        JSON.stringify(error.response?.data ?? error.message).slice(0, 300)
       );
     }
+  } else {
+    motivoFallo = 'STORAGE_SERVICE_URL o STORAGE_API_KEY sin configurar';
   }
 
+  /* El bucket no pudo con el archivo. Antes se guardaba en disco siempre y en
+     silencio: la fila quedaba con el prefijo `local:`, nadie reintentaba y sólo
+     se notaba al mirar la base. Con REQUERIR_BUCKET la operación falla y quien
+     la lanzó se entera. */
+  if (REQUERIR_BUCKET) {
+    const error = new Error(
+      `No se pudo guardar "${file.originalname}" en el almacenamiento: ${motivoFallo}. ` +
+      'No se registró nada; vuelva a intentarlo en unos minutos.'
+    );
+    // El mensaje es para el usuario: dice qué pasó y qué hacer, sin exponer
+    // rutas ni detalles internos. Ver utils/http.js.
+    error.expuesto = true;
+    error.status = 502;
+    throw error;
+  }
+
+  logger.warn('[bucket] Respaldo local para "%s" (%s)', file.originalname, motivoFallo);
   const key = await guardarEnDisco(file, carpeta);
   return { data: { key, direccion: key, storage: 'local' } };
 };
@@ -203,7 +232,7 @@ export const eliminarArchivo = async (direccion) => {
 
     // No salirse de uploads/ aunque la dirección venga manipulada.
     if (!destino.startsWith(RAIZ_UPLOADS + path.sep)) {
-      console.error('Ruta fuera de uploads/, no se elimina:', direccion);
+      logger.error('Ruta fuera de uploads/, no se elimina:', direccion);
       return false;
     }
 
@@ -212,13 +241,13 @@ export const eliminarArchivo = async (direccion) => {
       return true;
     } catch (error) {
       if (error.code === 'ENOENT') return false;
-      console.error('Error eliminando archivo local:', error.message);
+      logger.error('Error eliminando archivo local:', error.message);
       return false;
     }
   }
 
   if (!bucketConfigurado()) {
-    console.error('Bucket no configurado, no se elimina:', direccion);
+    logger.error('Bucket no configurado, no se elimina:', direccion);
     return false;
   }
 
@@ -232,7 +261,7 @@ export const eliminarArchivo = async (direccion) => {
     });
     return true;
   } catch (error) {
-    console.error('Error eliminando archivo:', error.response?.data || error.message);
+    logger.error('Error eliminando archivo:', error.response?.data || error.message);
     return false;
   }
 };

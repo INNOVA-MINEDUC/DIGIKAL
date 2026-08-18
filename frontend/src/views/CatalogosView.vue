@@ -748,7 +748,6 @@ const avanzarStep = async () => {
         descripcion: form.value.descripcion
       })
 
-      console.log('Respuesta backend:', res.data)
 
       await obtenerEquipos()
 
@@ -805,7 +804,6 @@ const buscarData = () => {
     setTimeout(() => (loading.value = false), 500)
   } else {
     // tabla detalle (no necesita loading, ya es reactivo)
-    console.log('Filtrando detalle...')
   }
 }
 
@@ -828,7 +826,6 @@ const limpiarFiltros = () => {
 
 const descargar = (formato) => {
 
-  console.log(`Exportando en ${formato}...`)
 
 }
 

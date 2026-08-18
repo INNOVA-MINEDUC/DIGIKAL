@@ -153,9 +153,45 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import api from '@/helpers/api.js'
+import Swal from 'sweetalert2'
 
 
 const API_URL = "/api/v1/user"
+
+/* ── Diálogos ────────────────────────────────────────────────────────────────
+   Mismo estilo institucional en todos, para no repetir colores y textos en cada
+   llamada. Las acciones sobre usuarios se confirman porque afectan al acceso de
+   otra persona: bloquear a alguien lo deja fuera del sistema al instante (el
+   backend le revoca las sesiones abiertas). */
+
+/* Los colores de los botones viven en assets/main.css, por clase. Aquí sólo se
+   indica si la acción es destructiva, con la variante `swal-peligro`. */
+
+const confirmar = ({ title, html, confirmButtonText, icon = 'question', peligro = false }) =>
+  Swal.fire({
+    title,
+    html,
+    icon,
+    showCancelButton: true,
+    reverseButtons: true,
+    focusCancel: true,
+    confirmButtonText,
+    cancelButtonText: 'Cancelar',
+    customClass: {
+      htmlContainer: 'text-start',
+      confirmButton: peligro ? 'swal-peligro' : '',
+    },
+  });
+
+const avisoOk = (title, text = '') =>
+  Swal.fire({ title, text, icon: 'success', timer: 2200, showConfirmButton: false });
+
+const avisoError = (title, text) =>
+  Swal.fire({ title, text, icon: 'error', confirmButtonText: 'Entendido' });
+
+/** El mensaje que devuelve el backend es el útil: dice el motivo exacto. */
+const motivo = (error, porDefecto) =>
+  error?.response?.data?.message || porDefecto;
 
 // --- ESTADO ---
 const users = ref([]);
@@ -198,7 +234,6 @@ const getUsersFromAPI = async () => {
       roles: user.role ? [user.role.nombre] : [] // 🔥 FIX AQUÍ
     }));
 
-    console.log(users.value)
 
   } catch (error) {
     console.error('Error al obtener usuarios:', error);
@@ -207,8 +242,41 @@ const getUsersFromAPI = async () => {
 
 const saveUser = async () => {
   if (!form.name || !form.email || !form.roleId) {
-    alert('Todos los campos son obligatorios');
+    // Antes era un `alert()` del navegador, que además no decía qué faltaba.
+    const faltan = [
+      !form.name && 'Nombre',
+      !form.email && 'Correo electrónico',
+      !form.roleId && 'Rol',
+    ].filter(Boolean);
+
+    await avisoError('Faltan datos', `Complete: ${faltan.join(', ')}.`);
     return;
+  }
+
+  const rol = availableRoles.value.find((r) => r.id === form.roleId)?.nombre || '—';
+
+  /* Confirmación al ACTUALIZAR: cambiar el rol o la contraseña de otra persona
+     tiene efecto inmediato —el backend le revoca las sesiones abiertas—, así que
+     conviene enseñar antes qué se va a cambiar. */
+  if (isEditing.value) {
+    const cambios = [
+      `<div><strong>Nombre:</strong> ${form.name}</div>`,
+      `<div><strong>Correo:</strong> ${form.email}</div>`,
+      `<div><strong>Rol:</strong> ${rol}</div>`,
+      `<div><strong>Estado:</strong> ${form.active ? 'Activo' : 'Bloqueado'}</div>`,
+      form.password
+        ? '<div style="margin-top:8px;color:#b45309;"><strong>Se cambiará la contraseña.</strong> ' +
+          'Se cerrarán todas sus sesiones abiertas.</div>'
+        : '',
+    ].filter(Boolean).join('');
+
+    const { isConfirmed } = await confirmar({
+      title: '¿Guardar los cambios?',
+      html: `<div style="text-align:left;font-size:14px;line-height:1.9;">${cambios}</div>`,
+      confirmButtonText: 'Sí, guardar',
+    });
+
+    if (!isConfirmed) return;
   }
 
   try {
@@ -230,21 +298,59 @@ const saveUser = async () => {
     await getUsersFromAPI();
     showModal.value = false;
 
+    await avisoOk(isEditing.value ? 'Usuario actualizado' : 'Usuario creado');
+
   } catch (error) {
-    console.error(error);
+    // El backend rechaza correos repetidos, contraseñas débiles, roles
+    // inexistentes o quedarse sin administradores: su mensaje es el que sirve.
+    await avisoError(
+      isEditing.value ? 'No se pudo actualizar' : 'No se pudo crear',
+      motivo(error, 'Ocurrió un error inesperado.')
+    );
   }
 };
 
 const toggleStatus = async (user) => {
+  const bloqueando = user.active;
+  const nombre = user.name || user.email;
+
+  const { isConfirmed } = await confirmar({
+    title: bloqueando ? '¿Bloquear a este usuario?' : '¿Desbloquear a este usuario?',
+    html: `
+      <div style="text-align:left;font-size:14px;line-height:1.9;">
+        <div><strong>Usuario:</strong> ${nombre}</div>
+        <div><strong>Correo:</strong> ${user.email}</div>
+        <div style="margin-top:10px;">
+          ${bloqueando
+            ? 'No podrá volver a iniciar sesión y se cerrarán de inmediato las ' +
+              'sesiones que tenga abiertas.'
+            : 'Podrá iniciar sesión de nuevo. Se limpiará cualquier bloqueo por ' +
+              'intentos fallidos.'}
+        </div>
+      </div>
+    `,
+    icon: bloqueando ? 'warning' : 'question',
+    confirmButtonText: bloqueando ? 'Sí, bloquear' : 'Sí, desbloquear',
+    // Bloquear deja a alguien fuera del sistema: botón rojo.
+    peligro: bloqueando,
+  });
+
+  if (!isConfirmed) return;
+
   try {
-    const data = await api.put(`${API_URL}/${user.id}`, {
-      ...user,
-      active: !user.active
-    });
-    console.log(data)
+    // Sólo se envía el campo que cambia: antes se hacía `...user`, que reenviaba
+    // el objeto entero de la tabla (incluidos `role` y `roles`, que no son
+    // columnas) y podía sobrescribir datos sin intención.
+    await api.put(`${API_URL}/${user.id}`, { active: !user.active });
     await getUsersFromAPI();
+
+    await avisoOk(bloqueando ? 'Usuario bloqueado' : 'Usuario desbloqueado');
+
   } catch (error) {
-    console.error('Error al cambiar estado:', error);
+    await avisoError(
+      'No se pudo cambiar el estado',
+      motivo(error, 'Ocurrió un error inesperado.')
+    );
   }
 };
 

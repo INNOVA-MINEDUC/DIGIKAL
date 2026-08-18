@@ -9,6 +9,7 @@
  */
 
 import { IS_PROD } from '../config/env.js';
+import logger from './logger.js';
 
 /**
  * @param {import('express').Response} res
@@ -24,7 +25,16 @@ export const errorServidor = (res, contexto, error, mensaje = 'Error interno del
   // en él altere el resto del mensaje y falsee la traza. Con la cadena fija y
   // los valores como argumentos aparte, la salida es la misma y no hay
   // forma de inyectar formato.
-  console.error('%s:', contexto, error);
+  logger.error('%s:', contexto, error);
+
+  /* Algunos errores llevan un mensaje escrito para el usuario: explican una
+     causa que él puede resolver (el bucket no responde, un archivo no cumple)
+     y no revelan nada de la implementación. Se marcan con `expuesto` en el
+     sitio donde se lanzan y aquí se respetan tal cual; el resto siguen
+     ocultándose detrás del mensaje genérico. */
+  if (error?.expuesto === true && typeof error.message === 'string') {
+    return res.status(error.status || status).json({ message: error.message });
+  }
 
   const cuerpo = { message: mensaje };
 

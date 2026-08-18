@@ -17,6 +17,7 @@ import Municipio from '../models/Municipio.js';
 import fs from 'fs';
 import { logAction } from '../services/auditService.js';
 import { errorServidor } from '../utils/http.js';
+import logger from '../utils/logger.js';
 
 
 const Escuela = EscuelaModel;
@@ -263,7 +264,7 @@ export const createDotacion = async (req, res) => {
   } catch (error) {
     await transaction.rollback();
 
-    console.error('❌ Error en createDotacion:', error);
+    logger.error('❌ Error en createDotacion:', error);
 
     return errorServidor(res, '[Dotaciones]', error, "Error al crear la dotación");
   }
@@ -348,8 +349,78 @@ export const getDotaciones = async (req, res) => {
     return res.status(200).json(resultado);
 
   } catch (error) {
-    console.error('❌ Error al obtener dotaciones:', error);
+    logger.error('❌ Error al obtener dotaciones:', error);
 
     return errorServidor(res, '[Dotaciones]', error, "Error al obtener dotaciones");
+  }
+};
+
+
+/**
+ * Añade fotos de evidencia a una dotación ya registrada.
+ *
+ * Las fotos dejaron de ser obligatorias al crear la dotación: muchas veces el
+ * acta llega antes que las fotografías, y obligar a tenerlas retrasaba el
+ * registro o llevaba a subir cualquier cosa para poder continuar. Esta ruta
+ * cierra el ciclo: cuando aparezcan, se agregan sin tocar nada más.
+ *
+ * Sólo añade; no reemplaza lo que ya hubiera.
+ */
+export const agregarImagenes = async (req, res) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(400).json({ message: 'Identificador de dotación inválido' });
+  }
+
+  const fotos = req.files?.['imagenes_entrega'] || [];
+
+  if (!fotos.length) {
+    return res.status(400).json({ message: 'No se recibió ninguna imagen' });
+  }
+
+  try {
+    const dotacion = await Dotacion.findByPk(id, {
+      include: [{ model: Escuela, as: 'escuela', attributes: ['codigoEscuela'] }],
+    });
+
+    if (!dotacion) {
+      return res.status(404).json({ message: 'La dotación no existe' });
+    }
+
+    /* La subida va fuera de la transacción a propósito: si el bucket falla, lo
+       hace antes de tocar la base y no queda ninguna fila apuntando a un
+       archivo que no existe. Con STORAGE_REQUIRE_BUCKET activo, `subirArchivo`
+       lanza un error con mensaje para el usuario. */
+    const direcciones = [];
+    for (const file of fotos) {
+      const result = await subirArchivo(file, 'imgs');
+      direcciones.push(result.data.direccion);
+    }
+
+    const creadas = await DotacionImagen.bulkCreate(
+      direcciones.map((url) => ({ dotacion_id: dotacion.id, url })),
+      { returning: true }
+    );
+
+    await logAction(req, {
+      action: 'DOTACION_IMAGENES_ADDED',
+      module: 'DOTACIONES',
+      resourceId: dotacion.id,
+      description:
+        `Agregó ${creadas.length} foto(s) de evidencia a la dotación ${dotacion.id}` +
+        ` (escuela ${dotacion.escuela?.codigoEscuela ?? 'sin código'})`,
+    });
+
+    return res.status(201).json({
+      message: `Se agregaron ${creadas.length} foto(s)`,
+      imagenes: creadas.map((img) => ({
+        id: img.id,
+        url: resolverUrl(img.url),
+      })),
+    });
+
+  } catch (error) {
+    return errorServidor(res, '[Dotaciones] agregarImagenes', error, 'Error al agregar las fotos');
   }
 };

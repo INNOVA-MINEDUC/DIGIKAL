@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 import AuditLog from "../models/AuditLog.js";
 import { logAction } from "../services/auditService.js";
+import logger from '../utils/logger.js';
 
 export const getAuditLogs = async (req, res) => {
   try {
@@ -43,7 +44,7 @@ export const getAuditLogs = async (req, res) => {
       totalPages: Math.ceil(count / limitNum),
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     res.status(500).json({ message: "Error al obtener la bitácora de auditoría" });
   }
 };
@@ -74,7 +75,7 @@ export const logDownload = async (req, res) => {
 
     res.status(201).json({ message: "Descarga registrada" });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     res.status(500).json({ message: "Error al registrar la descarga" });
   }
 };

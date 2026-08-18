@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { getToken, removeToken } from '../utils/auth'
+import { useAuthStore } from './stores/authStore'
 import { apiRequest } from '../services/authService'
 
 
@@ -62,18 +62,20 @@ const routes = [
   //   meta: { requiresAuth: false }
   // },
 
+  // Las dos vistas de dotaciones: es todo lo que puede ver un auditor.
+  // Los mismos roles que ROLES_DOTACION en backend/config/env.js.
   {
     path: '/upload-data',
     name: 'uploaddata',
     component: UploadData,
-    meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+    meta: { requiresAuth: true, allowedRoles: ['admin', 'user', 'auditor'] }
   },
 
   {
     path: '/download-data',
     name: 'downloaddata',
     component: DownloadData,
-    meta: { requiresAuth: true, allowedRoles: ['admin', 'user'] }
+    meta: { requiresAuth: true, allowedRoles: ['admin', 'user', 'auditor'] }
   },
 
   //   { 
@@ -133,7 +135,6 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const token = getToken();
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   const allowedRoles = to.meta.allowedRoles;
 
@@ -142,38 +143,43 @@ router.beforeEach(async (to, from, next) => {
     return next();
   }
 
-  // 2. Si requiere auth y NO hay token, al login
-  if (!token) {
-    return next({ name: 'login' });
+  const auth = useAuthStore();
+
+  /* 2. Comprobación local: hay token, se puede decodificar y no ha caducado.
+        Antes sólo se miraba que existiera algo en localStorage, así que un
+        token caducado llegaba hasta la llamada al backend. Mirar `exp` aquí
+        ahorra la petición y, sobre todo, deja el store en el estado correcto
+        para que el nav se actualice. */
+  if (!auth.autenticado) {
+    auth.cerrarSesion('caducado');
+    return next({ name: 'login', query: { redirigido: to.fullPath } });
   }
 
   try {
-    // 3. Validar token con el backend y obtener datos del usuario
-    // Es vital que el backend devuelva { role: 'admin' } o similar
+    /* 3. Validación contra el backend: es la autoridad. Un token puede estar
+          bien firmado y sin caducar y aun así no valer, porque el servidor
+          subió `tokenVersion` (cierre de sesión en otro equipo, cambio de
+          contraseña, cuenta desactivada). Eso el navegador no lo puede saber
+          por sí solo. */
     const user = await apiRequest('/api/v1/auth/validate-token');
 
     if (!user) {
       throw new Error('Usuario no válido');
     }
 
-    // 4. Verificación de Roles
-    if (allowedRoles) {
-      if (allowedRoles.includes(user.role)) {
-        next(); // Rol autorizado
-      } else {
-        // Rol no autorizado: Mandar a una página segura o inicio
-        next({ name: 'home' });
-      }
-    } else {
-      // Si la ruta requiere auth pero no especifica roles, dejamos pasar
-      next();
+    // 4. Verificación de roles, con el rol que devuelve el backend (no el del
+    //    token, que podría estar desactualizado).
+    if (allowedRoles && !allowedRoles.includes(user.role)) {
+      return next({ name: 'home' });
     }
 
+    return next();
+
   } catch (error) {
-    // Si el token expiró o es falso, limpiamos y redirigimos
-    console.error("Error de autenticación:", error);
-    removeToken();
-    next({ name: 'login' });
+    // Token caducado, revocado o servidor caído: se cierra la sesión de verdad
+    // —lo que repinta el nav— y se manda al login.
+    auth.cerrarSesion('revocado');
+    return next({ name: 'login', query: { redirigido: to.fullPath } });
   }
 });
 

@@ -1,13 +1,13 @@
 <template>
-  <v-card class="tabla-establecimientos" rounded="lg" elevation="3">
+  <v-card class="tabla-establecimientos" rounded="lg" elevation="3" style="user-select: text;">
     <!-- Encabezado -->
     <div class="tabla-header">
       <div class="tabla-header__titulo">
         <v-icon size="26" class="mr-2">mdi-office-building-marker</v-icon>
         <div>
           <h2 class="text-h6 font-weight-bold mb-0">Establecimientos dotados</h2>
-          <span class="text-caption text-medium-emphasis">
-            {{ store.totalEstablecimientos }} establecimiento(s) según el filtro actual
+          <span style="color: #fff;">
+            Establecimientos según el filtro actual
           </span>
         </div>
       </div>
@@ -19,7 +19,7 @@
     <div class="tabla-filtros">
       <v-text-field
         v-model="busqueda"
-        label="Buscar por nombre"
+        label="Nombre Establecimiento"
         placeholder="Nombre del establecimiento"
         prepend-inner-icon="mdi-magnify"
         variant="outlined"
@@ -35,7 +35,7 @@
         v-model="codigoMineduc"
         label="Código MINEDUC"
         placeholder="Ej. 02-03-0022-46"
-        prepend-inner-icon="mdi-barcode"
+        prepend-inner-icon="mdi-magnify"
         variant="outlined"
         density="compact"
         hide-details
@@ -45,7 +45,7 @@
         @click:clear="limpiarCodigo"
       />
 
-      <!-- <v-switch
+      <v-switch
         v-model="intervenida"
         label="Solo intervenidos"
         color="indigo"
@@ -53,7 +53,7 @@
         hide-details
         inset
         @update:model-value="aplicarFiltros"
-      /> -->
+      />
 
       <v-switch
         v-model="dotado"
@@ -138,7 +138,9 @@
 
       <!-- Estudiantes -->
       <template #item.inscritos2026="{ item }">
-        {{ item.inscritos2026 ?? '—' }}
+        <span style="display: flex; justify-content: center;">
+            {{ item.inscritos2026 ?? '—' }}
+        </span>
       </template>
 
       <!-- Acciones -->
@@ -273,9 +275,11 @@ function onOptions({ page, itemsPerPage }) {
 }
 
 .tabla-filtros__codigo {
-  max-width: 260px;
+  max-width: 360px;
   flex: 1 1 200px;
 }
+
+
 
 /* La tabla ancha (10 columnas) hace scroll horizontal adentro de la tarjeta,
    no rompe el ancho de la página. */

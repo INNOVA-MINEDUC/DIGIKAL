@@ -4,9 +4,6 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000"
 });
 
-// Log para verificar qué URL está usando la aplicación
-console.log("[DIGIKAL] API URL:", import.meta.env.VITE_API_URL || "VARIABLE VACÍA - usando localhost:3000");
-
 api.interceptors.request.use(config => {
 
   const token = localStorage.getItem("token");
@@ -37,7 +34,19 @@ api.interceptors.response.use(
     const url = error.config?.url || '';
 
     if (status === 401 && !url.includes('/api/v1/auth')) {
-      localStorage.removeItem('token');
+      /* Se cierra a través del store y no borrando localStorage a mano: así el
+         nav se repinta al instante. Este es el camino que cubre la REVOCACIÓN
+         —cerrar sesión en otro dispositivo, cambio de contraseña, cuenta
+         desactivada—, donde el token sigue sin caducar pero el backend ya no lo
+         acepta. El navegador no puede detectarlo solo; el 401 es el aviso.
+
+         La importación va aquí dentro para no crear un ciclo entre este módulo
+         y el store, y para no tocar Pinia antes de que la app esté montada. */
+      import('../stores/authStore.js').then(({ useAuthStore }) => {
+        useAuthStore().cerrarSesion('revocado');
+      }).catch(() => {
+        localStorage.removeItem('token');   // respaldo si el store no está listo
+      });
 
       // El router usa hash history.
       if (!window.location.hash.startsWith('#/login')) {

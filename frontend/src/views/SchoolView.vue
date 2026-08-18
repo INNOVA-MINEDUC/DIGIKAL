@@ -150,14 +150,98 @@
           </v-card>
         </v-col>
       </v-row>
+
+      <!-- ── Evidencia de la entrega ───────────────────────────────────────
+           Fotos y actas registradas en este sistema (no vienen del API del
+           MINEDUC). Antes sólo se veían desde la vista de Dotaciones. -->
+      <template v-if="dotaciones.length">
+        <h3 class="text-h6 font-weight-bold mb-4" style="color:#142957;">
+          <v-icon class="mr-2">mdi-camera-outline</v-icon>
+          Evidencia de la entrega ({{ totalImagenes }})
+        </h3>
+
+        <v-card v-for="(d, i) in dotaciones" :key="d.id" variant="outlined" rounded="xl"
+          class="mb-4 overflow-hidden">
+
+          <div class="d-flex align-center flex-wrap ga-2 pa-4" style="background:#eef2f8;">
+            <v-chip size="small" color="#142957" variant="flat" class="font-weight-bold">
+              Dotación {{ i + 1 }}
+            </v-chip>
+            <v-chip size="small" variant="tonal" prepend-icon="mdi-calendar">
+              {{ formatFecha(d.fecha_entrega) }}
+            </v-chip>
+            <v-chip size="small" variant="tonal"
+              :color="d.origen === 'COMPRA' ? 'deep-purple' : 'teal'"
+              prepend-icon="mdi-source-branch">
+              {{ d.origen === 'COMPRA' ? 'Compra' : 'Donación' }}
+            </v-chip>
+            <v-spacer />
+            <!-- Sólo las actas que tienen archivo: sin filtrar aquí se
+                 renderizaban botones ocultos que no llevan a ninguna parte. -->
+            <v-btn v-for="acta in d.actas.filter((a) => a.url)" :key="acta.id"
+              size="small" variant="tonal" color="#142957" class="text-none"
+              prepend-icon="mdi-file-pdf-box" :href="acta.url" target="_blank" rel="noopener">
+              Acta {{ acta.no_acta || '' }}
+            </v-btn>
+          </div>
+
+    <div v-if="d.imagenes.length" class="pa-4">
+  <v-row dense justify="center">
+    <v-col
+      v-for="(img, idx) in d.imagenes"
+      :key="img.id"
+      cols="6"
+      sm="4"
+      md="3"
+      lg="2"
+    >
+      <div class="foto" @click="abrirVisor(d.imagenes, idx)">
+        <v-img
+          :src="img.url"
+          aspect-ratio="1"
+          cover
+          class="foto__img"
+        />
+
+        <div class="foto__velo">
+          <v-icon color="white" size="26">
+            mdi-magnify-plus-outline
+          </v-icon>
+        </div>
+      </div>
+    </v-col>
+  </v-row>
+</div>
+
+          <div v-else class="pa-4 text-center text-grey text-body-2">
+            Esta dotación no tiene fotos de evidencia.
+          </div>
+        </v-card>
+      </template>
     </template>
+
+    <!-- Visor a pantalla grande -->
+    <v-dialog v-model="visor" max-width="900">
+      <v-card class="rounded-lg">
+        <v-toolbar density="compact" color="#142957">
+          <v-toolbar-title class="text-body-2">
+            Foto {{ indice + 1 }} de {{ galeria.length }}
+          </v-toolbar-title>
+          <v-spacer />
+          <v-btn icon="mdi-chevron-left" :disabled="indice === 0" @click="indice--" />
+          <v-btn icon="mdi-chevron-right" :disabled="indice >= galeria.length - 1" @click="indice++" />
+          <v-btn icon="mdi-close" @click="visor = false" />
+        </v-toolbar>
+        <v-img :src="galeria[indice]?.url" max-height="70vh" contain />
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import api from '@/helpers/api.js'
+import api, { urlArchivo } from '@/helpers/api.js'
 import Swal from 'sweetalert2'
 
 const route = useRoute()
@@ -170,6 +254,44 @@ const loading = ref(false)
 const id = route.query.id
 
 const totalInventario = computed(() => establecimiento.value?.inventario?.length || 0)
+
+/* ── Evidencia de la entrega ────────────────────────────────────────────────
+   El backend adjunta las dotaciones registradas en este sistema (fotos y
+   actas), enlazadas por código MINEDUC. No vienen del API del ministerio. */
+
+/* `urlArchivo` convierte las rutas relativas (/uploads/... del respaldo local)
+   en absolutas: el front corre en otro puerto y solas no resuelven. Las URL del
+   bucket, que ya son absolutas, las deja intactas. */
+const dotaciones = computed(() =>
+  (establecimiento.value?.dotaciones || []).map((d) => ({
+    ...d,
+    imagenes: (d.imagenes || [])
+      .map((i) => ({ ...i, url: urlArchivo(i.url) }))
+      .filter((i) => i.url),
+    actas: (d.actas || []).map((a) => ({ ...a, url: urlArchivo(a.url) })),
+  }))
+)
+
+const totalImagenes = computed(() =>
+  dotaciones.value.reduce((t, d) => t + (d.imagenes?.length || 0), 0)
+)
+
+const visor = ref(false)
+const galeria = ref([])
+const indice = ref(0)
+
+/** Se abre el visor sobre las fotos de ESA dotación, no sobre todas juntas. */
+const abrirVisor = (imagenes, idx) => {
+  galeria.value = imagenes
+  indice.value = idx
+  visor.value = true
+}
+
+const formatFecha = (valor) => {
+  if (!valor) return 'Sin fecha'
+  const d = new Date(valor)
+  return Number.isNaN(d.getTime()) ? 'Sin fecha' : d.toLocaleDateString('es-GT')
+}
 
 const estudiantes = computed(() => {
   const e = establecimiento.value
@@ -263,6 +385,36 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* ── Fotos de evidencia ─────────────────────────────────────────────────── */
+.foto {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: zoom-in;
+  border: 1px solid rgba(20, 41, 87, 0.12);
+}
+
+.foto__img {
+  display: block;
+}
+
+/* El velo sólo aparece al pasar por encima: en táctil no hay hover, así que la
+   foto se ve limpia y el toque abre el visor igual. */
+.foto__velo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 41, 87, 0.45);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.foto:hover .foto__velo {
+  opacity: 1;
+}
+
 .uppercase { text-transform: uppercase; }
 :deep(.v-table) { background: transparent !important; }
 :deep(.v-table th) {

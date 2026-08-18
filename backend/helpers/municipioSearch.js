@@ -2,6 +2,7 @@ import Fuse from 'fuse.js';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import logger from '../utils/logger.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -94,7 +95,7 @@ export function buscarMunicipioApiId(nombre, dept) {
   if (!results.length) {
     // `nombre` procede del filtro que envía el cliente: se pasa como argumento
     // y no dentro de la cadena de formato (ver utils/http.js).
-    console.warn('[municipioSearch] Sin resultados para: "%s" (busq: "%s")', nombre, busq);
+    logger.warn('[municipioSearch] Sin resultados para: "%s" (busq: "%s")', nombre, busq);
     return null;
   }
 
@@ -107,7 +108,7 @@ export function buscarMunicipioApiId(nombre, dept) {
   }
 
   if (best.score > 0.25) {
-    console.warn(
+    logger.warn(
       '[municipioSearch] Score bajo (%s) para "%s" → "%s"',
       best.score.toFixed(3), nombre, best.item.nombre
     );
