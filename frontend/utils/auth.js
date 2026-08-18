@@ -25,6 +25,17 @@ export function getUser() {
   }
 }
 
+/**
+ * OJO: para la interfaz reactiva úsese el store (src/stores/authStore.js), que
+ * es la fuente de verdad. Esta función se conserva para los módulos que aún la
+ * importan (services/authService.js).
+ *
+ * Antes devolvía `!!getToken()`: bastaba con que hubiera CUALQUIER cadena en
+ * localStorage —caducada, revocada o corrupta— para darla por buena. Ahora
+ * comprueba la caducidad declarada en el propio token.
+ */
 export function isAuthenticated() {
-  return !!getToken()
+  const payload = getUser()
+  if (!payload?.exp) return false
+  return payload.exp * 1000 > Date.now()
 }

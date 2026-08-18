@@ -1,17 +1,18 @@
 import sequelize from './connection.js'
+import logger from '../utils/logger.js';
 
 
 
 async function main() {
   try {
     await sequelize.authenticate()
-    console.log('Conectado 🚀')
+    logger.info('Conectado 🚀')
 
     await sequelize.sync({ alter: true })
-    console.log('Tablas creadas correctamente ✅')
+    logger.info('Tablas creadas correctamente ✅')
 
   } catch (error) {
-    console.error(error)
+    logger.error(error)
   }
 }
 

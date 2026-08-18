@@ -7,8 +7,9 @@ import {
   deleteEscuela,
   getEscuelByCodigoMineduc
 } from '../controllers/EscuelaController.js';
-import { requireAdmin } from '../middlewares/auth.middleware.js';
+import { requireAdmin, requireRoles } from '../middlewares/auth.middleware.js';
 import { apiLimiter, escrituraLimiter } from '../middlewares/rateLimit.middleware.js';
+import { ROLES_DOTACION } from '../config/env.js';
 
 const router = express.Router();
 
@@ -22,13 +23,13 @@ const router = express.Router();
  * operaciones que modifican datos.
  */
 
-/* ── Lectura: cualquier usuario con sesión ──────────────────────────────── */
+/* ── Lectura: los roles que trabajan con dotaciones ─────────────────────── */
 
-router.get('/', apiLimiter, getEscuelas);
-router.get('/:codigo', apiLimiter, getEscuelByCodigoMineduc);
+router.get('/', apiLimiter, requireRoles(...ROLES_DOTACION), getEscuelas);
+router.get('/:codigo', apiLimiter, requireRoles(...ROLES_DOTACION), getEscuelByCodigoMineduc);
 
 /** Búsqueda por código UDI que usa el formulario de registro de dotaciones. */
-router.post('/udi', apiLimiter, getEscuelaByCodigo);
+router.post('/udi', apiLimiter, requireRoles(...ROLES_DOTACION), getEscuelaByCodigo);
 
 /* ── Escritura: solo administrador ──────────────────────────────────────── */
 

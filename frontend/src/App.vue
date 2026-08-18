@@ -18,7 +18,7 @@
           <!-- <v-btn to="/dashboard/estadisticas" variant="text">Indicadores</v-btn> -->
 
           <!-- <v-btn
-            v-if="logged && (isAdmin || isUser)"
+            v-if="logged && puedeDotaciones"
             to="/cargar-datos"
             variant="text"
           >
@@ -26,7 +26,7 @@
           </v-btn> -->
 
           <v-btn
-            v-if="logged && isAdmin"
+            v-if="logged && puedeDotaciones"
             to="/upload-data"
             variant="text"
           >
@@ -34,7 +34,7 @@
           </v-btn>
 
           <!-- <v-btn
-            v-if="logged && (isAdmin || isUser)"
+            v-if="logged && puedeDotaciones"
             to="/catalogos"
             variant="text"
           >
@@ -42,7 +42,7 @@
           </v-btn> -->
 
           <v-btn
-            v-if="logged && (isAdmin || isUser)"
+            v-if="logged && puedeDotaciones"
             to="/download-data"
             variant="text"
           >
@@ -114,25 +114,25 @@
         <v-divider class="my-2" v-if="logged" />
 
         <!-- <v-list-item
-          v-if="logged && (isAdmin || isUser)"
+          v-if="logged && puedeDotaciones"
           prepend-icon="mdi-database-import"
           to="/cargar-datos"
           title="Cargar Datos"
         /> -->
         <v-list-item
-          v-if="logged && isAdmin"
+          v-if="logged && puedeDotaciones"
           prepend-icon="mdi-plus-box"
           to="/upload-data"
           title="Crear Dotación"
         />
         <!-- <v-list-item
-          v-if="logged && (isAdmin || isUser)"
+          v-if="logged && puedeDotaciones"
           prepend-icon="mdi-format-list-bulleted"
           to="/catalogos"
           title="Catálogo de Equipos"
         /> -->
         <v-list-item
-          v-if="logged && (isAdmin || isUser)"
+          v-if="logged && puedeDotaciones"
           prepend-icon="mdi-download"
           to="/download-data"
           title="Dotaciones"
@@ -178,18 +178,54 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { getUser, isAuthenticated, removeToken } from '../utils/auth'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from './stores/authStore'
 import api from './helpers/api'
 
 const drawer = ref(false)
 
-const user = computed(() => getUser())
-const logged = computed(() => isAuthenticated())
+/**
+ * El estado de sesión sale del store, no de localStorage.
+ *
+ * Antes era `computed(() => isAuthenticated())`, que leía localStorage: eso no
+ * es una fuente reactiva, así que Vue no reevaluaba nunca y el menú seguía
+ * mostrando las vistas de usuario logueado aunque el token ya no valiera.
+ * Y `isAuthenticated()` tampoco comprobaba la caducidad.
+ */
+const auth = useAuthStore()
+const { autenticado: logged, usuario: user, rol: role } = storeToRefs(auth)
 
-const role = computed(() => user.value?.role)
+/**
+ * Permisos del menú. Deben coincidir con lo que aplica el backend:
+ * `requireAdmin` y `ROLES_DOTACION` en backend/config/env.js.
+ *
+ * Antes "Crear Dotación" era sólo para admin y "Dotaciones" para admin y user:
+ * ni el rol `auditor` veía nada, ni los dos elementos coincidían entre sí
+ * aunque las rutas del router permitieran lo mismo.
+ */
 const isAdmin = computed(() => role.value === 'admin')
-const isUser = computed(() => role.value === 'user')
+
+/** admin, user y auditor: las dos vistas de dotaciones. */
+const puedeDotaciones = computed(() => ['admin', 'user', 'auditor'].includes(role.value))
+
+// Si el token ya venía caducado al abrir la página, se limpia; si no, se
+// programa el cierre para el momento exacto de la caducidad.
+auth.programarCaducidad()
+
+/**
+ * Cerrar sesión en una pestaña tiene que reflejarse en las demás: el evento
+ * `storage` sólo lo reciben las OTRAS pestañas del mismo origen.
+ */
+const alCambiarAlmacenamiento = (e) => {
+  if (e.key === 'token' || e.key === null) auth.sincronizar()
+}
+
+onMounted(() => window.addEventListener('storage', alCambiarAlmacenamiento))
+onUnmounted(() => {
+  window.removeEventListener('storage', alCambiarAlmacenamiento)
+  auth.cancelarTemporizador()
+})
 
 async function logout() {
   // Se avisa al backend para que suba `tokenVersion`: así el token deja de
@@ -201,7 +237,7 @@ async function logout() {
     // Si la llamada falla (sin red, sesión ya caducada) se cierra igual en local.
   }
 
-  removeToken()
+  auth.cerrarSesion('manual')
   window.location.href = '/login'
 }
 </script>

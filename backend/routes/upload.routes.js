@@ -4,6 +4,8 @@ import multer from 'multer';
 import { importarExcelDotaciones } from '../controllers/UploadController.js';
 import { uploadLimiter } from '../middlewares/rateLimit.middleware.js';
 import { validarMetadatos, validarContenido } from '../utils/archivos.js';
+import { requireRoles } from '../middlewares/auth.middleware.js';
+import { ROLES_DOTACION } from '../config/env.js';
 
 const router = express.Router();
 
@@ -52,7 +54,15 @@ const verificarContenido = (req, res, next) => {
   next();
 };
 
-// La sesión la exige la barrera de app.js.
-router.post('/', uploadLimiter, manejarSubida, verificarContenido, importarExcelDotaciones);
+// La sesión la exige la barrera de app.js. La carga por Excel forma parte de
+// "Crear Dotación", así que la usan los mismos roles.
+router.post(
+  '/',
+  requireRoles(...ROLES_DOTACION),
+  uploadLimiter,
+  manejarSubida,
+  verificarContenido,
+  importarExcelDotaciones
+);
 
 export default router;

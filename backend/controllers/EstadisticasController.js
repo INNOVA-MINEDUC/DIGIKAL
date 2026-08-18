@@ -16,6 +16,7 @@ import {
 } from '../services/estadisticasService.js';
 import { obtenerRegistros } from '../services/estadisticasData.js';
 import { errorServidor } from '../utils/http.js';
+import logger from '../utils/logger.js';
 
 const leerFiltros = (req) => {
   const { anio, ciclo, departamento } = req.query || {};
@@ -31,7 +32,7 @@ const handler = (fn) => async (req, res) => {
   try {
     return res.status(200).json(await fn(req));
   } catch (error) {
-    console.error('[Estadisticas] Error:', error.message);
+    logger.error('[Estadisticas] Error:', error.message);
     return errorServidor(res, '[Estadisticas]', error, "Error al construir las estadísticas");
   }
 };

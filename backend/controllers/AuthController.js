@@ -5,6 +5,7 @@ import User from "../models/User.js"
 import Role from "../models/Role.js"
 import { JWT_SECRET, JWT_EXPIRES_IN, BCRYPT_ROUNDS } from '../config/env.js'
 import { logAction } from "../services/auditService.js"
+import logger from '../utils/logger.js';
 
 /* ── Bloqueo por cuenta ───────────────────────────────────────────────────
    El limitador de express-rate-limit cuenta por IP, y eso no basta: una
@@ -162,7 +163,7 @@ export const AuthLogin = async (req, res) => {
     })
 
   } catch (error) {
-    console.error('[Auth] Error en el inicio de sesión:', error)
+    logger.error('[Auth] Error en el inicio de sesión:', error)
     res.status(500).json({ message: 'Error en el servidor' })
   }
 }
@@ -200,7 +201,7 @@ export const logout = async (req, res) => {
 
     return res.json({ message: 'Sesión cerrada' });
   } catch (error) {
-    console.error('[Auth] Error al cerrar sesión:', error);
+    logger.error('[Auth] Error al cerrar sesión:', error);
     return res.status(500).json({ message: 'Error al cerrar la sesión' });
   }
 };

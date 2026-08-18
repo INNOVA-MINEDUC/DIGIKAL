@@ -8,7 +8,11 @@ import Equipo from '../models/Equipo.js';
 import ModeloEquipo from '../models/ModeloEquipo.js';
 import TipoEquipo from '../models/TipoEquipo.js';
 import Internet from '../models/Internet.js';
+import DotacionImagen from '../models/DotacionImagen.js';
+import Acta from '../models/Acta.js';
+import { resolverUrl } from '../services/bucketService.js';
 import { errorServidor } from '../utils/http.js';
+import logger from '../utils/logger.js';
 
 // URL y token del API MDM configurables por entorno. Por defecto apuntan al
 // dev público; para usar un backend local con el campo `inventario`, definir
@@ -214,7 +218,7 @@ const AYUDA_LISTA_FIELDS = `
 const fetchDesdeAyuda = async ({
   dept = null,
   muni = null,
-  intervenida = true,
+  intervenida = false,
   dotado = null,
   conectividad = null,
   codigoMineduc = null,
@@ -406,7 +410,7 @@ export const getEscuelasDotadas = async (req, res) => {
     try {
       ubic = await cargarUbicaciones();
     } catch (refErr) {
-      console.error('[Dashboard] No se pudieron cargar ubicaciones de referencia:', refErr.message);
+      logger.error('[Dashboard] No se pudieron cargar ubicaciones de referencia:', refErr.message);
     }
 
     // El municipio del GeoJSON puede venir con otra grafía que la del API. Se
@@ -423,7 +427,7 @@ export const getEscuelasDotadas = async (req, res) => {
         // `muni` llega en el cuerpo de una ruta pública: va como argumento y no
         // dentro de la cadena de formato, para que no pueda colar %s y falsear
         // el resto de la línea del log.
-        console.warn('[Dashboard] Municipio no resuelto: "%s" — se pagina el departamento completo', muni);
+        logger.warn('[Dashboard] Municipio no resuelto: "%s" — se pagina el departamento completo', muni);
       }
     }
 
@@ -450,7 +454,7 @@ export const getEscuelasDotadas = async (req, res) => {
       const codigos = lista.map((e) => e.codigoMineduc).filter(Boolean);
       dotacionesLocales = await getDotacionesPorCodigo(codigos);
     } catch (dbErr) {
-      console.error('[Dashboard] No se pudieron leer dotaciones locales:', dbErr.message);
+      logger.error('[Dashboard] No se pudieron leer dotaciones locales:', dbErr.message);
     }
 
     const escuelasMapeadas = lista.map((e) => {
@@ -583,7 +587,7 @@ export const getEscuelasDotadas = async (req, res) => {
     // (fallos de Sequelize o del API del MINEDUC) a cualquier visitante. Se
     // conserva el aviso para que el front sepa que los datos vienen vacíos,
     // pero sin contar por qué.
-    console.error('[Dashboard] Error:', error);
+    logger.error('[Dashboard] Error:', error);
     return res.status(200).json({
       ...EMPTY_RESPONSE,
       _warning: 'No fue posible obtener los datos en este momento.',
@@ -615,6 +619,60 @@ const INVENTARIO_FIELDS = `
   }
 `;
 
+/**
+ * Dotaciones registradas localmente para un código MINEDUC, con las fotos de
+ * evidencia y las actas ya resueltas a URL abrible.
+ *
+ * `resolverUrl` traduce lo que hay en la base a algo que el navegador entiende:
+ * las direcciones del bucket se devuelven tal cual y las del respaldo local
+ * (prefijo `local:`) se convierten en la ruta /uploads correspondiente.
+ *
+ * Si algo falla aquí NO se rompe la ficha: se devuelve una lista vacía y el
+ * establecimiento se muestra igual, sólo que sin evidencia.
+ */
+const dotacionesLocalesDe = async (codigoMineduc) => {
+  if (!codigoMineduc) return [];
+
+  try {
+    const escuela = await Escuela.findOne({
+      where: { codigoEscuela: codigoMineduc },
+      include: [{
+        model: Dotacion,
+        as: 'dotaciones',
+        include: [
+          { model: DotacionImagen, as: 'imagenes' },
+          { model: Acta, as: 'actas' },
+        ],
+      }],
+      order: [[{ model: Dotacion, as: 'dotaciones' }, 'fecha_entrega', 'DESC']],
+    });
+
+    if (!escuela) return [];
+
+    return (escuela.toJSON().dotaciones || []).map((d) => ({
+      id: d.id,
+      fecha_entrega: d.fecha_entrega,
+      origen: d.origen,
+      descripcion: d.descripcion,
+
+      imagenes: (d.imagenes || [])
+        .map((img) => ({ id: img.id, url: resolverUrl(img.url) }))
+        .filter((img) => img.url),
+
+      actas: (d.actas || []).map((a) => ({
+        id: a.id,
+        no_acta: a.no_acta,
+        fecha_entrega: a.fecha_entrega,
+        origen: a.origen,
+        url: resolverUrl(a.acta_pdf),
+      })),
+    }));
+  } catch (error) {
+    logger.error('[Dashboard] No se pudieron leer las dotaciones locales:', error);
+    return [];
+  }
+};
+
 export const getEstablecimientoDetalle = async (req, res) => {
   const id = Number(req.params.id);
   if (!Number.isInteger(id) || id <= 0) {
@@ -640,7 +698,7 @@ export const getEstablecimientoDetalle = async (req, res) => {
       data = await gqlData(buildDetalleQuery(true), AYUDA_GRAPHQL_URL);
     } catch (errConInv) {
       if (/inventario/i.test(errConInv.message)) {
-        console.warn('[Dashboard] El endpoint de ayuda no expone `inventario`; se devuelve el establecimiento sin inventario.');
+        logger.warn('[Dashboard] El endpoint de ayuda no expone `inventario`; se devuelve el establecimiento sin inventario.');
         sinInventario = true;
         data = await gqlData(buildDetalleQuery(false));
       } else {
@@ -653,10 +711,21 @@ export const getEstablecimientoDetalle = async (req, res) => {
       return res.status(404).json({ message: `No se encontró el establecimiento con id ${id}` });
     }
 
+    /* Las fotos de evidencia y las actas NO están en el API del MINEDUC: se
+       registran en este sistema y viven en la base local. El enlace entre
+       ambos mundos es el código MINEDUC (escuelas.codigoEscuela). Sin esto la
+       ficha del establecimiento mostraba el inventario pero ninguna evidencia,
+       que sólo se veía en la vista de Dotaciones. */
+    const dotaciones = await dotacionesLocalesDe(est.codigoMineduc);
+
     return res.status(200).json({
       establecimiento: {
         ...est,
         inventario: est.inventario || [],
+        dotaciones,
+        // Atajo para la galería: todas las fotos de todas las dotaciones del
+        // establecimiento, ya con su URL resuelta.
+        imagenes: dotaciones.flatMap((d) => d.imagenes),
       },
       _sinInventario: sinInventario || undefined,
     });

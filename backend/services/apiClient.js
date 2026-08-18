@@ -1,5 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import logger from '../utils/logger.js';
 dotenv.config();
 
 
@@ -96,7 +97,7 @@ query {
 const obtenerEstablecimientos = async (id) => {
   try {
 
-console.log(id)
+logger.info(id)
 
     const response = await axios.post(
       process.env.API,
@@ -110,11 +111,11 @@ console.log(id)
     );
 
     
-    // console.log(response.data)
+    // logger.info(response.data)
     return response.data
 
   } catch (error) {
-    console.error("Error al consultar establecimientos:", error.message);
+    logger.error("Error al consultar establecimientos:", error.message);
 
     res.status(500).json({
       error: "Error al obtener establecimientos",
@@ -165,7 +166,7 @@ query Estudiantes {
     res.json(response.data);
 
   } catch (error) {
-    console.error("Error al consultar establecimientos:", error.message);
+    logger.error("Error al consultar establecimientos:", error.message);
 
     res.status(500).json({
       error: "Error al obtener establecimientos",

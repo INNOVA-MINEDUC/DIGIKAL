@@ -22,6 +22,7 @@ import uploadRoutes from './routes/upload.routes.js';
 import auditRoutes from './routes/audit.routes.js';
 import estadisticasRoutes from './routes/estadisticas.routes.js';
 import "./models/Relations.js";
+import logger from './utils/logger.js';
 
 
 const app = express();
@@ -35,6 +36,7 @@ const PORT = process.env.PORT;
    `crossOriginResourcePolicy` se abre porque el front corre en otro puerto y
    necesita cargar las imágenes servidas desde /uploads.                     */
 app.use(helmet({
+  
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 
@@ -43,17 +45,37 @@ app.use(helmet({
    Antes era `origin: process.env.FRONTEND_URL`. Si esa variable faltaba, el
    paquete `cors` caía a `*` y aceptaba peticiones de cualquier sitio. Ahora la
    lista está validada al arrancar y se comprueba origen por origen.          */
+// Los orígenes ya bloqueados se recuerdan para no repetir la misma línea en el
+// log en cada petición (una página hace muchas).
+const origenesAvisados = new Set();
+
 app.use(cors({
   origin: (origin, callback) => {
     // Sin cabecera Origin: mismo origen, curl, Postman o apps móviles.
     if (!origin) return callback(null, true);
 
-    const limpio = origin.replace(/\/+$/, '');
+    const limpio = origin.trim().toLowerCase().replace(/\/+$/, '');
     if (ORIGENES_PERMITIDOS.includes(limpio)) return callback(null, true);
+
+    // Sin este aviso, un origen no listado solo se manifiesta como un error de
+    // CORS en la consola del navegador, que no dice qué hay que cambiar ni
+    // dónde. El origen lo controla quien llama, así que va como argumento y no
+    // dentro de la cadena de formato.
+    if (!origenesAvisados.has(limpio)) {
+      origenesAvisados.add(limpio);
+      logger.warn(
+        '[CORS] Origen bloqueado: %s\n' +
+        '       Permitidos ahora mismo: %s\n' +
+        '       Si es legítimo, añádalo a FRONTEND_URL en backend/.env ' +
+        '(admite varios separados por coma) y reinicie el servidor.',
+        limpio,
+        ORIGENES_PERMITIDOS.join(', ')
+      );
+    }
 
     return callback(new Error('Origen no permitido por CORS'));
   },
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
   maxAge: 600,
 }));
@@ -67,9 +89,9 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 try {
   await sequelize.authenticate();
-  console.log('✅ Conectado a la base de datos');
+  logger.info('✅ Conectado a la base de datos');
 } catch (error) {
-  console.error('❌ Error de conexión:', error);
+  logger.error('❌ Error de conexión:', error);
 }
 
 
@@ -136,7 +158,7 @@ app.use((err, req, res, next) => {
     return res.status(403).json({ message: 'Origen no permitido' });
   }
 
-  console.error('[Error no controlado]', err);
+  logger.error('[Error no controlado]', err);
 
   return res.status(err?.status || 500).json({
     message: 'Error interno del servidor',
@@ -146,5 +168,9 @@ app.use((err, req, res, next) => {
 
 
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  logger.info('Servidor corriendo en http://localhost:%s', PORT);
+  // Se imprime al arrancar para poder comparar de un vistazo con la URL desde
+  // la que se abre el navegador: la mayoría de los errores de CORS son
+  // simplemente que no coinciden.
+  logger.info('CORS permitido para: %s', ORIGENES_PERMITIDOS.join(', '));
 });

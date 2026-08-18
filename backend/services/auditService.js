@@ -1,4 +1,5 @@
 import AuditLog from "../models/AuditLog.js";
+import logger from '../utils/logger.js';
 
 export async function logAction(req, { action, module, resourceId = null, description, status = 'SUCCESS', userOverride = null }) {
   try {
@@ -13,10 +14,11 @@ export async function logAction(req, { action, module, resourceId = null, descri
       resourceId: resourceId !== null ? String(resourceId) : null,
       description,
       status,
-      ipAddress: req.ip,
+      // Sin `ipAddress`: es un dato personal y la trazabilidad la dan userId,
+      // userName y userEmail. Ver la migración drop-audit-ip.
       userAgent: req.get('User-Agent') || null,
     });
   } catch (error) {
-    console.error('Error registrando auditoría:', error);
+    logger.error('Error registrando auditoría:', error);
   }
 }

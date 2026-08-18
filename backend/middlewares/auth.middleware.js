@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import { JWT_SECRET, ROLES } from '../config/env.js'
 import User from '../models/User.js'
 import Role from '../models/Role.js'
+import logger from '../utils/logger.js';
 
 /** Datos que se cargan de la base en cada petición autenticada. */
 const CONSULTA_USUARIO = {
@@ -71,7 +72,7 @@ export const authMiddleware = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error('[Auth] Error validando la sesión:', error);
+    logger.error('[Auth] Error validando la sesión:', error);
     return res.status(500).json({ error: "Error al validar la sesión" });
   }
 };

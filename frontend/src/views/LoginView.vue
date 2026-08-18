@@ -119,6 +119,7 @@
 <script setup>
 import { ref } from 'vue'
 import api from '@/helpers/api.js'
+import { useAuthStore } from '@/stores/authStore'
 
 const form = ref(null)
 const valid = ref(false)
@@ -154,7 +155,9 @@ async function login() {
     })
 
     if (response.data.token) {
-      localStorage.setItem('token', response.data.token)
+      // Vía el store, no localStorage a pelo: así el nav se entera al momento
+      // y queda programado el cierre automático al caducar el token.
+      useAuthStore().iniciarSesion(response.data.token)
     }
 
     window.location.href = '/upload-data'

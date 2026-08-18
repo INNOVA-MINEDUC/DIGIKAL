@@ -68,13 +68,23 @@ export { IS_PROD, JWT_SECRET, DB_NAME, DB_USER, DB_PASSWORD };
 export const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '8h';
 
 /**
- * Orígenes permitidos por CORS. Acepta varios separados por coma.
+ * Orígenes permitidos por CORS. Acepta varios separados por coma:
+ *
+ *   FRONTEND_URL=http://localhost:5173,https://digikal.mineduc.gob.gt
+ *
  * Antes se pasaba `process.env.FRONTEND_URL` directo: si la variable faltaba,
  * el paquete `cors` caía a `*` y aceptaba peticiones de cualquier sitio.
+ *
+ * Se normaliza a minúsculas y sin barra final porque el navegador envía el
+ * origen en minúsculas y sin ella: si en el .env alguien escribe
+ * "http://Localhost:5173/" tiene que seguir funcionando.
+ *
+ * Ojo: para el navegador `localhost` y `127.0.0.1` son orígenes DISTINTOS,
+ * igual que dos puertos distintos. Cada uno que se use debe aparecer aquí.
  */
 export const ORIGENES_PERMITIDOS = FRONTEND_URL
   .split(',')
-  .map((o) => o.trim().replace(/\/+$/, ''))
+  .map((o) => o.trim().toLowerCase().replace(/\/+$/, ''))
   .filter(Boolean);
 
 /**
@@ -92,6 +102,19 @@ export const ROLES = Object.freeze({
 });
 
 export const ROLES_VALIDOS = Object.freeze(Object.values(ROLES));
+
+/**
+ * Quién puede trabajar con dotaciones: registrarlas y consultarlas.
+ *
+ * `auditor` entra aquí porque su trabajo es exactamente ese, y NO en el resto de
+ * la API: la gestión de usuarios, el catálogo de roles, el alta de equipos y la
+ * bitácora quedan reservados al administrador.
+ *
+ * Son las dos únicas vistas que ve un auditor en el menú:
+ *   Crear Dotación → POST /dotacion, POST /upload, POST /escuelas/udi, GET /equipos
+ *   Dotaciones     → GET  /dotacion, POST /audit/log-download
+ */
+export const ROLES_DOTACION = Object.freeze([ROLES.ADMIN, ROLES.USER, ROLES.AUDITOR]);
 
 /**
  * Coste de bcrypt para las contraseñas nuevas.
@@ -122,3 +145,21 @@ export const BCRYPT_ROUNDS = 10;
  * del inventario. Poner API_PUBLICA=false en el .env exige token para todo.
  */
 export const API_PUBLICA = process.env.API_PUBLICA !== 'false';
+
+/**
+ * Exigir que los archivos (actas y fotos) acaben en el bucket.
+ *
+ * `bucketService` tiene un respaldo que, si el bucket no responde, guarda el
+ * archivo en backend/uploads/. Ese respaldo evita perder una dotación entera
+ * por un corte de red, pero lo hace en silencio: sólo deja un console.error, la
+ * fila queda con el prefijo `local:` y nadie vuelve a reintentarlo nunca.
+ *
+ *   true  (por defecto) → si el bucket falla, la operación falla y el usuario
+ *                         lo ve. Nada acaba en disco sin que se sepa.
+ *   false               → se conserva el respaldo local silencioso.
+ *
+ * Si el bucket es inestable y se prefiere no perder registros, póngase
+ * STORAGE_REQUIRE_BUCKET=false en el .env y revísese después el listado de
+ * archivos locales con `npm run uploads:migrar`.
+ */
+export const REQUERIR_BUCKET = process.env.STORAGE_REQUIRE_BUCKET !== 'false';

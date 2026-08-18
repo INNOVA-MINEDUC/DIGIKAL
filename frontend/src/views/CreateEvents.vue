@@ -70,11 +70,9 @@ const submitForm = async () => {
 
     const res = await api.post(`/api/eventos`, data)
 
-    console.log(res.data)
     alert('Evento creado ')
 
   } catch (error) {
-    console.log(error)
   }
 }
 </script>

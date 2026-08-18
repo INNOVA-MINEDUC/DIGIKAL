@@ -401,16 +401,28 @@
                       <div class="seccion-titulo">
                         <v-icon color="#0094D3" size="22" class="mr-2">mdi-image-multiple</v-icon>
                         <span class="seccion-titulo__texto">Fotos de evidencia</span>
+                        <v-chip size="small" variant="tonal" class="ml-2 font-weight-medium">
+                          Opcional
+                        </v-chip>
                         <v-chip v-if="urlsImagenes.length" size="small" color="#0094D3" variant="tonal"
                           class="ml-2 font-weight-bold">
                           {{ urlsImagenes.length }}
                         </v-chip>
                       </div>
 
-                      <v-file-input v-model="form.imagenes" label="Subir fotografías" variant="outlined"
-                        density="comfortable" prepend-inner-icon="mdi-camera-plus-outline" color="#0094D3"
+                      <v-file-input v-model="form.imagenes" label="Subir fotografías (opcional)"
+                        variant="outlined" density="comfortable"
+                        prepend-inner-icon="mdi-camera-plus-outline" color="#0094D3"
                         multiple accept="image/*" show-size counter :rules="[validarImagenes]"
                         @change="previsualizarImagenes" />
+
+                      <!-- Se explica dónde completarlas para que no parezca que
+                           se están omitiendo por descuido. -->
+                      <p v-if="!urlsImagenes.length" class="text-caption text-grey-darken-1 mt-1 mb-0">
+                        <v-icon size="14" class="mr-1">mdi-information-outline</v-icon>
+                        Puede registrar la dotación sin fotos y agregarlas después
+                        desde <strong>Dotaciones → Ver más</strong>.
+                      </p>
                     </v-col>
 
                     <!-- <v-col cols="12">
@@ -793,7 +805,6 @@ const seleccionarModelo = async (modelo) => {
 
     const ids = filtrados.map(e => e.id)
 
-    // console.log('IDs:', ids)
 
     const respuestas = await Promise.all(
       ids.map(id =>
@@ -903,7 +914,11 @@ const puedeAvanzar = computed(() => {
       if (validarPDF(archivo) !== true) return false
     }
 
-    if (!imagenes || imagenes.length === 0) return false
+    /* Las fotos son OPCIONALES: el acta suele llegar antes que las
+       fotografías, y exigirlas aquí bloqueaba el registro o llevaba a subir
+       cualquier imagen para poder continuar. Si luego aparecen, se agregan
+       desde la vista de Dotaciones (POST /dotacion/:id/imagenes).
+       Lo que sí se valida es que las que se adjunten sean correctas. */
     if (validarImagenes(imagenes) !== true) return false
 
     return true
@@ -925,7 +940,6 @@ const buscarEscuela = async () => {
     const res = await api.post(`/api/v1/escuelas/udi`, { CodigoEscuela: udi })
     escuela.value = res.data.data
     success.value = 'Escuela encontrada'
-    // console.log(res.data)
   } catch (err) {
     escuela.value = null
     error.value = err.response?.data?.message || 'Error de conexión'
@@ -944,24 +958,124 @@ const resetEscuela = () => {
   resetFormularioCompleto()
 }
 
+/**
+ * Escapa lo que se interpola en el HTML del diálogo. El nombre del
+ * establecimiento y el número de acta vienen del API y del propio formulario:
+ * inyectarlos sin escapar dentro de `html` permitiría ejecutar marcado.
+ */
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+}[c]));
+
+const pesoLegible = (bytes) => {
+  if (!bytes) return '0 KB';
+  return bytes < 1024 * 1024
+    ? `${(bytes / 1024).toFixed(0)} KB`
+    : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+};
+
 const submit = async () => {
 
-  // Confirmación con un resumen legible (antes se mostraba el JSON crudo).
+  /* Resumen de verificación antes de registrar.
+     Antes sólo se mostraba el recuento de actas y fotos, con lo que no había
+     forma de revisar si los números de acta, las fechas o los orígenes estaban
+     bien sin salir del diálogo y volver atrás. Ahora se listan uno a uno: es la
+     última oportunidad de detectar una fecha mal puesta. */
+
   const nombreEscuela = escuela.value?.nombreEscuela || escuela.value?.nombre || 'el establecimiento'
+  const codigo = escuela.value?.codigoEscuela || form.value.codigoEscuela || '—'
+  const ubicacion = [escuela.value?.municipio?.nombre, escuela.value?.departamento?.nombre]
+    .filter(Boolean).join(', ')
+
+  const actas = form.value.actas || []
+  const imagenes = form.value.imagenes || []
+
+  const pesoTotal = [
+    ...actas.map((a) => archivoDeActa(a)?.size || 0),
+    ...imagenes.map((f) => f?.size || 0),
+  ].reduce((t, n) => t + n, 0)
+
+  const filasActas = actas.map((a, i) => {
+    const titulo = ORIGENES.find((o) => o.valor === a.origen)?.titulo || a.origen || '—'
+    return `
+      <tr>
+        <td style="padding:6px 10px;border-top:1px solid #e6e9ef;">${i + 1}</td>
+        <td style="padding:6px 10px;border-top:1px solid #e6e9ef;font-weight:600;">
+          ${esc(a.numero?.trim() || '(sin número)')}
+        </td>
+        <td style="padding:6px 10px;border-top:1px solid #e6e9ef;">${esc(formatearFecha(a.fecha) || '—')}</td>
+        <td style="padding:6px 10px;border-top:1px solid #e6e9ef;">${esc(titulo)}</td>
+      </tr>`
+  }).join('')
+
   const confirmacion = await Swal.fire({
-    title: '¿Registrar la dotación?',
+    title: 'Confirmar registro de la dotación',
+    width: 680,
     html: `
-      <div style="text-align:left; font-size:14px; line-height:1.9;">
-        <div><strong>Establecimiento:</strong> ${nombreEscuela}</div>
-        <div><strong>Actas:</strong> ${form.value.actas.length}</div>
-        <div><strong>Fotos de evidencia:</strong> ${form.value.imagenes?.length || 0}</div>
+      <div style="text-align:left;font-size:14px;">
+
+        <div style="background:#f1f5f9;border-left:4px solid #003366;border-radius:8px;padding:12px 14px;margin-bottom:16px;">
+          <div style="font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;font-weight:700;">
+            Establecimiento
+          </div>
+          <div style="font-weight:700;color:#0c3b66;line-height:1.4;">${esc(nombreEscuela)}</div>
+          <div style="color:#475569;font-size:13px;">
+            UDI ${esc(codigo)}${ubicacion ? ' · ' + esc(ubicacion) : ''}
+          </div>
+        </div>
+
+        <div style="font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:#64748b;font-weight:700;margin-bottom:6px;">
+          Actas a registrar (${actas.length})
+        </div>
+        <div style="max-height:210px;overflow-y:auto;border:1px solid #e6e9ef;border-radius:8px;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:#fafbfc;">
+                <th style="padding:7px 10px;text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;">#</th>
+                <th style="padding:7px 10px;text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;">No. de acta</th>
+                <th style="padding:7px 10px;text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;">Fecha</th>
+                <th style="padding:7px 10px;text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;">Origen</th>
+              </tr>
+            </thead>
+            <tbody>${filasActas}</tbody>
+          </table>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:14px;">
+          <div style="flex:1;text-align:center;background:#f7fafc;border:1px solid #e6e9ef;border-radius:8px;padding:10px;">
+            <div style="font-size:20px;font-weight:800;color:#003366;">${actas.length}</div>
+            <div style="font-size:11px;text-transform:uppercase;color:#64748b;font-weight:600;">Actas PDF</div>
+          </div>
+          <div style="flex:1;text-align:center;background:#f7fafc;border:1px solid #e6e9ef;border-radius:8px;padding:10px;">
+            <div style="font-size:20px;font-weight:800;color:#0094D3;">${imagenes.length}</div>
+            <div style="font-size:11px;text-transform:uppercase;color:#64748b;font-weight:600;">Fotos</div>
+          </div>
+          <div style="flex:1;text-align:center;background:#f7fafc;border:1px solid #e6e9ef;border-radius:8px;padding:10px;">
+            <div style="font-size:20px;font-weight:800;color:#475569;">${pesoLegible(pesoTotal)}</div>
+            <div style="font-size:11px;text-transform:uppercase;color:#64748b;font-weight:600;">A subir</div>
+          </div>
+        </div>
+
+        ${imagenes.length === 0 ? `
+        <div style="margin-top:14px;padding:10px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;color:#1e40af;font-size:12.5px;line-height:1.6;">
+          <strong>Sin fotos de evidencia.</strong> Puede registrarla igualmente y
+          agregarlas más adelante desde Dotaciones → Ver más.
+        </div>` : ''}
+
+        <div style="margin-top:14px;padding:10px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;color:#92400e;font-size:12.5px;line-height:1.6;">
+          Revise los números de acta y las fechas antes de continuar. El registro
+          queda asentado en la bitácora institucional a su nombre.
+        </div>
       </div>
     `,
-    icon: 'question',
     showCancelButton: true,
-    confirmButtonColor: '#003366',
-    cancelButtonColor: '#cfd8dc',
-    confirmButtonText: 'Sí, registrar',
+    // El botón que confirma no queda enfocado por defecto: así un Enter de más
+    // no registra la dotación sin haber leído el resumen.
+    reverseButtons: true,
+    focusCancel: true,
+    // Los colores ya no van aquí: los botones se estilan por clase en
+    // assets/main.css, igual en toda la aplicación.
+    confirmButtonText: 'Registrar dotación',
     cancelButtonText: 'Regresar y editar',
   });
 
@@ -1016,7 +1130,6 @@ const submit = async () => {
       //   data[key] = value
       // }
 
-      // return console.log(data)
 
 
       await api.post(`/api/v1/dotacion`, formData, {
@@ -1031,18 +1144,17 @@ const submit = async () => {
         title: '¡Registro exitoso!',
         text: 'La dotación tecnológica se guardó correctamente.',
         icon: 'success',
-        confirmButtonColor: '#003366'
+        confirmButtonText: 'Entendido',
       });
 
     } catch (err) {
-      console.error('Error al enviar:', err);
       // En error NO se limpia el formulario, para que el usuario reintente.
       loading.value = false;
       Swal.fire({
         title: 'Error en el registro',
         text: err.response?.data?.message || 'No se pudo conectar con el servidor.',
         icon: 'error',
-        confirmButtonColor: '#0094D3'
+        confirmButtonText: 'Entendido',
       });
     }
   }

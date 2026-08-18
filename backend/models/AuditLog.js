@@ -40,10 +40,8 @@ const AuditLog = sequelize.define('AuditLog', {
     allowNull: false,
     defaultValue: 'SUCCESS',
   },
-  ipAddress: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
+  // La IP se dejó de guardar: es un dato personal y para saber quién hizo qué
+  // ya están userId, userName y userEmail. Ver la migración drop-audit-ip.
   userAgent: {
     type: DataTypes.STRING,
     allowNull: true,

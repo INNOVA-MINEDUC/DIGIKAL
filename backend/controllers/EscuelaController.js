@@ -13,6 +13,7 @@ import { obtenerUrlFirmada } from '../services/bucketService.js';
 
 import dotenv from 'dotenv'
 import { errorServidor } from '../utils/http.js';
+import logger from '../utils/logger.js';
 dotenv.config()
 
 export const getEscuelaByCodigo = async (req, res) => {
@@ -117,7 +118,7 @@ const escuelaLocal = await Escuela.findOne({
     );
 
     if (response.status >= 400) {
-      console.error("MDM status", response.status, response.data);
+      logger.error("MDM status", response.status, response.data);
       return res.status(502).json({
         message: `El API del MINEDUC respondió ${response.status}`
       });
@@ -126,7 +127,7 @@ const escuelaLocal = await Escuela.findOne({
     if (response.data?.errors) {
       // Los errores de GraphQL del MDM describen su esquema (tipos, campos,
       // resolvers). Se registran, pero no se reenvían al cliente.
-      console.error("GraphQL ERROR:", response.data.errors);
+      logger.error("GraphQL ERROR:", response.data.errors);
       return res.status(502).json({
         message: "El API del MINEDUC devolvió un error al consultar la escuela"
       });
@@ -157,7 +158,7 @@ const escuelaLocal = await Escuela.findOne({
     });
 
   } catch (error) {
-    console.error(error)
+    logger.error(error)
     return errorServidor(res, '[Escuelas]', error, "Error al buscar escuela");
   }
 };
@@ -311,7 +312,7 @@ export const getEscuelByCodigoMineduc = async (req, res) => {
 
   } catch (error) {
 
-    console.error(error);
+    logger.error(error);
 
     return errorServidor(res, '[Escuelas]', error, "Error al obtener la escuela");
 
@@ -334,7 +335,7 @@ export const getEscuelas = async (req, res) => {
 export const createEscuela = async (req, res) => {
   try {
     const { codeUdi, fasePoliticaId } = req.body;
-    console.log(req.body)
+    logger.info(req.body)
     return res.status(200).json(req.body)
 
 

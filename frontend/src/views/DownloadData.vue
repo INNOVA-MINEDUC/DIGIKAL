@@ -131,7 +131,7 @@
           </div>
         </div>
 
-        <v-card class="rounded-xl border-none elevation-sm">
+        <v-card class="rounded-xl border-none elevation-sm" style="user-select: text;">
           <!-- Búsqueda rápida sobre la tabla: cubre código de establecimiento,
                nombre, origen y fecha. -->
           <div class="pa-3 pa-sm-4 pb-0">
@@ -228,6 +228,9 @@
           <v-btn icon="mdi-close" variant="text" color="white" @click="dialogDetalle = false" />
         </div>
 
+
+
+        
         <v-card-text class="pa-4 pa-sm-6">
 
           <!-- Resumen de la dotación -->
@@ -247,12 +250,12 @@
             </v-chip>
           </div>
 
-          <!-- Datos del establecimiento -->
+          <!-- Ubicación: siempre visible, es lo que identifica al establecimiento -->
           <div class="text-overline font-weight-bold text-grey-darken-1 mb-2">
             Datos del establecimiento
           </div>
           <v-row dense class="mb-4">
-            <v-col cols="12" sm="6" md="4" v-for="dato in datosEstablecimiento" :key="dato.label">
+            <v-col cols="12" sm="6" md="4" v-for="dato in datosUbicacion" :key="dato.label">
               <div class="dato-box">
                 <div class="dato-box__label">{{ dato.label }}</div>
                 <div class="dato-box__valor">{{ dato.valor }}</div>
@@ -260,23 +263,46 @@
             </v-col>
           </v-row>
 
-          <!-- Beneficiados -->
-          <div class="text-overline font-weight-bold text-grey-darken-1 mb-2">
-            Beneficiados
-          </div>
-          <v-row dense class="mb-2">
-            <v-col cols="6" sm="3" v-for="stat in statsBeneficiados" :key="stat.label">
-              <div class="stat-box">
-                <div class="stat-box__num">{{ stat.valor }}</div>
-                <div class="stat-box__label">{{ stat.label }}</div>
-              </div>
-            </v-col>
-          </v-row>
-          <div class="d-flex flex-wrap ga-2 mb-6">
-            <v-chip size="small" variant="outlined" v-for="etnia in etniasBeneficiados" :key="etnia.label">
-              {{ etnia.label }}: <strong class="ml-1">{{ etnia.valor }}</strong>
-            </v-chip>
-          </div>
+          <!-- ── Detalle plegable ──────────────────────────────────────────
+               Contacto del centro y beneficiados. Se consultan de vez en
+               cuando, y sacarlos de la vista deja las actas —lo que se viene a
+               buscar aquí— mucho más arriba y sin desplazarse. -->
+          <v-expansion-panels variant="accordion" class="mb-6 detalle-panel">
+            <v-expansion-panel elevation="0">
+              <v-expansion-panel-title class="text-body-2 font-weight-bold">
+                <v-icon size="small" class="mr-2" color="#003366">mdi-account-details-outline</v-icon>
+                Contacto y beneficiados
+              </v-expansion-panel-title>
+
+              <v-expansion-panel-text>
+                <v-row dense class="mb-4">
+                  <v-col cols="12" sm="6" md="4" v-for="dato in datosContacto" :key="dato.label">
+                    <div class="dato-box">
+                      <div class="dato-box__label">{{ dato.label }}</div>
+                      <div class="dato-box__valor">{{ dato.valor }}</div>
+                    </div>
+                  </v-col>
+                </v-row>
+
+                <div class="text-overline font-weight-bold text-grey-darken-1 mb-2">
+                  Beneficiados
+                </div>
+                <v-row dense class="mb-2">
+                  <v-col cols="6" sm="3" v-for="stat in statsBeneficiados" :key="stat.label">
+                    <div class="stat-box">
+                      <div class="stat-box__num">{{ stat.valor }}</div>
+                      <div class="stat-box__label">{{ stat.label }}</div>
+                    </div>
+                  </v-col>
+                </v-row>
+                <div class="d-flex flex-wrap ga-2">
+                  <v-chip size="small" variant="outlined" v-for="etnia in etniasBeneficiados" :key="etnia.label">
+                    {{ etnia.label }}: <strong class="ml-1">{{ etnia.valor }}</strong>
+                  </v-chip>
+                </div>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
 
           <!-- Actas -->
           <div class="text-overline font-weight-bold text-grey-darken-1 mb-2">
@@ -292,7 +318,7 @@
                 <th class="text-left">No. de acta</th>
                 <th class="text-left">Fecha de entrega</th>
                 <th class="text-left">Origen</th>
-                <th class="text-left">Folios</th>
+                <!-- <th class="text-left">Folios</th> -->
                 <th class="text-right">Documento</th>
               </tr>
             </thead>
@@ -306,7 +332,7 @@
                     {{ etiquetaOrigen(acta.origen) }}
                   </v-chip>
                 </td>
-                <td>{{ acta.folios || '—' }}</td>
+                <!-- <td>{{ acta.folios || '—' }}</td> -->
                 <td class="text-right">
                   <v-btn v-if="acta.url" size="small" color="primary" variant="tonal"
                     class="text-none" prepend-icon="mdi-file-pdf-box" @click="abrirActa(acta)">
@@ -355,17 +381,41 @@
             </v-table>
           </template>
 
-          <!-- Fotos de evidencia -->
-          <template v-if="detalle.imagenes.length">
-            <div class="text-overline font-weight-bold text-grey-darken-1 mb-2">
+          <!-- ── Fotos de evidencia ─────────────────────────────────────────
+               Se muestran siempre, incluso vacías: las fotos son opcionales al
+               registrar la dotación, así que ésta es la vía para completarlas
+               cuando lleguen. -->
+          <div class="d-flex align-center flex-wrap ga-2 mb-2">
+            <span class="text-overline font-weight-bold text-grey-darken-1">
               Fotos de evidencia ({{ detalle.imagenes.length }})
-            </div>
-            <div class="d-flex flex-wrap ga-2">
-              <v-img v-for="img in detalle.imagenes" :key="img.id" :src="img.url"
-                width="104" height="104" cover class="rounded-lg evidencia-mini"
-                @click="abrirUrl(img.url)" />
-            </div>
-          </template>
+            </span>
+            <v-spacer />
+            <!-- Fondo y texto van en `style` en lugar de en la prop `color`:
+                 con un hex, la resolución de color de Vuetify depende de la
+                 variante y del tema, y el botón acababa saliendo gris. En línea
+                 no hay ambigüedad posible. -->
+            <v-btn size="small" variant="flat"
+              class="text-none font-weight-bold"
+              style="background-color:#0094D3;color:#ffffff;"
+              prepend-icon="mdi-camera-plus-outline" :loading="subiendoFotos"
+              @click="elegirFotos">
+              Agregar fotos
+            </v-btn>
+          </div>
+
+          <!-- Selector oculto: el botón de arriba es el que se ve. -->
+          <input ref="inputFotos" type="file" accept="image/jpeg,image/png" multiple
+            class="d-none" @change="subirFotos" />
+
+          <div v-if="detalle.imagenes.length" class="d-flex flex-wrap ga-2">
+            <v-img v-for="img in detalle.imagenes" :key="img.id" :src="img.url"
+              width="104" height="104" cover class="rounded-lg evidencia-mini"
+              @click="abrirUrl(img.url)" />
+          </div>
+
+          <v-alert v-else type="info" variant="tonal" density="compact" class="text-body-2">
+            Esta dotación aún no tiene fotos. Puede agregarlas cuando las reciba.
+          </v-alert>
 
         </v-card-text>
 
@@ -496,14 +546,184 @@ const verDetalle = (item) => {
   dialogDetalle.value = true
 }
 
-// Grillas del diálogo, derivadas del elemento seleccionado.
-const datosEstablecimiento = computed(() => {
+/* Grillas del diálogo, derivadas del elemento seleccionado.
+   Los datos del establecimiento van repartidos en dos grupos: los que ubican al
+   centro se ven siempre, y los de contacto quedan dentro del panel plegable
+   junto a los beneficiados. */
+
+/* ── Agregar fotos a una dotación ya registrada ─────────────────────────────
+   Las fotos son opcionales al crear la dotación (el acta suele llegar antes),
+   así que ésta es la vía para completarlas después sin rehacer el registro. */
+
+const inputFotos = ref(null)
+const subiendoFotos = ref(false)
+
+const MAX_FOTOS = 10
+const MAX_MB = 20
+
+/**
+ * Escapa lo que se interpola en el `html` de SweetAlert2. El nombre del archivo
+ * lo pone quien sube (puede renombrarlo a lo que quiera) y el del
+ * establecimiento viene del API: inyectarlos sin filtrar permitiría ejecutar
+ * marcado dentro del diálogo.
+ */
+const escaparHtml = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+}[c]))
+
+const pesoLegible = (bytes) => {
+  if (!bytes) return '0 KB'
+  return bytes < 1024 * 1024
+    ? `${(bytes / 1024).toFixed(0)} KB`
+    : `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
+
+const elegirFotos = () => {
+  if (inputFotos.value) inputFotos.value.value = ''   // permite reelegir el mismo archivo
+  inputFotos.value?.click()
+}
+
+const subirFotos = async (evento) => {
+  const archivos = Array.from(evento.target.files || [])
+  if (!archivos.length || !detalle.value) return
+
+  // Se valida antes de enviar para no gastar una subida en algo que el backend
+  // va a rechazar de todas formas.
+  if (archivos.length > MAX_FOTOS) {
+    return Swal.fire('Demasiadas fotos', `Puede subir hasta ${MAX_FOTOS} por vez.`, 'warning')
+  }
+
+  const grande = archivos.find((f) => f.size > MAX_MB * 1024 * 1024)
+  if (grande) {
+    return Swal.fire('Archivo muy grande', `"${grande.name}" supera los ${MAX_MB} MB.`, 'warning')
+  }
+
+  const noEsImagen = archivos.find((f) => !['image/jpeg', 'image/png'].includes(f.type))
+  if (noEsImagen) {
+    return Swal.fire('Formato no admitido', `"${noEsImagen.name}" no es JPG ni PNG.`, 'warning')
+  }
+
+  /* Vista previa antes de subir.
+     Con sólo los nombres de archivo no hay forma de saber si son las fotos
+     correctas —"IMG_20260812_14322.jpg" no dice nada—, y una vez subidas
+     quedan asentadas en la bitácora. Se muestran las miniaturas reales.
+
+     `URL.createObjectURL` no lee el archivo: crea una referencia al que ya está
+     en memoria, así que es inmediato incluso con varias fotos grandes. Hay que
+     revocarlas después o el navegador las retiene hasta recargar la página. */
+  const previas = archivos.map((f) => ({
+    nombre: f.name,
+    peso: pesoLegible(f.size),
+    url: URL.createObjectURL(f),
+  }))
+
+  try {
+    const miniaturas = previas.map((p) => `
+      <figure style="margin:0;width:118px;">
+        <img src="${p.url}" alt="${escaparHtml(p.nombre)}"
+             style="width:118px;height:118px;object-fit:cover;border-radius:10px;
+                    border:1px solid rgba(0,51,102,.18);display:block;" />
+        <figcaption style="font-size:11px;color:#64748b;margin-top:4px;line-height:1.35;
+                           word-break:break-word;text-align:center;">
+          ${escaparHtml(p.nombre)}<br><span style="color:#94a3b8;">${p.peso}</span>
+        </figcaption>
+      </figure>`).join('')
+
+    const confirmacion = await Swal.fire({
+      title: `¿Deseas agregar ${archivos.length === 1 ? 'esta imagen' : `estas ${archivos.length} imágenes`}?`,
+      width: 640,
+      html: `
+        <div style="text-align:left;font-size:14px;">
+          <div style="background:#f1f5f9;border-left:4px solid #003366;border-radius:8px;
+                      padding:10px 12px;margin-bottom:14px;">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.4px;
+                        color:#64748b;font-weight:700;">Se agregarán a la dotación de</div>
+            <div style="font-weight:700;color:#0c3b66;">${escaparHtml(detalle.value.escuela)}</div>
+            <div style="color:#475569;font-size:12.5px;">UDI ${escaparHtml(detalle.value.codigo)}</div>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+                      max-height:330px;overflow-y:auto;padding:2px;">
+            ${miniaturas}
+          </div>
+
+          <div style="margin-top:14px;padding:9px 12px;background:#fffbeb;border:1px solid #fde68a;
+                      border-radius:8px;color:#92400e;font-size:12.5px;line-height:1.6;">
+            Peso total: <strong>${pesoLegible(archivos.reduce((t, f) => t + f.size, 0))}</strong>.
+            Las fotos se añaden a las existentes; no reemplazan ninguna.
+          </div>
+        </div>
+      `,
+      showCancelButton: true,
+      reverseButtons: true,
+      focusCancel: true,
+      // Los colores ya no van aquí: los botones se estilan por clase en
+      // assets/main.css, igual en toda la aplicación.
+      confirmButtonText: 'Sí, agregar',
+      cancelButtonText: 'Cancelar',
+    })
+
+    if (!confirmacion.isConfirmed) return
+  } finally {
+    // Se liberan pase lo que pase: si el usuario cancela, si confirma o si algo
+    // revienta por el camino.
+    previas.forEach((p) => URL.revokeObjectURL(p.url))
+  }
+
+  subiendoFotos.value = true
+  try {
+    const fd = new FormData()
+    archivos.forEach((f) => fd.append('imagenes_entrega', f))
+
+    const { data } = await api.post(`/api/v1/dotacion/${detalle.value.id}/imagenes`, fd, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+
+    /* Se añaden al diálogo abierto para verlas al instante, y se recarga la
+       tabla de fondo para que el listado quede al día.
+       `urlArchivo` es necesario porque el backend puede devolver una ruta
+       relativa (/uploads/...) si el archivo acabó en el respaldo local: el
+       front corre en otro puerto y esa ruta sola no resuelve. */
+    detalle.value.imagenes.push(
+      ...(data.imagenes || [])
+        .map((i) => ({ ...i, url: urlArchivo(i.url) }))
+        .filter((i) => i.url)
+    )
+    await buscarData()
+
+    await Swal.fire({
+      title: data.message || 'Fotos agregadas',
+      icon: 'success', timer: 2200, showConfirmButton: false,
+    })
+  } catch (error) {
+    // El backend explica el motivo real: bucket caído, formato que no coincide
+    // con el contenido, dotación inexistente…
+    await Swal.fire(
+      'No se pudieron agregar',
+      error.response?.data?.message || 'Ocurrió un error inesperado.',
+      'error'
+    )
+  } finally {
+    subiendoFotos.value = false
+  }
+}
+
+/** Siempre visible: identifica de qué establecimiento se está hablando. */
+const datosUbicacion = computed(() => {
   const e = detalle.value?.establecimiento
   if (!e) return []
   return [
     { label: 'Departamento', valor: e.departamento },
     { label: 'Municipio', valor: e.municipio },
     { label: 'Dirección', valor: e.direccion },
+  ]
+})
+
+/** Dentro del panel plegable. */
+const datosContacto = computed(() => {
+  const e = detalle.value?.establecimiento
+  if (!e) return []
+  return [
     { label: 'Director', valor: e.director },
     { label: 'Teléfono', valor: e.telefono },
     { label: 'Correo', valor: e.correo },
@@ -1089,6 +1309,31 @@ onMounted(() => {
   gap: 12px;
   padding: 20px 24px;
   background: linear-gradient(135deg, #003366 0%, #0094D3 100%);
+}
+
+/* ===== Panel plegable de contacto y beneficiados =====
+   Mismo lenguaje visual que las fichas de dato: borde suave y esquinas
+   redondeadas, para que no parezca un componente traído de otro sitio. */
+.detalle-panel {
+  border: 1px solid rgba(0, 51, 102, 0.12);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.detalle-panel :deep(.v-expansion-panel-title) {
+  background-color: #f7fafc;
+  min-height: 48px;
+  color: #003366;
+}
+
+.detalle-panel :deep(.v-expansion-panel-title--active) {
+  border-bottom: 1px solid rgba(0, 51, 102, 0.1);
+}
+
+/* El contenido del panel trae un padding lateral generoso por defecto que
+   descuadra la rejilla respecto a las fichas de arriba. */
+.detalle-panel :deep(.v-expansion-panel-text__wrapper) {
+  padding: 16px;
 }
 
 /* Ficha de dato del establecimiento (label + valor). */
