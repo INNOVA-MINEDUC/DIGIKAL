@@ -16,6 +16,7 @@ import Departamento from '../models/Departamento.js';
 import Municipio from '../models/Municipio.js';
 import fs from 'fs';
 import { logAction } from '../services/auditService.js';
+import { resolverUbicacion } from '../helpers/ubicacionLocal.js';
 import { errorServidor } from '../utils/http.js';
 import logger from '../utils/logger.js';
 
@@ -157,24 +158,21 @@ export const createDotacion = async (req, res) => {
 
     if (!escuela) {
 
-      const depto = await Departamento.findOne({
-        where: { nombre: departamento },
-        transaction
-      });
+      /* Los nombres llegan del API del MINEDUC y no siempre coinciden con los
+         de las tablas locales ("SAN MIGUEL PETAPA" contra "petapa"). Antes se
+         hacía un findOne exacto y se usaba el resultado sin comprobarlo: si no
+         casaba, `muni` era null y la línea siguiente reventaba con
+         "Cannot read properties of null (reading 'id')".
 
-      const muni = await Municipio.findOne({
-        where: {
-          nombre: municipio,
-          departamentoId: depto.id
-        },
-        transaction
-      });
+         El resolvedor empareja acotando al departamento y, si aun así no
+         encuentra nada, lanza un error con un mensaje que explica qué falta. */
+      const ubicacion = await resolverUbicacion(departamento, municipio);
 
       escuela = await Escuela.create({
         nombreEscuela,
         codigoEscuela,
-        departamentoId: depto.id,
-        municipioId: muni.id,
+        departamentoId: ubicacion.departamento.id,
+        municipioId: ubicacion.municipio.id,
         direccion,
         telefono,
         correo,
