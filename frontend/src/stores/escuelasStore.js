@@ -5,12 +5,17 @@ import api from '@/helpers/api.js'
 // navegar al detalle de una escuela y volver, e incluso a un F5. Se usa
 // sessionStorage (no localStorage) para que sea por pestaña y no quede pegado
 // para siempre.
-const PERSIST_KEY = 'digikal.dashboard.filtro'
+// La versión (v2) se subió al cambiar el valor por defecto de `intervenida`:
+// así se ignora cualquier filtro guardado con el default anterior y el arranque
+// respeta el nuevo (traer TODOS los establecimientos desde el inicio).
+const PERSIST_KEY = 'digikal.dashboard.filtro.v2'
 
 const FILTRO_DEFECTO = {
   dept: null,
   muni: null,
-  intervenida: true,
+  // Arranca apagado: por defecto se traen TODOS los establecimientos, no sólo
+  // los intervenidos. El usuario puede encender el switch para filtrarlos.
+  intervenida: false,
   dotado: false,
   conectividad: false,
   codigoMineduc: '',

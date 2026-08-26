@@ -391,6 +391,34 @@ const limpiarCodigo = (valor) => {
   return texto ? texto : null;
 };
 
+// ── Caché en memoria del conjunto filtrado ──────────────────────────────────
+// Traer todo el universo del filtro (con "todos" son ~11 mil establecimientos)
+// + join local + mapear es la parte cara (~9 s). Se guarda por clave de filtro
+// durante un tiempo corto, así la primera carga es el único costo y las páginas
+// y búsquedas siguientes salen al instante. Se limita el tamaño para no crecer.
+const CACHE_TTL_MS = 60_000;
+const CACHE_MAX = 30;
+const cacheDashboard = new Map(); // clave -> { ts, valor }
+
+const leerCacheDashboard = (clave) => {
+  const hit = cacheDashboard.get(clave);
+  if (!hit) return null;
+  if (Date.now() - hit.ts > CACHE_TTL_MS) {
+    cacheDashboard.delete(clave);
+    return null;
+  }
+  return hit.valor;
+};
+
+const guardarCacheDashboard = (clave, valor) => {
+  // Poda simple: al llenarse, se borra la entrada más antigua.
+  if (cacheDashboard.size >= CACHE_MAX) {
+    const primera = cacheDashboard.keys().next().value;
+    if (primera !== undefined) cacheDashboard.delete(primera);
+  }
+  cacheDashboard.set(clave, { ts: Date.now(), valor });
+};
+
 export const getEscuelasDotadas = async (req, res) => {
   try {
     const { dept, muni } = req.body || {};
@@ -431,33 +459,46 @@ export const getEscuelasDotadas = async (req, res) => {
       }
     }
 
-    // Se trae el conjunto COMPLETO del filtro (sin paginar: pagina/tamanoPagina
-    // en null). Así los KPIs (establecimientos, dotados, conectados, estudiantes)
-    // se calculan sobre todo el universo filtrado y son consistentes entre sí,
-    // en vez de reflejar sólo la página visible. La paginación de la tabla se
-    // hace luego en memoria.
-    const stats = await fetchDesdeAyuda({
-      dept,
+    // El conjunto completo mapeado se cachea por clave de filtro (sin paginación
+    // ni búsqueda, que se aplican en memoria más abajo).
+    const claveCache = JSON.stringify({
+      dept: dept ?? null,
       muni: muniNombre,
       intervenida,
       dotado,
       conectividad,
       codigoMineduc,
-      pagina: null,
-      tamanoPagina: null,
     });
-    const lista = stats?.establecimientos || [];
+    let cache = leerCacheDashboard(claveCache);
 
-    // La BD local puede estar caída o vacía: no debe tumbar los datos del API.
-    let dotacionesLocales = new Map();
-    try {
-      const codigos = lista.map((e) => e.codigoMineduc).filter(Boolean);
-      dotacionesLocales = await getDotacionesPorCodigo(codigos);
-    } catch (dbErr) {
-      logger.error('[Dashboard] No se pudieron leer dotaciones locales:', dbErr.message);
-    }
+    if (!cache) {
+      // Se trae el conjunto COMPLETO del filtro (sin paginar: pagina/tamanoPagina
+      // en null). Así los KPIs (establecimientos, dotados, conectados, estudiantes)
+      // se calculan sobre todo el universo filtrado y son consistentes entre sí,
+      // en vez de reflejar sólo la página visible. La paginación de la tabla se
+      // hace luego en memoria.
+      const stats = await fetchDesdeAyuda({
+        dept,
+        muni: muniNombre,
+        intervenida,
+        dotado,
+        conectividad,
+        codigoMineduc,
+        pagina: null,
+        tamanoPagina: null,
+      });
+      const lista = stats?.establecimientos || [];
 
-    const escuelasMapeadas = lista.map((e) => {
+      // La BD local puede estar caída o vacía: no debe tumbar los datos del API.
+      let dotacionesLocales = new Map();
+      try {
+        const codigos = lista.map((e) => e.codigoMineduc).filter(Boolean);
+        dotacionesLocales = await getDotacionesPorCodigo(codigos);
+      } catch (dbErr) {
+        logger.error('[Dashboard] No se pudieron leer dotaciones locales:', dbErr.message);
+      }
+
+      const mapeadas = lista.map((e) => {
       const local = dotacionesLocales.get(e.codigoMineduc);
       const equipos = local?.equipos ?? [];
       const fechaDotacion = e.fechaDatacion ?? local?.fechaEntrega ?? null;
@@ -504,7 +545,18 @@ export const getEscuelasDotadas = async (req, res) => {
         jornada: local?.jornada ?? null,
         opf: e.opf,
       };
-    });
+      });
+
+      cache = {
+        escuelasMapeadas: mapeadas,
+        totalEstudiantesApi: stats?.totalEstudiantesInscritos2026 ?? null,
+        totalHombresApi: stats?.totalHombres ?? 0,
+        totalMujeresApi: stats?.totalMujeres ?? 0,
+      };
+      guardarCacheDashboard(claveCache, cache);
+    }
+
+    const escuelasMapeadas = cache.escuelasMapeadas;
 
     // Búsqueda por nombre (en memoria, porque el API no la soporta). Todos los
     // KPIs y la paginación de abajo trabajan ya sobre este conjunto filtrado.
@@ -555,7 +607,7 @@ export const getEscuelasDotadas = async (req, res) => {
     // El total de estudiantes: si no hay búsqueda por nombre, se usa el total
     // exacto del API; con búsqueda se suma sobre el subconjunto encontrado.
     const estudiantesSuma = escuelas.reduce((a, e) => a + (e.inscritos2026 || 0), 0);
-    const totalEstudiantes = busqueda ? estudiantesSuma : (stats?.totalEstudiantesInscritos2026 ?? estudiantesSuma);
+    const totalEstudiantes = busqueda ? estudiantesSuma : (cache.totalEstudiantesApi ?? estudiantesSuma);
 
     // Página para la tabla: se corta en memoria y se numera con un correlativo
     // continuo (1, 2, 3… a través de las páginas).
@@ -567,8 +619,8 @@ export const getEscuelasDotadas = async (req, res) => {
     return res.status(200).json({
       establecimientos: total,
       totalEstudiantes,
-      totalHombres: stats?.totalHombres ?? 0,
-      totalMujeres: stats?.totalMujeres ?? 0,
+      totalHombres: cache.totalHombresApi ?? 0,
+      totalMujeres: cache.totalMujeresApi ?? 0,
 
       establecimientosDotados: dotadas.length,
       totalEquipos: escuelas.reduce((a, e) => a + e.cantidadEquipos, 0),
