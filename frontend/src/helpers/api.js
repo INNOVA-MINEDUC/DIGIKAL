@@ -48,9 +48,11 @@ api.interceptors.response.use(
         localStorage.removeItem('token');   // respaldo si el store no está listo
       });
 
-      // El router usa hash history.
-      if (!window.location.hash.startsWith('#/login')) {
-        window.location.hash = '#/login';
+      // El router usa historial real (URLs sin almohadilla), así que la
+      // redirección va por `pathname`. Antes se hacía con `location.hash` y
+      // desde el cambio a createWebHistory eso ya no navega a ningún sitio.
+      if (window.location.pathname !== '/login') {
+        window.location.assign('/login');
       }
     }
 

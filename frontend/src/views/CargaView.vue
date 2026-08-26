@@ -213,7 +213,7 @@ const uploadFile = async () => {
 
   padding: 20px;
 
-  background-image: url("/upload/img.png");
+  background-image: url("/upload/img.webp");
   background-repeat: no-repeat;
   background-position: center center;
 

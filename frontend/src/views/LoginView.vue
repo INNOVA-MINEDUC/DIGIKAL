@@ -7,7 +7,7 @@
           <!-- Fotografía institucional a sangre. Va como <img> y no como
                background-image para poder controlar el encuadre con
                object-position y que el navegador la trate como imagen. -->
-          <img src="/about/img_9.png" alt="" aria-hidden="true" class="panel-photo" />
+          <img src="/about/img_9.webp" alt="" aria-hidden="true" class="panel-photo" />
           <div class="panel-veil" aria-hidden="true"></div>
 
           <div class="panel-inner">

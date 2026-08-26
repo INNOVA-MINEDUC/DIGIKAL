@@ -1,17 +1,87 @@
 <!DOCTYPE html>
-<html lang="">
+<!-- `lang` estaba vacío: los buscadores no sabían en qué idioma está el sitio,
+     y es lo primero que miran para decidir en qué resultados mostrarlo. -->
+<html lang="es-GT">
   <head>
     <meta charset="UTF-8">
     <link rel="icon" href="/logos/icono_DIGIKAL.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digikal</title>
+
+    <!-- ── Identidad de la página ─────────────────────────────────────────
+         El título es lo que aparece como enlace azul en Google. "Digikal" a
+         secas no contiene ninguna de las palabras que la gente busca; este
+         incluye qué es, de quién es y dónde, en menos de 60 caracteres para
+         que no se corte. -->
+    <title>DIGIKAL | Transformación Digital Educativa de Guatemala</title>
+
+    <!-- Google usa esto como el texto gris bajo el título. Sin él, recorta un
+         fragmento arbitrario de la página, que casi siempre queda mal. -->
+    <meta name="description" content="Política DIGIKAL 2025-2035 del Ministerio de Educación de Guatemala: dotación de equipo tecnológico y conectividad en los establecimientos educativos del país. Consulte los datos por departamento y municipio.">
+
+    <meta name="author" content="Ministerio de Educación de Guatemala — DIGECADE">
+    <meta name="theme-color" content="#003366">
+
+    <!-- Sin esto, un enlace compartido en WhatsApp, Facebook o Teams aparece
+         como texto pelado. Con esto sale con título, descripción e imagen. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DIGIKAL — MINEDUC Guatemala">
+    <meta property="og:locale" content="es_GT">
+    <meta property="og:title" content="DIGIKAL | Transformación Digital Educativa de Guatemala">
+    <meta property="og:description" content="Dotación de equipo tecnológico y conectividad en los establecimientos educativos de Guatemala. Datos por departamento y municipio.">
+    <meta property="og:image" content="/banner-30.webp">
+    <meta property="og:image:alt" content="Política de Transformación Digital DIGIKAL">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DIGIKAL | Transformación Digital Educativa de Guatemala">
+    <meta name="twitter:description" content="Dotación de equipo tecnológico y conectividad en los establecimientos educativos de Guatemala.">
+    <meta name="twitter:image" content="/banner-30.webp">
+
+    <!-- Datos estructurados: le dicen a Google que esto es el sitio de un
+         organismo público, no un blog. Habilita el panel lateral de la marca. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GovernmentOrganization",
+      "name": "DIGIKAL — Política de Transformación Digital Educativa",
+      "alternateName": "DIGIKAL",
+      "parentOrganization": {
+        "@type": "GovernmentOrganization",
+        "name": "Ministerio de Educación de Guatemala",
+        "alternateName": "MINEDUC"
+      },
+      "department": {
+        "@type": "Organization",
+        "name": "Dirección General de Gestión de Calidad Educativa",
+        "alternateName": "DIGECADE"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Guatemala"
+      },
+      "description": "Política pública 2025-2035 para la transformación digital del sistema educativo guatemalteco: conectividad, dotación de equipo y competencias digitales."
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id="app"></div>
+    <!-- Lo que ve un rastreador que no ejecuta JavaScript (WhatsApp, Facebook,
+         LinkedIn y buena parte de los buscadores que no son Google). Sin esto
+         el cuerpo llega completamente vacío. Se sustituye en cuanto Vue monta
+         la aplicación, así que ningún usuario lo llega a ver. -->
+    <div id="app">
+      <noscript>
+        <h1>DIGIKAL — Transformación Digital Educativa de Guatemala</h1>
+        <p>
+          Política del Ministerio de Educación de Guatemala (MINEDUC) para la
+          dotación de equipo tecnológico y conectividad en los establecimientos
+          educativos del país, 2025-2035.
+        </p>
+        <p>Este sitio necesita JavaScript para mostrar el mapa y las estadísticas.</p>
+      </noscript>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
-

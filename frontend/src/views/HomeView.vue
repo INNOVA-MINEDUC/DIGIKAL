@@ -1,7 +1,7 @@
 <template>
   <!-- HERO -->
   <section class="hero">
-    <img src="/banner-30.png" class="hero-bg" />
+    <img src="/banner-30.webp" class="hero-bg" />
 
     <div class="hero-content">
       <div class="hero-container">
@@ -35,13 +35,13 @@
       </div>
 
       <div class="innovation-image">
-        <img src="/astro8.png" alt="astronauta" />
+        <img src="/astro8.webp" alt="astronauta" />
       </div>
     </section>
 
     <section class="digecade">
       <div class="digecade-media">
-        <img src="/astro7.png" />
+        <img src="/astro7.webp" />
       </div>
 
       <div class="digecade-panel">
@@ -130,27 +130,27 @@ const principios = [
 const sistemas = [
   {
     title: "AVi",
-    img: "/logo-avi.png",
+    img: "/logo-avi.webp",
     url: "https://avi.mineduc.edu.gt/"
   },
   {
     title: "Ciudadanía",
-    img: "/ciudadania.png",
+    img: "/ciudadania.webp",
     url: "https://ciudadania.mineduc.edu.gt/"
   },
   {
     title: "Cosmo",
-    img: "/astro4.png",
+    img: "/astro4.webp",
     url: "https://cosmo.mineduc.edu.gt/"
   },
   {
     title: "Salud Escolar",
-    img: "/logo_salud_escolar.png",
+    img: "/logo_salud_escolar.webp",
     url: "https://saludescolar.mineduc.edu.gt/"
   },
   {
     title: "SIRCE",
-    img: "/logo_sirce.png",
+    img: "/logo_sirce.webp",
     url: "https://sigec-dev.mineduc.edu.gt/"
   }
 ]

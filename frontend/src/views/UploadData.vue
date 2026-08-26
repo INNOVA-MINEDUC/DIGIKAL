@@ -1248,7 +1248,7 @@ onMounted(() => {
   padding-left: 16px;
   padding-right: 16px;
 
-  background-image: url("/upload/img.png");
+  background-image: url("/upload/img.webp");
 
   background-repeat: no-repeat;
 

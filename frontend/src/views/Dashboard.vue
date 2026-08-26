@@ -1,7 +1,7 @@
 <template>
 
   <div class="hero-wrapper">
-    <img src="/dashboard/img_3.png" class="hero-bg" alt="Fondo" />
+    <img src="/dashboard/img_3.webp" class="hero-bg" alt="Fondo" />
   </div>
 
   <v-container fluid style="width: 100%; padding-inline: 0; ">
@@ -174,7 +174,7 @@ const formatNumber = (num) => {
 }
 
 .innovation-section {
-  background-image: url("/dashboard/img_4.png");
+  background-image: url("/dashboard/img_4.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
