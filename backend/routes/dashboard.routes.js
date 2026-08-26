@@ -3,8 +3,7 @@ import {
   getEscuelasDotadas,
   getEstablecimientoDetalle
 } from '../controllers/DashboardController.js';
-import { authMiddleware } from '../middlewares/auth.middleware.js';
-import { publicoLimiter, apiLimiter } from '../middlewares/rateLimit.middleware.js';
+import { publicoLimiter } from '../middlewares/rateLimit.middleware.js';
 
 const router = express.Router();
 
@@ -24,13 +23,23 @@ const router = express.Router();
 router.post('/', publicoLimiter, getEscuelasDotadas);
 
 /**
- * REQUIERE SESIÓN — ficha de un establecimiento con su inventario.
+ * PÚBLICO — ficha completa del establecimiento (vista SchoolView).
  *
- * Antes era pública: iterando el :id se descargaba el directorio nacional con
- * el correo y teléfono de cada centro, la matrícula desglosada, las coordenadas
- * y el inventario completo con número de serie, código SICOIN y valor en
- * quetzales de cada equipo.
+ * Decisión del MINEDUC: la transparencia de la dotación pesa más que la
+ * reserva, así que cualquiera puede consultar la ficha y abrir las actas y las
+ * fotos de evidencia sin iniciar sesión.
+ *
+ * Conviene tener presente qué se está publicando, porque es amplio: contacto
+ * del centro, matrícula desglosada, coordenadas GPS y el inventario con número
+ * de serie, código SICOIN y valor en quetzales de cada equipo. Es decir, un
+ * catálogo georreferenciado del equipo de cómputo de cada escuela.
+ *
+ * Como el :id es correlativo, recorrerlo entero descarga el directorio
+ * nacional. `publicoLimiter` (120 peticiones por IP cada 15 min) no lo impide,
+ * pero lo vuelve lento y visible en los registros.
+ *
+ * Para volver a cerrarla: añadir `authMiddleware` antes del controlador.
  */
-router.get('/establecimiento/:id', apiLimiter, authMiddleware, getEstablecimientoDetalle);
+router.get('/establecimiento/:id', publicoLimiter, getEstablecimientoDetalle);
 
 export default router;

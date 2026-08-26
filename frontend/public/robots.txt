@@ -1,0 +1,26 @@
+# robots.txt — DIGIKAL, Ministerio de Educación de Guatemala
+#
+# Sin este archivo los buscadores rastrean todo a ciegas, incluidas las
+# pantallas internas, y gastan ahí el presupuesto de rastreo que debería ir a
+# las páginas públicas.
+
+User-agent: *
+
+# Zona interna: no aporta nada en resultados de búsqueda y exige sesión.
+# Ojo: esto NO es una medida de seguridad —robots.txt es una petición, no una
+# barrera—; quien protege estas rutas es el backend. Sirve para que no se
+# desperdicie rastreo ni aparezcan en Google páginas que nadie puede abrir.
+Disallow: /login
+Disallow: /usuarios
+Disallow: /auditoria
+Disallow: /upload-data
+Disallow: /download-data
+
+# El respaldo local de archivos del backend, por si algún día se sirve desde
+# el mismo dominio.
+Disallow: /uploads/
+
+Allow: /
+
+# Ubicación del mapa del sitio. CAMBIAR por el dominio real al desplegar.
+Sitemap: https://digikal.mineduc.gob.gt/sitemap.xml

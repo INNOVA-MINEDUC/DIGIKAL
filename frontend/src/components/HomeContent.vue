@@ -1,10 +1,10 @@
 <template>
   <!-- HERO -->
   <section class="hero">
-    <img src="/banner-30.png" class="hero-bg" />
+    <img src="/banner-30.webp" class="hero-bg" />
 
     <div class="hero-content">
-      <img src="/politica.png" class="hero-img" />
+      <img src="/politica.webp" class="hero-img" />
 
       <h1>Resultados de Nuestros Esfuerzos</h1>
 
@@ -38,14 +38,14 @@
       </div>
 
       <div class="innovation-image">
-        <img src="/astro6.png" />
+        <img src="/astro6.webp" />
       </div>
     </section>
 
     <!-- DIGECADE -->
     <section class="digecade">
       <div class="digecade-media">
-        <img src="/astro7.png" />
+        <img src="/astro7.webp" />
       </div>
 
       <div class="digecade-panel">
@@ -88,17 +88,17 @@ import HomeFooter from './HomeFooter.vue'
 const sistemas = [
   {
     title: "AVi",
-    img: "/logo-digeduca.png",
+    img: "/logo-digeduca.webp",
     url: "https://avi.mineduc.edu.gt/s2/"
   },
   {
     title: "Ciudadania",
-    img: "/ciudadania.png",
+    img: "/ciudadania.webp",
     url: "https://ciudadania.mineduc.edu.gt/"
   },
   {
     title: "Cosmos",
-    img: "/astro4.png",
+    img: "/astro4.webp",
     url: "https://www.mineduc.edu.gt/"
   }
 ]

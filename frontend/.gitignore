@@ -1,0 +1,7 @@
+
+# Nota sobre assets-originales/: NO se ignora a propósito. Son las imágenes
+# originales a tamaño de impresión (hasta 7000 px), que antes vivían en public/
+# y se publicaban tal cual. Se conservan versionadas como fuente —moverlas es un
+# rename para git, así que no ocupa espacio adicional— pero ya no se sirven:
+# public/ tiene sus versiones WebP optimizadas.
+# Para regenerarlas: npm run img:optimizar -- --aplicar

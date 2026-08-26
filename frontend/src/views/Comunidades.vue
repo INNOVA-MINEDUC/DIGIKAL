@@ -1,6 +1,6 @@
 <template>
     <div class="hero-wrapper">
-    <img src="/comunities/img_1.png" class="hero-bg" alt="Fondo" />
+    <img src="/comunities/img_1.webp" class="hero-bg" alt="Fondo" />
   </div>
   <v-container class="py-10">
     <v-row class="mb-8">
@@ -154,7 +154,7 @@ const noticias = ref([
     resumen: 'Se presentan una nueva plataforma educativa totalmente gratuita y plublica con el sin de ayudar a todos los docentes que imparten clases en los grados de primaria',
     fecha: '10 de Mayo, 2024',
     categoria: 'NACIONAL',
-    imagen: '/astro2.png'
+    imagen: '/astro2.webp'
   }
 ])
 
