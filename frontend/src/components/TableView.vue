@@ -169,7 +169,7 @@ const store  = useEstablecimientosStore()
 const items  = computed(() => store.getAll)
 
 // Estado local de los filtros de la tabla, inicializado desde el store.
-const intervenida   = ref(store.filtroActual.intervenida ?? true)
+const intervenida   = ref(store.filtroActual.intervenida ?? false)
 const dotado        = ref(store.filtroActual.dotado || false)
 const conectividad  = ref(store.filtroActual.conectividad || false)
 const codigoMineduc = ref(store.filtroActual.codigoMineduc || '')
@@ -221,7 +221,7 @@ function limpiarBusqueda() {
 }
 
 function limpiarFiltros() {
-  intervenida.value = true
+  intervenida.value = false
   dotado.value = false
   conectividad.value = false
   codigoMineduc.value = ''
