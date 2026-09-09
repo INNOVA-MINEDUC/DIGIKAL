@@ -16,10 +16,23 @@ COPY . .
 #
 #   docker build --build-arg VITE_API_URL=https://api.midominio.gt ...
 #   (con docker compose, ver la sección `args` de docker-compose.prod.yml)
+#
+# OJO con la forma `ENV VITE_API_URL=$VITE_API_URL` que estaba aquí antes: si
+# el build-arg NO se pasa, deja la variable puesta como cadena VACÍA, y Vite da
+# prioridad a las VITE_* del entorno por encima de cualquier .env / .env.production.
+# Resultado: el bundle salía con la baseURL por defecto (http://localhost:3000)
+# aunque el pipeline hubiera escrito el .env.production correcto. De ahí el
+# error de CORS/loopback al abrir el sitio publicado.
 ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
 
-RUN npm run build
+RUN if [ -n "${VITE_API_URL}" ]; then \
+      echo "Construyendo con VITE_API_URL=${VITE_API_URL}"; \
+      export VITE_API_URL="${VITE_API_URL}"; \
+    else \
+      echo "AVISO: VITE_API_URL vacio. El bundle usara http://localhost:3000 (solo sirve en desarrollo local)."; \
+      unset VITE_API_URL; \
+    fi; \
+    npm run build
 
 # ETAPA 2: Producción (Security-Hardened Nginx)
 FROM nginxinc/nginx-unprivileged:stable-alpine

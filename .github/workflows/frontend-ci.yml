@@ -92,11 +92,19 @@ jobs:
             # Tag estándar por Git SHA
             type=sha,format=short
 
-      # El .env.production se crea con la URL correcta según el ambiente.
-      # COPY . . del dockerfile lo mete en la build (.env.production NO está en .dockerignore).
-      - name: Create environment file
+      # La URL del API viaja como build-arg, NO como archivo .env.production.
+      # El dockerfile declara `ENV VITE_API_URL=$VITE_API_URL`: si el build-arg
+      # no se pasa, esa variable queda como cadena VACÍA en el entorno del
+      # build y Vite le da prioridad sobre cualquier .env, así que el bundle
+      # salía apuntando al valor por defecto de helpers/api.js
+      # (http://localhost:3000). Por eso el frontend desplegado pedía
+      # http://localhost:3000 desde https://digikal.mineduc.edu.gt.
+      - name: Verificar que la URL del API está configurada
         run: |
-          echo "VITE_API_URL=${{ steps.config.outputs.API_URL }}" > ./frontend/.env.production
+          if [ -z "${{ steps.config.outputs.API_URL }}" ]; then
+            echo "::error::Falta el secret VITE_API_URL_PROD / VITE_API_URL_DEV. Sin él el bundle apunta a http://localhost:3000."
+            exit 1
+          fi
 
       - name: Construir imagen local para escaneo
         uses: docker/build-push-action@v5
@@ -104,6 +112,8 @@ jobs:
           context: ./frontend
           file: ./frontend/dockerfile
           load: true
+          build-args: |
+            VITE_API_URL=${{ steps.config.outputs.API_URL }}
           tags: local-scan:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -138,6 +148,8 @@ jobs:
           context: ./frontend
           file: ./frontend/dockerfile
           push: true
+          build-args: |
+            VITE_API_URL=${{ steps.config.outputs.API_URL }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
