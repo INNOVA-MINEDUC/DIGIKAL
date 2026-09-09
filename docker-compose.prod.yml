@@ -1,0 +1,86 @@
+# Stack de PRODUCCIÓN. Es un archivo COMPLETO, no una sobrecapa:
+#
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# Va aparte y completo a propósito. Se intentó primero como sobrecapa
+# (`-f docker-compose.yml -f docker-compose.prod.yml`) y no sirve: Compose
+# FUSIONA las listas de `volumes` en vez de reemplazarlas, así que un
+# `volumes: []` no quita los bind-mounts del compose de desarrollo y el
+# contenedor seguiría ejecutando el código del disco del servidor en lugar de
+# la imagen construida y probada.
+#
+# Diferencias con docker-compose.yml (que es de DESARROLLO):
+#   - Sin bind-mounts del código: corre lo que se construyó.
+#   - El frontend lo sirve nginx desde el build estático (etapa 2 de su
+#     Dockerfile) en el 8080, no el servidor de Vite en el 5173. Ahí es donde
+#     está el arreglo del 403 al refrescar rutas públicas.
+#   - NODE_ENV=production y restart: always.
+#
+# ANTES de levantar, en el servidor deben existir:
+#
+#   1. backend/.env  — con TODAS sus variables (ver backend/.env.example). No
+#      viaja dentro de la imagen (.dockerignore), así que tiene que estar en el
+#      servidor. Ojo con dos cosas:
+#        · DB_PASSWORD real: config/env.js se niega a arrancar con una
+#          contraseña por defecto ("root", "admin"…) cuando NODE_ENV=production.
+#        · TABLETS_DB_* (las cuatro) si se quiere el servicio de Ciudadanía
+#          Digikal. Sin ellas el backend arranca igual, avisa en el log y esas
+#          rutas responden 503.
+#
+#   2. .env en la raíz — con DB_ROOT_PASSWORD, DB_USER, DB_PASSWORD, DB_NAME
+#      y VITE_API_URL (ver .env.example).
+
+services:
+  backend:
+    build: ./backend
+    container_name: backend_app
+    ports:
+      - "${BACKEND_PORT:-3000}:3000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Vite INCRUSTA esto en el bundle durante el build; no sirve pasarlo
+        # como variable del contenedor (ver el Dockerfile del frontend). Si
+        # falta, el bundle sale apuntando a http://localhost:3000, que en el
+        # navegador de un visitante es su propia máquina.
+        VITE_API_URL: ${VITE_API_URL:?defina VITE_API_URL con la URL pública del API}
+    container_name: frontend_app
+    ports:
+      - "${FRONTEND_PORT:-8080}:8080"
+    depends_on:
+      - backend
+    restart: always
+
+  db:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?defina DB_ROOT_PASSWORD en el .env de la raíz}
+      MYSQL_DATABASE: ${DB_NAME:-innova_spa}
+      MYSQL_USER: ${DB_USER:?defina DB_USER en el .env de la raíz}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?defina DB_PASSWORD en el .env de la raíz}
+    # Sin `ports`: la base sólo se alcanza por la red interna de Docker
+    # (DB_HOST=db). Publicarla en un servidor con IP pública sería entregar la
+    # base entera a Internet.
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  db_data:
