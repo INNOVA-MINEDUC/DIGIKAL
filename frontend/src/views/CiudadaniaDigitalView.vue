@@ -9,7 +9,7 @@
           Ciudadanía Digikal
         </h1>
         <p class="text-body-2 text-grey-darken-1 mb-0">
-          Tablets y conectividad para estudiantes de cuarto año y docentes, financiadas por las
+          Tabletas y conectividad para estudiantes de cuarto año y docentes, financiadas por las
           Organizaciones de Padres de Familia (OPF) — Acuerdos Ministeriales 2066-2026 y 2067-2026.
         </p>
       </div>
@@ -17,7 +17,7 @@
       <div class="cabecera__acciones">
         <div class="hero-montos">
           <div class="hero-montos__item">
-            <span>Tablet</span>
+            <span>Tableta</span>
             <strong>Q2,000</strong>
           </div>
           <div class="hero-montos__item">
@@ -108,7 +108,7 @@
                 <v-alert v-else type="warning" variant="tonal" density="comfortable" icon="mdi-close-octagon-outline">
                   <div class="font-weight-bold">No pertenece a Ciudadanía Digikal</div>
                   <div class="text-body-2">
-                    No hay ninguna tablet con el número de serie
+                    No hay ninguna tableta con el número de serie
                     «<strong>{{ ultimaSerieBuscada }}</strong>» registrada en este servicio.
                   </div>
                 </v-alert>
@@ -213,13 +213,13 @@
       <v-col cols="12" sm="4">
         <v-card class="pa-4 text-center" rounded="xl" elevation="2">
           <div class="text-h4 font-weight-black" style="color:#003366;">{{ resumen.totalTablets }}</div>
-          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Tablets registradas</div>
+          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Tabletas registradas</div>
         </v-card>
       </v-col>
       <v-col cols="12" sm="4">
         <v-card class="pa-4 text-center" rounded="xl" elevation="2">
           <div class="text-h4 font-weight-black" style="color:#0094D3;">{{ resumen.totalEstablecimientos }}</div>
-          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Establecimientos con tablets</div>
+          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Establecimientos con tabletas</div>
         </v-card>
       </v-col>
       <v-col cols="12" sm="4">
@@ -228,7 +228,7 @@
             {{ resumen.departamentoTop?.departamento || '—' }}
           </div>
           <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">
-            Departamento con más tablets
+            Departamento con más tabletas
             <span v-if="resumen.departamentoTop"> ({{ resumen.departamentoTop.cantidad }})</span>
           </div>
         </v-card>
@@ -253,11 +253,11 @@
         <v-card rounded="xl" elevation="2" class="pa-4 ranking-card">
           <h3 class="text-subtitle-1 font-weight-bold mb-3" style="color:#003366;">
             <v-icon size="20" class="mr-1">mdi-podium</v-icon>
-            Departamentos con más tablets
+            Departamentos con más tabletas
           </h3>
 
           <div v-if="!resumen.porDepartamento.length" class="text-body-2 text-grey py-6 text-center">
-            Aún no hay tablets registradas.
+            Aún no hay tabletas registradas.
           </div>
 
           <div v-else class="ranking-lista">
@@ -301,7 +301,7 @@
         <v-expansion-panel elevation="0">
           <v-expansion-panel-title class="font-weight-bold">
             <v-icon size="20" class="mr-2" color="#003366">mdi-tablet-cellphone</v-icon>
-            Especificaciones técnicas de la tablet
+            Especificaciones técnicas de la tableta
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <v-row dense>
@@ -369,7 +369,7 @@
               Antes de aceptar el equipo o el servicio, confirme cada punto con el proveedor:
             </p>
             <div class="verificacion-lista mb-4">
-              <div class="verificacion-lista__titulo">Dispositivo (tablet)</div>
+              <div class="verificacion-lista__titulo">Dispositivo (tableta)</div>
               <div v-for="c in verificacionTablet" :key="c" class="verificacion-fila">
                 <v-icon size="16" color="#1b7a43">mdi-checkbox-blank-outline</v-icon>
                 <span>{{ c }}</span>
@@ -710,7 +710,7 @@ const appResultadoSerie = (serie, resultado) => {
           </div>
         </div>
         <p class="nota">
-          No hay ninguna tablet con este número de serie registrada en el servicio, así que
+          No hay ninguna tableta con este número de serie registrada en el servicio, así que
           no se le puede asignar ningún establecimiento. Verifique que el número esté completo
           y tal como aparece en la etiqueta del equipo o en su caja.
         </p>`,
@@ -766,14 +766,14 @@ const appResultadoSerie = (serie, resultado) => {
 const appResultadosEstablecimiento = (consulta, lista) => {
   if (!lista?.length) {
     return paginaTablet({
-      titulo: 'Tablets por establecimiento',
+      titulo: 'Tabletas por establecimiento',
       subtitulo: `Búsqueda: ${consulta}`,
       cuerpo: `
         <div class="vacio">
           <div class="vacio__icono">&#128269;</div>
-          <div class="vacio__titulo">No hay establecimientos con tablets</div>
+          <div class="vacio__titulo">No hay establecimientos con tabletas</div>
           <p>
-            Ningún establecimiento que coincida con «${escaparHtml(consulta)}» tiene tablets
+            Ningún establecimiento que coincida con «${escaparHtml(consulta)}» tiene tabletas
             registradas en Ciudadanía Digikal. Pruebe con el código UDI completo o con parte
             del nombre oficial del centro educativo.
           </p>
@@ -798,7 +798,7 @@ const appResultadosEstablecimiento = (consulta, lista) => {
     </tr>`).join('')
 
   return paginaTablet({
-    titulo: 'Tablets por establecimiento',
+    titulo: 'Tabletas por establecimiento',
     subtitulo: `Búsqueda: ${consulta}`,
     cuerpo: `
       <div class="resumen">
@@ -808,15 +808,15 @@ const appResultadosEstablecimiento = (consulta, lista) => {
         </div>
         <div class="resumen__dato">
           <b>${totalEstudiantes}</b>
-          <span>${totalEstudiantes === 1 ? 'Estudiante con tablet' : 'Estudiantes con tablet'}</span>
+          <span>${totalEstudiantes === 1 ? 'Estudiante con tableta' : 'Estudiantes con tabletas'}</span>
         </div>
         <div class="resumen__dato">
           <b>${totalDocentes}</b>
-          <span>${totalDocentes === 1 ? 'Docente con tablet' : 'Docentes con tablet'}</span>
+          <span>${totalDocentes === 1 ? 'Docente con tableta' : 'Docentes con tabletas'}</span>
         </div>
         <div class="resumen__dato">
           <b>${totalTablets}</b>
-          <span>${totalTablets === 1 ? 'Tablet en total' : 'Tablets en total'}</span>
+          <span>${totalTablets === 1 ? 'Tableta en total' : 'Tabletas en total'}</span>
         </div>
       </div>
       <table>
@@ -904,7 +904,7 @@ const buscarPorEstablecimiento = async () => {
     // La tabla (o el aviso de que no hay ninguno) se muestra en la tablet.
     tabletRef.value?.mostrarApp({
       html: appResultadosEstablecimiento(q, data.resultados),
-      nombre: 'Tablets por establecimiento',
+      nombre: 'Tabletas por establecimiento',
     })
   } catch (error) {
     Swal.fire('Error', error.response?.data?.message || 'No se pudo realizar la búsqueda', 'error')
