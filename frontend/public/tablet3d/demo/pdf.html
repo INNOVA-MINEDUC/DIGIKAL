@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Visor PDF</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body {
+    background: #14171d;
+    color: #e6ebf4;
+    font: 26px/1.45 "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #doc {
+    min-height: 100%;
+    padding: 26px 22px 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .hoja {
+    position: relative;
+    width: 100%;
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .5);
+  }
+  .hoja canvas { display: block; width: 100%; height: auto; }
+
+  .hoja::after {                       /* marca de agua mientras no esta pintada */
+    content: attr(data-n);
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #b9c2d0;
+    font-size: 34px;
+    opacity: 0;
+  }
+  .hoja[data-state=""]::after { opacity: 1; }
+
+  #hud {
+    position: fixed;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%);
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: rgba(12, 15, 20, .82);
+    border: 1px solid rgba(255, 255, 255, .12);
+    color: #cfd8e6;
+    font-size: 24px;
+    letter-spacing: .02em;
+    backdrop-filter: blur(8px);
+    white-space: nowrap;
+  }
+
+  #aviso {
+    margin: auto;
+    padding: 60px 40px;
+    text-align: center;
+    color: #9aa5b8;
+    max-width: 80%;
+  }
+  #aviso b { color: #e6ebf4; display: block; margin-bottom: 14px; font-size: 32px; }
+</style>
+</head>
+<body>
+
+<div id="doc"></div>
+<div id="hud">Abriendo documento…</div>
+
+<script type="module">
+import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+
+const doc  = document.getElementById('doc');
+const hud  = document.getElementById('hud');
+const qs   = new URLSearchParams(location.search);
+
+const SOBRE = 1.6;        // sobremuestreo: el panel se ve pequeño en 3D pero se hace zoom
+const MAX_PX = 2200;      // tope de ancho del canvas, para no dispararnos de memoria
+
+let pdf = null;
+let hojas = [];
+let actual = 1;
+
+function aviso(titulo, detalle) {
+  doc.innerHTML = '';
+  const d = document.createElement('div');
+  d.id = 'aviso';
+  d.innerHTML = '<b></b><span></span>';
+  d.querySelector('b').textContent = titulo;
+  d.querySelector('span').textContent = detalle || '';
+  doc.appendChild(d);
+  hud.style.display = 'none';
+}
+
+const avisar = msg => { try { parent.postMessage(msg, '*'); } catch (e) {} };
+
+async function abrir(origen, nombre) {
+  try {
+    hud.style.display = '';
+    hud.textContent = 'Abriendo documento…';
+    pdf = await pdfjsLib.getDocument(origen).promise;
+  } catch (e) {
+    aviso('No se pudo abrir el PDF', String(e && e.message || e));
+    avisar({ type: 'pdf-error', message: String(e && e.message || e) });
+    return;
+  }
+
+  observador.disconnect();                         // por si ya habia otro documento
+  doc.innerHTML = '';
+  hojas = [];
+
+  // Se crean todas las hojas de golpe, con su proporcion real: el documento
+  // entero existe y la barra de desplazamiento ya mide lo que debe.
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const vp = page.getViewport({ scale: 1 });
+    const hoja = document.createElement('div');
+    hoja.className = 'hoja';
+    hoja.style.aspectRatio = vp.width + ' / ' + vp.height;
+    hoja.dataset.state = '';
+    hoja.dataset.n = i + ' / ' + pdf.numPages;
+    hoja.dataset.i = i;
+    doc.appendChild(hoja);
+    hojas.push(hoja);
+    page.cleanup();
+  }
+
+  hud.textContent = '1 / ' + pdf.numPages;
+  avisar({ type: 'pdf-ready', pages: pdf.numPages, name: nombre || '' });
+
+  hojas.forEach(h => observador.observe(h));
+  marcarPagina();
+}
+
+// Se pinta solo lo que esta cerca de la vista y se libera lo que se aleja:
+// asi un PDF de cien paginas no se come la memoria.
+const observador = new IntersectionObserver(entradas => {
+  for (const e of entradas) {
+    if (e.isIntersecting) pintar(e.target);
+    else soltar(e.target);
+  }
+}, { rootMargin: '250% 0px' });
+
+async function pintar(hoja) {
+  if (hoja.dataset.state) return;                 // ya pintada o pintandose
+  hoja.dataset.state = 'pintando';
+  try {
+    const page = await pdf.getPage(+hoja.dataset.i);
+    const base = page.getViewport({ scale: 1 });
+    const ancho = Math.min((hoja.clientWidth || 1000) * SOBRE, MAX_PX);
+    const vp = page.getViewport({ scale: ancho / base.width });
+
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(vp.width);
+    canvas.height = Math.round(vp.height);
+
+    await page.render({ canvasContext: canvas.getContext('2d', { alpha: false }), viewport: vp }).promise;
+
+    hoja.replaceChildren(canvas);
+    hoja.dataset.state = 'lista';
+    page.cleanup();
+  } catch (e) {
+    hoja.dataset.state = '';
+  }
+}
+
+function soltar(hoja) {
+  if (hoja.dataset.state !== 'lista') return;
+  hoja.replaceChildren();                          // suelta el canvas: memoria libre
+  hoja.dataset.state = '';
+}
+
+function marcarPagina() {
+  if (!hojas.length) return;
+  const centro = innerHeight / 2;
+  let mejor = 1, dist = Infinity;
+  for (const h of hojas) {
+    const r = h.getBoundingClientRect();
+    const d = Math.abs(r.top + r.height / 2 - centro);
+    if (d < dist) { dist = d; mejor = +h.dataset.i; }
+  }
+  if (mejor !== actual) {
+    actual = mejor;
+    hud.textContent = actual + ' / ' + pdf.numPages;
+    avisar({ type: 'pdf-page', page: actual, pages: pdf.numPages });
+  }
+}
+
+let pendiente = false;
+addEventListener('scroll', () => {
+  if (pendiente) return;
+  pendiente = true;
+  requestAnimationFrame(() => { pendiente = false; marcarPagina(); });
+}, { passive: true });
+
+// Ordenes desde la tablet (la rueda del raton y los botones de pagina)
+addEventListener('message', e => {
+  const m = e.data;
+  if (!m || typeof m !== 'object') return;
+
+  if (m.type === 'pdf-scroll') scrollBy({ top: m.dy, behavior: 'instant' });
+
+  if (m.type === 'pdf-goto' && pdf) {
+    const n = Math.min(Math.max(1, m.page), pdf.numPages);
+    const h = hojas[n - 1];
+    if (h) scrollTo({ top: h.offsetTop - 26, behavior: m.smooth === false ? 'instant' : 'smooth' });
+  }
+
+  if (m.type === 'pdf-data') abrir({ data: m.data }, m.name);
+});
+
+const archivo = qs.get('file');
+if (archivo) abrir(archivo, qs.get('name') || archivo.split('/').pop());
+else aviso('Sin documento', 'Elige un PDF en el panel de la tablet.');
+</script>
+</body>
+</html>

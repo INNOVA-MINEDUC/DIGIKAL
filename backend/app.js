@@ -21,6 +21,7 @@ import roleRoutes from './routes/roles.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
 import auditRoutes from './routes/audit.routes.js';
 import estadisticasRoutes from './routes/estadisticas.routes.js';
+import ciudadaniaRoutes from './routes/ciudadania.routes.js';
 import "./models/Relations.js";
 import logger from './utils/logger.js';
 
@@ -122,6 +123,7 @@ app.use('/uploads', express.static(path.resolve('uploads'), {
 app.use('/api/v1/auth', loginRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);       // el detalle de escuela, dentro, sí pide token
 app.use('/api/v1/estadisticas', estadisticasRoutes);
+app.use('/api/v1/ciudadania', ciudadaniaRoutes);     // consulta pública; registrar/editar/eliminar, dentro, sí piden token
 
 
 /* ═══════════════════════════════════════════════════════════════════════════

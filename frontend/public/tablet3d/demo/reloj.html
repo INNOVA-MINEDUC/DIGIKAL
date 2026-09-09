@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Reloj</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    height: 100vh;
+    background: radial-gradient(80% 55% at 50% 18%, #24304a 0%, #0a0d14 70%);
+    color: #eaf0fb;
+    font: 30px/1.4 "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 44px;
+    overflow: hidden;
+  }
+  .hora {
+    font-size: 190px;
+    font-weight: 200;
+    letter-spacing: -.05em;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 70px rgba(120,180,255,.35);
+  }
+  .hora small { font-size: 70px; font-weight: 300; opacity: .55; margin-left: 10px; }
+  .fecha { font-size: 34px; color: #93a4c4; text-transform: capitalize; }
+
+  .clima {
+    margin-top: 20px;
+    display: flex;
+    gap: 26px;
+    padding: 30px 40px;
+    border-radius: 30px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+    backdrop-filter: blur(10px);
+    align-items: center;
+  }
+  .temp { font-size: 72px; font-weight: 300; }
+  .clima div span { display: block; color: #93a4c4; font-size: 25px; }
+
+  svg { display: block; }
+  .anillo { transform: rotate(-90deg); }
+  .anillo circle { fill: none; stroke-linecap: round; }
+  .pista { stroke: rgba(255,255,255,.09); }
+  .prog { stroke: #5aa9ff; transition: stroke-dashoffset .5s linear; filter: drop-shadow(0 0 14px rgba(90,169,255,.6)); }
+</style>
+</head>
+<body>
+
+  <svg class="anillo" width="260" height="260" viewBox="0 0 260 260">
+    <circle class="pista" cx="130" cy="130" r="116" stroke-width="10" />
+    <circle class="prog" id="prog" cx="130" cy="130" r="116" stroke-width="10"
+            stroke-dasharray="729" stroke-dashoffset="729" />
+  </svg>
+
+  <div>
+    <div class="hora" id="hora">--:--<small id="seg">00</small></div>
+    <div class="fecha" id="fecha" style="text-align:center"></div>
+  </div>
+
+  <div class="clima">
+    <svg width="76" height="76" viewBox="0 0 24 24" fill="none" stroke="#ffd27a" stroke-width="1.6">
+      <circle cx="12" cy="12" r="4.2" />
+      <path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"
+            stroke-linecap="round" />
+    </svg>
+    <div class="temp">21°</div>
+    <div>Ciudad de Guatemala<span>Despejado · máx 26° / mín 17°</span></div>
+  </div>
+
+<script>
+  const R = 116, C = 2 * Math.PI * R;
+  const prog = document.getElementById('prog');
+  prog.setAttribute('stroke-dasharray', C);
+
+  function tick() {
+    const d = new Date();
+    document.getElementById('hora').firstChild.nodeValue =
+      String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    document.getElementById('seg').textContent = String(d.getSeconds()).padStart(2, '0');
+    document.getElementById('fecha').textContent =
+      d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+    prog.setAttribute('stroke-dashoffset', C * (1 - d.getSeconds() / 60));
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>

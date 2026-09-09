@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Verificación</title>
+<link rel="stylesheet" href="app.css" />
+<style>
+  :root { --acento: #0ea5b7; --acento2: #076b7d; }
+
+  .resumen {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    padding: 20px 30px 18px;
+    background: var(--fondo);
+    border-bottom: 1px solid var(--linea);
+  }
+  .barra {
+    height: 16px;
+    border-radius: 999px;
+    background: #e2e8f0;
+    overflow: hidden;
+  }
+  .barra i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #22c1d6, #0e8f63); transition: width .35s; }
+  .cuenta { display: flex; justify-content: space-between; margin-top: 12px; font-size: 23px; color: var(--suave); }
+  .cuenta b { color: var(--tinta); }
+  .cuenta .fallos { color: var(--no); font-weight: 600; }
+
+  .crit {
+    background: var(--tarjeta);
+    border: 1px solid var(--linea);
+    border-left: 8px solid var(--linea);
+    border-radius: 18px;
+    padding: 22px 24px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .crit.si { border-left-color: var(--ok);  background: #f4fcf8; }
+  .crit.no { border-left-color: var(--no);  background: #fdf5f4; }
+  .crit .txt { flex: 1; font-size: 25px; line-height: 1.4; }
+  .crit .botones { flex: none; display: flex; gap: 10px; }
+  .crit button {
+    width: 96px;
+    padding: 14px 0;
+    font: inherit;
+    font-size: 22px;
+    font-weight: 600;
+    border-radius: 14px;
+    border: 2px solid var(--linea);
+    background: #fff;
+    color: var(--suave);
+    cursor: pointer;
+  }
+  .crit button.on-si { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .crit button.on-no { background: var(--no); border-color: var(--no); color: #fff; }
+
+  .campos { display: flex; flex-direction: column; gap: 16px; }
+  .campo label { display: block; font-size: 22px; color: var(--suave); margin-bottom: 8px; }
+  .campo input {
+    width: 100%;
+    padding: 16px 20px;
+    font: inherit;
+    font-size: 25px;
+    color: var(--tinta);
+    background: #fff;
+    border: 2px solid var(--linea);
+    border-radius: 16px;
+    outline: none;
+  }
+  .campo input:focus { border-color: var(--acento); }
+
+  .acciones { display: flex; gap: 14px; }
+  .acciones button {
+    flex: 1;
+    padding: 20px;
+    font: inherit;
+    font-size: 24px;
+    font-weight: 600;
+    border-radius: 18px;
+    border: 2px solid var(--linea);
+    background: #fff;
+    color: var(--suave);
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="eyebrow">Acuerdos Ministeriales 2066-2026 y 2067-2026</div>
+  <h1>Verificación del proveedor</h1>
+  <p>Marque cada criterio al momento de recibir los equipos y el servicio. Lo marcado se guarda
+     en la tablet.</p>
+  <a class="fuente" href="pdf.html?file=..%2Fpdfs%2FVerificacion%20de%20cumplimiento%20de%20proveedores%20para%20OPF.pdf&name=Verificacion%20de%20cumplimiento%20de%20proveedores%20para%20OPF.pdf">
+    Ver el documento original
+  </a>
+</header>
+
+<div class="resumen">
+  <div class="barra"><i id="progreso"></i></div>
+  <div class="cuenta">
+    <span><b id="hechos">0</b> de <b id="total">19</b> criterios revisados</span>
+    <span class="fallos" id="fallos"></span>
+  </div>
+</div>
+
+<main>
+  <h2 class="seccion">Dispositivo móvil tipo tableta</h2>
+  <div id="lista-equipo" style="display:flex;flex-direction:column;gap:14px"></div>
+
+  <div class="tarjeta campos">
+    <div class="campo"><label>Cantidad de equipos entregados</label><input data-c="eq-cantidad" /></div>
+    <div class="campo"><label>Marca</label><input data-c="eq-marca" /></div>
+    <div class="campo"><label>Modelo</label><input data-c="eq-modelo" /></div>
+    <div class="campo"><label>Nombre del proveedor</label><input data-c="eq-proveedor" /></div>
+    <div class="campo"><label>Número de contacto para garantía</label><input data-c="eq-contacto" /></div>
+  </div>
+
+  <h2 class="seccion">Servicio de conectividad a internet</h2>
+  <div id="lista-internet" style="display:flex;flex-direction:column;gap:14px"></div>
+
+  <div class="tarjeta campos">
+    <div class="campo"><label>Cantidad de servicios entregados</label><input data-c="in-cantidad" /></div>
+    <div class="campo"><label>Nombre del proveedor</label><input data-c="in-proveedor" /></div>
+    <div class="campo"><label>Número de contacto para soporte técnico</label><input data-c="in-contacto" /></div>
+  </div>
+
+  <div class="acciones">
+    <button id="limpiar">Limpiar todo</button>
+  </div>
+</main>
+
+<footer class="pie">Recursos Educativos Tecnológicos · Verificación de cumplimiento de proveedores</footer>
+
+<script>
+const EQUIPO = [
+  'El valor del equipo no supera los Q2,000.00.',
+  'El equipo cuenta con una pantalla de entre 10 y 11 pulgadas, con una resolución mínima de 1920 x 1200 píxeles.',
+  'Procesador de 8 núcleos o superior.',
+  'Memoria RAM mínima de 4 GB.',
+  'Almacenamiento interno mínimo de 64 GB.',
+  'El equipo incluye una ranura física para tarjeta inteligente (SIM Card / Chip).',
+  'El equipo cuenta con un sistema operativo instalado de fábrica (versión lanzada en el año 2023 o más reciente).',
+  'Incluye un estuche protector a la medida exacta del dispositivo.',
+  'Incluye un teclado físico compatible.',
+  'Batería recargable integrada con una capacidad mínima de 5,100 mAh.',
+  'Incluye garantía mínima de un año.',
+  'El equipo y sus accesorios son totalmente nuevos de fábrica y sin uso previo.',
+  'El equipo no es un teléfono celular (smartphone).'
+];
+
+const INTERNET = [
+  'El costo total del servicio de internet por los 12 meses no supera los Q600.00.',
+  'El servicio ofrecido no expira ni se cancela antes de cumplir los 12 meses de vigencia.',
+  'El proveedor entrega una tarjeta SIM física para ser insertada en la ranura del dispositivo digital (no es formato virtual eSIM).',
+  'El proveedor seleccionado cuenta con buena cobertura en mi comunidad.',
+  'El servicio de internet ofrecido es diferenciado y está enfocado en la navegación hacia portales educativos oficiales.',
+  'Los servicios móviles contratados estarán registrados a nombre del padre, madre o tutor legal de cada estudiante o docente.'
+];
+
+const CLAVE = 'opf.verificacion';
+let estado = {};
+try { estado = JSON.parse(localStorage.getItem(CLAVE) || '{}'); } catch (e) { estado = {}; }
+
+const guardar = () => { try { localStorage.setItem(CLAVE, JSON.stringify(estado)); } catch (e) {} };
+
+function pintar(lista, textos, prefijo) {
+  const cont = document.getElementById(lista);
+  cont.innerHTML = '';
+  textos.forEach((t, i) => {
+    const id = prefijo + i;
+    const fila = document.createElement('div');
+    fila.className = 'crit';
+    fila.innerHTML = '<div class="txt"></div><div class="botones">' +
+      '<button data-v="si">Sí</button><button data-v="no">No</button></div>';
+    fila.querySelector('.txt').textContent = t;
+
+    const [bsi, bno] = fila.querySelectorAll('button');
+    const refrescar = () => {
+      const v = estado[id];
+      fila.classList.toggle('si', v === 'si');
+      fila.classList.toggle('no', v === 'no');
+      bsi.classList.toggle('on-si', v === 'si');
+      bno.classList.toggle('on-no', v === 'no');
+    };
+    const marcar = v => { estado[id] = estado[id] === v ? undefined : v; guardar(); refrescar(); resumen(); };
+    bsi.onclick = () => marcar('si');
+    bno.onclick = () => marcar('no');
+
+    refrescar();
+    cont.appendChild(fila);
+  });
+}
+
+function resumen() {
+  const ids = [...EQUIPO.map((_, i) => 'eq' + i), ...INTERNET.map((_, i) => 'in' + i)];
+  const hechos = ids.filter(i => estado[i]).length;
+  const fallos = ids.filter(i => estado[i] === 'no').length;
+  document.getElementById('hechos').textContent = hechos;
+  document.getElementById('total').textContent = ids.length;
+  document.getElementById('progreso').style.width = (hechos / ids.length * 100) + '%';
+  document.getElementById('fallos').textContent = fallos ? fallos + (fallos === 1 ? ' incumplimiento' : ' incumplimientos') : '';
+}
+
+pintar('lista-equipo', EQUIPO, 'eq');
+pintar('lista-internet', INTERNET, 'in');
+resumen();
+
+document.querySelectorAll('input[data-c]').forEach(inp => {
+  inp.value = estado[inp.dataset.c] || '';
+  inp.oninput = () => { estado[inp.dataset.c] = inp.value; guardar(); };
+});
+
+document.getElementById('limpiar').onclick = () => {
+  estado = {};
+  guardar();
+  pintar('lista-equipo', EQUIPO, 'eq');
+  pintar('lista-internet', INTERNET, 'in');
+  document.querySelectorAll('input[data-c]').forEach(i => (i.value = ''));
+  resumen();
+};
+</script>
+</body>
+</html>

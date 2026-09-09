@@ -177,10 +177,14 @@ const busqueda      = ref(store.filtroActual.busqueda || '')
 
 const headers = [
   { title: '#',                  key: 'correlativo',           sortable: false, width: 56 },
-  { title: 'Establecimiento',    key: 'nombreEscuela',         sortable: true  },
-  { title: 'Código del Establecimiento',     key: 'codigoEscuela',         sortable: false },
-  { title: 'Departamento',       key: 'departamento.nombre',   sortable: true  },
-  { title: 'Municipio',          key: 'municipio.nombre',      sortable: true  },
+  // width fijo para que el nombre envuelva en un ancho predecible en vez de
+  // estirar la columna a lo que mida el establecimiento más largo (ver CSS
+  // de .tabla-datos: ya no es nowrap, así que esta columna es la que crece
+  // en alto, no en ancho).
+  { title: 'Establecimiento',    key: 'nombreEscuela',         sortable: true, width: 280 },
+  { title: 'Código del Establecimiento',     key: 'codigoEscuela',         sortable: false, width: 150 },
+  { title: 'Departamento',       key: 'departamento.nombre',   sortable: true, width: 150 },
+  { title: 'Municipio',          key: 'municipio.nombre',      sortable: true, width: 150 },
   { title: 'Conectividad',       key: 'poseeConectividad',     sortable: true  },
   { title: 'Dotación',           key: 'dotado',                sortable: true  },
   { title: 'Estudiantes beneficiados', key: 'inscritos2026',   sortable: true  },
@@ -282,7 +286,8 @@ function onOptions({ page, itemsPerPage }) {
 
 
 /* La tabla ancha (10 columnas) hace scroll horizontal adentro de la tarjeta,
-   no rompe el ancho de la página. */
+   como salida en pantallas muy angostas; ya no depende de él para que un
+   nombre largo se vea completo (eso lo resuelve el wrap de abajo). */
 .tabla-datos {
   font-size: 13px;
 }
@@ -291,10 +296,23 @@ function onOptions({ page, itemsPerPage }) {
   overflow-x: auto;
 }
 
-/* Filas y celdas más compactas */
+/* Filas y celdas más compactas.
+   Antes white-space:nowrap obligaba a un establecimiento con nombre largo a
+   quedar en una sola línea, cortado o empujando scroll horizontal. Con
+   normal + break-word el texto envuelve dentro de su columna y la fila crece
+   hacia abajo: el nombre siempre se lee completo. */
 .tabla-datos :deep(td),
 .tabla-datos :deep(th) {
-  padding: 0 10px !important;
+  padding: 6px 10px !important;
+  white-space: normal;
+  overflow-wrap: break-word;
+  vertical-align: middle;
+}
+
+/* Los chips (Conectividad, Dotación) y los botones no deben partirse en dos
+   líneas: son cortos y verse envueltos sólo se vería raro. */
+.tabla-datos :deep(td) .v-chip,
+.tabla-datos :deep(td) .v-btn {
   white-space: nowrap;
 }
 

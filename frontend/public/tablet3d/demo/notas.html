@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Notas</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    height: 100vh;
+    background: #fdfaf3;
+    color: #23201b;
+    font: 30px/1.55 Georgia, "Times New Roman", serif;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  header {
+    padding: 40px 46px 26px;
+    border-bottom: 2px solid #e8e0cf;
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+  }
+  header h1 { font-size: 46px; letter-spacing: -.01em; }
+  header time { margin-left: auto; font-size: 24px; color: #9a917f; font-family: "Segoe UI", sans-serif; }
+
+  .sheet {
+    flex: 1;
+    padding: 34px 46px;
+    overflow-y: auto;
+    background-image: repeating-linear-gradient(#fdfaf3 0 62px, #ece4d3 62px 64px);
+    background-attachment: local;
+  }
+  p { margin-bottom: 30px; }
+  mark { background: #ffe9a8; padding: 0 6px; border-radius: 4px; }
+  ul { margin: 0 0 30px 34px; }
+  li { margin-bottom: 12px; }
+
+  .editor {
+    padding: 26px 46px 34px;
+    border-top: 2px solid #e8e0cf;
+    background: #f7f2e6;
+    font-family: "Segoe UI", system-ui, sans-serif;
+  }
+  .editor small { color: #9a917f; font-size: 22px; }
+  textarea {
+    width: 100%;
+    height: 150px;
+    margin-top: 12px;
+    padding: 18px 20px;
+    font: 26px/1.5 "Segoe UI", system-ui, sans-serif;
+    color: #23201b;
+    background: #fff;
+    border: 2px solid #e0d7c4;
+    border-radius: 16px;
+    resize: none;
+    outline: none;
+  }
+  textarea:focus { border-color: #c9a227; }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1>Cuaderno</h1>
+    <time id="fecha"></time>
+  </header>
+
+  <div class="sheet">
+    <p>La pantalla que estás viendo no es una textura: es un <mark>iframe real</mark> colocado en el espacio 3D con <em>CSS3DRenderer</em>.</p>
+    <p>El canvas de WebGL se dibuja encima con fondo transparente, y sobre el área del panel hay un plano con <em>blending: NoBlending</em> y opacidad 0 que recorta un agujero exacto en la imagen. Por eso el HTML se ve nítido y sigue siendo interactivo.</p>
+    <ul>
+      <li>Puedes seleccionar este texto.</li>
+      <li>Puedes escribir abajo, con la tablet girada.</li>
+      <li>Los enlaces y formularios funcionan igual.</li>
+    </ul>
+    <p>Prueba a girar la tablet: cuando la pantalla queda de espaldas, el contenido desaparece detrás del chasis de aluminio.</p>
+  </div>
+
+  <div class="editor">
+    <small>Escribe aquí para comprobar que el teclado llega a la pantalla:</small>
+    <textarea placeholder="Hola desde dentro de la tablet…"></textarea>
+  </div>
+
+<script>
+  document.getElementById('fecha').textContent =
+    new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+</script>
+</body>
+</html>
