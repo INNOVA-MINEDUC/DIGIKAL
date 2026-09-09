@@ -238,7 +238,13 @@ th,
 td {
   padding: 9px 12px;
   text-align: left;
-  white-space: nowrap;
+  /* Antes era nowrap: un nombre largo (de institución, departamento, etc.)
+     forzaba scroll horizontal o quedaba cortado. Con normal + break-word el
+     texto se envuelve dentro de su columna y la fila crece hacia abajo, así
+     que el contenido siempre se ve completo. */
+  white-space: normal;
+  word-break: break-word;
+  vertical-align: top;
   border-bottom: 1px solid #e1e0d9;
 }
 
@@ -261,6 +267,13 @@ th button {
 .col-num,
 .col-num button {
   text-align: right;
+}
+
+/* Ancho mínimo para que un número corto no obligue a su columna a
+   encogerse tanto que cualquier valor con más dígitos ya tenga que envolver. */
+th.col-num,
+td.col-num {
+  min-width: 72px;
 }
 
 td.col-num {

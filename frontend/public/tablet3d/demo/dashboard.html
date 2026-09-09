@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Panel</title>
+<style>
+  :root {
+    --bg: #0f1218;
+    --card: #171c25;
+    --line: rgba(255,255,255,.08);
+    --ink: #eef2f8;
+    --muted: #8c98ad;
+    --a: #5aa9ff;
+    --b: #6ee7b7;
+    --c: #fbbf6e;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    height: 100vh;
+    padding: 46px 44px 40px;
+    background:
+      radial-gradient(90% 60% at 85% 0%, rgba(90,169,255,.20), transparent 60%),
+      radial-gradient(70% 50% at 0% 100%, rgba(110,231,183,.12), transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font: 28px/1.45 "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    overflow: hidden;
+  }
+
+  .status { display: flex; justify-content: space-between; font-size: 24px; color: var(--muted); }
+  .status b { color: var(--ink); font-weight: 600; }
+
+  header h1 { font-size: 52px; font-weight: 650; letter-spacing: -.02em; }
+  header p { color: var(--muted); font-size: 26px; margin-top: 6px; }
+
+  .kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    padding: 26px 28px;
+  }
+  .card .label { font-size: 23px; color: var(--muted); }
+  .card .value { font-size: 54px; font-weight: 650; letter-spacing: -.03em; margin-top: 8px; }
+  .up { color: var(--b); font-size: 23px; }
+  .down { color: #ff8a8a; font-size: 23px; }
+
+  .chart { flex: 1; display: flex; flex-direction: column; }
+  .chart .bars { flex: 1; display: flex; align-items: flex-end; gap: 16px; margin-top: 22px; }
+  .bars i {
+    flex: 1;
+    border-radius: 10px 10px 4px 4px;
+    background: linear-gradient(180deg, var(--a), rgba(90,169,255,.25));
+    animation: grow .9s cubic-bezier(.2,.8,.2,1) backwards;
+  }
+  .bars i:nth-child(even) { background: linear-gradient(180deg, var(--b), rgba(110,231,183,.22)); }
+  @keyframes grow { from { height: 0 !important; opacity: 0; } }
+  .axis { display: flex; gap: 16px; margin-top: 12px; font-size: 20px; color: var(--muted); }
+  .axis span { flex: 1; text-align: center; }
+
+  ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  li { display: flex; align-items: center; gap: 18px; font-size: 25px; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--a); flex: none; }
+  li:nth-child(2) .dot { background: var(--c); }
+  li:nth-child(3) .dot { background: var(--b); }
+  li span { margin-left: auto; color: var(--muted); font-size: 22px; }
+  h2 { font-size: 24px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); font-weight: 600; }
+</style>
+</head>
+<body>
+
+  <div class="status">
+    <b id="clock">--:--</b>
+    <div>Wi-Fi · Bluetooth · <b id="bat">86%</b></div>
+  </div>
+
+  <header>
+    <h1>Buenos días</h1>
+    <p>Esto es HTML real dentro de la tablet 3D.</p>
+  </header>
+
+  <div class="kpis">
+    <div class="card">
+      <div class="label">Visitas hoy</div>
+      <div class="value" id="v1">0</div>
+      <div class="up">▲ 12,4 % vs ayer</div>
+    </div>
+    <div class="card">
+      <div class="label">Conversión</div>
+      <div class="value" id="v2">0%</div>
+      <div class="down">▼ 0,8 % vs ayer</div>
+    </div>
+  </div>
+
+  <div class="card chart">
+    <h2>Actividad semanal</h2>
+    <div class="bars" id="bars"></div>
+    <div class="axis">
+      <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Pendientes</h2>
+    <ul>
+      <li><i class="dot"></i> Revisar el módulo de cámaras <span>10:30</span></li>
+      <li><i class="dot"></i> Exportar el modelo a glTF <span>12:00</span></li>
+      <li><i class="dot"></i> Probar en pantalla táctil <span>16:45</span></li>
+    </ul>
+  </div>
+
+<script>
+  const bars = document.getElementById('bars');
+  [42, 66, 38, 82, 58, 94, 71].forEach((h, i) => {
+    const b = document.createElement('i');
+    b.style.height = h + '%';
+    b.style.animationDelay = (i * 70) + 'ms';
+    bars.appendChild(b);
+  });
+
+  function tick() {
+    const d = new Date();
+    document.getElementById('clock').textContent =
+      String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  tick();
+  setInterval(tick, 10000);
+
+  function count(id, to, suffix = '') {
+    const el = document.getElementById(id);
+    let n = 0;
+    const step = to / 45;
+    const t = setInterval(() => {
+      n = Math.min(n + step, to);
+      el.textContent = Math.round(n).toLocaleString('es-ES') + suffix;
+      if (n >= to) clearInterval(t);
+    }, 22);
+  }
+  count('v1', 12480);
+  count('v2', 34, '%');
+</script>
+</body>
+</html>

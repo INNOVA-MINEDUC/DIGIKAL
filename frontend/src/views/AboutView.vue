@@ -1,6 +1,6 @@
 <template>
   <div class="hero-wrapper">
-    <img src="/about/img_1.webp" class="hero-bg" alt="Fondo" />
+    <img src="/img-about/img_1.webp" class="hero-bg" alt="Fondo" />
   </div>
 
   <!-- Mismos logos, mismo orden y mismos tamaños que la portada (HomeView). -->
@@ -14,7 +14,7 @@
 
     <section class="top-section">
       <div class="card large">
-        <img src="/about/img_9.webp" class="image-placeholder" />
+        <img src="/img-about/img_9.webp" class="image-placeholder" />
         <div class="content">
           <h2>Misión de DIGIKAL:</h2>
           <p>
@@ -68,21 +68,21 @@ import InfoCards from '@/components/InfoCards.vue';
 
 const cards = [
   {
-    img: "/about/img_6.webp",
+    img: "/img-about/img_6.webp",
     title: "Marco Internacional",
     text: "La política se alinea con el Marco de Competencias Digitales de la UNESCO, el Marco de Transformación Digital del Banco Mundial y el Marco de Competencia Digital de la Unión Europea, adaptando estándares globales al contexto guatemalteco.",
     gradientColor: "0,50,120",
     gradientOpacity: 0.9
   },
   {
-    img: "/about/img_5.webp",
+    img: "/img-about/img_5.webp",
     title: "Diagnóstico Nacional",
     text: "Menos del 75% de los establecimientos tienen acceso a conectividad. Persisten brechas digitales, sociales, económicas y de género que limitan el desarrollo de competencias tecnológicas, especialmente en comunidades rurales e indígenas.",
     gradientColor: "0,50,120",
     gradientOpacity: 0.9
   },
   {
-    img: "/about/img_10.webp",
+    img: "/img-about/img_10.webp",
     title: "Marco Normativo",
     text: "La política se sustenta en el Decreto 39-2022 (Ciberdelincuencia), el Decreto 57-2008 (Acceso a la Información Pública), la Constitución Política de Guatemala y estándares internacionales como el GDPR y la Ley Modelo de Protección de Datos de la OEA.",
     gradientColor: "0,50,120",
@@ -193,7 +193,7 @@ const cards = [
 
 
 .innovation-section {
-  background-image: url("/about/img_3.webp");
+  background-image: url("/img-about/img_3.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

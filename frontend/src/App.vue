@@ -17,6 +17,11 @@
           <v-btn to="/dashboard" variant="text">Estadísticas</v-btn>
           <!-- <v-btn to="/dashboard/estadisticas" variant="text">Indicadores</v-btn> -->
 
+          <!-- Pública: la información del programa y la consulta de tablets
+               son de interés de las familias y las OPF, no sólo del personal.
+               El registro/edición dentro de la vista sí exige sesión. -->
+          <v-btn to="/ciudadania-digital" variant="text">Ciudadanía Digikal</v-btn>
+
           <!-- <v-btn
             v-if="logged && puedeDotaciones"
             to="/cargar-datos"
@@ -110,6 +115,7 @@
         <v-list-item prepend-icon="mdi-information" to="/about" title="Sobre Nosotros" />
         <v-list-item prepend-icon="mdi-chart-bar" to="/dashboard" title="Estadísticas" />
         <!-- <v-list-item prepend-icon="mdi-chart-box" to="/dashboard/estadisticas" title="Indicadores" /> -->
+        <v-list-item prepend-icon="mdi-tablet" to="/ciudadania-digital" title="Ciudadanía Digikal" />
 
         <v-divider class="my-2" v-if="logged" />
 

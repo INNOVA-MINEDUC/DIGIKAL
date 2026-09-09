@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Lineamientos técnicos</title>
+<link rel="stylesheet" href="app.css" />
+<style>
+  :root { --acento: #8b5cf6; --acento2: #5b21b6; }
+
+  .paso { position: relative; padding-left: 88px; }
+  .paso::before {                       /* linea que une los pasos */
+    content: "";
+    position: absolute;
+    left: 30px; top: 70px; bottom: -24px;
+    width: 3px;
+    background: linear-gradient(#d9c9fb, #efe9fd);
+  }
+  .paso:last-of-type::before { display: none; }
+  .paso .num {
+    position: absolute;
+    left: 0; top: 4px;
+    width: 62px; height: 62px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(150deg, #a78bfa, #5b21b6);
+    box-shadow: 0 8px 18px rgba(91, 33, 182, .28);
+  }
+  .datos {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .datos div {
+    background: #f6f2ff;
+    border-radius: 14px;
+    padding: 16px 20px;
+    font-size: 24px;
+    color: #4c2b95;
+  }
+  .datos b { color: #35186e; }
+  .correo {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: #f0eaff;
+    color: #4c2b95;
+    font-weight: 600;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 24px;
+  }
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="eyebrow">Lineamientos técnicos</div>
+  <h1>Cómo ejecutar el proceso</h1>
+  <p>Pasos para garantizar la transparencia en la ejecución de los fondos y la correcta
+     entrega de los recursos educativos tecnológicos.</p>
+  <a class="fuente" href="pdf.html?file=..%2Fpdfs%2FLineamientos%20tecnicos%20para%20OPF.pdf&name=Lineamientos%20tecnicos%20para%20OPF.pdf">
+    Ver el documento original
+  </a>
+</header>
+
+<main>
+
+  <div class="tarjeta paso">
+    <div class="num">1</div>
+    <h3>Selección de proveedores</h3>
+    <p>Las OPF deberán realizar la adquisición con proveedores que tengan la capacidad de emitir
+       <b>factura electrónica</b> por la compra. Los mismos deberán asegurar la entrega total de
+       los equipos y SIM/chips <b>en una sola entrega</b>.</p>
+  </div>
+
+  <div class="tarjeta paso">
+    <div class="num">2</div>
+    <h3>Protocolo de entrega</h3>
+    <p>La distribución física se realizará <b>exclusivamente dentro del centro educativo</b>. La
+       dirección del establecimiento y la OPF programarán las jornadas, garantizando la asistencia
+       obligatoria de los estudiantes beneficiarios junto con sus padres de familia o tutores legales.</p>
+  </div>
+
+  <div class="tarjeta paso">
+    <div class="num">3</div>
+    <h3>Acta de compromiso</h3>
+    <p>Para recibir el equipo, el padre, madre o tutor legal deberá firmar obligatoriamente el
+       <b>Acta de Compromiso Institucional</b> (modelo oficial proporcionado por el Mineduc).</p>
+    <p>Este documento establece el uso <b>exclusivamente pedagógico</b> de la tableta y la
+       responsabilidad compartida en su cuidado. El acta firmada será resguardada por el centro
+       educativo.</p>
+  </div>
+
+  <div class="tarjeta paso">
+    <div class="num">4</div>
+    <h3>Separación de facturación</h3>
+    <p>La adquisición debe sustentarse obligatoriamente con <b>dos facturas contables
+       independientes</b>: una por las tabletas y otra por los 12 meses de servicio de conectividad.</p>
+    <p>Las OPF pueden realizar ambas compras con el mismo proveedor o con empresas distintas,
+       siempre que se emitan los documentos por separado.</p>
+  </div>
+
+  <div class="tarjeta paso">
+    <div class="num">5</div>
+    <h3>Registro técnico</h3>
+    <p>Al concluir la entrega, la dirección del centro educativo y la OPF tendrán un plazo
+       obligatorio de <b>una semana</b> para llenar el formulario digital oficial. Este registro
+       es indispensable para activar el acceso de los estudiantes a las plataformas, al contenido
+       educativo y al software de seguridad.</p>
+    <div class="datos">
+      <div><b>Del equipo:</b> marca, modelo y serie.</div>
+      <div><b>Del estudiante:</b> código de estudiante y número telefónico asignado.</div>
+      <div><b>Del tutor:</b> nombre completo y CUI del padre de familia o tutor legal.</div>
+    </div>
+  </div>
+
+  <div class="tarjeta paso">
+    <div class="num">6</div>
+    <h3>Cuenta institucional</h3>
+    <p>El dispositivo debe asociarse obligatoriamente a la cuenta institucional asignada por el
+       Ministerio de Educación:</p>
+    <span class="correo">@mineduc.edu.gt</span>
+    <p>Es el <b>único medio de identificación autorizado</b> para estudiantes y docentes, por lo
+       que está prohibido sustituirla por cuentas personales o comerciales.</p>
+    <p>La dirección del centro educativo deberá orientar a los beneficiarios sobre su uso correcto
+       y verificar el acceso inicial según los lineamientos del Ministerio de Educación.</p>
+  </div>
+
+</main>
+
+<footer class="pie">Lineamientos técnicos dirigidos a Organizaciones de Padres de Familia (OPF)</footer>
+</body>
+</html>

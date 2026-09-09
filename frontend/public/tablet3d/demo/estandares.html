@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Antes de comprar</title>
+<link rel="stylesheet" href="app.css" />
+<style>
+  :root { --acento: #17b57e; --acento2: #0a7350; }
+  .item .marca { background: linear-gradient(150deg, #22c98d, #0a7350); }
+  .pregunta {
+    margin-top: 14px;
+    padding: 18px 22px;
+    background: #eefaf4;
+    border-radius: 16px;
+    color: #0a5c42;
+    font-style: italic;
+  }
+  .general {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .general div {
+    background: #fff;
+    border: 1px solid var(--linea);
+    border-radius: 20px;
+    padding: 24px;
+    text-align: center;
+    color: #37414f;
+  }
+  .general svg { width: 44px; height: 44px; stroke: var(--acento2); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="eyebrow">Estándares de calidad</div>
+  <h1>Antes de comprar</h1>
+  <p>Verifique que el equipo y el servicio cumplan con estos criterios antes de aceptarlos.</p>
+  <a class="fuente" href="pdf.html?file=..%2Fpdfs%2FEstandares%20de%20Calidad%20para%20OPF.pdf&name=Estandares%20de%20Calidad%20para%20OPF.pdf">
+    Ver el documento original
+  </a>
+</header>
+
+<main>
+
+  <h2 class="seccion">La tableta</h2>
+
+  <div class="tarjeta item">
+    <div class="marca">A</div>
+    <div>
+      <h3>Totalmente nueva y sellada</h3>
+      <p>Debe estar sellada de fábrica. <b>No acepte equipos usados, de exhibición o reparados.</b></p>
+    </div>
+  </div>
+
+  <div class="tarjeta item">
+    <div class="marca">B</div>
+    <div>
+      <h3>El estuche debe proteger de verdad</h3>
+      <p>Que cubra bien las esquinas de la tableta. Los estudiantes la usarán a diario y el
+         estuche debe aguantar golpes accidentales.</p>
+    </div>
+  </div>
+
+  <div class="tarjeta item">
+    <div class="marca">C</div>
+    <div>
+      <h3>Pruebe el teclado</h3>
+      <p>Revise que funcione bien y se conecte correctamente a la tableta, para que el
+         estudiante pueda escribir sus tareas.</p>
+    </div>
+  </div>
+
+  <div class="tarjeta item">
+    <div class="marca">D</div>
+    <div>
+      <h3>Que no se caliente</h3>
+      <p>Al encenderla y usarla, la tableta y su cargador no deben calentarse de forma exagerada.</p>
+    </div>
+  </div>
+
+  <div class="tarjeta item">
+    <div class="marca">E</div>
+    <div>
+      <h3>Garantía por escrito de 1 año</h3>
+      <p>El vendedor debe entregarle un papel de garantía.</p>
+      <div class="pregunta">«Si la tableta se arruina o no enciende, ¿a dónde la tengo que llevar
+        para que me la arreglen gratis?»</div>
+    </div>
+  </div>
+
+  <div class="tarjeta item">
+    <div class="marca">F</div>
+    <div>
+      <h3>Reparación en 15 días como máximo</h3>
+      <p>El taller de servicio de quien le vendió el equipo <b>no debe tardar más de dos semanas</b>
+         en devolverle la tableta arreglada.</p>
+    </div>
+  </div>
+
+  <div class="tarjeta item">
+    <div class="marca">G</div>
+    <div>
+      <h3>Qué debe cubrir la garantía</h3>
+      <p>Las fallas de fábrica:</p>
+      <ul class="lista" style="margin-top:12px">
+        <li>Si la batería se apaga rápido.</li>
+        <li>Si el aparato deja de reconocer el chip.</li>
+        <li>Si el teclado no responde.</li>
+        <li>Si la cámara deja de funcionar.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="seccion">El internet (el chip SIM)</h2>
+
+  <div class="tarjeta">
+    <h3>El chip y el número los entrega la empresa</h3>
+    <p>La empresa de telefonía debe entregarle el chip y el número asociado, y
+       <b>no puede cobrarle nada extra</b>. Usted paga <b>Q600.00 una sola vez</b> por todo el año.</p>
+  </div>
+
+  <div class="tarjeta">
+    <h3>Elija por cobertura, no por precio</h3>
+    <p>Asegúrese de elegir la empresa de telefonía con la <b>mejor cobertura en su comunidad</b>,
+       para que el estudiante no se quede sin conexión en ningún momento.</p>
+  </div>
+
+  <h2 class="seccion">Recomendaciones generales</h2>
+
+  <div class="general">
+    <div>
+      <svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 13l2 2 4-4"/></svg>
+      Conserve su garantía y su comprobante de compra.
+    </div>
+    <div>
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+      Revise cuidadosamente cada aspecto antes de aceptar el equipo y el servicio.
+    </div>
+  </div>
+
+</main>
+
+<footer class="pie">Estándares de calidad · Recursos Educativos Tecnológicos para OPF</footer>
+</body>
+</html>

@@ -1,0 +1,176 @@
+/* Estilo comun de las aplicaciones de contenido de la tablet.
+   Pensado para el panel de 1080x1536 visto dentro del modelo 3D: tipografia
+   grande, mucho contraste y zonas de toque amplias. */
+
+:root {
+  --tinta:   #131a26;
+  --suave:   #5b6779;
+  --linea:   #e3e8f1;
+  --fondo:   #f3f5fa;
+  --tarjeta: #ffffff;
+  --acento:  #1e5bd6;
+  --acento2: #143f9c;
+  --ok:      #0e8f63;
+  --no:      #c2321f;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+
+body {
+  background: var(--fondo);
+  color: var(--tinta);
+  font: 26px/1.5 "Segoe UI", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- cabecera ---------- */
+header.app {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 34px 38px 28px;
+  background: linear-gradient(155deg, var(--acento), var(--acento2));
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(10, 20, 40, .22);
+}
+header.app .eyebrow {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .78;
+}
+header.app h1 {
+  margin-top: 8px;
+  font-size: 46px;
+  font-weight: 650;
+  line-height: 1.08;
+  letter-spacing: -.02em;
+}
+header.app p { margin-top: 12px; font-size: 25px; opacity: .92; }
+
+.fuente {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .16);
+  border: 1px solid rgba(255, 255, 255, .3);
+  color: #fff;
+  text-decoration: none;
+  font-size: 21px;
+}
+.fuente:active { background: rgba(255, 255, 255, .3); }
+
+/* ---------- cuerpo ---------- */
+main {
+  padding: 28px 30px 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+h2.seccion {
+  margin: 16px 4px 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+
+.tarjeta {
+  background: var(--tarjeta);
+  border: 1px solid var(--linea);
+  border-radius: 22px;
+  padding: 26px 28px;
+  box-shadow: 0 2px 12px rgba(16, 24, 40, .05);
+}
+.tarjeta h3 { font-size: 29px; font-weight: 650; line-height: 1.2; }
+.tarjeta p  { margin-top: 10px; color: #37414f; }
+.tarjeta p + p { margin-top: 14px; }
+
+/* tarjeta con letra/numero al lado */
+.item { display: flex; gap: 22px; align-items: flex-start; }
+.marca {
+  flex: none;
+  width: 62px; height: 62px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(150deg, var(--acento), var(--acento2));
+}
+.item svg { width: 34px; height: 34px; }
+
+/* listas */
+ul.lista { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+ul.lista li { display: flex; gap: 14px; align-items: flex-start; color: #37414f; }
+ul.lista li::before {
+  content: "";
+  flex: none;
+  width: 11px; height: 11px;
+  margin-top: 15px;
+  border-radius: 50%;
+  background: var(--acento);
+}
+
+/* datos destacados */
+.dato { font-size: 40px; font-weight: 700; letter-spacing: -.02em; color: var(--acento2); }
+.pill {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 21px;
+  font-weight: 600;
+  background: #eaf0ff;
+  color: var(--acento2);
+}
+.pill.alerta { background: #fdeceb; color: var(--no); }
+.pill.ok     { background: #e6f6ef; color: var(--ok); }
+
+.nota {
+  border-left: 6px solid var(--acento);
+  background: #fff;
+  border-radius: 0 18px 18px 0;
+  padding: 22px 26px;
+  color: #37414f;
+}
+.nota b { color: var(--tinta); }
+
+/* buscador */
+.buscador {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  padding: 18px 30px;
+  background: var(--fondo);
+  border-bottom: 1px solid var(--linea);
+}
+.buscador input {
+  width: 100%;
+  padding: 18px 24px;
+  font: inherit;
+  font-size: 25px;
+  color: var(--tinta);
+  background: #fff;
+  border: 2px solid var(--linea);
+  border-radius: 18px;
+  outline: none;
+}
+.buscador input:focus { border-color: var(--acento); }
+
+.vacio { padding: 60px 20px; text-align: center; color: var(--suave); }
+
+footer.pie {
+  padding: 10px 34px 40px;
+  color: var(--suave);
+  font-size: 20px;
+  text-align: center;
+}

@@ -19,6 +19,7 @@ const UploadData     = () => import('./views/UploadData.vue')
 const DownloadData   = () => import('./views/DownloadData.vue')
 const UserManagement = () => import('./views/UserManagement.vue')
 const AuditLogView   = () => import('./views/AuditLogView.vue')
+const CiudadaniaDigitalView = () => import('./views/CiudadaniaDigitalView.vue')
 const NotFound       = () => import('./views/NotFound.vue')
 
 const routes = [
@@ -95,6 +96,23 @@ const routes = [
     name: 'downloaddata',
     component: DownloadData,
     meta: { requiresAuth: true, allowedRoles: ['admin', 'user', 'auditor'] }
+  },
+
+  {
+    // Servicio "Ciudadanía Digikal": independiente de las dotaciones DIGIKAL
+    // (tabla y API propias, ver backend/routes/ciudadania.routes.js). Es
+    // pública porque la información del programa y las búsquedas son de
+    // interés directo de las familias y las OPF que compran estas tablets; la
+    // vista misma oculta el registro/edición a quien no tenga sesión, y el
+    // backend lo exige de todas formas aunque alguien se salte la interfaz.
+    path: '/ciudadania-digital',
+    name: 'ciudadania-digital',
+    component: CiudadaniaDigitalView,
+    meta: {
+      requiresAuth: false,
+      titulo: 'Ciudadanía Digikal | DIGIKAL Guatemala',
+      descripcion: 'Programa Ciudadanía Digikal: criterios de selección, lineamientos para OPF y consulta pública de tablets asignadas a establecimientos educativos de Guatemala.',
+    }
   },
 
   //   { 

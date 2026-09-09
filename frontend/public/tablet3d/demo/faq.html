@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Preguntas frecuentes</title>
+<link rel="stylesheet" href="app.css" />
+<style>
+  :root { --acento: #f59e0b; --acento2: #b45309; }
+
+  .faq { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 20px; overflow: hidden; }
+  .faq + .faq { margin-top: 0; }
+  .faq summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 24px 26px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq .n {
+    flex: none;
+    width: 50px; height: 50px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(150deg, #fbbf24, #b45309);
+  }
+  .faq .flecha {
+    flex: none;
+    margin-left: auto;
+    width: 26px; height: 26px;
+    margin-top: 12px;
+    border-right: 4px solid #b9c2d0;
+    border-bottom: 4px solid #b9c2d0;
+    transform: rotate(45deg);
+    transition: transform .2s;
+  }
+  .faq[open] .flecha { transform: rotate(-135deg); }
+  .faq .resp {
+    padding: 0 26px 26px 94px;
+    color: #37414f;
+    font-size: 25px;
+  }
+  .faq[open] { box-shadow: 0 6px 20px rgba(16, 24, 40, .08); }
+  .faq .resp b { color: var(--tinta); }
+  .lista-faq { display: flex; flex-direction: column; gap: 14px; }
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="eyebrow">DIGEPSA · Acuerdos 2066-2026 y 2067-2026</div>
+  <h1>Preguntas frecuentes</h1>
+  <p>Las 18 dudas más comunes de las Organizaciones de Padres de Familia sobre la compra y
+     entrega de los recursos tecnológicos.</p>
+  <a class="fuente" href="pdf.html?file=..%2Fpdfs%2FPreguntas%20Frecuentes%20para%20OPF.pdf&name=Preguntas%20Frecuentes%20para%20OPF.pdf">
+    Ver el documento original
+  </a>
+</header>
+
+<div class="buscador">
+  <input id="q" type="search" placeholder="Buscar en las preguntas…" />
+</div>
+
+<main>
+  <div class="lista-faq" id="lista"></div>
+  <div class="vacio" id="vacio" hidden>No hay preguntas que coincidan con la búsqueda.</div>
+</main>
+
+<footer class="pie">Recursos Educativos Tecnológicos · Preguntas frecuentes para OPF</footer>
+
+<script>
+const PREGUNTAS = [
+  { n: 1, p: '¿Podemos comprar las tabletas con un negocio y el internet con otro?',
+    r: '<b>Sí, se puede.</b> Tienen la libertad de comprar las tabletas a un proveedor y el servicio de internet a una empresa de telefonía diferente. El único requisito obligatorio es que les emitan <b>dos facturas electrónicas separadas</b>: una por la compra de las tabletas y otra por la adquisición del internet.' },
+  { n: 2, p: '¿Podemos comprar marcas o modelos diferentes para los alumnos o docentes del mismo centro educativo?',
+    r: '<b>No.</b> Es sumamente importante que todos los estudiantes o docentes del mismo establecimiento tengan exactamente la <b>misma marca y modelo</b> de tableta. Esto garantiza la equidad, evitando que unos alumnos tengan ventajas tecnológicas sobre otros, y facilita el proceso de enseñanza y aprendizaje al unificar el uso de los equipos en el aula.' },
+  { n: 3, p: '¿Qué papeles o requisitos debe cumplir el proveedor?',
+    r: 'El proveedor debe estar <b>legalmente registrado ante la SAT</b>, tener la capacidad de dar factura electrónica y entregar todos los equipos y chips en su totalidad según factura. Además, debe entregar todas las garantías por escrito para cada dispositivo.' },
+  { n: 4, p: '¿Es obligatorio que la tableta cumpla con todas las características de la guía?',
+    r: '<b>Sí, es obligatorio.</b> La tableta debe cumplir estrictamente con las especificaciones técnicas: no puede ser menor a 10 pulgadas, debe tener 8 núcleos en su procesador, mínimo 4 GB de RAM, 64 GB de espacio, batería grande, y venir con su estuche rígido y teclado físico. <b>No se permite comprar teléfonos en su lugar.</b>' },
+  { n: 5, p: '¿Se pueden comprar recargas de saldo mes a mes para los estudiantes o docentes?',
+    r: '<b>No.</b> Está completamente prohibido pagar de forma mensual o adquirir recargas fraccionadas. La OPF debe realizar un <b>pago único de hasta Q600.00</b> por un plan de internet móvil (chip) que garantice una vigencia continua de 12 meses completos sin vencerse.' },
+  { n: 6, p: '¿Qué empresa de telefonía debemos elegir para el internet?',
+    r: 'Deben elegir la empresa con la <b>mejor señal y cobertura</b> en su comunidad y en la escuela, para que los estudiantes o docentes no sufran interrupciones en sus clases. El chip de internet debe ser obligatoriamente <b>físico</b>.' },
+  { n: 7, p: '¿Las tabletas se quedan en la escuela o se las llevan los estudiantes o docentes?',
+    r: '<b>Se las llevan.</b> Las tabletas se entregan como un recurso de apoyo directo para el alumno o docente. Al terminar las clases o el año escolar no deben devolverse a la escuela: el equipo pasa a ser de su propiedad, bajo el cuidado y responsabilidad de sus padres o tutores en el caso de los estudiantes, y de los propios docentes en su caso.' },
+  { n: 8, p: '¿Debemos registrar estas tabletas al inventario de la escuela?',
+    r: '<b>No.</b> Debido a que los dispositivos se entregan directamente a los alumnos o docentes y pasan a ser de su propiedad para uso en sus casas y en el salón de clases, estos equipos <b>no deben registrarse en el libro de inventario</b> del establecimiento educativo.' },
+  { n: 9, p: '¿Qué documento deben firmar los padres o tutores y docentes para recibir el equipo?',
+    r: 'Al momento de recibir la tableta y el chip, el padre, madre o tutor legal debe firmar obligatoriamente el <b>PRA-FOR-02</b> y el <b>Acta de Compromiso Institucional</b>; los docentes deben firmar el <b>PRA-FOR-03</b>. Si no firman dichos documentos, la escuela no puede entregarles el equipo ni la conectividad.' },
+  { n: 10, p: '¿Qué pasa si la tableta se daña por un golpe o es robada?',
+    r: 'El Ministerio de Educación entrega <b>una sola tableta</b> por estudiante y por docente. Por esta razón, el cuidado, resguardo y buen uso del equipo es <b>responsabilidad exclusiva del beneficiario</b>.' },
+  { n: 11, p: '¿Para qué fines pueden usar los estudiantes y docentes esta tableta?',
+    r: 'El uso del dispositivo es <b>exclusivamente para fines educativos</b>. De hecho, el servicio de internet cuenta con filtros de seguridad y bloqueos para que solo se pueda navegar en portales educativos oficiales y plataformas de estudio autorizadas.' },
+  { n: 12, p: '¿Qué pasa si la tableta presenta desperfectos de fábrica o no enciende?',
+    r: 'Todas las tabletas tienen un <b>año de garantía obligatoria por escrito</b> brindada por el vendedor. Si el equipo presenta falla en la batería, no reconoce el chip o la pantalla falla por defecto de fabricación, el proveedor tiene la obligación de <b>repararlo o reemplazarlo sin costo alguno</b>.' },
+  { n: 13, p: '¿A nombre de quién debe registrarse el chip de internet?',
+    r: 'Por disposición legal, el chip debe quedar registrado de forma obligatoria con el <b>nombre y DPI del padre, madre o tutor legal</b> del estudiante beneficiario; en el caso de los docentes, a nombre de cada uno de ellos.' },
+  { n: 14, p: '¿Qué pasa si buscamos las tabletas con los proveedores y nos informan que no hay existencias?',
+    r: 'No se preocupen: es una situación previsible en un proyecto nuevo y masivo. Debido a la alta demanda por parte de las OPF, es posible que algunos proveedores locales no tengan suficientes tabletas que cumplan con todos los requisitos. Se espera que los proveedores vayan surtiendo el mercado de manera progresiva.' },
+  { n: 15, p: '¿Qué pasa si acudimos a la empresa de telefonía y aún no disponen de este plan de internet de Q600?',
+    r: 'Al tratarse de una iniciativa de reciente implementación, se espera que una vez lanzado oficialmente el proyecto las empresas de telefonía diseñen y pongan a disposición del público planes comerciales adaptados a los requisitos de cobertura, características técnicas y presupuesto del programa.' },
+  { n: 16, p: 'Si el internet de la escuela tiene mejor señal que el chip entregado, ¿pueden los alumnos conectar sus tabletas a la red del establecimiento?',
+    r: '<b>Sí, totalmente.</b> Aunque cada tableta cuente con su propio chip con acceso a internet, los dispositivos también podrán conectarse a redes Wi-Fi.' },
+  { n: 17, p: '¿Las tabletas sustituyen por completo a los cuadernos y libros de texto impresos?',
+    r: '<b>No.</b> La tableta es un recurso educativo <b>complementario</b> para enriquecer el proceso de aprendizaje. No sustituye la escritura a mano, la lectura en papel ni los libros de texto del Ministerio de Educación. El papel del docente es integrar el uso del dispositivo en actividades específicas que requieran investigación, uso de las plataformas oficiales o aplicaciones educativas.' },
+  { n: 18, p: '¿El docente también recibe un chip de internet de Q600 financiado por la OPF?',
+    r: '<b>Sí.</b> Los docentes del ciclo diversificado también reciben este beneficio técnico y su conectividad a través de los recursos asignados a la OPF, bajo el programa de <b>valija didáctica</b>. Este chip se rige por las mismas normas de seguridad y filtro de contenidos que el de los estudiantes.' }
+];
+
+const lista = document.getElementById('lista');
+const vacio = document.getElementById('vacio');
+
+function pintar(filtro = '') {
+  const f = filtro.trim().toLowerCase();
+  lista.innerHTML = '';
+  let visibles = 0;
+
+  for (const item of PREGUNTAS) {
+    const texto = (item.p + ' ' + item.r).toLowerCase();
+    if (f && !texto.includes(f)) continue;
+    visibles++;
+
+    const d = document.createElement('details');
+    d.className = 'faq';
+    if (f) d.open = true;
+    d.innerHTML = '<summary><span class="n"></span><span class="tit"></span><span class="flecha"></span></summary>' +
+                  '<div class="resp"></div>';
+    d.querySelector('.n').textContent = item.n;
+    d.querySelector('.tit').textContent = item.p;
+    d.querySelector('.resp').innerHTML = item.r;
+    lista.appendChild(d);
+  }
+  vacio.hidden = visibles > 0;
+}
+
+pintar();
+document.getElementById('q').addEventListener('input', e => pintar(e.target.value));
+</script>
+</body>
+</html>

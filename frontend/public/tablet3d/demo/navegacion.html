@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Navegación permitida</title>
+<link rel="stylesheet" href="app.css" />
+<style>
+  :root { --acento: #e0468f; --acento2: #9d1458; }
+
+  .grupo { margin-top: 8px; }
+  .grupo h2 {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 22px 6px 14px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--tinta);
+  }
+  .grupo h2 .cont {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--suave);
+    background: #eef1f7;
+    border-radius: 999px;
+    padding: 4px 14px;
+  }
+  .sitios { display: flex; flex-direction: column; gap: 12px; }
+  .sitio {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: var(--tarjeta);
+    border: 1px solid var(--linea);
+    border-radius: 18px;
+    padding: 18px 22px;
+  }
+  .sitio .ini {
+    flex: none;
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(150deg, #f472b6, #9d1458);
+  }
+  .sitio .nom { font-size: 26px; font-weight: 600; line-height: 1.25; }
+  .sitio .url {
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 21px;
+    color: var(--suave);
+    margin-top: 2px;
+    word-break: break-all;
+  }
+  mark { background: #ffe9a8; border-radius: 4px; padding: 0 3px; }
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="eyebrow">Paquete de navegación estudiantil</div>
+  <h1>Sitios permitidos</h1>
+  <p>Destinos a los que da acceso el servicio de internet del programa. La navegación está
+     filtrada a portales educativos oficiales y plataformas autorizadas.</p>
+  <a class="fuente" href="pdf.html?file=..%2Fpdfs%2FPaquete%20de%20navegacion%20estudiantil.pdf&name=Paquete%20de%20navegacion%20estudiantil.pdf">
+    Ver el documento original
+  </a>
+</header>
+
+<div class="buscador">
+  <input id="q" type="search" placeholder="Buscar un sitio o una categoría…" />
+</div>
+
+<main>
+  <div id="lista"></div>
+  <div class="vacio" id="vacio" hidden>Ningún sitio coincide con la búsqueda.</div>
+</main>
+
+<footer class="pie" id="pie"></footer>
+
+<script>
+const SITIOS = [
+  ['Inteligencia Artificial', 'ChatGPT', 'openai.com'],
+  ['Inteligencia Artificial', 'ChatGPT', 'chatgpt.com'],
+  ['Inteligencia Artificial', 'Microsoft Copilot', 'copilot.microsoft.com'],
+  ['Inteligencia Artificial', 'Claude', 'anthropic.com'],
+  ['Inteligencia Artificial', 'Gemini', 'gemini.google.com'],
+  ['Inteligencia Artificial', 'Perplexity', 'perplexity.ai'],
+  ['Ecosistema Microsoft', 'Office 365', 'office.com'],
+  ['Ecosistema Microsoft', 'Office 365', 'microsoft365.com'],
+  ['Ecosistema Microsoft', 'Microsoft Teams', 'teams.microsoft.com'],
+  ['Ecosistema Microsoft', 'OneDrive', 'onedrive.live.com'],
+  ['Ecosistema Google', 'Google Workspace / General', 'google.com'],
+  ['Ecosistema Google', 'Google Classroom', 'classroom.google.com'],
+  ['Ecosistema Google', 'Google Drive', 'drive.google.com'],
+  ['Ecosistema Google', 'Google Meet', 'meet.google.com'],
+  ['Ecosistema Google', 'Gmail / Correo', 'mail.google.com'],
+  ['Plataformas de Cursos', 'Coursera', 'coursera.org'],
+  ['Plataformas de Cursos', 'Odilo', 'odilo.us'],
+  ['Plataformas de Cursos', 'Fiction Express', 'fictionexpress.com'],
+  ['Plataformas de Cursos', 'Khan Academy', 'khanacademy.org'],
+  ['Plataformas de Cursos', 'Onfire Learning', 'onfirelearning.com'],
+  ['Plataformas de Cursos', 'Pathbooks', 'pathbooks.gt'],
+  ['Plataformas de Cursos', 'Explorax GT', 'explorax.app'],
+  ['Universidades de Guatemala', 'USAC', 'usac.edu.gt'],
+  ['Universidades de Guatemala', 'Universidad Mariano Gálvez', 'umg.edu.gt'],
+  ['Universidades de Guatemala', 'Universidad Rafael Landívar', 'url.edu.gt'],
+  ['Universidades de Guatemala', 'Universidad del Valle de Guatemala', 'uvg.edu.gt'],
+  ['Universidades de Guatemala', 'Universidad Galileo', 'galileo.edu'],
+  ['Universidades de Guatemala', 'Universidad del Istmo', 'unis.edu.gt'],
+  ['Sistemas de aprendizaje LMS', 'Canvas LMS', 'instructure.com'],
+  ['Sistemas de aprendizaje LMS', 'Canvas LMS', 'canvaslms.com'],
+  ['Herramientas Creativas', 'Canva', 'canva.com'],
+  ['Herramientas Creativas', 'Scratch', 'scratch.mit.edu'],
+  ['Recursos STEM y Pruebas', 'PruebaT', 'pruebat.org'],
+  ['Recursos STEM y Pruebas', 'PhET Simulación', 'phet.colorado.edu'],
+  ['Recursos STEM y Pruebas', 'GeoGebra', 'geogebra.org'],
+  ['Institucionales MINEDUC', 'Portal MINEDUC', 'mineduc.gob.gt'],
+  ['Institucionales MINEDUC', 'Portal Educativo MINEDUC', 'mineduc.edu.gt'],
+  ['Institucionales MINEDUC', 'DIGEDUCA', 'digeduca.ct.gt'],
+  ['Comunicación y Video', 'WhatsApp', 'whatsapp.com'],
+  ['Comunicación y Video', 'Zoom', 'zoom.us'],
+  ['Comunicación y Video', 'YouTube Edu', 'youtube.com/education'],
+  ['Enciclopedias y Lenguaje', 'Wikipedia', 'wikipedia.org'],
+  ['Enciclopedias y Lenguaje', 'Duolingo', 'duolingo.com'],
+  ['Becas y Futuro', 'SEGEPLAN Becas', 'becas.segeplan.gob.gt'],
+  ['Becas y Futuro', 'Becas Fundación JBG', 'fundacionjbg.org'],
+  ['Gobierno y Trámites', 'Portal del Gobierno de Guatemala', 'guatemala.gob.gt'],
+  ['Gobierno y Trámites', 'RENAP', 'renap.gob.gt'],
+  ['Gobierno y Trámites', 'SAT', 'portal.sat.gob.gt'],
+  ['Gobierno y Trámites', 'Policía Nacional Civil (PNC)', 'policianacionalcivil.gob.gt'],
+  ['Gobierno y Trámites', 'Ministerio Público (MP)', 'mp.gob.gt'],
+  ['Gobierno y Trámites', 'Ministerio de Finanzas Públicas (MINFIN)', 'minfin.gob.gt'],
+  ['Gobierno y Trámites', 'Ministerio de Cultura y Deportes (MCD)', 'mcd.gob.gt']
+];
+
+const lista = document.getElementById('lista');
+const vacio = document.getElementById('vacio');
+document.getElementById('pie').textContent =
+  SITIOS.length + ' destinos autorizados · Paquete de navegación estudiantil';
+
+const escapar = t => t.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+
+function resaltar(texto, f) {
+  const t = escapar(texto);
+  if (!f) return t;
+  const i = t.toLowerCase().indexOf(f);
+  if (i < 0) return t;
+  return t.slice(0, i) + '<mark>' + t.slice(i, i + f.length) + '</mark>' + t.slice(i + f.length);
+}
+
+function pintar(filtro = '') {
+  const f = filtro.trim().toLowerCase();
+  lista.innerHTML = '';
+  let visibles = 0;
+
+  const grupos = new Map();
+  for (const [cat, nom, url] of SITIOS) {
+    if (f && !(cat + ' ' + nom + ' ' + url).toLowerCase().includes(f)) continue;
+    if (!grupos.has(cat)) grupos.set(cat, []);
+    grupos.get(cat).push([nom, url]);
+    visibles++;
+  }
+
+  for (const [cat, sitios] of grupos) {
+    const g = document.createElement('section');
+    g.className = 'grupo';
+    g.innerHTML = '<h2><span class="cat"></span><span class="cont"></span></h2><div class="sitios"></div>';
+    g.querySelector('.cat').innerHTML = resaltar(cat, f);
+    g.querySelector('.cont').textContent = sitios.length;
+
+    const cont = g.querySelector('.sitios');
+    for (const [nom, url] of sitios) {
+      const s = document.createElement('div');
+      s.className = 'sitio';
+      s.innerHTML = '<div class="ini"></div><div><div class="nom"></div><div class="url"></div></div>';
+      s.querySelector('.ini').textContent = nom[0].toUpperCase();
+      s.querySelector('.nom').innerHTML = resaltar(nom, f);
+      s.querySelector('.url').innerHTML = resaltar(url, f);
+      cont.appendChild(s);
+    }
+    lista.appendChild(g);
+  }
+  vacio.hidden = visibles > 0;
+}
+
+pintar();
+document.getElementById('q').addEventListener('input', e => pintar(e.target.value));
+</script>
+</body>
+</html>
