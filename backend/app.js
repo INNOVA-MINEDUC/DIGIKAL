@@ -8,6 +8,7 @@ import helmet from 'helmet';
 import path from 'path';
 
 import sequelize from './config/connection.js';
+import { comprobarTabletsDb } from './config/tabletsDb.js';
 import { authMiddleware } from './middlewares/auth.middleware.js';
 
 import escuelaRoutes from "./routes/escuela.routes.js";
@@ -94,6 +95,13 @@ try {
 } catch (error) {
   logger.error('❌ Error de conexión:', error);
 }
+
+/* La base de tablets es aparte y opcional (ver config/tabletsDb.js). Se
+   comprueba también al arrancar para que un despliegue sin sus variables, o
+   sin ruta de red hacia ese host, se vea aquí y no cuando alguien abra la
+   vista y la encuentre vacía. No detiene el arranque a propósito: el resto de
+   la API no depende de ella. */
+await comprobarTabletsDb();
 
 
 /* ── Archivos subidos ─────────────────────────────────────────────────────

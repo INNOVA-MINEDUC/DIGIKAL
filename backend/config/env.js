@@ -50,6 +50,27 @@ if (IS_PROD && ['root', 'admin', 'password', ''].includes(DB_PASSWORD.toLowerCas
   errores.push('DB_PASSWORD es una contraseña por defecto y NODE_ENV=production.');
 }
 
+/* ── Base de datos del servicio de tablets (Ciudadanía Digikal) ─────────────
+   Es una base SEPARADA, en otro servidor, y la alimenta otro sistema (ver
+   config/tabletsDb.js). Por eso NO es obligatoria: el resto del backend
+   —dotaciones, usuarios, auditoría— funciona igual sin ella, y tumbar todo el
+   servicio porque falte una función lateral sería peor que la falla.
+
+   Lo que sí es un error es dejarla A MEDIAS: si alguien puso el host pero
+   olvidó la contraseña, eso es una configuración equivocada, no una decisión,
+   y arrancar así sólo produce un 503 silencioso difícil de rastrear. */
+const TABLETS_VARS = ['TABLETS_DB_HOST', 'TABLETS_DB_NOMBRE', 'TABLETS_DB_USUARIO', 'TABLETS_DB_PASSWORD'];
+const tabletsPuestas = TABLETS_VARS.filter((v) => (process.env[v] ?? '').trim());
+const TABLETS_CONFIGURADA = tabletsPuestas.length === TABLETS_VARS.length;
+
+if (tabletsPuestas.length > 0 && !TABLETS_CONFIGURADA) {
+  const faltan = TABLETS_VARS.filter((v) => !tabletsPuestas.includes(v));
+  errores.push(
+    `Configuración incompleta del servicio de tablets. Faltan: ${faltan.join(', ')}. ` +
+    `Complételas o quite todas las TABLETS_DB_* para desactivar el servicio.`
+  );
+}
+
 if (errores.length) {
   console.error('\n❌ Configuración inválida. El servidor no puede arrancar:\n');
   for (const e of errores) console.error(`   • ${e}`);
@@ -60,6 +81,23 @@ if (errores.length) {
 /* ── Exports ─────────────────────────────────────────────────────────────── */
 
 export { IS_PROD, JWT_SECRET, DB_NAME, DB_USER, DB_PASSWORD };
+
+/**
+ * Conexión a la base del servicio de tablets (Ciudadanía Digikal).
+ *
+ * `configurada: false` significa que el despliegue no la trae: la API responde
+ * 503 en esas rutas y el resto del backend sigue funcionando con normalidad.
+ * Se expone desde aquí, y no leyendo process.env en config/tabletsDb.js, por
+ * la misma razón que el resto: que la validación no se pueda saltar.
+ */
+export const TABLETS_DB = Object.freeze({
+  configurada: TABLETS_CONFIGURADA,
+  host:     (process.env.TABLETS_DB_HOST     ?? '').trim(),
+  puerto:   Number(process.env.TABLETS_DB_PUERTO) || 3306,
+  nombre:   (process.env.TABLETS_DB_NOMBRE   ?? '').trim(),
+  usuario:  (process.env.TABLETS_DB_USUARIO  ?? '').trim(),
+  password:  process.env.TABLETS_DB_PASSWORD ?? '',
+});
 
 /**
  * Vigencia del token de acceso. Antes era '1d': una sesión robada servía 24

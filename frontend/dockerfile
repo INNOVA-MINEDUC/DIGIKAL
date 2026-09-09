@@ -7,6 +7,18 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
+
+# Dirección del API. Vite la INCRUSTA en el bundle durante `npm run build`, no
+# se lee al arrancar: por eso tiene que entrar aquí como argumento de build y
+# no como variable del contenedor. Sin esto, helpers/api.js cae a su valor por
+# defecto (http://localhost:3000), que en el navegador de un visitante apunta a
+# su propia máquina y ninguna llamada al API llega al servidor.
+#
+#   docker build --build-arg VITE_API_URL=https://api.midominio.gt ...
+#   (con docker compose, ver la sección `args` de docker-compose.prod.yml)
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 RUN npm run build
 
 # ETAPA 2: Producción (Security-Hardened Nginx)
