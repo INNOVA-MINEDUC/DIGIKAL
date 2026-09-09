@@ -285,11 +285,19 @@ let abierta = null;
 let cola = Promise.resolve();                        // abrir/cerrar en orden, sin solaparse
 const encolar = fn => (cola = cola.then(fn).catch(() => {}));
 
+function urlSegura(valor) {
+  try {
+    const u = new URL(String(valor || ''), location.href);
+    if (u.protocol === 'http:' || u.protocol === 'https:') return u.href;
+  } catch (e) {}
+  return 'about:blank';
+}
+
 function nuevoMarco(app) {
   ventana.innerHTML = '';
   const marco = document.createElement('iframe');
   if (app.html !== undefined) marco.srcdoc = app.html;
-  else marco.src = app.url;
+  else marco.src = urlSegura(app.url);
   ventana.appendChild(marco);
   return marco;
 }
