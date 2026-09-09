@@ -33,28 +33,53 @@ api.interceptors.response.use(
     const status = error.response?.status;
     const url = error.config?.url || '';
 
-    if (status === 401 && !url.includes('/api/v1/auth')) {
-      /* Se cierra a través del store y no borrando localStorage a mano: así el
-         nav se repinta al instante. Este es el camino que cubre la REVOCACIÓN
-         —cerrar sesión en otro dispositivo, cambio de contraseña, cuenta
-         desactivada—, donde el token sigue sin caducar pero el backend ya no lo
-         acepta. El navegador no puede detectarlo solo; el 401 es el aviso.
+    if (status !== 401 || url.includes('/api/v1/auth')) {
+      return Promise.reject(error);
+    }
 
-         La importación va aquí dentro para no crear un ciclo entre este módulo
-         y el store, y para no tocar Pinia antes de que la app esté montada. */
-      import('../stores/authStore.js').then(({ useAuthStore }) => {
-        useAuthStore().cerrarSesion('revocado');
-      }).catch(() => {
-        localStorage.removeItem('token');   // respaldo si el store no está listo
-      });
+    /* Visitante SIN sesión: no hay nada que cerrar ni de dónde expulsarlo.
+       Un 401 aquí sólo significa que esa petición concreta necesitaba token
+       —o que ese endpoint todavía no es público en el servidor—, y la vista
+       lo resuelve en su propio `catch`. Antes se le mandaba al login igual,
+       así que un fallo de UNA llamada sacaba de una página pública a alguien
+       que nunca había iniciado sesión. */
+    if (!localStorage.getItem('token')) {
+      return Promise.reject(error);
+    }
+
+    /* Con sesión: el token ya no sirve. Se cierra a través del store y no
+       borrando localStorage a mano, así el nav se repinta al instante. Este es
+       el camino que cubre la REVOCACIÓN —cerrar sesión en otro dispositivo,
+       cambio de contraseña, cuenta desactivada—, donde el token sigue sin
+       caducar pero el backend ya no lo acepta. El navegador no puede
+       detectarlo solo; el 401 es el aviso.
+
+       La importación va aquí dentro para no crear un ciclo entre este módulo
+       y el store, y para no tocar Pinia antes de que la app esté montada. */
+    import('../stores/authStore.js').then(({ useAuthStore }) => {
+      useAuthStore().cerrarSesion('revocado');
+    }).catch(() => {
+      localStorage.removeItem('token');   // respaldo si el store no está listo
+    });
+
+    /* Y al login sólo si la vista actual EXIGE sesión. Si está en una pública
+       (portada, estadísticas, Ciudadanía Digikal…), se queda donde está: ya se
+       le cerró la sesión y el nav lo refleja, pero la página le sigue
+       sirviendo. El router se pide en diferido por el mismo motivo que el
+       store: evitar el ciclo de importaciones. */
+    import('../router.js').then(({ default: router }) => {
+      const exigeSesion = router.currentRoute.value.matched
+        .some((r) => r.meta?.requiresAuth);
 
       // El router usa historial real (URLs sin almohadilla), así que la
       // redirección va por `pathname`. Antes se hacía con `location.hash` y
       // desde el cambio a createWebHistory eso ya no navega a ningún sitio.
-      if (window.location.pathname !== '/login') {
+      if (exigeSesion && window.location.pathname !== '/login') {
         window.location.assign('/login');
       }
-    }
+    }).catch(() => {
+      if (window.location.pathname !== '/login') window.location.assign('/login');
+    });
 
     return Promise.reject(error);
   }
