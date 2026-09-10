@@ -1,56 +1,37 @@
-# ETAPA 1: Build
-FROM node:20-alpine AS build-stage
+# 1. Etapa de Construcción (Builder)
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+COPY package.json package-lock.json ./
+
+# bcryptjs es JS puro: no se necesitan python3/make/g++ ni compilar nativos.
+RUN npm ci --omit=dev --ignore-scripts
 
 COPY . .
 
-# Dirección del API. Vite la INCRUSTA en el bundle durante npm run build, no
-# se lee al arrancar: por eso tiene que entrar aquí como argumento de build y
-# no como variable del contenedor. Sin esto, helpers/api.js cae a su valor por
-# defecto (http://localhost:3000), que en el navegador de un visitante apunta a
-# su propia máquina y ninguna llamada al API llega al servidor.
-#
-#   docker build --build-arg VITE_API_URL=https://api.midominio.gt ...
-#   (con docker compose, ver la sección args de docker-compose.prod.yml)
-#
-# OJO con la forma ENV VITE_API_URL=$VITE_API_URL que estaba aquí antes: si
-# el build-arg NO se pasa, deja la variable puesta como cadena VACÍA, y Vite da
-# prioridad a las VITE_* del entorno por encima de cualquier .env / .env.production.
-# Resultado: el bundle salía con la baseURL por defecto (http://localhost:3000)
-# aunque el pipeline hubiera escrito el .env.production correcto. De ahí el
-# error de CORS/loopback al abrir el sitio publicado.
-ARG VITE_API_URL
+# Limpiar el manifiesto para evitar falsos positivos en el escaneo
+RUN npm pkg delete devDependencies && \
+    rm package-lock.json
 
-RUN if [ -n "${VITE_API_URL}" ]; then \
-      echo "Construyendo con VITE_API_URL=${VITE_API_URL}"; \
-      export VITE_API_URL="${VITE_API_URL}"; \
-    else \
-      echo "AVISO: VITE_API_URL vacio. El bundle usara http://localhost:3000 (solo sirve en desarrollo local)."; \
-      unset VITE_API_URL; \
-    fi; \
-    npm run build
+# 2. Etapa de Producción (Runner)
+FROM node:22-alpine AS runner
 
-# ETAPA 2: Producción (Security-Hardened Nginx)
-FROM nginxinc/nginx-unprivileged:stable-alpine
+ENV NODE_ENV=production
+WORKDIR /app
 
 # Parchear CVE-2026-45447: OpenSSL heap use-after-free en PKCS7_verify
-USER root
 RUN apk upgrade --no-cache libcrypto3 libssl3
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build-stage /app/dist/ /usr/share/nginx/html/
+# Remover npm de la imagen de producción por seguridad (trae vulnerabilidades como picomatch).
+# Las migraciones se corren vía ./node_modules/.bin/sequelize-cli (no requiere npm/npx).
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 
-# nginx-unprivileged ya corre como usuario no-root (uid 101),
-# esto lo hace explícito para que quede documentado
-USER 101
+COPY --from=builder /app ./
 
-EXPOSE 8080
+RUN chown -R node:node /app
 
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-  CMD wget -qO- http://localhost:8080/ || exit 1
+USER node
+EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "app.js"]
