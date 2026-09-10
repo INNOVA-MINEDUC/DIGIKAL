@@ -9,7 +9,7 @@
           Ciudadanía Digikal
         </h1>
         <p class="text-body-2 text-grey-darken-1 mb-0">
-          Tablets y conectividad para estudiantes de cuarto año y docentes, financiadas por las
+          Tabletas y conectividad para estudiantes de cuarto año y docentes, financiadas por las
           Organizaciones de Padres de Familia (OPF) — Acuerdos Ministeriales 2066-2026 y 2067-2026.
         </p>
       </div>
@@ -17,7 +17,7 @@
       <div class="cabecera__acciones">
         <div class="hero-montos">
           <div class="hero-montos__item">
-            <span>Tablet</span>
+            <span>Tableta</span>
             <strong>Q2,000</strong>
           </div>
           <div class="hero-montos__item">
@@ -51,10 +51,15 @@
 
           <!-- Por número de serie -->
           <div class="hero-busqueda">
-            <h3 class="text-subtitle-1 font-weight-bold mb-3" style="color:#003366;">
+            <h3 class="text-subtitle-1 font-weight-bold mb-1" style="color:#003366;">
               <v-icon size="20" class="mr-1">mdi-barcode-scan</v-icon>
               Buscar por número de serie
+              <span class="hero-busqueda__opcional">opcional</span>
             </h3>
+            <p class="hero-busqueda__ayuda">
+              Si conoce el número de serie de una tableta, escríbalo aquí para comprobar si
+              pertenece al programa.
+            </p>
 
             <!-- Con un resultado en pantalla el campo se bloquea y el botón
                  pasa a "Resetear": deja claro que lo que se ve corresponde a
@@ -63,17 +68,18 @@
             <v-text-field
               v-model="serieBuscada"
               placeholder="Ej. TAB-0045-QTZ"
-              variant="outlined" density="comfortable" hide-details
+              variant="solo-filled" flat rounded="lg" density="comfortable" hide-details
               prepend-inner-icon="mdi-magnify"
               :clearable="!serieBloqueada"
               :readonly="serieBloqueada"
+              :disabled="establecimientoTieneTexto"
               :loading="buscandoSerie"
               @keyup.enter="serieBloqueada ? resetearSerie() : buscarPorSerie()"
               @click:clear="resultadoSerie = null"
             >
               <template #append>
                 <v-btn
-                  :color="serieBloqueada ? '#64748b' : '#0094D3'"
+                  color="#0094D3"
                   style="color:#fff;" variant="flat" class="text-none"
                   :loading="buscandoSerie"
                   :prepend-icon="serieBloqueada ? 'mdi-refresh' : undefined"
@@ -108,7 +114,7 @@
                 <v-alert v-else type="warning" variant="tonal" density="comfortable" icon="mdi-close-octagon-outline">
                   <div class="font-weight-bold">No pertenece a Ciudadanía Digikal</div>
                   <div class="text-body-2">
-                    No hay ninguna tablet con el número de serie
+                    No hay ninguna tableta con el número de serie
                     «<strong>{{ ultimaSerieBuscada }}</strong>» registrada en este servicio.
                   </div>
                 </v-alert>
@@ -120,25 +126,31 @@
 
           <!-- Por establecimiento -->
           <div class="hero-busqueda">
-            <h3 class="text-subtitle-1 font-weight-bold mb-3" style="color:#003366;">
+            <h3 class="text-subtitle-1 font-weight-bold mb-1" style="color:#003366;">
               <v-icon size="20" class="mr-1">mdi-school-outline</v-icon>
               Buscar por establecimiento
+              <span class="hero-busqueda__opcional">opcional</span>
             </h3>
+            <p class="hero-busqueda__ayuda">
+              Escriba el nombre o el código UDI de un centro educativo para ver cuántas
+              tabletas tiene asignadas.
+            </p>
 
             <v-text-field
               v-model="establecimientoBuscado"
               placeholder="Nombre o código UDI del establecimiento"
-              variant="outlined" density="comfortable" hide-details
+              variant="solo-filled" flat rounded="lg" density="comfortable" hide-details
               prepend-inner-icon="mdi-magnify"
               :clearable="!establecimientoBloqueado"
               :readonly="establecimientoBloqueado"
+              :disabled="serieTieneTexto"
               :loading="buscandoEstablecimiento"
               @keyup.enter="establecimientoBloqueado ? resetearEstablecimiento() : buscarPorEstablecimiento()"
               @click:clear="resultadosEstablecimiento = null"
             >
               <template #append>
                 <v-btn
-                  :color="establecimientoBloqueado ? '#64748b' : '#0094D3'"
+                  color="#0094D3"
                   style="color:#fff;" variant="flat" class="text-none"
                   :loading="buscandoEstablecimiento"
                   :prepend-icon="establecimientoBloqueado ? 'mdi-refresh' : undefined"
@@ -213,13 +225,13 @@
       <v-col cols="12" sm="4">
         <v-card class="pa-4 text-center" rounded="xl" elevation="2">
           <div class="text-h4 font-weight-black" style="color:#003366;">{{ resumen.totalTablets }}</div>
-          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Tablets registradas</div>
+          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Tabletas registradas</div>
         </v-card>
       </v-col>
       <v-col cols="12" sm="4">
         <v-card class="pa-4 text-center" rounded="xl" elevation="2">
           <div class="text-h4 font-weight-black" style="color:#0094D3;">{{ resumen.totalEstablecimientos }}</div>
-          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Establecimientos con tablets</div>
+          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Establecimientos con tabletas</div>
         </v-card>
       </v-col>
       <v-col cols="12" sm="4">
@@ -228,7 +240,7 @@
             {{ resumen.departamentoTop?.departamento || '—' }}
           </div>
           <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">
-            Departamento con más tablets
+            Departamento con más tabletas
             <span v-if="resumen.departamentoTop"> ({{ resumen.departamentoTop.cantidad }})</span>
           </div>
         </v-card>
@@ -253,11 +265,11 @@
         <v-card rounded="xl" elevation="2" class="pa-4 ranking-card">
           <h3 class="text-subtitle-1 font-weight-bold mb-3" style="color:#003366;">
             <v-icon size="20" class="mr-1">mdi-podium</v-icon>
-            Departamentos con más tablets
+            Departamentos con más tabletas
           </h3>
 
           <div v-if="!resumen.porDepartamento.length" class="text-body-2 text-grey py-6 text-center">
-            Aún no hay tablets registradas.
+            Aún no hay tabletas registradas.
           </div>
 
           <div v-else class="ranking-lista">
@@ -301,7 +313,7 @@
         <v-expansion-panel elevation="0">
           <v-expansion-panel-title class="font-weight-bold">
             <v-icon size="20" class="mr-2" color="#003366">mdi-tablet-cellphone</v-icon>
-            Especificaciones técnicas de la tablet
+            Especificaciones técnicas de la tableta
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <v-row dense>
@@ -369,7 +381,7 @@
               Antes de aceptar el equipo o el servicio, confirme cada punto con el proveedor:
             </p>
             <div class="verificacion-lista mb-4">
-              <div class="verificacion-lista__titulo">Dispositivo (tablet)</div>
+              <div class="verificacion-lista__titulo">Dispositivo (tableta)</div>
               <div v-for="c in verificacionTablet" :key="c" class="verificacion-fila">
                 <v-icon size="16" color="#1b7a43">mdi-checkbox-blank-outline</v-icon>
                 <span>{{ c }}</span>
@@ -523,7 +535,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, watch } from 'vue'
 import Swal from 'sweetalert2'
 import api from '@/helpers/api.js'
 import CiudadaniaMap from '@/components/CiudadaniaMap.vue'
@@ -710,7 +722,7 @@ const appResultadoSerie = (serie, resultado) => {
           </div>
         </div>
         <p class="nota">
-          No hay ninguna tablet con este número de serie registrada en el servicio, así que
+          No hay ninguna tableta con este número de serie registrada en el servicio, así que
           no se le puede asignar ningún establecimiento. Verifique que el número esté completo
           y tal como aparece en la etiqueta del equipo o en su caja.
         </p>`,
@@ -766,14 +778,14 @@ const appResultadoSerie = (serie, resultado) => {
 const appResultadosEstablecimiento = (consulta, lista) => {
   if (!lista?.length) {
     return paginaTablet({
-      titulo: 'Tablets por establecimiento',
+      titulo: 'Tabletas por establecimiento',
       subtitulo: `Búsqueda: ${consulta}`,
       cuerpo: `
         <div class="vacio">
           <div class="vacio__icono">&#128269;</div>
-          <div class="vacio__titulo">No hay establecimientos con tablets</div>
+          <div class="vacio__titulo">No hay establecimientos con tabletas</div>
           <p>
-            Ningún establecimiento que coincida con «${escaparHtml(consulta)}» tiene tablets
+            Ningún establecimiento que coincida con «${escaparHtml(consulta)}» tiene tabletas
             registradas en Ciudadanía Digikal. Pruebe con el código UDI completo o con parte
             del nombre oficial del centro educativo.
           </p>
@@ -798,7 +810,7 @@ const appResultadosEstablecimiento = (consulta, lista) => {
     </tr>`).join('')
 
   return paginaTablet({
-    titulo: 'Tablets por establecimiento',
+    titulo: 'Tabletas por establecimiento',
     subtitulo: `Búsqueda: ${consulta}`,
     cuerpo: `
       <div class="resumen">
@@ -808,15 +820,15 @@ const appResultadosEstablecimiento = (consulta, lista) => {
         </div>
         <div class="resumen__dato">
           <b>${totalEstudiantes}</b>
-          <span>${totalEstudiantes === 1 ? 'Estudiante con tablet' : 'Estudiantes con tablet'}</span>
+          <span>${totalEstudiantes === 1 ? 'Estudiante con tableta' : 'Estudiantes con tabletas'}</span>
         </div>
         <div class="resumen__dato">
           <b>${totalDocentes}</b>
-          <span>${totalDocentes === 1 ? 'Docente con tablet' : 'Docentes con tablet'}</span>
+          <span>${totalDocentes === 1 ? 'Docente con tableta' : 'Docentes con tabletas'}</span>
         </div>
         <div class="resumen__dato">
           <b>${totalTablets}</b>
-          <span>${totalTablets === 1 ? 'Tablet en total' : 'Tablets en total'}</span>
+          <span>${totalTablets === 1 ? 'Tableta en total' : 'Tabletas en total'}</span>
         </div>
       </div>
       <table>
@@ -841,10 +853,15 @@ const ultimaSerieBuscada = ref('')
 const resultadoSerie = ref(null)
 const buscandoSerie = ref(false)
 
-/* El campo se bloquea sólo cuando la consulta ENCONTRÓ la tablet. Si no
-   apareció, lo normal es que haya un dígito mal y hay que poder corregirlo
-   sin dar un paso de más. */
-const serieBloqueada = computed(() => Boolean(resultadoSerie.value?.pertenece))
+/* En cuanto hay un resultado en pantalla (pertenezca o no), el campo se bloquea
+   y el botón pasa a "Resetear": así siempre hay forma de limpiar lo consultado
+   y volver a empezar, sin quedar un texto a medio cambiar junto a un resultado
+   que ya no le corresponde. Para corregir una serie mal escrita se usa el
+   propio botón "Resetear". */
+const serieBloqueada = computed(() => resultadoSerie.value !== null)
+
+/* Para bloquear el campo de establecimiento mientras se escribe aquí. */
+const serieTieneTexto = computed(() => (serieBuscada.value ?? '').trim().length > 0)
 
 const resetearSerie = () => {
   serieBuscada.value = ''
@@ -852,8 +869,20 @@ const resetearSerie = () => {
   ultimaSerieBuscada.value = ''
 }
 
+/* Si se borra el contenido a mano (tecla Suprimir/Backspace o el botón "x"
+   del campo, no el botón "Resetear"), la tablet debe volver sola a su
+   pantalla de inicio: de lo contrario se queda mostrando un resultado que ya
+   no corresponde a lo que hay escrito. */
+watch(serieBuscada, (actual, anterior) => {
+  if (!(actual ?? '').trim() && (anterior ?? '').trim()) {
+    resultadoSerie.value = null
+    ultimaSerieBuscada.value = ''
+    tabletRef.value?.irAInicio()
+  }
+})
+
 const buscarPorSerie = async () => {
-  const serie = serieBuscada.value.trim()
+  const serie = (serieBuscada.value ?? '').trim()
   if (!serie) return
 
   buscandoSerie.value = true
@@ -884,14 +913,27 @@ const buscandoEstablecimiento = ref(false)
 /* Igual que en la búsqueda por serie: sólo se bloquea si hubo resultados. */
 const establecimientoBloqueado = computed(() => Boolean(resultadosEstablecimiento.value?.length))
 
+/* Para bloquear el campo de serie mientras se escribe aquí. */
+const establecimientoTieneTexto = computed(() => (establecimientoBuscado.value ?? '').trim().length > 0)
+
 const resetearEstablecimiento = () => {
   establecimientoBuscado.value = ''
   resultadosEstablecimiento.value = null
   ultimoEstablecimientoBuscado.value = ''
 }
 
+/* Mismo criterio que en la búsqueda por serie: borrar a mano regresa la
+   tablet a su animación de inicio. */
+watch(establecimientoBuscado, (actual, anterior) => {
+  if (!(actual ?? '').trim() && (anterior ?? '').trim()) {
+    resultadosEstablecimiento.value = null
+    ultimoEstablecimientoBuscado.value = ''
+    tabletRef.value?.irAInicio()
+  }
+})
+
 const buscarPorEstablecimiento = async () => {
-  const q = establecimientoBuscado.value.trim()
+  const q = (establecimientoBuscado.value ?? '').trim()
   if (q.length < 2) {
     return Swal.fire('Muy corto', 'Escriba al menos 2 caracteres para buscar.', 'warning')
   }
@@ -904,7 +946,7 @@ const buscarPorEstablecimiento = async () => {
     // La tabla (o el aviso de que no hay ninguno) se muestra en la tablet.
     tabletRef.value?.mostrarApp({
       html: appResultadosEstablecimiento(q, data.resultados),
-      nombre: 'Tablets por establecimiento',
+      nombre: 'Tabletas por establecimiento',
     })
   } catch (error) {
     Swal.fire('Error', error.response?.data?.message || 'No se pudo realizar la búsqueda', 'error')
@@ -1214,6 +1256,29 @@ onMounted(() => {
 
 .hero-busqueda:first-child h3 {
   margin-top: 0;
+}
+
+/* "opcional" junto al título: aclara que estos dos buscadores son atajos
+   independientes para quien quiera comprobar algo puntual, no un formulario
+   que haya que completar para ver el resto de la vista. */
+.hero-busqueda__opcional {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  background: #f1f5f9;
+  border-radius: 999px;
+  padding: 2px 9px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.hero-busqueda__ayuda {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0 0 12px;
+  line-height: 1.4;
 }
 
 /* ===== Conteo de tablets por establecimiento (columna izquierda) ===== */

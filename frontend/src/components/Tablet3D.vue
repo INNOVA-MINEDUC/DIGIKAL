@@ -10,7 +10,7 @@
          display:none de #panel. -->
     <aside id="panel">
       <header>
-        <h1>Tablet 3D</h1>
+        <h1>Tableta 3D</h1>
         <button id="panel-toggle" title="Ocultar / mostrar panel">–</button>
       </header>
 
@@ -26,7 +26,7 @@
             <button class="chip" data-demo="notas.html" data-app="notas">Notas</button>
             <button class="chip" data-demo="reloj.html" data-app="reloj">Reloj</button>
           </div>
-          <p class="hint">La tablet arranca en su escritorio: toca los iconos de la propia
+          <p class="hint">La tableta arranca en su escritorio: toca los iconos de la propia
           pantalla y las aplicaciones se abren con animación. El botón redondo del bisel
           inferior vuelve al inicio.</p>
 
@@ -37,7 +37,7 @@
           </div>
 
           <label class="lbl" for="html">Pegar HTML propio</label>
-          <textarea id="html" spellcheck="false" placeholder="&lt;h1&gt;Hola desde la tablet&lt;/h1&gt;"></textarea>
+          <textarea id="html" spellcheck="false" placeholder="&lt;h1&gt;Hola desde la tableta&lt;/h1&gt;"></textarea>
           <div class="row">
             <button id="load-html" class="primary wide">Cargar HTML</button>
           </div>
@@ -48,7 +48,7 @@
           <h2>PDF</h2>
           <select id="pdf-list"><option value="">Buscando en pdfs/…</option></select>
           <div class="row" style="margin-top:8px">
-            <button id="pdf-open" class="primary wide">Mostrar en la tablet</button>
+            <button id="pdf-open" class="primary wide">Mostrar en la tableta</button>
             <button id="pdf-reload" title="Volver a leer la carpeta">↻</button>
           </div>
           <div class="row">
@@ -119,7 +119,7 @@
         </section>
 
         <section>
-          <h2>Tablet</h2>
+          <h2>Tableta</h2>
           <label class="lbl" for="finish">Acabado</label>
           <select id="finish">
             <option value="grafito">Grafito</option>
@@ -130,7 +130,7 @@
           <label class="check"><input type="checkbox" id="power" checked /> Pantalla encendida</label>
           <label class="check"><input type="checkbox" id="reflection" checked /> Reflejo del cristal</label>
           <label class="check"><input type="checkbox" id="interact" /> Modo interacción en la pantalla</label>
-          <p class="hint">Apagado: arrastra donde quieras para girar la tablet; un clic simple sigue
+          <p class="hint">Apagado: arrastra donde quieras para girar la tableta; un clic simple sigue
           llegando al HTML. Encendido: la pantalla se comporta como una web normal (scroll, selección
           de texto), pero ahí ya no gira.</p>
         </section>

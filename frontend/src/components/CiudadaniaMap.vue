@@ -6,9 +6,9 @@
          un simple degradado de dos colores no hace falta añadir más superficie
          de la librería de mapas, y así es trivial de leer y mantener. -->
     <div class="mapa-ciudadania__leyenda">
-      <span class="mapa-ciudadania__leyenda-etiqueta">Menos tablets</span>
+      <span class="mapa-ciudadania__leyenda-etiqueta">Menos tabletas</span>
       <div class="mapa-ciudadania__leyenda-barra"></div>
-      <span class="mapa-ciudadania__leyenda-etiqueta">Más tablets</span>
+      <span class="mapa-ciudadania__leyenda-etiqueta">Más tabletas</span>
     </div>
   </div>
 </template>
@@ -114,8 +114,8 @@ onMounted(() => {
     const nombre = target.dataItem?.dataContext?.departamen ?? 'Departamento'
     const cantidad = mapaCantidades.get(norm(nombre)) ?? 0
     return cantidad === 1
-      ? `${nombre}\n1 tablet registrada`
-      : `${nombre}\n${cantidad} tablets registradas`
+      ? `${nombre}\n1 tableta registrada`
+      : `${nombre}\n${cantidad} tabletas registradas`
   })
 })
 

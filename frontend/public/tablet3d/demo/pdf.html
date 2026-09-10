@@ -204,7 +204,7 @@ addEventListener('scroll', () => {
   requestAnimationFrame(() => { pendiente = false; marcarPagina(); });
 }, { passive: true });
 
-// Ordenes desde la tablet (la rueda del raton y los botones de pagina)
+// Ordenes desde la tableta (la rueda del raton y los botones de pagina)
 addEventListener('message', e => {
   const m = e.data;
   if (!m || typeof m !== 'object') return;
@@ -222,7 +222,7 @@ addEventListener('message', e => {
 
 const archivo = qs.get('file');
 if (archivo) abrir(archivo, qs.get('name') || archivo.split('/').pop());
-else aviso('Sin documento', 'Elige un PDF en el panel de la tablet.');
+else aviso('Sin documento', 'Elige un PDF en el panel de la tableta.');
 </script>
 </body>
 </html>

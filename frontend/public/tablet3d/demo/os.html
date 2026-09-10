@@ -154,7 +154,7 @@
   #ventana[hidden] { display: none; }
   #ventana iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
 
-  #barrita {                               /* barra de inicio, como la de las tablets */
+  #barrita {                               /* barra de inicio, como la de las tabletas */
     position: fixed;
     left: 50%;
     bottom: 10px;
@@ -264,7 +264,7 @@ function pintarRejilla() {
 pintarRejilla();
 
 /* ====================== los PDF de la carpeta, como aplicaciones ======================
-   La lista la manda la tablet: ya la ha leido para su propio panel y no tiene
+   La lista la manda la tableta: ya la ha leido para su propio panel y no tiene
    sentido pedir el indice de la carpeta dos veces. */
 function ponerPdfs(nombres) {
   for (let i = APPS.length - 1; i >= 0; i--) if (APPS[i].pdf) APPS.splice(i, 1);
@@ -402,7 +402,7 @@ try {
   ponerFondo(FONDO_POR_DEFECTO, false);   // navegador sin localStorage disponible
 }
 
-/* ====================== ordenes desde la tablet ====================== */
+/* ====================== ordenes desde la tableta ====================== */
 addEventListener('message', e => {
   const m = e.data;
   if (!m || typeof m !== 'object') return;
