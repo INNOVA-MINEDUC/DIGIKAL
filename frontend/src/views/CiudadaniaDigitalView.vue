@@ -51,10 +51,15 @@
 
           <!-- Por número de serie -->
           <div class="hero-busqueda">
-            <h3 class="text-subtitle-1 font-weight-bold mb-3" style="color:#003366;">
+            <h3 class="text-subtitle-1 font-weight-bold mb-1" style="color:#003366;">
               <v-icon size="20" class="mr-1">mdi-barcode-scan</v-icon>
               Buscar por número de serie
+              <span class="hero-busqueda__opcional">opcional</span>
             </h3>
+            <p class="hero-busqueda__ayuda">
+              Si conoce el número de serie de una tableta, escríbalo aquí para comprobar si
+              pertenece al programa.
+            </p>
 
             <!-- Con un resultado en pantalla el campo se bloquea y el botón
                  pasa a "Resetear": deja claro que lo que se ve corresponde a
@@ -63,17 +68,18 @@
             <v-text-field
               v-model="serieBuscada"
               placeholder="Ej. TAB-0045-QTZ"
-              variant="outlined" density="comfortable" hide-details
+              variant="solo-filled" flat rounded="lg" density="comfortable" hide-details
               prepend-inner-icon="mdi-magnify"
               :clearable="!serieBloqueada"
               :readonly="serieBloqueada"
+              :disabled="establecimientoTieneTexto"
               :loading="buscandoSerie"
               @keyup.enter="serieBloqueada ? resetearSerie() : buscarPorSerie()"
               @click:clear="resultadoSerie = null"
             >
               <template #append>
                 <v-btn
-                  :color="serieBloqueada ? '#64748b' : '#0094D3'"
+                  color="#0094D3"
                   style="color:#fff;" variant="flat" class="text-none"
                   :loading="buscandoSerie"
                   :prepend-icon="serieBloqueada ? 'mdi-refresh' : undefined"
@@ -120,25 +126,31 @@
 
           <!-- Por establecimiento -->
           <div class="hero-busqueda">
-            <h3 class="text-subtitle-1 font-weight-bold mb-3" style="color:#003366;">
+            <h3 class="text-subtitle-1 font-weight-bold mb-1" style="color:#003366;">
               <v-icon size="20" class="mr-1">mdi-school-outline</v-icon>
               Buscar por establecimiento
+              <span class="hero-busqueda__opcional">opcional</span>
             </h3>
+            <p class="hero-busqueda__ayuda">
+              Escriba el nombre o el código UDI de un centro educativo para ver cuántas
+              tabletas tiene asignadas.
+            </p>
 
             <v-text-field
               v-model="establecimientoBuscado"
               placeholder="Nombre o código UDI del establecimiento"
-              variant="outlined" density="comfortable" hide-details
+              variant="solo-filled" flat rounded="lg" density="comfortable" hide-details
               prepend-inner-icon="mdi-magnify"
               :clearable="!establecimientoBloqueado"
               :readonly="establecimientoBloqueado"
+              :disabled="serieTieneTexto"
               :loading="buscandoEstablecimiento"
               @keyup.enter="establecimientoBloqueado ? resetearEstablecimiento() : buscarPorEstablecimiento()"
               @click:clear="resultadosEstablecimiento = null"
             >
               <template #append>
                 <v-btn
-                  :color="establecimientoBloqueado ? '#64748b' : '#0094D3'"
+                  color="#0094D3"
                   style="color:#fff;" variant="flat" class="text-none"
                   :loading="buscandoEstablecimiento"
                   :prepend-icon="establecimientoBloqueado ? 'mdi-refresh' : undefined"
@@ -523,7 +535,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, watch } from 'vue'
 import Swal from 'sweetalert2'
 import api from '@/helpers/api.js'
 import CiudadaniaMap from '@/components/CiudadaniaMap.vue'
@@ -841,10 +853,15 @@ const ultimaSerieBuscada = ref('')
 const resultadoSerie = ref(null)
 const buscandoSerie = ref(false)
 
-/* El campo se bloquea sólo cuando la consulta ENCONTRÓ la tablet. Si no
-   apareció, lo normal es que haya un dígito mal y hay que poder corregirlo
-   sin dar un paso de más. */
-const serieBloqueada = computed(() => Boolean(resultadoSerie.value?.pertenece))
+/* En cuanto hay un resultado en pantalla (pertenezca o no), el campo se bloquea
+   y el botón pasa a "Resetear": así siempre hay forma de limpiar lo consultado
+   y volver a empezar, sin quedar un texto a medio cambiar junto a un resultado
+   que ya no le corresponde. Para corregir una serie mal escrita se usa el
+   propio botón "Resetear". */
+const serieBloqueada = computed(() => resultadoSerie.value !== null)
+
+/* Para bloquear el campo de establecimiento mientras se escribe aquí. */
+const serieTieneTexto = computed(() => (serieBuscada.value ?? '').trim().length > 0)
 
 const resetearSerie = () => {
   serieBuscada.value = ''
@@ -852,8 +869,20 @@ const resetearSerie = () => {
   ultimaSerieBuscada.value = ''
 }
 
+/* Si se borra el contenido a mano (tecla Suprimir/Backspace o el botón "x"
+   del campo, no el botón "Resetear"), la tablet debe volver sola a su
+   pantalla de inicio: de lo contrario se queda mostrando un resultado que ya
+   no corresponde a lo que hay escrito. */
+watch(serieBuscada, (actual, anterior) => {
+  if (!(actual ?? '').trim() && (anterior ?? '').trim()) {
+    resultadoSerie.value = null
+    ultimaSerieBuscada.value = ''
+    tabletRef.value?.irAInicio()
+  }
+})
+
 const buscarPorSerie = async () => {
-  const serie = serieBuscada.value.trim()
+  const serie = (serieBuscada.value ?? '').trim()
   if (!serie) return
 
   buscandoSerie.value = true
@@ -884,14 +913,27 @@ const buscandoEstablecimiento = ref(false)
 /* Igual que en la búsqueda por serie: sólo se bloquea si hubo resultados. */
 const establecimientoBloqueado = computed(() => Boolean(resultadosEstablecimiento.value?.length))
 
+/* Para bloquear el campo de serie mientras se escribe aquí. */
+const establecimientoTieneTexto = computed(() => (establecimientoBuscado.value ?? '').trim().length > 0)
+
 const resetearEstablecimiento = () => {
   establecimientoBuscado.value = ''
   resultadosEstablecimiento.value = null
   ultimoEstablecimientoBuscado.value = ''
 }
 
+/* Mismo criterio que en la búsqueda por serie: borrar a mano regresa la
+   tablet a su animación de inicio. */
+watch(establecimientoBuscado, (actual, anterior) => {
+  if (!(actual ?? '').trim() && (anterior ?? '').trim()) {
+    resultadosEstablecimiento.value = null
+    ultimoEstablecimientoBuscado.value = ''
+    tabletRef.value?.irAInicio()
+  }
+})
+
 const buscarPorEstablecimiento = async () => {
-  const q = establecimientoBuscado.value.trim()
+  const q = (establecimientoBuscado.value ?? '').trim()
   if (q.length < 2) {
     return Swal.fire('Muy corto', 'Escriba al menos 2 caracteres para buscar.', 'warning')
   }
@@ -1214,6 +1256,29 @@ onMounted(() => {
 
 .hero-busqueda:first-child h3 {
   margin-top: 0;
+}
+
+/* "opcional" junto al título: aclara que estos dos buscadores son atajos
+   independientes para quien quiera comprobar algo puntual, no un formulario
+   que haya que completar para ver el resto de la vista. */
+.hero-busqueda__opcional {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  background: #f1f5f9;
+  border-radius: 999px;
+  padding: 2px 9px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.hero-busqueda__ayuda {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0 0 12px;
+  line-height: 1.4;
 }
 
 /* ===== Conteo de tablets por establecimiento (columna izquierda) ===== */

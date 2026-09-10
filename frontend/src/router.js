@@ -111,7 +111,7 @@ const routes = [
     meta: {
       requiresAuth: false,
       titulo: 'Ciudadanía Digikal | DIGIKAL Guatemala',
-      descripcion: 'Programa Ciudadanía Digikal: criterios de selección, lineamientos para OPF y consulta pública de tablets asignadas a establecimientos educativos de Guatemala.',
+      descripcion: 'Programa Ciudadanía Digikal: criterios de selección, lineamientos para OPF y consulta pública de tabletas asignadas a establecimientos educativos de Guatemala.',
     }
   },
 
