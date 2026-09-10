@@ -237,7 +237,7 @@
       <v-col cols="12" sm="4">
         <v-card class="pa-4 text-center" rounded="xl" elevation="2">
           <div class="text-h6 font-weight-bold text-truncate" style="color:#1b7a43;">
-            {{ resumen.departamentoTop?.departamento || '—' }}
+            {{ capitalizar(resumen.departamentoTop?.departamento) || '—' }}
           </div>
           <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">
             Departamento con más tabletas
@@ -275,7 +275,7 @@
           <div v-else class="ranking-lista">
             <div v-for="(d, i) in resumen.porDepartamento" :key="d.departamento" class="ranking-fila">
               <span class="ranking-fila__pos">{{ i + 1 }}</span>
-              <span class="ranking-fila__nombre text-capitalize">{{ d.departamento }}</span>
+              <span class="ranking-fila__nombre">{{ capitalizar(d.departamento) }}</span>
               <div class="ranking-fila__barra-fondo">
                 <div
                   class="ranking-fila__barra"
@@ -565,6 +565,15 @@ const barraAncho = (cantidad) => {
   return Math.max(4, Math.round((cantidad / max) * 100))
 }
 
+/** El backend devuelve departamento/municipio en minúsculas (LOWER() en la
+    consulta); acá se pone en mayúscula la primera letra de cada palabra
+    ("alta verapaz" → "Alta Verapaz"). Se aplica en JS en vez de depender de
+    la clase CSS text-capitalize para que el resultado sea el mismo en todos
+    los lugares donde aparece un nombre de departamento, incluida la tarjeta
+    de KPI y el HTML que se inyecta dentro de la tablet. */
+const capitalizar = (texto) =>
+  (texto ?? '').toString().trim().toLowerCase().replace(/(^|\s)\S/g, (c) => c.toUpperCase())
+
 /* ══════════════════════════════════════════════════════════════════════════
    APLICACIONES QUE SE ABREN DENTRO DE LA TABLET 3D
 
@@ -705,7 +714,7 @@ const paginaTablet = ({ titulo, subtitulo, cuerpo }) => `<!DOCTYPE html>
 </html>`
 
 const ubicacionTexto = (departamento, municipio) =>
-  [departamento, municipio].filter(Boolean).join(', ') || '—'
+  [departamento, municipio].map(capitalizar).filter(Boolean).join(', ') || '—'
 
 /** Resultado de consultar un número de serie: a qué establecimiento pertenece. */
 const appResultadoSerie = (serie, resultado) => {
@@ -910,8 +919,10 @@ const ultimoEstablecimientoBuscado = ref('')
 const resultadosEstablecimiento = ref(null)
 const buscandoEstablecimiento = ref(false)
 
-/* Igual que en la búsqueda por serie: sólo se bloquea si hubo resultados. */
-const establecimientoBloqueado = computed(() => Boolean(resultadosEstablecimiento.value?.length))
+/* En cuanto hay un resultado en pantalla (con o sin coincidencias), el campo se
+   bloquea y el botón pasa a "Resetear": mismo criterio que en la búsqueda por
+   serie, para poder limpiar siempre la consulta y volver a empezar. */
+const establecimientoBloqueado = computed(() => resultadosEstablecimiento.value !== null)
 
 /* Para bloquear el campo de serie mientras se escribe aquí. */
 const establecimientoTieneTexto = computed(() => (establecimientoBuscado.value ?? '').trim().length > 0)
@@ -1223,6 +1234,7 @@ onMounted(() => {
 .vista-ciudadania {
   background: #f8fafc;
   min-height: 100%;
+  user-select: text;
 }
 
 /* ===== Cabecera compacta: título + montos + botón de alta ===== */
