@@ -14,8 +14,15 @@ import { TABLETS_DB } from './env.js';
  *   - Las consultas se hacen con SQL directo (sequelize.query) porque varias
  *     tablas tienen clave primaria compuesta y lo que se necesita son
  *     agregados y uniones entre alumnos y docentes, no un ORM por fila.
- * Si algún día hay que escribir aquí, que sea con un usuario distinto y una
- * revisión aparte: este servicio solo consulta.
+ *
+ * ÚNICA EXCEPCIÓN: controllers/SolicitudSerieController.js corrige el número
+ * de serie de un equipo (columna `serie`/`serie_2` de una fila localizada por
+ * su clave primaria completa) y escribe en `solicitudes_cambio_serie`. Está
+ * acotada a propósito —requiere acta firmada por el director, verificación de
+ * una persona con sesión, y el UPDATE exige que la serie siga siendo la que se
+ * pidió corregir— y documentada en la cabecera de ese archivo.
+ * Cualquier OTRA escritura debería seguir prohibida: si hace falta, que sea
+ * con un usuario distinto y una revisión aparte.
  *
  * La configuración viene de config/env.js (nunca de process.env directo), que
  * ya validó que estén las cuatro variables o ninguna.

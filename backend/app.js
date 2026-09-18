@@ -77,7 +77,10 @@ app.use(cors({
 
     return callback(new Error('Origen no permitido por CORS'));
   },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  // PATCH lo usan las acciones de la bandeja de verificación de series
+  // (verificar / aprobar / rechazar). Sin él, el navegador bloquea esas
+  // peticiones en el preflight y nunca llegan al servidor.
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   credentials: true,
   maxAge: 600,
 }));

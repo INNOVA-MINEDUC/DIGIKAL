@@ -70,6 +70,16 @@
             Auditoría
           </v-btn>
 
+          <!-- Bandeja de solicitudes de corrección de número de serie
+               (Ciudadanía Digikal): sólo para quien tiene sesión. -->
+          <v-btn
+            v-if="logged && (isAdmin || isUser)"
+            to="/ciudadania-digital/verificacion"
+            variant="text"
+          >
+            Verificar series
+          </v-btn>
+
           <v-btn
             v-if="!logged"
             to="/login"
@@ -154,6 +164,12 @@
           prepend-icon="mdi-clipboard-text-clock"
           to="/auditoria"
           title="Auditoría"
+        />
+        <v-list-item
+          v-if="logged && (isAdmin || isUser)"
+          prepend-icon="mdi-file-check-outline"
+          to="/ciudadania-digital/verificacion"
+          title="Verificar series"
         />
 
         <v-divider class="my-2" />

@@ -41,6 +41,9 @@ const RAIZ_UPLOADS = path.resolve('uploads');
 const CARPETAS = {
   actas: 'actas',
   imgs: 'imgs',
+  // Actas firmadas por el director que autorizan un cambio de número de serie
+  // (Ciudadanía Digikal).
+  solicitudes: 'solicitudes',
 };
 
 /**
@@ -85,6 +88,7 @@ const extraerKey = (direccion) => {
 const PERFIL_POR_CARPETA = {
   actas: 'pdf',
   imgs: 'imagen',
+  solicitudes: 'documento',
 };
 
 /**

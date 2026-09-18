@@ -20,6 +20,7 @@ const DownloadData   = () => import('./views/DownloadData.vue')
 const UserManagement = () => import('./views/UserManagement.vue')
 const AuditLogView   = () => import('./views/AuditLogView.vue')
 const CiudadaniaDigitalView = () => import('./views/CiudadaniaDigitalView.vue')
+const VerificacionSerieView = () => import('./views/VerificacionSerieView.vue')
 const NotFound       = () => import('./views/NotFound.vue')
 
 const routes = [
@@ -112,6 +113,20 @@ const routes = [
       requiresAuth: false,
       titulo: 'Ciudadanía Digikal | DIGIKAL Guatemala',
       descripcion: 'Programa Ciudadanía Digikal: criterios de selección, lineamientos para OPF y consulta pública de tabletas asignadas a establecimientos educativos de Guatemala.',
+    }
+  },
+
+  {
+    // Bandeja del personal: revisar las solicitudes de corrección de número de
+    // serie comparando lo que se escribió con el acta firmada por el director.
+    // Protegida porque aprobar aquí cambia la serie REAL del equipo.
+    path: '/ciudadania-digital/verificacion',
+    name: 'ciudadania-verificacion',
+    component: VerificacionSerieView,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['admin', 'user', 'auditor'],
+      titulo: 'Verificación de números de serie | DIGIKAL Guatemala',
     }
   },
 
