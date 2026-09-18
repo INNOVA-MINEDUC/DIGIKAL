@@ -38,6 +38,15 @@ export const PERFILES = {
     firmas: ['jpeg', 'png'],
     etiqueta: 'imagen JPG o PNG',
   },
+  /* Documento escaneado: el acta firmada y sellada por el director que
+     autoriza un cambio de número de serie. Se acepta PDF o foto porque en el
+     campo lo normal es fotografiar el papel con el teléfono, no escanearlo. */
+  documento: {
+    extensiones: ['.pdf', '.jpg', '.jpeg', '.png'],
+    mimetypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'],
+    firmas: ['pdf', 'jpeg', 'png'],
+    etiqueta: 'PDF o imagen (JPG/PNG)',
+  },
   excel: {
     extensiones: ['.xlsx', '.xls'],
     mimetypes: [

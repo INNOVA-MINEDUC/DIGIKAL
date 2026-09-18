@@ -408,9 +408,15 @@
             class="d-none" @change="subirFotos" />
 
           <div v-if="detalle.imagenes.length" class="d-flex flex-wrap ga-2">
-            <v-img v-for="img in detalle.imagenes" :key="img.id" :src="img.url"
-              width="104" height="104" cover class="rounded-lg evidencia-mini"
-              @click="abrirUrl(img.url)" />
+            <div
+              v-for="(img, idx) in detalle.imagenes" :key="img.id"
+              class="foto" @click="abrirVisor(detalle.imagenes, idx)"
+            >
+              <v-img :src="img.url" width="104" height="104" cover class="foto__img" />
+              <div class="foto__velo">
+                <v-icon color="white" size="22">mdi-magnify-plus-outline</v-icon>
+              </div>
+            </div>
           </div>
 
           <v-alert v-else type="info" variant="tonal" density="compact" class="text-body-2">
@@ -424,6 +430,24 @@
           <v-spacer />
           <v-btn variant="text" @click="dialogDetalle = false">Cerrar</v-btn>
         </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Visor de fotos a pantalla grande — mismo patrón que en el detalle de
+         establecimiento (SchoolView.vue): clic en una miniatura y navegación
+         con flechas dentro de las fotos de ESA dotación. -->
+    <v-dialog v-model="visor" max-width="900">
+      <v-card class="rounded-lg">
+        <v-toolbar density="compact" color="#003366">
+          <v-toolbar-title class="text-body-2">
+            Foto {{ indice + 1 }} de {{ galeria.length }}
+          </v-toolbar-title>
+          <v-spacer />
+          <v-btn icon="mdi-chevron-left" :disabled="indice === 0" @click="indice--" />
+          <v-btn icon="mdi-chevron-right" :disabled="indice >= galeria.length - 1" @click="indice++" />
+          <v-btn icon="mdi-close" @click="visor = false" />
+        </v-toolbar>
+        <v-img :src="galeria[indice]?.url" max-height="70vh" contain />
       </v-card>
     </v-dialog>
 
@@ -525,6 +549,18 @@ const search = ref('')
 // Diálogo de detalle completo de una dotación.
 const dialogDetalle = ref(false)
 const detalle = ref(null)
+
+// Visor de fotos a pantalla grande (mismo patrón que SchoolView.vue).
+const visor = ref(false)
+const galeria = ref([])
+const indice = ref(0)
+
+/** Se abre el visor sobre las fotos de ESA dotación, no sobre todas juntas. */
+const abrirVisor = (imagenes, idx) => {
+  galeria.value = imagenes
+  indice.value = idx
+  visor.value = true
+}
 
 // Paginación de la tabla de actas dentro del diálogo (10 por página).
 const actasPage = ref(1)
@@ -1400,14 +1436,34 @@ onMounted(() => {
   background-color: #fafbfc;
 }
 
-.evidencia-mini {
+/* ── Fotos de evidencia (visor modal) — mismo patrón que SchoolView.vue ──── */
+.foto {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
   cursor: zoom-in;
   border: 1px solid rgba(0, 51, 102, 0.12);
-  transition: transform 0.15s ease;
 }
 
-.evidencia-mini:hover {
-  transform: scale(1.04);
+.foto__img {
+  display: block;
+}
+
+/* El velo sólo aparece al pasar por encima: en táctil no hay hover, así que la
+   foto se ve limpia y el toque abre el visor igual. */
+.foto__velo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 51, 102, 0.45);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.foto:hover .foto__velo {
+  opacity: 1;
 }
 
 .gap-3 {
@@ -1473,7 +1529,7 @@ onMounted(() => {
   }
 
   /* La rejilla de fotos de evidencia se ajusta al ancho disponible. */
-  .evidencia-mini {
+  .foto__img {
     width: 84px !important;
     height: 84px !important;
   }

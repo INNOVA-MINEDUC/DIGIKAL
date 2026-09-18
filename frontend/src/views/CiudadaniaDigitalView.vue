@@ -263,7 +263,7 @@
 
       <v-col cols="12" md="5">
         <v-card rounded="xl" elevation="2" class="pa-4 ranking-card">
-          <h3 class="text-subtitle-1 font-weight-bold mb-3" style="color:#003366;">
+          <h3 class="text-subtitle-1 font-weight-bold mb-3 ranking-card__titulo" style="color:#003366;">
             <v-icon size="20" class="mr-1">mdi-podium</v-icon>
             Departamentos con más tabletas
           </h3>
@@ -272,6 +272,9 @@
             Aún no hay tabletas registradas.
           </div>
 
+          <!-- Con los 22 departamentos la lista no cabe en la altura del mapa:
+               se deja a la misma altura y con scroll propio, en vez de crecer
+               más abajo que el mapa (ver .ranking-card en <style>). -->
           <div v-else class="ranking-lista">
             <div v-for="(d, i) in resumen.porDepartamento" :key="d.departamento" class="ranking-fila">
               <span class="ranking-fila__pos">{{ i + 1 }}</span>
@@ -288,6 +291,16 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         SOLICITUD DE CORRECCIÓN DEL NÚMERO DE SERIE
+         Pública: la envía la dirección o la OPF adjuntando el acta firmada y
+         sellada por el director. Nada se aplica hasta que alguien del personal
+         lo verifica en /ciudadania-digital/verificacion.
+         ══════════════════════════════════════════════════════════════════ -->
+    <div class="mt-4 mb-2">
+      <SolicitudCambioSerie />
+    </div>
 
     <!-- ══════════════════════════════════════════════════════════════════
          INFORMACIÓN DEL PROGRAMA
@@ -540,6 +553,7 @@ import Swal from 'sweetalert2'
 import api from '@/helpers/api.js'
 import CiudadaniaMap from '@/components/CiudadaniaMap.vue'
 import Tablet3D from '@/components/Tablet3D.vue'
+import SolicitudCambioSerie from '@/components/SolicitudCambioSerie.vue'
 
 /* ── Resumen (KPIs, mapa, ranking) ─────────────────────────────────────── */
 
@@ -1418,8 +1432,12 @@ onMounted(() => {
   }
 }
 
+/* Altura FIJA (antes min-height) e igual a .ranking-card: con min-height el
+   mapa y el ranking no quedaban alineados uno junto al otro. El mapa interno
+   usa height:100% (ver CiudadaniaMap.vue), que necesita un alto explícito en
+   el contenedor para resolverse bien — con min-height a veces no lo hacía. */
 .mapa-card {
-  min-height: 440px;
+  height: 440px;
   display: flex;
   flex-direction: column;
 }
@@ -1534,16 +1552,41 @@ onMounted(() => {
   text-decoration: underline;
 }
 
+/* Misma altura que .mapa-card, pero FIJA (no min-height): con los 22
+   departamentos del país la lista es más alta que el mapa, así que en vez de
+   crecer y desbordarse se recorta a esta altura y desplaza por dentro.
+   display:flex + .ranking-lista con flex:1 es lo que permite que sólo la
+   lista tenga scroll y el título se quede fijo arriba (ver min-height:0,
+   necesario para que un hijo flex pueda encogerse por debajo de su contenido). */
 .ranking-card {
-  min-height: 440px;
-  overflow-y: auto;
+  height: 440px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ranking-card__titulo {
+  flex: none;
 }
 
 .ranking-lista {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
 }
+
+/* Barra de scroll fina y discreta, acorde al resto de la vista. */
+.ranking-lista::-webkit-scrollbar { width: 6px; }
+.ranking-lista::-webkit-scrollbar-track { background: transparent; }
+.ranking-lista::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 6px;
+}
+.ranking-lista::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
 .ranking-fila {
   display: grid;
