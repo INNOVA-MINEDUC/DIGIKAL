@@ -106,9 +106,12 @@
             No hay equipos registrados en el inventario de este establecimiento.
           </v-card>
 
+          <!-- Con muchos equipos la tabla no debe alargar la página: la tarjeta
+               tiene altura máxima y hace scroll por dentro (ver .inventario-tabla
+               en <style>). Con pocos equipos se ajusta a su contenido. -->
           <v-card v-else variant="outlined" rounded="xl" class="overflow-hidden">
-            <v-table density="compact">
-              <thead style="background:#eef2f8;">
+            <v-table density="compact" class="inventario-tabla">
+              <thead>
                 <tr>
                   <th class="text-left text-caption font-weight-bold">EQUIPO</th>
                   <th class="text-left text-caption font-weight-bold">MARCA / MODELO</th>
@@ -428,6 +431,31 @@ onMounted(async () => {
 :deep(.v-table__wrapper) {
   overflow-x: auto;
 }
+
+/* Inventario de equipos: altura máxima moderada y scroll vertical propio.
+   Se dotan establecimientos con decenas de computadoras y, sin tope, la lista
+   empujaba hacia abajo la evidencia de la entrega. max-height (no height) para
+   que con 3 equipos la tarjeta no quede con espacio vacío. */
+.inventario-tabla :deep(.v-table__wrapper) {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+/* Encabezado fijo: al bajar por la lista siguen a la vista las columnas.
+   Necesita fondo opaco propio o las filas se transparentan debajo. */
+.inventario-tabla :deep(thead th) {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #eef2f8 !important;
+}
+
+.inventario-tabla :deep(.v-table__wrapper::-webkit-scrollbar) { width: 8px; height: 8px; }
+.inventario-tabla :deep(.v-table__wrapper::-webkit-scrollbar-thumb) {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.inventario-tabla :deep(.v-table__wrapper::-webkit-scrollbar-thumb:hover) { background: #94a3b8; }
 
 /* ── RESPONSIVE ─────────────────────────────────────────────────── */
 @media (max-width: 600px) {

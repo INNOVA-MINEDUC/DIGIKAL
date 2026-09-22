@@ -4,6 +4,7 @@ import { subirArchivo, resolverUrl } from '../services/bucketService.js';
 import { validarMetadatos, validarContenido } from '../utils/archivos.js';
 import { errorServidor, errorValidacion } from '../utils/http.js';
 import logger from '../utils/logger.js';
+import { logAction } from '../services/auditService.js';
 
 /**
  * Ciudadanía Digikal — solicitudes de cambio del número de serie.
@@ -425,7 +426,8 @@ export const verificarSolicitud = async (req, res) => {
     const nota = oNulo(req.body?.nota, 500);
 
     const [solicitud] = await tabletsDb.query(
-      `SELECT id, estado FROM solicitudes_cambio_serie WHERE id = :id LIMIT 1`,
+      `SELECT id, estado, serie_anterior AS serieAnterior, serie_nueva AS serieNueva
+         FROM solicitudes_cambio_serie WHERE id = :id LIMIT 1`,
       { replacements: { id }, type: QueryTypes.SELECT }
     );
     if (!solicitud) return res.status(404).json({ message: 'No existe esa solicitud' });
@@ -457,6 +459,15 @@ export const verificarSolicitud = async (req, res) => {
         type: QueryTypes.UPDATE,
       }
     );
+
+    await logAction(req, {
+      action: coincide ? 'SOLICITUD_SERIE_VERIFICADA' : 'SOLICITUD_SERIE_NO_COINCIDE',
+      module: 'CIUDADANIA_SERIE',
+      resourceId: id,
+      description: coincide
+        ? `Verificó que la serie escrita coincide con el documento (solicitud #${id}, ${solicitud.serieAnterior} → ${solicitud.serieNueva})`
+        : `Marcó que la serie escrita NO coincide con el documento (solicitud #${id}, ${solicitud.serieAnterior} → ${solicitud.serieNueva})${nota ? `: ${nota}` : ''}`,
+    });
 
     return res.status(200).json({
       message: coincide
@@ -607,6 +618,18 @@ export const aprobarSolicitud = async (req, res) => {
       solicitud.serie_anterior, solicitud.serie_nueva, req.user?.email || 'desconocido'
     );
 
+    // Este es el paso que de verdad cambia un dato real (fuera de la
+    // transacción a propósito: si falla el registro de auditoría no debe
+    // deshacerse un cambio que ya quedó confirmado en la base).
+    await logAction(req, {
+      action: 'SOLICITUD_SERIE_APROBADA',
+      module: 'CIUDADANIA_SERIE',
+      resourceId: id,
+      description: `Aprobó la solicitud #${id} y actualizó la serie en ${destino.tabla} de `
+        + `${solicitud.serie_anterior} a ${solicitud.serie_nueva}`
+        + `${destino.tieneSerie2 && solicitud.serie_2_nueva ? ` (serie 2: ${solicitud.serie_2_anterior} → ${solicitud.serie_2_nueva})` : ''}`,
+    });
+
     return res.status(200).json({
       message: 'Solicitud aprobada y número de serie actualizado',
       serieAnterior: solicitud.serie_anterior,
@@ -632,7 +655,8 @@ export const rechazarSolicitud = async (req, res) => {
     if (!motivoRechazo) return errorValidacion(res, 'Indique por qué se rechaza la solicitud');
 
     const [solicitud] = await tabletsDb.query(
-      `SELECT id, estado FROM solicitudes_cambio_serie WHERE id = :id LIMIT 1`,
+      `SELECT id, estado, serie_anterior AS serieAnterior, serie_nueva AS serieNueva
+         FROM solicitudes_cambio_serie WHERE id = :id LIMIT 1`,
       { replacements: { id }, type: QueryTypes.SELECT }
     );
     if (!solicitud) return res.status(404).json({ message: 'No existe esa solicitud' });
@@ -660,6 +684,13 @@ export const rechazarSolicitud = async (req, res) => {
         type: QueryTypes.UPDATE,
       }
     );
+
+    await logAction(req, {
+      action: 'SOLICITUD_SERIE_RECHAZADA',
+      module: 'CIUDADANIA_SERIE',
+      resourceId: id,
+      description: `Rechazó la solicitud #${id} (${solicitud.serieAnterior} → ${solicitud.serieNueva}): ${motivoRechazo}`,
+    });
 
     return res.status(200).json({ message: 'Solicitud rechazada' });
   } catch (error) {

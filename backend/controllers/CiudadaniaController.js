@@ -11,11 +11,16 @@ import { errorServidor, errorValidacion } from '../utils/http.js';
  *
  * De dónde sale cada cosa:
  *   - `dispositivos`           → una fila por tablet de ESTUDIANTE
- *   - `dispositivos_docentes`  → una fila por tablet de DOCENTE (puede traer
- *                                una segunda serie en `serie_2`)
- *   - `establecimientos`       → catálogo: nombre, departamento y municipio
+ *   - `dispositivos_docentes`  → una fila por tablet de DOCENTE (`serie_2` es
+ *                                el SEGUNDO IMEI de ese mismo equipo, no otro)
+ *   - `entregas`               → una fila por establecimiento que ENTREGÓ su
+ *                                archivo: es la lista real de centros
+ *                                atendidos, con su departamento y municipio
+ *   - `establecimientos`       → catálogo completo (1021 centros): nombre,
+ *                                departamento y municipio de cualquier código
  * Las dos tablas de dispositivos se unen con UNION ALL porque, para esta
- * vista, una tablet es una tablet sin importar a quién se entregó.
+ * vista, una tablet es una tablet sin importar a quién se entregó. Lo que se
+ * CUENTA sale de EQUIPOS y de `entregas`; lo que se BUSCA, de TABLETS_SERIES.
  *
  * ═══════════════════════════════════════════════════════════════════════════
  * DATOS PERSONALES — no se devuelven nunca
@@ -50,10 +55,35 @@ const sinBaseDeTablets = (res, contexto) => {
 };
 
 /**
- * Une las dos tablas de dispositivos en una sola lista de tablets.
- * `serie_2` va como fila aparte: es un segundo equipo, no un duplicado.
+ * Una fila por EQUIPO FÍSICO (tablets de estudiantes + de docentes).
+ *
+ * `serie_2` NO genera fila aquí: en los datos reales es el SEGUNDO IMEI del
+ * mismo aparato (los BLACKVIEW TAB 60 PRO son dual-SIM) o el resto de una
+ * celda mal partida en el archivo de la OPF ("SIN"/"SERIE", "SN:"/"LPAD…").
+ * Contarlo como equipo aparte inflaba los KPIs en 18 tablets inexistentes.
+ * Para BUSCAR sí hay que mirar ese campo — eso lo hace TABLETS_SERIES.
+ *
+ * Ésta es la fuente de todo lo que se CUENTA: KPIs, ranking del mapa y
+ * conteos por establecimiento.
  */
-const TABLETS_UNIDAS = `
+const EQUIPOS = `
+  SELECT cod_estab_reportado AS cod, 'estudiante' AS tipo, serie, NULL AS serie_2,
+         marca, modelo, estado_registro, cargado_en
+    FROM dispositivos
+   WHERE TRIM(COALESCE(serie, '')) <> ''
+  UNION ALL
+  SELECT cod_estab_reportado, 'docente', serie, serie_2,
+         marca, modelo, estado_registro, cargado_en
+    FROM dispositivos_docentes
+   WHERE TRIM(COALESCE(serie, '')) <> ''
+`;
+
+/**
+ * Una fila por NÚMERO DE SERIE buscable — aquí sí entra `serie_2`, porque
+ * quien teclea el IMEI de la etiqueta puede traer cualquiera de los dos.
+ * Sólo para localizar equipos; nunca para contarlos (ver EQUIPOS).
+ */
+const TABLETS_SERIES = `
   SELECT cod_estab_reportado AS cod, 'estudiante' AS tipo, serie,
          marca, modelo, estado_registro, cargado_en
     FROM dispositivos
@@ -70,26 +100,64 @@ const TABLETS_UNIDAS = `
    WHERE TRIM(COALESCE(serie_2, '')) <> ''
 `;
 
-/** KPIs, ranking y datos del mapa. */
+/**
+ * KPIs, ranking y datos del mapa — todo sale de la base, nada está fijo.
+ *
+ * Cada cifra viene de la tabla que la registra de verdad:
+ *
+ *   «Establecimientos con entrega» → `entregas`, UNA fila por centro que
+ *      efectivamente entregó su archivo (PK `cod_estab`). NO se cuenta
+ *      `COUNT(DISTINCT cod_estab_reportado)` de los dispositivos, que es lo
+ *      que se hacía antes y daba 3 centros de más: por un lado cuenta
+ *      códigos que aparecen sólo porque el archivo de OTRA OPF reportó
+ *      estudiantes con ese código (la columna `otro_estab` de `entregas`),
+ *      y por otro se deja fuera a los centros que sí entregaron pero cuyas
+ *      filas no cruzaron con la base (`no_en_base`).
+ *
+ *   «Herramientas registradas» → `dispositivos`, un equipo por fila. Las de
+ *      `dispositivos_docentes` NO entran en este total: son otra tabla, otro
+ *      archivo de carga y otros beneficiarios.
+ *
+ *   Mapa y ranking → los mismos equipos, agrupados por el departamento que
+ *      trae `entregas` (el del centro que entregó). Sólo se cae al catálogo
+ *      `establecimientos` para los pocos códigos reportados que no tienen
+ *      fila en `entregas`, y así el ranking sigue sumando el total exacto.
+ */
 export const getResumen = async (req, res) => {
   if (!tabletsDbConfigurada) return sinBaseDeTablets(res, 'getResumen');
 
   try {
-    const [totales] = await tabletsDb.query(
-      `SELECT COUNT(*) AS totalTablets,
-              COUNT(DISTINCT cod) AS totalEstablecimientos
-         FROM (${TABLETS_UNIDAS}) t`,
+    /* Sólo `dispositivos`: los equipos que el proceso de carga dio de alta.
+       `dispositivos_docentes` NO se suma aquí — es otra tabla, la alimenta otro
+       archivo y son otros beneficiarios, así que mezclarlas daría un total que
+       no corresponde a ninguna de las dos. El detalle por docente sigue estando
+       en la búsqueda por establecimiento, en su propia columna. */
+    const [equipos] = await tabletsDb.query(
+      `SELECT COUNT(*) AS totalTablets
+         FROM dispositivos
+        WHERE TRIM(COALESCE(serie, '')) <> ''`,
+      { type: QueryTypes.SELECT }
+    );
+
+    // Establecimientos que entregaron: la tabla `entregas` ya es una fila por
+    // centro, así que el total es su número de filas.
+    const [entregas] = await tabletsDb.query(
+      'SELECT COUNT(*) AS totalEstablecimientos FROM entregas',
       { type: QueryTypes.SELECT }
     );
 
     // El nombre del departamento se devuelve en minúsculas porque la vista lo
     // presenta con `text-capitalize`; en la base viene en mayúsculas.
     const porDepartamento = await tabletsDb.query(
-      `SELECT LOWER(e.departamento) AS departamento, COUNT(*) AS cantidad
-         FROM (${TABLETS_UNIDAS}) t
-         JOIN establecimientos e ON e.codigo = t.cod
-        WHERE TRIM(COALESCE(e.departamento, '')) <> ''
-        GROUP BY LOWER(e.departamento)
+      `SELECT LOWER(COALESCE(NULLIF(TRIM(en.departamento), ''),
+                             NULLIF(TRIM(es.departamento), ''))) AS departamento,
+              COUNT(*)                        AS cantidad
+         FROM dispositivos d
+         LEFT JOIN entregas         en ON en.cod_estab = d.cod_estab_reportado
+         LEFT JOIN establecimientos es ON es.codigo    = d.cod_estab_reportado
+        WHERE TRIM(COALESCE(d.serie, '')) <> ''
+        GROUP BY departamento
+       HAVING departamento IS NOT NULL
         ORDER BY cantidad DESC`,
       { type: QueryTypes.SELECT }
     );
@@ -100,8 +168,8 @@ export const getResumen = async (req, res) => {
     }));
 
     return res.status(200).json({
-      totalTablets: Number(totales?.totalTablets || 0),
-      totalEstablecimientos: Number(totales?.totalEstablecimientos || 0),
+      totalTablets: Number(equipos?.totalTablets || 0),
+      totalEstablecimientos: Number(entregas?.totalEstablecimientos || 0),
       departamentoTop: ranking[0] || null,
       porDepartamento: ranking,
     });
@@ -142,7 +210,7 @@ export const buscarPorSerie = async (req, res) => {
               e.nombre           AS nombreEstablecimiento,
               LOWER(e.departamento) AS departamento,
               LOWER(e.municipio)    AS municipio
-         FROM (${TABLETS_UNIDAS}) t
+         FROM (${TABLETS_SERIES}) t
          LEFT JOIN establecimientos e ON e.codigo = t.cod
         WHERE LOWER(TRIM(t.serie)) = :serie
            OR CONCAT(' ', LOWER(TRIM(t.serie)), ' ') LIKE CONCAT('% ', :serieLike, ' %') ESCAPE '\\\\'
@@ -194,7 +262,7 @@ export const buscarPorEstablecimiento = async (req, res) => {
               SUM(t.tipo = 'docente')    AS tabletsDocentes,
               COUNT(*)                   AS totalTablets
          FROM establecimientos e
-         JOIN (${TABLETS_UNIDAS}) t ON t.cod = e.codigo
+         JOIN (${EQUIPOS}) t ON t.cod = e.codigo
         WHERE e.codigo LIKE :comodin ESCAPE '\\\\' OR e.nombre LIKE :comodin ESCAPE '\\\\'
         GROUP BY e.codigo, e.nombre, e.departamento, e.municipio
         ORDER BY totalTablets DESC, e.nombre
@@ -229,12 +297,13 @@ export const listarTablets = async (req, res) => {
     const tamanoPagina = Math.min(Math.max(parseInt(req.query.tamanoPagina, 10) || 20, 1), 100);
 
     const [{ total }] = await tabletsDb.query(
-      `SELECT COUNT(*) AS total FROM (${TABLETS_UNIDAS}) t`,
+      `SELECT COUNT(*) AS total FROM (${EQUIPOS}) t`,
       { type: QueryTypes.SELECT }
     );
 
     const filas = await tabletsDb.query(
       `SELECT t.serie            AS numeroSerie,
+              NULLIF(TRIM(COALESCE(t.serie_2, '')), '') AS numeroSerie2,
               t.tipo             AS tipoBeneficiario,
               t.marca, t.modelo,
               t.estado_registro  AS estadoRegistro,
@@ -243,7 +312,7 @@ export const listarTablets = async (req, res) => {
               e.nombre           AS nombreEstablecimiento,
               LOWER(e.departamento) AS departamento,
               LOWER(e.municipio)    AS municipio
-         FROM (${TABLETS_UNIDAS}) t
+         FROM (${EQUIPOS}) t
          LEFT JOIN establecimientos e ON e.codigo = t.cod
         ORDER BY t.cargado_en DESC, t.serie
         LIMIT :limite OFFSET :salto`,

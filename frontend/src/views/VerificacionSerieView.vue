@@ -219,6 +219,10 @@
               >
                 Cambio aplicado. Queda constancia de que antes decía
                 <strong>{{ seleccionada.serieAnterior }}</strong>.
+                <div v-if="seleccionada.revisadoPorNombre" class="text-body-2 mt-1">
+                  Aprobó <strong>{{ seleccionada.revisadoPorNombre }}</strong>
+                  <span v-if="formatearFecha(seleccionada.revisadoEn)"> el {{ formatearFecha(seleccionada.revisadoEn) }}</span>.
+                </div>
               </v-alert>
 
               <v-alert
@@ -226,6 +230,10 @@
                 type="error" variant="tonal" density="compact" class="mt-3"
               >
                 <strong>Rechazada:</strong> {{ seleccionada.motivoRechazo }}
+                <div v-if="seleccionada.revisadoPorNombre" class="text-body-2 mt-1">
+                  Rechazó <strong>{{ seleccionada.revisadoPorNombre }}</strong>
+                  <span v-if="formatearFecha(seleccionada.revisadoEn)"> el {{ formatearFecha(seleccionada.revisadoEn) }}</span>.
+                </div>
               </v-alert>
             </v-card-text>
 
@@ -491,6 +499,17 @@ const colorEstado = (estado) => ({
   aprobada: 'success',
   rechazada: 'error',
 }[estado] || 'grey')
+
+/* Quién aprobó o rechazó, para las dos alertas de resultado. El backend ya
+   guarda `revisado_por_nombre` y `revisado_en` (columnas separadas de
+   `verificado_por`, que es quien comparó la serie contra el documento: puede
+   ser otra persona distinta de quien decide al final). */
+const formatearFecha = (iso) => {
+  if (!iso) return null
+  const fecha = new Date(iso)
+  if (Number.isNaN(fecha.getTime())) return null
+  return fecha.toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'short' })
+}
 
 /* ── Carga ──────────────────────────────────────────────────────────────── */
 const cargarLista = async (nuevaPagina = pagina.value) => {
