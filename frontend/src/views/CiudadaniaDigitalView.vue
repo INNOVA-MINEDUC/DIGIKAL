@@ -9,15 +9,14 @@
           Ciudadanía Digikal
         </h1>
         <p class="text-body-2 text-grey-darken-1 mb-0">
-          Tabletas y conectividad para estudiantes de cuarto año y docentes, financiadas por las
-          Organizaciones de Padres de Familia (OPF) — Acuerdos Ministeriales 2066-2026 y 2067-2026.
+  Herramientas tecnológicas y conectividad para estudiantes de cuarto diversificado y docentes, Según acuerdos Ministeriales 2066-2026 y 2067-2026.
         </p>
       </div>
 
       <div class="cabecera__acciones">
         <div class="hero-montos">
           <div class="hero-montos__item">
-            <span>Tableta</span>
+            <span>Herramienta</span>
             <strong>Q2,000</strong>
           </div>
           <div class="hero-montos__item">
@@ -57,7 +56,7 @@
               <span class="hero-busqueda__opcional">opcional</span>
             </h3>
             <p class="hero-busqueda__ayuda">
-              Si conoce el número de serie de una tableta, escríbalo aquí para comprobar si
+              Si conoce el número de serie de una herramineta, escríbalo aquí para comprobar si
               pertenece al programa.
             </p>
 
@@ -114,7 +113,7 @@
                 <v-alert v-else type="warning" variant="tonal" density="comfortable" icon="mdi-close-octagon-outline">
                   <div class="font-weight-bold">No pertenece a Ciudadanía Digikal</div>
                   <div class="text-body-2">
-                    No hay ninguna tableta con el número de serie
+                    No hay ninguna herramienta con el número de serie
                     «<strong>{{ ultimaSerieBuscada }}</strong>» registrada en este servicio.
                   </div>
                 </v-alert>
@@ -133,7 +132,7 @@
             </h3>
             <p class="hero-busqueda__ayuda">
               Escriba el nombre o el código UDI de un centro educativo para ver cuántas
-              tabletas tiene asignadas.
+              herramientas tiene asignadas.
             </p>
 
             <v-text-field
@@ -222,16 +221,22 @@
 
     <!-- ── KPIs ─────────────────────────────────────────────────────────── -->
     <v-row class="mb-2">
+      <!-- Las tres cifras vienen de /api/v1/ciudadania/resumen, que las lee de
+           la base del servicio de tablets: los equipos de `dispositivos` y los
+           establecimientos de `entregas` (una fila por centro que entregó).
+           Ninguna está escrita aquí. Las herramientas de docentes van en otra tabla
+           y NO se suman a este total; se ven por centro en la búsqueda por
+           establecimiento. -->
       <v-col cols="12" sm="4">
         <v-card class="pa-4 text-center" rounded="xl" elevation="2">
-          <div class="text-h4 font-weight-black" style="color:#003366;">{{ resumen.totalTablets }}</div>
-          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Tabletas registradas</div>
+          <div class="text-h4 font-weight-black" style="color:#003366;">{{ numero(resumen.totalTablets) }}</div>
+          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Herramientas registradas</div>
         </v-card>
       </v-col>
       <v-col cols="12" sm="4">
         <v-card class="pa-4 text-center" rounded="xl" elevation="2">
-          <div class="text-h4 font-weight-black" style="color:#0094D3;">{{ resumen.totalEstablecimientos }}</div>
-          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Establecimientos con tabletas</div>
+          <div class="text-h4 font-weight-black" style="color:#0094D3;">{{ numero(resumen.totalEstablecimientos) }}</div>
+          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Establecimientos con entrega</div>
         </v-card>
       </v-col>
       <v-col cols="12" sm="4">
@@ -240,8 +245,8 @@
             {{ capitalizar(resumen.departamentoTop?.departamento) || '—' }}
           </div>
           <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">
-            Departamento con más tabletas
-            <span v-if="resumen.departamentoTop"> ({{ resumen.departamentoTop.cantidad }})</span>
+            Departamento con más herramientas
+            <span v-if="resumen.departamentoTop"> ({{ numero(resumen.departamentoTop.cantidad) }})</span>
           </div>
         </v-card>
       </v-col>
@@ -265,11 +270,11 @@
         <v-card rounded="xl" elevation="2" class="pa-4 ranking-card">
           <h3 class="text-subtitle-1 font-weight-bold mb-3 ranking-card__titulo" style="color:#003366;">
             <v-icon size="20" class="mr-1">mdi-podium</v-icon>
-            Departamentos con más tabletas
+            Departamentos con más herramientas
           </h3>
 
           <div v-if="!resumen.porDepartamento.length" class="text-body-2 text-grey py-6 text-center">
-            Aún no hay tabletas registradas.
+            Aún no hay herramientas registradas.
           </div>
 
           <!-- Con los 22 departamentos la lista no cabe en la altura del mapa:
@@ -285,7 +290,7 @@
                   :style="{ width: barraAncho(d.cantidad) + '%' }"
                 ></div>
               </div>
-              <span class="ranking-fila__cantidad">{{ d.cantidad }}</span>
+              <span class="ranking-fila__cantidad">{{ numero(d.cantidad) }}</span>
             </div>
           </div>
         </v-card>
@@ -326,7 +331,7 @@
         <v-expansion-panel elevation="0">
           <v-expansion-panel-title class="font-weight-bold">
             <v-icon size="20" class="mr-2" color="#003366">mdi-tablet-cellphone</v-icon>
-            Especificaciones técnicas de la tableta
+            Especificaciones técnicas de la herramienta
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <v-row dense>
@@ -394,7 +399,7 @@
               Antes de aceptar el equipo o el servicio, confirme cada punto con el proveedor:
             </p>
             <div class="verificacion-lista mb-4">
-              <div class="verificacion-lista__titulo">Dispositivo (tableta)</div>
+              <div class="verificacion-lista__titulo">Dispositivo (herramienta)</div>
               <div v-for="c in verificacionTablet" :key="c" class="verificacion-fila">
                 <v-icon size="16" color="#1b7a43">mdi-checkbox-blank-outline</v-icon>
                 <span>{{ c }}</span>
@@ -470,7 +475,7 @@
     </v-card>
 
     <!-- ══════════════════════════════════════════════════════════════════
-         SOPORTE Y ORIENTACIÓN — Tabletas y OPF
+         SOPORTE Y ORIENTACIÓN — Herramientas y OPF
          Transcrito del material informativo oficial de soporte (DIGIKAL /
          DIGECADE). Igual que el resto del contenido del programa, vive aquí
          como constantes: es texto de referencia fijo, no datos de la API.
@@ -479,7 +484,7 @@
       <div class="soporte-opf__cab">
         <div class="soporte-opf__kicker">Programa de Recursos Educativos Tecnológicos · DIGIKAL / DIGECADE</div>
         <h2 class="soporte-opf__titulo">Soporte y orientación</h2>
-        <p class="soporte-opf__subtitulo-cab">Tabletas y Organizaciones de Padres de Familia (OPF)</p>
+        <p class="soporte-opf__subtitulo-cab">Herramientas y Organizaciones de Padres de Familia (OPF)</p>
       </div>
 
       <div class="pa-4 pa-sm-6">
@@ -518,7 +523,7 @@
 
         <h3 class="soporte-opf__subtitulo">
           <v-icon size="18" class="mr-1" color="#003366">mdi-comment-question-outline</v-icon>
-          Consultas sobre tabletas y OPF
+          Consultas sobre herramientas y OPF
         </h3>
 
         <div class="consulta-item" v-for="c in consultasOpf" :key="c.titulo">
@@ -557,7 +562,12 @@ import SolicitudCambioSerie from '@/components/SolicitudCambioSerie.vue'
 
 /* ── Resumen (KPIs, mapa, ranking) ─────────────────────────────────────── */
 
-const resumen = ref({ totalTablets: 0, totalEstablecimientos: 0, departamentoTop: null, porDepartamento: [] })
+const resumen = ref({
+  totalTablets: 0,
+  totalEstablecimientos: 0,
+  departamentoTop: null,
+  porDepartamento: [],
+})
 const cargandoResumen = ref(false)
 const claveMapa = ref(0)
 
@@ -573,6 +583,10 @@ const cargarResumen = async () => {
     cargandoResumen.value = false
   }
 }
+
+/* Miles con separador: 3759 → "3,759". Con casi cuatro mil equipos la cifra
+   sin separar se lee mal de un vistazo. */
+const numero = (n) => Number(n || 0).toLocaleString('es-GT')
 
 const barraAncho = (cantidad) => {
   const max = resumen.value.porDepartamento[0]?.cantidad || 1
@@ -745,7 +759,7 @@ const appResultadoSerie = (serie, resultado) => {
           </div>
         </div>
         <p class="nota">
-          No hay ninguna tableta con este número de serie registrada en el servicio, así que
+          No hay ninguna herramienta con este número de serie registrada en el servicio, así que
           no se le puede asignar ningún establecimiento. Verifique que el número esté completo
           y tal como aparece en la etiqueta del equipo o en su caja.
         </p>`,
@@ -801,14 +815,14 @@ const appResultadoSerie = (serie, resultado) => {
 const appResultadosEstablecimiento = (consulta, lista) => {
   if (!lista?.length) {
     return paginaTablet({
-      titulo: 'Tabletas por establecimiento',
+      titulo: 'Herramientas por establecimiento',
       subtitulo: `Búsqueda: ${consulta}`,
       cuerpo: `
         <div class="vacio">
           <div class="vacio__icono">&#128269;</div>
-          <div class="vacio__titulo">No hay establecimientos con tabletas</div>
+          <div class="vacio__titulo">No hay establecimientos con herramientas</div>
           <p>
-            Ningún establecimiento que coincida con «${escaparHtml(consulta)}» tiene tabletas
+            Ningún establecimiento que coincida con «${escaparHtml(consulta)}» tiene herramientas
             registradas en Ciudadanía Digikal. Pruebe con el código UDI completo o con parte
             del nombre oficial del centro educativo.
           </p>
@@ -833,7 +847,7 @@ const appResultadosEstablecimiento = (consulta, lista) => {
     </tr>`).join('')
 
   return paginaTablet({
-    titulo: 'Tabletas por establecimiento',
+    titulo: 'Herramientas por establecimiento',
     subtitulo: `Búsqueda: ${consulta}`,
     cuerpo: `
       <div class="resumen">
@@ -843,15 +857,15 @@ const appResultadosEstablecimiento = (consulta, lista) => {
         </div>
         <div class="resumen__dato">
           <b>${totalEstudiantes}</b>
-          <span>${totalEstudiantes === 1 ? 'Estudiante con tableta' : 'Estudiantes con tabletas'}</span>
+          <span>${totalEstudiantes === 1 ? 'Estudiante con herramienta' : 'Estudiantes con herramientas'}</span>
         </div>
         <div class="resumen__dato">
           <b>${totalDocentes}</b>
-          <span>${totalDocentes === 1 ? 'Docente con tableta' : 'Docentes con tabletas'}</span>
+          <span>${totalDocentes === 1 ? 'Docente con herramienta' : 'Docentes con herramientas'}</span>
         </div>
         <div class="resumen__dato">
           <b>${totalTablets}</b>
-          <span>${totalTablets === 1 ? 'Tableta en total' : 'Tabletas en total'}</span>
+          <span>${totalTablets === 1 ? 'Herramienta en total' : 'Herramientas en total'}</span>
         </div>
       </div>
       <table>
@@ -971,7 +985,7 @@ const buscarPorEstablecimiento = async () => {
     // La tabla (o el aviso de que no hay ninguno) se muestra en la tablet.
     tabletRef.value?.mostrarApp({
       html: appResultadosEstablecimiento(q, data.resultados),
-      nombre: 'Tabletas por establecimiento',
+      nombre: 'Herramientas por establecimiento',
     })
   } catch (error) {
     Swal.fire('Error', error.response?.data?.message || 'No se pudo realizar la búsqueda', 'error')
@@ -1015,7 +1029,7 @@ const lineamientosOpf = [
   },
   {
     titulo: 'B · Separación de facturación',
-    texto: 'La adquisición debe sustentarse con <strong>dos facturas independientes</strong>: una por las tabletas y otra por los 12 meses de conectividad. Pueden ser del mismo proveedor o de proveedores distintos, siempre que los documentos se emitan por separado.',
+    texto: 'La adquisición debe sustentarse con <strong>dos facturas independientes</strong>: una por las herramientas y otra por los 12 meses de conectividad. Pueden ser del mismo proveedor o de proveedores distintos, siempre que los documentos se emitan por separado.',
   },
   {
     titulo: 'C · Protocolo de entrega',
@@ -1023,7 +1037,7 @@ const lineamientosOpf = [
   },
   {
     titulo: 'D · Acta de compromiso',
-    texto: 'Para recibir el equipo, el padre, madre o tutor legal debe firmar el Acta de Compromiso Institucional (modelo oficial del MINEDUC), que establece el uso exclusivamente pedagógico de la tableta. El acta firmada la resguarda el centro educativo.',
+    texto: 'Para recibir el equipo, el padre, madre o tutor legal debe firmar el Acta de Compromiso Institucional (modelo oficial del MINEDUC), que establece el uso exclusivamente pedagógico de la herramienta. El acta firmada la resguarda el centro educativo.',
   },
   {
     titulo: 'E · Registro técnico',
@@ -1062,19 +1076,19 @@ const verificacionInternet = [
 
 const preguntasFrecuentes = [
   {
-    pregunta: '¿Podemos comprar las tabletas con un negocio y el internet con otro?',
-    respuesta: 'Sí. Se puede comprar cada servicio con un proveedor distinto; el único requisito obligatorio es que emitan dos facturas electrónicas separadas: una por las tabletas y otra por el internet.',
+    pregunta: '¿Podemos comprar las herramientas con un negocio y el internet con otro?',
+    respuesta: 'Sí. Se puede comprar cada servicio con un proveedor distinto; el único requisito obligatorio es que emitan dos facturas electrónicas separadas: una por las herramientas y otra por el internet.',
   },
   {
     pregunta: '¿Podemos comprar marcas o modelos diferentes para los alumnos o docentes del mismo centro educativo?',
-    respuesta: 'No. Todos los estudiantes o docentes del mismo establecimiento deben tener exactamente la misma marca y modelo de tableta, para garantizar la equidad y facilitar la enseñanza.',
+    respuesta: 'No. Todos los estudiantes o docentes del mismo establecimiento deben tener exactamente la misma marca y modelo de herramienta, para garantizar la equidad y facilitar la enseñanza.',
   },
   {
     pregunta: '¿Qué papeles o requisitos debe cumplir el proveedor?',
     respuesta: 'Debe estar legalmente registrado ante la SAT, tener capacidad de dar factura electrónica, entregar todos los equipos y chips según factura, y entregar la garantía por escrito de cada dispositivo.',
   },
   {
-    pregunta: '¿Es obligatorio que la tableta cumpla con todas las características de la guía?',
+    pregunta: '¿Es obligatorio que la herramienta cumpla con todas las características de la guía?',
     respuesta: 'Sí, es obligatorio: no puede ser menor a 10 pulgadas, debe tener 8 núcleos, mínimo 4 GB de RAM, 64 GB de almacenamiento, batería grande, estuche rígido y teclado físico. No se permite comprar teléfonos en su lugar.',
   },
   {
@@ -1086,11 +1100,11 @@ const preguntasFrecuentes = [
     respuesta: 'La que tenga mejor señal y cobertura en la comunidad y la escuela, para que no haya interrupciones en clase. El chip debe ser obligatoriamente físico.',
   },
   {
-    pregunta: '¿Las tabletas se quedan en la escuela o se las llevan los estudiantes o docentes?',
-    respuesta: 'Se las llevan. Las tabletas pasan a ser propiedad del estudiante o docente; al terminar el año escolar no deben devolverse a la escuela.',
+    pregunta: '¿Las herramientas se quedan en la escuela o se las llevan los estudiantes o docentes?',
+    respuesta: 'Se las llevan. Las herramientas pasan a ser propiedad del estudiante o docente; al terminar el año escolar no deben devolverse a la escuela.',
   },
   {
-    pregunta: '¿Debemos registrar estas tabletas al inventario de la escuela?',
+    pregunta: '¿Debemos registrar estas herramientas al inventario de la escuela?',
     respuesta: 'No. Como los dispositivos pasan a ser propiedad del alumno o docente para uso en casa y en clase, no se registran en el libro de inventario del establecimiento.',
   },
   {
@@ -1098,23 +1112,23 @@ const preguntasFrecuentes = [
     respuesta: 'El padre, madre o tutor legal debe firmar el PRA-FOR-02 y el Acta de Compromiso Institucional; los docentes firman el PRA-FOR-03. Sin esas firmas, la escuela no puede entregar el equipo ni la conectividad.',
   },
   {
-    pregunta: '¿Qué pasa si la tableta se daña por un golpe o es robada?',
-    respuesta: 'El Ministerio entrega una sola tableta por estudiante y por docente. El cuidado, resguardo y buen uso del equipo es responsabilidad exclusiva del beneficiario.',
+    pregunta: '¿Qué pasa si la herramienta se daña por un golpe o es robada?',
+    respuesta: 'El Ministerio entrega una sola herramienta por estudiante y por docente. El cuidado, resguardo y buen uso del equipo es responsabilidad exclusiva del beneficiario.',
   },
   {
-    pregunta: '¿Para qué fines pueden usar los estudiantes y docentes esta tableta?',
+    pregunta: '¿Para qué fines pueden usar los estudiantes y docentes esta herramienta?',
     respuesta: 'Exclusivamente para fines educativos. El servicio de internet incluye filtros y bloqueos para que sólo se navegue en portales educativos oficiales y plataformas de estudio autorizadas.',
   },
   {
-    pregunta: '¿Qué pasa si la tableta presenta desperfectos de fábrica o no enciende?',
-    respuesta: 'Todas las tabletas tienen un año de garantía obligatoria por escrito. Si falla la batería, no reconoce el chip o la pantalla falla por defecto de fábrica, el proveedor debe repararla o reemplazarla sin costo.',
+    pregunta: '¿Qué pasa si la herramienta presenta desperfectos de fábrica o no enciende?',
+    respuesta: 'Todas las herramientas tienen un año de garantía obligatoria por escrito. Si falla la batería, no reconoce el chip o la pantalla falla por defecto de fábrica, el proveedor debe repararla o reemplazarla sin costo.',
   },
   {
     pregunta: '¿A nombre de quién debe registrarse el chip de internet?',
     respuesta: 'A nombre del padre, madre o tutor legal del estudiante beneficiario; en el caso de los docentes, a nombre de cada uno de ellos.',
   },
   {
-    pregunta: '¿Qué pasa si buscamos las tabletas con los proveedores y nos informan que no hay existencias?',
+    pregunta: '¿Qué pasa si buscamos las herramientas con los proveedores y nos informan que no hay existencias?',
     respuesta: 'Es una situación previsible en un proyecto nuevo y masivo. Se espera que los proveedores vayan surtiendo el mercado de forma progresiva conforme aumente la oferta.',
   },
   {
@@ -1122,12 +1136,12 @@ const preguntasFrecuentes = [
     respuesta: 'Al ser una iniciativa de reciente implementación, se espera que las empresas de telefonía diseñen y pongan a disposición planes que se adapten a los requisitos de cobertura, características técnicas y presupuesto del programa.',
   },
   {
-    pregunta: 'Si el internet de la escuela tiene mejor señal que el chip entregado, ¿pueden los alumnos conectar sus tabletas a la red del establecimiento?',
+    pregunta: 'Si el internet de la escuela tiene mejor señal que el chip entregado, ¿pueden los alumnos conectar sus herramientas a la red del establecimiento?',
     respuesta: 'Sí, totalmente. Además de su propio chip, los dispositivos también pueden conectarse a redes Wi-Fi.',
   },
   {
-    pregunta: '¿Las tabletas sustituyen por completo a los cuadernos y libros de texto impresos?',
-    respuesta: 'No. La tableta es un recurso educativo complementario; no sustituye la escritura a mano, la lectura en papel ni los libros de texto del Ministerio de Educación.',
+    pregunta: '¿Las herramientas sustituyen por completo a los cuadernos y libros de texto impresos?',
+    respuesta: 'No. La herramienta es un recurso educativo complementario; no sustituye la escritura a mano, la lectura en papel ni los libros de texto del Ministerio de Educación.',
   },
   {
     pregunta: '¿El docente también recibe un chip de internet de Q600 financiado por la OPF?',
@@ -1199,7 +1213,7 @@ const paqueteNavegacion = [
 
 const filtroNavegacion = ref('')
 
-/* ── Soporte y orientación (Tabletas y OPF) ──────────────────────────────
+/* ── Soporte y orientación (Herramientas y OPF) ──────────────────────────────
    Transcrito del material informativo oficial de soporte DIGIKAL/DIGECADE
    (mismo criterio que el resto del contenido del programa: es texto de
    referencia fijo, no datos de la API). */
@@ -1208,7 +1222,7 @@ const consultasOpf = [
   {
     titulo: 'Compra y características',
     icono: 'mdi-cart-outline',
-    texto: 'Orientación sobre los criterios técnicos de la tableta y el servicio de conectividad según los lineamientos del programa.',
+    texto: 'Orientación sobre los criterios técnicos de la herramienta y el servicio de conectividad según los lineamientos del programa.',
   },
   {
     titulo: 'Entrega y documentación',
@@ -1228,14 +1242,14 @@ const consultasOpf = [
   {
     titulo: 'Cuenta institucional',
     icono: 'mdi-account-circle-outline',
-    texto: 'La tableta debe asociarse a la cuenta institucional asignada por Mineduc (@mineduc.edu.gt) para acceder a las plataformas y recursos educativos.',
+    texto: 'La herramienta debe asociarse a la cuenta institucional asignada por Mineduc (@mineduc.edu.gt) para acceder a las plataformas y recursos educativos.',
   },
 ]
 
 const infoClaveOpf = [
-  'La asignación contempla Q2,000 para la tableta y Q600 para conectividad por 12 meses.',
+  'La asignación contempla Q2,000 para la herramienta y Q600 para conectividad por 12 meses.',
   'La conectividad debe contratarse mediante un pago único y con SIM física.',
-  'La tableta debe cumplir las especificaciones técnicas establecidas y contar con garantía mínima de un año.',
+  'La herramienta debe cumplir las especificaciones técnicas establecidas y contar con garantía mínima de un año.',
   'La entrega se realiza en el centro educativo y requiere la documentación correspondiente: PRA-FOR-02 (estudiantes) y PRA-FOR-03 (docentes).',
 ]
 
@@ -1636,7 +1650,7 @@ onMounted(() => {
   overflow-y: auto;
 }
 
-/* ===== Soporte y orientación (Tabletas y OPF) ===== */
+/* ===== Soporte y orientación (Herramientas y OPF) ===== */
 .soporte-opf {
   overflow: hidden;
 }

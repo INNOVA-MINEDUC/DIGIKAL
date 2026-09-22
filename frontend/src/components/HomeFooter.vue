@@ -35,7 +35,7 @@
             <li class="nivel-1">
               <v-icon size="18" class="mr-2">mdi-lightbulb-on-outline</v-icon>
               <div>
-                <strong>INNOVA</strong>
+                <strong>INNOVACIÓN EDUCATIVA</strong>
                 <span>Subdirección de DIGECADE</span>
               </div>
             </li>

@@ -6,9 +6,9 @@
          un simple degradado de dos colores no hace falta añadir más superficie
          de la librería de mapas, y así es trivial de leer y mantener. -->
     <div class="mapa-ciudadania__leyenda">
-      <span class="mapa-ciudadania__leyenda-etiqueta">Menos tabletas</span>
+      <span class="mapa-ciudadania__leyenda-etiqueta">Menos Herramientas</span>
       <div class="mapa-ciudadania__leyenda-barra"></div>
-      <span class="mapa-ciudadania__leyenda-etiqueta">Más tabletas</span>
+      <span class="mapa-ciudadania__leyenda-etiqueta">Más Herramientas</span>
     </div>
   </div>
 </template>
@@ -95,9 +95,7 @@ onMounted(() => {
     stroke: am5.color(0xffffff),
   })
 
-  series.mapPolygons.template.states.create('hover', {
-    fill: am5.color(0x03bfcb),
-  })
+  
 
   // El color se calcula al vuelo a partir del nombre del departamento que trae
   // cada polígono del GeoJSON — no depende de un enlace de datos externo.
@@ -114,8 +112,8 @@ onMounted(() => {
     const nombre = target.dataItem?.dataContext?.departamen ?? 'Departamento'
     const cantidad = mapaCantidades.get(norm(nombre)) ?? 0
     return cantidad === 1
-      ? `${nombre}\n1 tableta registrada`
-      : `${nombre}\n${cantidad} tabletas registradas`
+      ? `${nombre}\n1 herramienta registrada`
+      : `${nombre}\n${cantidad} herramientas registradas`
   })
 })
 

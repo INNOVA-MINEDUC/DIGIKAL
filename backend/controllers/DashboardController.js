@@ -211,6 +211,11 @@ const AYUDA_LISTA_FIELDS = `
  *   - `intervenida`: por defecto true (sólo intervenidos); null trae todos.
  *   - `dotado` / `conectividad`: null salvo que la tabla los active.
  *   - `codigoMineduc` (String; null = no filtrar).
+ *   - `nombre` (String; null = no filtrar): coincidencia PARCIAL sobre el
+ *     nombre del establecimiento, sin distinguir mayúsculas ni tildes, y
+ *     acumulable con el resto de los filtros. Los totales que devuelve el API
+ *     (`totalEstablecimientos`, estudiantes, hombres y mujeres) ya vienen
+ *     calculados sobre el subconjunto que coincide.
  *
  * Nota: entre los intervenidos, todos están dotados y conectados, así que esos
  * dos filtros sólo cambian el resultado cuando `intervenida` está apagado.
@@ -222,11 +227,12 @@ const fetchDesdeAyuda = async ({
   dotado = null,
   conectividad = null,
   codigoMineduc = null,
+  nombre = null,
   pagina = 1,
   tamanoPagina = 10,
 } = {}) => {
   const data = await gqlData(
-    `query($departamento: String, $municipio: String, $intervenida: Boolean, $dotado: Boolean, $conectividad: Boolean, $codigoMineduc: String, $pagina: Int, $tamanoPagina: Int) {
+    `query($departamento: String, $municipio: String, $intervenida: Boolean, $dotado: Boolean, $conectividad: Boolean, $codigoMineduc: String, $nombre: String, $pagina: Int, $tamanoPagina: Int) {
       estadisticasEstablecimientos(filtro: {
         intervenida: $intervenida
         departamento: $departamento
@@ -234,6 +240,7 @@ const fetchDesdeAyuda = async ({
         dotado: $dotado
         conectividad: $conectividad
         codigoMineduc: $codigoMineduc
+        nombre: $nombre
         pagina: $pagina
         tamanoPagina: $tamanoPagina
       }) {
@@ -249,6 +256,7 @@ const fetchDesdeAyuda = async ({
       dotado: dotado ?? null,
       conectividad: conectividad ?? null,
       codigoMineduc: codigoMineduc ?? null,
+      nombre: nombre ?? null,
       pagina,
       tamanoPagina,
     }
@@ -391,6 +399,24 @@ const limpiarCodigo = (valor) => {
   return texto ? texto : null;
 };
 
+/**
+ * Nombre a buscar, listo para el filtro `nombre` del api-ayuda.
+ *
+ * El API compara con un LIKE sobre el nombre completo, así que ES sensible a
+ * los espacios: "INSTITUTO  NORMAL" (dos espacios) devuelve 0 resultados
+ * mientras "INSTITUTO NORMAL" devuelve 34. Por eso se colapsa cualquier
+ * secuencia de espacios a uno solo, además del trim — escribir dos espacios
+ * al teclear es de lo más común y no debe vaciar la tabla.
+ *
+ * Lo que NO hace falta arreglar aquí: el API ya ignora mayúsculas y tildes
+ * ("EDUCACION" y "EDUCACIÓN" devuelven los mismos 906), así que el texto se
+ * manda tal como se escribió.
+ */
+const limpiarNombre = (valor) => {
+  const texto = (valor ?? '').toString().replace(/\s+/g, ' ').trim();
+  return texto ? texto : null;
+};
+
 // ── Caché en memoria del conjunto filtrado ──────────────────────────────────
 // Traer todo el universo del filtro (con "todos" son ~11 mil establecimientos)
 // + join local + mapear es la parte cara (~9 s). Se guarda por clave de filtro
@@ -429,8 +455,13 @@ export const getEscuelasDotadas = async (req, res) => {
     const dotado = soloSiTrue(req.body?.dotado);
     const conectividad = soloSiTrue(req.body?.conectividad);
     const codigoMineduc = limpiarCodigo(req.body?.codigoMineduc);
-    // Búsqueda por nombre: el API no la soporta, se filtra en memoria.
-    const busqueda = (req.body?.busqueda ?? '').toString().trim().toLowerCase();
+    /* Búsqueda por nombre. El api-ayuda ya la soporta (filtro `nombre`), así
+       que se empuja al servidor en vez de filtrar en memoria como antes. Dos
+       ventajas concretas: el API devuelve sólo lo que coincide en lugar de las
+       ≈11 mil filas del universo completo, y sus totales —estudiantes, hombres
+       y mujeres— vienen ya calculados sobre lo encontrado. Antes hombres y
+       mujeres se quedaban con el total sin buscar y no cuadraban con la tabla. */
+    const busqueda = limpiarNombre(req.body?.busqueda);
 
     // Tablas de referencia para traducir ids ↔ nombres (no debe tumbar todo si
     // falla el api-mdm de referencia).
@@ -459,8 +490,10 @@ export const getEscuelasDotadas = async (req, res) => {
       }
     }
 
-    // El conjunto completo mapeado se cachea por clave de filtro (sin paginación
-    // ni búsqueda, que se aplican en memoria más abajo).
+    // El conjunto completo mapeado se cachea por clave de filtro (sin la
+    // paginación, que se aplica en memoria más abajo). La búsqueda por nombre
+    // SÍ entra en la clave: ahora viaja al API, así que cada término trae un
+    // conjunto distinto y no puede compartir entrada de caché con otro.
     const claveCache = JSON.stringify({
       dept: dept ?? null,
       muni: muniNombre,
@@ -468,6 +501,7 @@ export const getEscuelasDotadas = async (req, res) => {
       dotado,
       conectividad,
       codigoMineduc,
+      busqueda,
     });
     let cache = leerCacheDashboard(claveCache);
 
@@ -484,6 +518,7 @@ export const getEscuelasDotadas = async (req, res) => {
         dotado,
         conectividad,
         codigoMineduc,
+        nombre: busqueda,
         pagina: null,
         tamanoPagina: null,
       });
@@ -556,13 +591,9 @@ export const getEscuelasDotadas = async (req, res) => {
       guardarCacheDashboard(claveCache, cache);
     }
 
-    const escuelasMapeadas = cache.escuelasMapeadas;
-
-    // Búsqueda por nombre (en memoria, porque el API no la soporta). Todos los
-    // KPIs y la paginación de abajo trabajan ya sobre este conjunto filtrado.
-    const escuelas = busqueda
-      ? escuelasMapeadas.filter((e) => (e.nombreEscuela || '').toLowerCase().includes(busqueda))
-      : escuelasMapeadas;
+    // El conjunto ya viene filtrado por el API (nombre incluido), así que los
+    // KPIs y la paginación de abajo trabajan directo sobre él.
+    const escuelas = cache.escuelasMapeadas;
 
     // Desglose por nivel educativo: cuántos establecimientos hay en cada nivel.
     // Una escuela con varios niveles cuenta en cada uno.
@@ -604,10 +635,11 @@ export const getEscuelasDotadas = async (req, res) => {
     const total = escuelas.length;
     const totalPaginas = Math.max(1, Math.ceil(total / tamanoPagina));
 
-    // El total de estudiantes: si no hay búsqueda por nombre, se usa el total
-    // exacto del API; con búsqueda se suma sobre el subconjunto encontrado.
+    // El total de estudiantes sale del API, que ya lo calcula sobre el filtro
+    // completo —búsqueda por nombre incluida—. La suma local queda de respaldo
+    // por si el API no lo devuelve.
     const estudiantesSuma = escuelas.reduce((a, e) => a + (e.inscritos2026 || 0), 0);
-    const totalEstudiantes = busqueda ? estudiantesSuma : (cache.totalEstudiantesApi ?? estudiantesSuma);
+    const totalEstudiantes = cache.totalEstudiantesApi ?? estudiantesSuma;
 
     // Página para la tabla: se corta en memoria y se numera con un correlativo
     // continuo (1, 2, 3… a través de las páginas).
