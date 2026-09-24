@@ -222,21 +222,26 @@
     <!-- ── KPIs ─────────────────────────────────────────────────────────── -->
     <v-row class="mb-2">
       <!-- Las tres cifras vienen de /api/v1/ciudadania/resumen, que las lee de
-           la base del servicio de tablets: los equipos de `dispositivos` y los
-           establecimientos de `entregas` (una fila por centro que entregó).
-           Ninguna está escrita aquí. Las herramientas de docentes van en otra tabla
-           y NO se suman a este total; se ven por centro en la búsqueda por
-           establecimiento. -->
+           la base del servicio de tablets: los equipos de `dispositivos` +
+           `dispositivos_docentes`, y los establecimientos de `entregas` (una
+           fila por centro que entregó). Ninguna está escrita aquí. -->
       <v-col cols="12" sm="4">
         <v-card class="pa-4 text-center" rounded="xl" elevation="2">
           <div class="text-h4 font-weight-black" style="color:#003366;">{{ numero(resumen.totalTablets) }}</div>
-          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Herramientas registradas</div>
+          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Herramientas tecnológicas registradas</div>
+          <div class="text-caption text-grey-darken-1 mt-1">
+            {{ numero(resumen.tabletsEstudiantes) }} de estudiantes ·
+            {{ numero(resumen.tabletsDocentes) }} de docentes
+          </div>
         </v-card>
       </v-col>
       <v-col cols="12" sm="4">
         <v-card class="pa-4 text-center" rounded="xl" elevation="2">
           <div class="text-h4 font-weight-black" style="color:#0094D3;">{{ numero(resumen.totalEstablecimientos) }}</div>
-          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Establecimientos con entrega</div>
+          <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">Establecimientos beneficiados</div>
+          <div class="text-caption text-grey-darken-1 mt-1">
+            centros educativos con herramientas tecnológicas entregadas
+          </div>
         </v-card>
       </v-col>
       <v-col cols="12" sm="4">
@@ -245,8 +250,13 @@
             {{ capitalizar(resumen.departamentoTop?.departamento) || '—' }}
           </div>
           <div class="text-caption text-uppercase font-weight-bold text-grey-darken-1">
-            Departamento con más herramientas
-            <span v-if="resumen.departamentoTop"> ({{ numero(resumen.departamentoTop.cantidad) }})</span>
+            Departamento con más herramientas tecnológicas
+          </div>
+          <!-- `departamentoTop` es null mientras carga y si la petición falla,
+               así que la cifra va con `?.`: sin él la plantilla revienta y la
+               vista completa se queda en blanco. -->
+          <div class="text-caption text-grey-darken-1 mt-1">
+            {{ numero(resumen.departamentoTop?.cantidad) }} herramientas tecnológicas
           </div>
         </v-card>
       </v-col>
@@ -562,12 +572,19 @@ import SolicitudCambioSerie from '@/components/SolicitudCambioSerie.vue'
 
 /* ── Resumen (KPIs, mapa, ranking) ─────────────────────────────────────── */
 
-const resumen = ref({
+/* Forma que la plantilla da por hecha. `cargarResumen` la usa como base para
+   que, si el backend devuelve una respuesta incompleta, `porDepartamento`
+   siga siendo un array y `departamentoTop` siga existiendo. */
+const RESUMEN_VACIO = {
   totalTablets: 0,
+  tabletsEstudiantes: 0,
+  tabletsDocentes: 0,
   totalEstablecimientos: 0,
   departamentoTop: null,
   porDepartamento: [],
-})
+}
+
+const resumen = ref({ ...RESUMEN_VACIO })
 const cargandoResumen = ref(false)
 const claveMapa = ref(0)
 
@@ -575,7 +592,7 @@ const cargarResumen = async () => {
   cargandoResumen.value = true
   try {
     const { data } = await api.get('/api/v1/ciudadania/resumen')
-    resumen.value = data
+    resumen.value = { ...RESUMEN_VACIO, ...data }
     claveMapa.value++
   } catch (error) {
     console.error('[Ciudadania] Error al cargar el resumen:', error)

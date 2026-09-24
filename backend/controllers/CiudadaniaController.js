@@ -63,19 +63,39 @@ const sinBaseDeTablets = (res, contexto) => {
  * Contarlo como equipo aparte inflaba los KPIs en 18 tablets inexistentes.
  * Para BUSCAR sí hay que mirar ese campo — eso lo hace TABLETS_SERIES.
  *
+ * TAMPOCO se exige que `serie` venga llena. Una fila de `dispositivos` es un
+ * equipo entregado a una persona (PK `cod_pers` + `cod_estab_reportado`); que
+ * la OPF dejara la casilla de la serie en blanco en su archivo es un dato
+ * incompleto, no un equipo inexistente. Filtrar por serie no vacía dejaba
+ * fuera 38 tablets reales —33 de ellas de un solo archivo
+ * (01-15-0066-46_01.xlsx, TCL)— y hacía que los KPIs mostraran 5 395 donde la
+ * tabla tiene 5 433. Esas filas se cuentan y se listan con la serie en NULL,
+ * que es como el frontend distingue «sin serie registrada».
+ * Para BUSCAR sí hace falta una serie, y ahí TABLETS_SERIES las sigue
+ * descartando: no se puede localizar un equipo por un campo vacío.
+ *
  * Ésta es la fuente de todo lo que se CUENTA: KPIs, ranking del mapa y
  * conteos por establecimiento.
+ *
+ * `ref` es la otra mitad de la clave primaria (`cod_pers` en estudiantes,
+ * `num_empleado` en docentes). No se devuelve nunca al cliente: sólo sirve
+ * para armar un identificador único de fila en el listado, porque la serie ya
+ * no vale como identificador (hay 38 vacías y 134 repetidas).
  */
 const EQUIPOS = `
-  SELECT cod_estab_reportado AS cod, 'estudiante' AS tipo, serie, NULL AS serie_2,
+  SELECT cod_estab_reportado AS cod, 'estudiante' AS tipo,
+         cod_pers                               AS ref,
+         NULLIF(TRIM(COALESCE(serie, '')), '')  AS serie,
+         NULL                                   AS serie_2,
          marca, modelo, estado_registro, cargado_en
     FROM dispositivos
-   WHERE TRIM(COALESCE(serie, '')) <> ''
   UNION ALL
-  SELECT cod_estab_reportado, 'docente', serie, serie_2,
+  SELECT cod_estab_reportado, 'docente',
+         num_empleado,
+         NULLIF(TRIM(COALESCE(serie, '')), ''),
+         NULLIF(TRIM(COALESCE(serie_2, '')), ''),
          marca, modelo, estado_registro, cargado_en
     FROM dispositivos_docentes
-   WHERE TRIM(COALESCE(serie, '')) <> ''
 `;
 
 /**
@@ -114,9 +134,10 @@ const TABLETS_SERIES = `
  *      y por otro se deja fuera a los centros que sí entregaron pero cuyas
  *      filas no cruzaron con la base (`no_en_base`).
  *
- *   «Herramientas registradas» → `dispositivos`, un equipo por fila. Las de
- *      `dispositivos_docentes` NO entran en este total: son otra tabla, otro
- *      archivo de carga y otros beneficiarios.
+ *   «Herramientas registradas» → EQUIPOS: `dispositivos` (estudiantes) +
+ *      `dispositivos_docentes` (docentes), un equipo por fila. Se suman las
+ *      dos porque también hay tablets asignadas a docentes; el desglose va
+ *      aparte en `tabletsEstudiantes` / `tabletsDocentes`.
  *
  *   Mapa y ranking → los mismos equipos, agrupados por el departamento que
  *      trae `entregas` (el del centro que entregó). Sólo se cae al catálogo
@@ -127,15 +148,17 @@ export const getResumen = async (req, res) => {
   if (!tabletsDbConfigurada) return sinBaseDeTablets(res, 'getResumen');
 
   try {
-    /* Sólo `dispositivos`: los equipos que el proceso de carga dio de alta.
-       `dispositivos_docentes` NO se suma aquí — es otra tabla, la alimenta otro
-       archivo y son otros beneficiarios, así que mezclarlas daría un total que
-       no corresponde a ninguna de las dos. El detalle por docente sigue estando
-       en la búsqueda por establecimiento, en su propia columna. */
+    /* `dispositivos` (estudiantes) + `dispositivos_docentes` (docentes): hay
+       herramientas asignadas a las dos poblaciones, así que el total suma las
+       dos tablas. EQUIPOS ya las une con UNION ALL y deja `serie_2` fuera (es
+       el segundo IMEI del mismo aparato), así que no se duplica nada.
+       COALESCE en los dos parciales por si una de las tablas estuviera vacía:
+       SUM() de cero filas devuelve NULL, no 0. */
     const [equipos] = await tabletsDb.query(
-      `SELECT COUNT(*) AS totalTablets
-         FROM dispositivos
-        WHERE TRIM(COALESCE(serie, '')) <> ''`,
+      `SELECT COUNT(*) AS totalTablets,
+              COALESCE(SUM(t.tipo = 'estudiante'), 0) AS tabletsEstudiantes,
+              COALESCE(SUM(t.tipo = 'docente'), 0)    AS tabletsDocentes
+         FROM (${EQUIPOS}) t`,
       { type: QueryTypes.SELECT }
     );
 
@@ -152,10 +175,9 @@ export const getResumen = async (req, res) => {
       `SELECT LOWER(COALESCE(NULLIF(TRIM(en.departamento), ''),
                              NULLIF(TRIM(es.departamento), ''))) AS departamento,
               COUNT(*)                        AS cantidad
-         FROM dispositivos d
-         LEFT JOIN entregas         en ON en.cod_estab = d.cod_estab_reportado
-         LEFT JOIN establecimientos es ON es.codigo    = d.cod_estab_reportado
-        WHERE TRIM(COALESCE(d.serie, '')) <> ''
+         FROM (${EQUIPOS}) t
+         LEFT JOIN entregas         en ON en.cod_estab = t.cod
+         LEFT JOIN establecimientos es ON es.codigo    = t.cod
         GROUP BY departamento
        HAVING departamento IS NOT NULL
         ORDER BY cantidad DESC`,
@@ -168,8 +190,12 @@ export const getResumen = async (req, res) => {
     }));
 
     return res.status(200).json({
-      totalTablets: Number(equipos?.totalTablets || 0),
-      totalEstablecimientos: Number(entregas?.totalEstablecimientos || 0),
+      // SUM() vuelve como cadena (DECIMAL) en mysql2: se normaliza a número
+      // para que el frontend no los concatene al mostrarlos.
+      totalTablets: Number(equipos?.totalTablets) || 0,
+      tabletsEstudiantes: Number(equipos?.tabletsEstudiantes) || 0,
+      tabletsDocentes: Number(equipos?.tabletsDocentes) || 0,
+      totalEstablecimientos: Number(entregas?.totalEstablecimientos) || 0,
       departamentoTop: ranking[0] || null,
       porDepartamento: ranking,
     });
@@ -302,8 +328,9 @@ export const listarTablets = async (req, res) => {
     );
 
     const filas = await tabletsDb.query(
-      `SELECT t.serie            AS numeroSerie,
-              NULLIF(TRIM(COALESCE(t.serie_2, '')), '') AS numeroSerie2,
+      `SELECT t.ref              AS ref,
+              t.serie            AS numeroSerie,
+              t.serie_2          AS numeroSerie2,
               t.tipo             AS tipoBeneficiario,
               t.marca, t.modelo,
               t.estado_registro  AS estadoRegistro,
@@ -314,7 +341,7 @@ export const listarTablets = async (req, res) => {
               LOWER(e.municipio)    AS municipio
          FROM (${EQUIPOS}) t
          LEFT JOIN establecimientos e ON e.codigo = t.cod
-        ORDER BY t.cargado_en DESC, t.serie
+        ORDER BY t.cargado_en DESC, t.serie IS NULL, t.serie, t.ref
         LIMIT :limite OFFSET :salto`,
       {
         replacements: { limite: tamanoPagina, salto: (pagina - 1) * tamanoPagina },
@@ -322,8 +349,16 @@ export const listarTablets = async (req, res) => {
       }
     );
 
+    /* El `id` sale de la clave primaria de la fila (tipo + `ref` + código del
+       establecimiento), no de la serie: hay 38 equipos sin serie y 134 series
+       repetidas, así que usarla daba claves duplicadas en la tabla del
+       frontend. `ref` se quita de la respuesta —es el código de la persona
+       beneficiaria— y sólo viaja dentro del id. */
     return res.status(200).json({
-      data: filas.map((f) => ({ ...f, id: `${f.tipoBeneficiario}-${f.numeroSerie}` })),
+      data: filas.map(({ ref, ...f }) => ({
+        ...f,
+        id: `${f.tipoBeneficiario}-${f.codigoEstablecimiento}-${ref}`,
+      })),
       total: Number(total),
       pagina,
       totalPaginas: Math.max(Math.ceil(Number(total) / tamanoPagina), 1),
