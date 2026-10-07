@@ -313,6 +313,14 @@ function iniciarTablet3D(root) {
   controls.dampingFactor = 0.06;
   controls.minDistance = 14;
   controls.maxDistance = 120;
+  /* La rueda NO hace zoom. OrbitControls, con enableZoom en true (su valor por
+     defecto), engancha un listener de 'wheel' sobre #stage y llama a
+     preventDefault(): con el cursor encima de la tablet —que ocupa 660 px de
+     alto en la cabecera de la vista— la rueda movia la camara y la pagina
+     dejaba de desplazarse. Es el mismo criterio que ya seguia el mapa de esta
+     misma vista (ver CiudadaniaMap.vue: wheelX/wheelY en 'none'), que nunca se
+     aplico aqui. Girar la tablet arrastrando sigue funcionando igual. */
+  controls.enableZoom = false;
   controls.autoRotateSpeed = 1.1;
   controls.target.set(0, 0, 0);
 
@@ -1415,12 +1423,12 @@ function iniciarTablet3D(root) {
 
      Se apagan los controles de orbita y se quita la capa .screen-guard, asi
      que los eventos llegan directos al iframe y la pantalla se comporta como
-     una web normal (scroll, seleccion, clics). Tambien se devuelve el
-     touch-action del escenario: #stage lo lleva en `none` porque es
-     imprescindible para OrbitControls en tactil, pero con los controles
-     apagados eso solo conseguiria que en el movil no se pudiera desplazar ni
-     la pagina ni el contenido de la tablet. Los botones fisicos siguen
-     respondiendo, asi que el de inicio sigue sirviendo para salir. */
+     una web normal (scroll, seleccion, clics). Tambien se abre del todo el
+     touch-action del escenario: #stage lo lleva en `pan-y` para que el
+     arrastre vertical siga desplazando la pagina, pero con una app abierta
+     hace falta `auto`, o dentro de la pantalla de la tablet no se podria
+     desplazar en horizontal. Los botones fisicos siguen respondiendo, asi que
+     el de inicio sigue sirviendo para salir. */
   let interaccionBloqueada = false;
 
   function aplicarGuard() {
@@ -1640,10 +1648,11 @@ function iniciarTablet3D(root) {
      13. Bucle de render
      ========================================================================== */
   let destruido = false;
+  let rafId = null;
 
   function animate() {
     if (destruido) return;
-    requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(animate);
 
     const dt = Math.min(clock.getDelta(), 0.05);
     const t  = clock.elapsedTime;
@@ -1696,6 +1705,52 @@ function iniciarTablet3D(root) {
     renderer.render(scene, camera);
     css3d.render(scene, camera);
   }
+
+  /* El bucle se para cuando la escena sale de la ventana o la pestaña pasa a
+     segundo plano. Antes corría siempre: esta vista es larga —KPIs, mapa,
+     ranking, tablas, acordeón de sitios y tarjeta de soporte— y con la tablet
+     ya fuera de pantalla se seguía rindiendo la escena WebGL con sombras
+     suaves y, sobre todo, reescribiendo el `matrix3d` del iframe de la
+     pantalla sesenta veces por segundo. Eso es trabajo de layout en el hilo
+     principal, que es el mismo que el navegador necesita para desplazar la
+     página: de ahí los tirones al bajar. */
+  let enPantalla = true;
+  let pestanaActiva = !document.hidden;
+
+  function arrancarBucle() {
+    if (destruido || rafId !== null) return;
+    /* Se descarta el tiempo que pasó con el bucle parado. Sin esto, el primer
+       fotograma al reanudar trae un salto de varios segundos y cualquier
+       animación en curso —la vuelta de entrada, un encuadre o un giro— se
+       daría por terminada de golpe en vez de continuar donde iba. */
+    const pausa = clock.getDelta();
+    if (intro) intro.start += pausa;
+    if (tween) tween.start += pausa;
+    if (giro)  giro.start  += pausa;
+    animate();
+  }
+
+  function pararBucle() {
+    if (rafId === null) return;
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+
+  const revisarBucle = () => (enPantalla && pestanaActiva ? arrancarBucle() : pararBucle());
+
+  /* El margen de holgura hace que la escena ya esté en marcha cuando el
+     visitante la alcanza, en vez de arrancar justo al asomar por el borde. */
+  const visorObserver = new IntersectionObserver(([entrada]) => {
+    enPantalla = entrada.isIntersecting;
+    revisarBucle();
+  }, { rootMargin: '200px 0px' });
+  visorObserver.observe(root);
+
+  document.addEventListener('visibilitychange', () => {
+    pestanaActiva = !document.hidden;
+    revisarBucle();
+  }, { signal });
+
   animate();
 
   /* ========================================================================
@@ -1737,7 +1792,7 @@ function iniciarTablet3D(root) {
   });
   resizeObserver.observe(stage);
 
-  say('Arrastra con el raton en cualquier punto para girar la tablet · rueda para acercar · clic derecho para desplazar');
+  say('Arrastra con el raton en cualquier punto para girar la tablet · clic derecho para desplazar');
 
   // Puente con el componente (ver defineExpose arriba): es lo unico del motor
   // que sale de este closure.
@@ -1749,7 +1804,9 @@ function iniciarTablet3D(root) {
   return function destructor() {
     destruido = true;
     motor = null;
+    pararBucle();
     abortCtrl.abort();
+    visorObserver.disconnect();
     resizeObserver.disconnect();
     controls.dispose();
     veil.remove();
@@ -1812,7 +1869,16 @@ function iniciarTablet3D(root) {
 .t3d-root #stage {
   position: absolute;
   inset: 0;
-  touch-action: none;      /* imprescindible para OrbitControls en táctil */
+  /* `pan-y` y no `none`: con `none` el navegador cede TODO el gesto táctil a
+     OrbitControls, de modo que arrastrar el dedo sobre los 660 px de la tablet
+     no desplazaba la página — quedaba atrapada hasta sacar el dedo de la
+     escena. Con `pan-y` el arrastre vertical lo conserva la página (que es lo
+     que el visitante quiere hacer casi siempre) y el horizontal sigue girando
+     la tablet. En ratón no cambia nada: `touch-action` sólo afecta al táctil,
+     así que en escritorio la órbita sigue siendo libre en los dos ejes.
+     bloquearInteraccion3D() lo pone en `auto` con una app abierta y lo
+     devuelve a esta regla al cerrarla. */
+  touch-action: pan-y;
 }
 
 /* la capa CSS3D queda DEBAJO y recibe los eventos (el canvas los deja pasar) */
