@@ -446,7 +446,7 @@
         </v-expansion-panel>
 
         <!-- Sitios de navegación autorizados -->
-        <v-expansion-panel elevation="0">
+        <!-- <v-expansion-panel elevation="0">
           <v-expansion-panel-title class="font-weight-bold">
             <v-icon size="20" class="mr-2" color="#003366">mdi-web</v-icon>
             Sitios de navegación autorizados ({{ paqueteNavegacion.length }})
@@ -479,7 +479,7 @@
               </v-data-table>
             </div>
           </v-expansion-panel-text>
-        </v-expansion-panel>
+        </v-expansion-panel> -->
 
       </v-expansion-panels>
     </v-card>
@@ -524,6 +524,26 @@
                 <div class="canal-atencion__etiqueta">Canal 2</div>
                 <div class="canal-atencion__numero">Línea directa · 2411-9595</div>
                 <div class="canal-atencion__ext">Extensiones: 5100 · 5101 · 5102 · 5103</div>
+              </div>
+            </div>
+          </v-col>
+
+          <!-- Correo de ayuda. Va con `mailto:` para que el visitante lo abra
+               de un toque en el móvil, pero el texto muestra la dirección
+               completa: quien consulte desde un equipo sin cliente de correo
+               configurado necesita poder copiarla. -->
+          <v-col cols="12">
+            <div class="canal-atencion">
+              <v-icon size="30" color="#003366">mdi-email-outline</v-icon>
+              <div>
+                <div class="canal-atencion__etiqueta">Canal 3</div>
+                <a
+                  class="canal-atencion__correo"
+                  href="mailto:ayuda@mineduc.edu.gt"
+                >ayuda@mineduc.edu.gt</a>
+                <div class="canal-atencion__ext">
+                  Correo de ayuda · indique el código del establecimiento y el número de serie
+                </div>
               </div>
             </div>
           </v-col>
@@ -1730,6 +1750,19 @@ onMounted(() => {
   font-weight: 800;
   color: #003366;
   line-height: 1.3;
+}
+
+.canal-atencion__correo {
+  display: inline-block;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #003366;
+  text-decoration: none;
+  word-break: break-all;
+}
+.canal-atencion__correo:hover,
+.canal-atencion__correo:focus-visible {
+  text-decoration: underline;
 }
 
 .canal-atencion__ext {
