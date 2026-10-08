@@ -1639,9 +1639,16 @@ onMounted(() => {
 }
 .ranking-lista::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
+/* La última columna es la cifra, y tiene que caber el valor más alto, no el
+   más corto. Estaba en 32 px, suficiente para tres dígitos, pero Guatemala ya
+   va por 1 013 y `toLocaleString('es-GT')` lo escribe con separador de miles:
+   "1,013" son cinco caracteres que no entran en 32 px y se salían de la
+   columna, pisándose con la barra de scroll de la lista. Se le dan 52 px —que
+   admiten hasta cinco dígitos con separador— a costa de la barra, que es
+   decorativa y no pierde nada por medir 18 px menos. */
 .ranking-fila {
   display: grid;
-  grid-template-columns: 22px 1fr 90px 32px;
+  grid-template-columns: 22px 1fr 72px 52px;
   align-items: center;
   gap: 10px;
 }
@@ -1680,6 +1687,12 @@ onMounted(() => {
   font-size: 0.85rem;
   color: #003366;
   text-align: right;
+  /* `nowrap` para que una cifra larga no se parta en dos líneas y descuadre
+     la altura de la fila, y `tabular-nums` para que todos los dígitos midan
+     lo mismo: así las cifras de la columna quedan alineadas entre sí en vez
+     de bailar según les toque un 1 o un 8. */
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .resultados-establecimiento {
