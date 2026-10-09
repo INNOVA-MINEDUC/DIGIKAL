@@ -627,19 +627,32 @@ import SolicitudCambioSerie from '@/components/SolicitudCambioSerie.vue'
 const VideoInformativo = defineAsyncComponent(() => import('@/components/VideoInformativo.vue'))
 
 /* ── Videos informativos ──────────────────────────────────────────────────
-   Los MP4 están en public/videos/ y Vite los sirve tal cual desde la raíz.
-   Los nombres se dejan como los entregó el área de comunicación, con sus
-   espacios ("VIDEO ALUMNOS .mp4" lleva uno ANTES de la extensión): por eso la
-   ruta pasa por encodeURI, que los vuelve %20.
+   Los MP4 están en public/videos/ y Vite los sirve tal cual desde la raíz; en
+   producción viajan dentro de la imagen de Docker y los sirve nginx, que
+   responde a peticiones por rango (206) — imprescindible para que Safari en
+   iPhone/iPad reproduzca y para poder adelantar el video.
+
+   Son versiones optimizadas, NO los originales. Los originales (4K, 323 y
+   395 MB) viven en assets-originales/videos/, fuera de git: GitHub rechaza
+   cualquier archivo de más de 100 MB y uno solo bloquea el push de la rama.
+   El bucket COSMO tampoco sirve: su /view no admite rangos y manda
+   `no-store`. Para regenerar un video tras cambiar el original:
+
+     ffmpeg -i "<original>.mp4" -vf "scale=1920:-2" -c:v libx264 -preset medium
+       -crf 23 -maxrate 2500k -bufsize 5000k -profile:v high -level 4.1
+       -pix_fmt yuv420p -c:a aac -b:a 128k -ac 2 -movflags +faststart
+       public/videos/<nombre>.mp4
+
+   `+faststart` pone el índice al inicio del archivo: sin él el navegador no
+   puede empezar a reproducir hasta bajarlo entero.
 
    El sufijo #t=0.001 es un fragmento de medios: pide el primer fotograma sin
    reproducir, de modo que el reproductor muestra una imagen en vez de un
-   rectángulo negro (no hay póster aparte). El MP4 tiene el índice al inicio,
-   así que no obliga a bajar el archivo.
+   rectángulo negro (no hay póster aparte).
 
-   Lo que antes se hacía aquí a mano lo resuelve ahora <VideoInformativo>: la
-   pausa de un video al reproducir el otro, y el aviso cuando un archivo no se
-   puede cargar (el skin de Video.js trae su propio diálogo de error). */
+   La pausa de un video al reproducir el otro y el aviso cuando un archivo no
+   se puede cargar los resuelve <VideoInformativo> (el skin de Video.js trae su
+   propio diálogo de error). */
 const VIDEOS = [
   {
     id: 'alumnos',
@@ -647,7 +660,7 @@ const VIDEOS = [
     descripcion: 'Paso a paso para que los estudiantes creen la cuenta de su herramienta tecnológica.',
     icono: 'mdi-school-outline',
     color: '#0094D3',
-    src: encodeURI('/videos/VIDEO ALUMNOS .mp4') + '#t=0.001',
+    src: '/videos/cuenta-estudiantes.mp4#t=0.001',
   },
   {
     id: 'docentes',
@@ -655,7 +668,7 @@ const VIDEOS = [
     descripcion: 'Paso a paso para que los docentes creen la cuenta de su herramienta tecnológica.',
     icono: 'mdi-human-male-board',
     color: '#003366',
-    src: encodeURI('/videos/VIDEO DOCENTES.mp4') + '#t=0.001',
+    src: '/videos/cuenta-docentes.mp4#t=0.001',
   },
 ]
 

@@ -86,10 +86,12 @@ coverage/
 backend/uploads/
 
 # =========================
-# Videos de Ciudadanía Digikal
+# Videos de Ciudadanía Digikal — ORIGINALES
 # =========================
-# Pesan cientos de MB y GitHub rechaza cualquier archivo de más de 100 MB:
-# un solo MP4 en un commit bloquea el push de toda la rama. Se sirven desde
-# frontend/public/videos/ en local; en producción deben llegar por otra vía
-# (bucket o Git LFS), no por el repositorio.
-frontend/public/videos/*.mp4
+# Los originales en 4K (323 y 395 MB) no van al repositorio: GitHub rechaza
+# cualquier archivo de más de 100 MB y uno solo bloquea el push de toda la
+# rama. Lo que se publica son las versiones optimizadas de
+# frontend/public/videos/ (1080p, decenas de MB), que SÍ se versionan para
+# que viajen en la imagen de Docker. El comando para regenerarlas está junto
+# a `VIDEOS` en frontend/src/views/CiudadaniaDigitalView.vue.
+frontend/assets-originales/videos/
