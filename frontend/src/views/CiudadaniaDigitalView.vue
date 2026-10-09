@@ -318,6 +318,38 @@
     </div>
 
     <!-- ══════════════════════════════════════════════════════════════════
+         VIDEOS INFORMATIVOS
+         Paso a paso para crear las cuentas de las herramientas tecnológicas.
+         Cada reproductor es <VideoInformativo> (Video.js 10); los archivos
+         viven en public/videos/ (ver `VIDEOS` en <script>).
+         ══════════════════════════════════════════════════════════════════ -->
+    <v-card rounded="xl" elevation="2" class="mt-4 mb-2">
+      <div class="pa-4 pb-2">
+        <h2 class="text-subtitle-1 font-weight-bold" style="color:#003366;">
+          <v-icon size="20" class="mr-1">mdi-play-circle-outline</v-icon>
+          Videos informativos: crea tu cuenta paso a paso
+        </h2>
+        <p class="text-caption text-grey-darken-1 mb-0">
+          Guías en video, paso a paso, para crear las cuentas de las herramientas tecnológicas.
+        </p>
+      </div>
+
+      <v-row class="pa-4 pt-2">
+        <v-col v-for="v in VIDEOS" :key="v.id" cols="12" md="6">
+          <div class="video-item">
+            <div class="video-item__titulo">
+              <v-icon size="20" :color="v.color">{{ v.icono }}</v-icon>
+              {{ v.titulo }}
+            </div>
+            <p class="video-item__descripcion">{{ v.descripcion }}</p>
+
+            <VideoInformativo :src="v.src" :titulo="v.titulo" />
+          </div>
+        </v-col>
+      </v-row>
+    </v-card>
+
+    <!-- ══════════════════════════════════════════════════════════════════
          INFORMACIÓN DEL PROGRAMA
          Contenido oficial tomado de las guías del Ministerio de Educación
          para las OPF (Acuerdos Ministeriales 2066-2026 y 2067-2026). Se
@@ -583,12 +615,49 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted, watch } from 'vue'
+import { ref, reactive, computed, onMounted, watch, defineAsyncComponent } from 'vue'
 import Swal from 'sweetalert2'
 import api from '@/helpers/api.js'
 import CiudadaniaMap from '@/components/CiudadaniaMap.vue'
 import Tablet3D from '@/components/Tablet3D.vue'
 import SolicitudCambioSerie from '@/components/SolicitudCambioSerie.vue'
+/* Asíncrono a propósito: Video.js añade unos 360 KB (86 KB comprimidos) y los
+   videos están a media página. Así viaja en su propio chunk y no retrasa lo
+   primero que se ve: KPIs, mapa y la tablet. */
+const VideoInformativo = defineAsyncComponent(() => import('@/components/VideoInformativo.vue'))
+
+/* ── Videos informativos ──────────────────────────────────────────────────
+   Los MP4 están en public/videos/ y Vite los sirve tal cual desde la raíz.
+   Los nombres se dejan como los entregó el área de comunicación, con sus
+   espacios ("VIDEO ALUMNOS .mp4" lleva uno ANTES de la extensión): por eso la
+   ruta pasa por encodeURI, que los vuelve %20.
+
+   El sufijo #t=0.001 es un fragmento de medios: pide el primer fotograma sin
+   reproducir, de modo que el reproductor muestra una imagen en vez de un
+   rectángulo negro (no hay póster aparte). El MP4 tiene el índice al inicio,
+   así que no obliga a bajar el archivo.
+
+   Lo que antes se hacía aquí a mano lo resuelve ahora <VideoInformativo>: la
+   pausa de un video al reproducir el otro, y el aviso cuando un archivo no se
+   puede cargar (el skin de Video.js trae su propio diálogo de error). */
+const VIDEOS = [
+  {
+    id: 'alumnos',
+    titulo: 'Video para estudiantes',
+    descripcion: 'Paso a paso para que los estudiantes creen la cuenta de su herramienta tecnológica.',
+    icono: 'mdi-school-outline',
+    color: '#0094D3',
+    src: encodeURI('/videos/VIDEO ALUMNOS .mp4') + '#t=0.001',
+  },
+  {
+    id: 'docentes',
+    titulo: 'Video para docentes',
+    descripcion: 'Paso a paso para que los docentes creen la cuenta de su herramienta tecnológica.',
+    icono: 'mdi-human-male-board',
+    color: '#003366',
+    src: encodeURI('/videos/VIDEO DOCENTES.mp4') + '#t=0.001',
+  },
+]
 
 /* ── Resumen (KPIs, mapa, ranking) ─────────────────────────────────────── */
 
@@ -1693,6 +1762,31 @@ onMounted(() => {
      de bailar según les toque un 1 o un 8. */
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+}
+
+/* ===== Videos informativos ===== */
+.video-item {
+  background: #eef4fa;
+  border-radius: 14px;
+  padding: 14px;
+  height: 100%;
+}
+
+.video-item__titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #003366;
+}
+
+.video-item__descripcion {
+  margin: -4px 0 12px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #475569;
 }
 
 .resultados-establecimiento {

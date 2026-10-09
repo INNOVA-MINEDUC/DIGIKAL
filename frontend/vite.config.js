@@ -4,10 +4,26 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
+/**
+ * Etiquetas de Video.js 10 (@videojs/html) que aparecen en las plantillas.
+ * Son custom elements, no componentes de Vue: sin esto, el compilador intenta
+ * resolverlas como componentes y avisa de que no las encuentra. Se nombran una
+ * por una, sin reglas amplias del tipo "todo lo que lleve guion", para no
+ * esconder errores de tipeo en componentes de Vue reales (ver
+ * node_modules/@videojs/html/docs/guides/vue.md).
+ */
+const elementosVideoJs = new Set(['video-player', 'video-skin', 'media-i18n'])
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => elementosVideoJs.has(tag),
+        },
+      },
+    }),
     vueDevTools(),
   ],
   resolve: {
