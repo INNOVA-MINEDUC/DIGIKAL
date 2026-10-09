@@ -17,6 +17,7 @@
     "@amcharts/amcharts5": "^5.14.4",
     "@fontsource/roboto": "^5.2.8",
     "@mdi/font": "^7.4.47",
+    "@videojs/html": "10.0.1",
     "@vuepic/vue-datepicker": "^12.1.0",
     "@vueuse/motion": "^3.0.3",
     "axios": "^1.13.5",

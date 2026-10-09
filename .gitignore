@@ -84,3 +84,12 @@ coverage/
 
 # Respaldo local de archivos cuando el bucket no responde (bucketService.js)
 backend/uploads/
+
+# =========================
+# Videos de Ciudadanía Digikal
+# =========================
+# Pesan cientos de MB y GitHub rechaza cualquier archivo de más de 100 MB:
+# un solo MP4 en un commit bloquea el push de toda la rama. Se sirven desde
+# frontend/public/videos/ en local; en producción deben llegar por otra vía
+# (bucket o Git LFS), no por el repositorio.
+frontend/public/videos/*.mp4
