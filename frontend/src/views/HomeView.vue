@@ -85,7 +85,9 @@
           pone a disposición plataformas educativas gratuitas con certificación para fortalecer las competencias
           digitales de toda la comunidad educativa guatemalteca.
         </p>
-        <CardOptions :cards="sistemas" />
+      <div style="display: flex; justify-content: center;">
+          <CardOptions :cards="sistemas" />
+      </div>
       </div>
     </section>
     <HomeFooter />
@@ -151,7 +153,7 @@ const sistemas = [
   {
     title: "SIRCE",
     img: "/logo_sirce.webp",
-    url: "https://sigec-dev.mineduc.edu.gt/"
+    url: "https://sirce-dev.mineduc.edu.gt/"
   }
 ]
 </script>

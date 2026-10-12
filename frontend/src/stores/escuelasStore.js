@@ -5,17 +5,14 @@ import api from '@/helpers/api.js'
 // navegar al detalle de una escuela y volver, e incluso a un F5. Se usa
 // sessionStorage (no localStorage) para que sea por pestaña y no quede pegado
 // para siempre.
-// La versión (v2) se subió al cambiar el valor por defecto de `intervenida`:
-// así se ignora cualquier filtro guardado con el default anterior y el arranque
-// respeta el nuevo (traer TODOS los establecimientos desde el inicio).
-const PERSIST_KEY = 'digikal.dashboard.filtro.v2'
+// La versión (v3) se subió al quitar el filtro `intervenida`: así se descarta
+// cualquier filtro guardado que todavía lo traiga. Ahora el backend sólo
+// devuelve establecimientos intervenidos y la tabla ya no tiene ese switch.
+const PERSIST_KEY = 'digikal.dashboard.filtro.v3'
 
 const FILTRO_DEFECTO = {
   dept: null,
   muni: null,
-  // Arranca apagado: por defecto se traen TODOS los establecimientos, no sólo
-  // los intervenidos. El usuario puede encender el switch para filtrarlos.
-  intervenida: false,
   dotado: false,
   conectividad: false,
   codigoMineduc: '',
@@ -66,8 +63,8 @@ export const useEstablecimientosStore = defineStore('establecimientos', {
     tamanoPagina: persistido?.tamanoPagina ?? 10,
     totalPaginas: 1,
 
-    // Filtro activo. `dept`/`muni` los pone el mapa; `intervenida`, `dotado`,
-    // `conectividad` y `codigoMineduc` los pone la tabla. Se guarda todo junto
+    // Filtro activo. `dept`/`muni` los pone el mapa; `dotado`, `conectividad`,
+    // `codigoMineduc` y `busqueda` los pone la tabla. Se guarda todo junto
     // para que al cambiar de página (o de un filtro) se vuelva a pedir con el
     // resto intacto, y se restaura de sessionStorage al volver del detalle.
     filtroActual: { ...FILTRO_DEFECTO, ...(persistido?.filtroActual || {}) },

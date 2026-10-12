@@ -73,8 +73,8 @@ onMounted(() => {
 
   const chart = root.container.children.push(
     am5map.MapChart.new(root, {
-      panX: 'translateX',
-      panY: 'translateY',
+      panX: 'none',
+      panY: 'none',
       // Igual que en GuateMap2: la rueda no hace zoom, para no capturar el
       // scroll de la página cuando el cursor pasa sobre el mapa.
       wheelX: 'none',

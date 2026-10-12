@@ -56,6 +56,17 @@ for (const m of muniData) {
   if (LOOKUP[m.nombre] == null) LOOKUP[m.nombre] = m.id;
 }
 
+const POR_ID = new Map(muniData.map((m) => [m.id, m]));
+
+/**
+ * Municipio del catálogo por su id del API: { id, nombre, departamento }, con
+ * los nombres normalizados (minúsculas, sin tildes) pero en la forma LARGA que
+ * usa el API ("santo tomas chichicastenango"), que es la que exige su filtro.
+ */
+export function municipioApiPorId(id) {
+  return POR_ID.get(id) ?? null;
+}
+
 // Fuse como red de seguridad para variantes no cubiertas por aliases
 const fuse = new Fuse(muniData, {
   keys: ['nombre'],
