@@ -46,16 +46,6 @@
       />
 
       <v-switch
-        v-model="intervenida"
-        label="Solo intervenidos"
-        color="indigo"
-        density="compact"
-        hide-details
-        inset
-        @update:model-value="aplicarFiltros"
-      />
-
-      <v-switch
         v-model="dotado"
         label="Solo con dotación"
         color="primary"
@@ -169,8 +159,8 @@ const store  = useEstablecimientosStore()
 const items  = computed(() => store.getAll)
 
 // Estado local de los filtros de la tabla, inicializado desde el store.
-const intervenida   = ref(store.filtroActual.intervenida ?? false)
-const dotado        = ref(store.filtroActual.dotado || false)
+// No hay filtro de intervenidos: el backend sólo devuelve los intervenidos.
+const dotado       = ref(store.filtroActual.dotado || false)
 const conectividad  = ref(store.filtroActual.conectividad || false)
 const codigoMineduc = ref(store.filtroActual.codigoMineduc || '')
 const busqueda      = ref(store.filtroActual.busqueda || '')
@@ -205,7 +195,6 @@ function showDetails(item) {
 // estos filtros con la ubicación (departamento/municipio) elegida en el mapa.
 function aplicarFiltros() {
   store.fetchDashboard({
-    intervenida: intervenida.value,
     dotado: dotado.value,
     conectividad: conectividad.value,
     codigoMineduc: codigoMineduc.value,
@@ -225,7 +214,6 @@ function limpiarBusqueda() {
 }
 
 function limpiarFiltros() {
-  intervenida.value = false
   dotado.value = false
   conectividad.value = false
   codigoMineduc.value = ''

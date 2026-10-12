@@ -11,6 +11,8 @@ import Internet from '../models/Internet.js';
 import DotacionImagen from '../models/DotacionImagen.js';
 import Acta from '../models/Acta.js';
 import { resolverUrl } from '../services/bucketService.js';
+import { resolverUbicacion } from '../helpers/ubicaciones.js';
+import { buscarMunicipioApiId, municipioApiPorId } from '../helpers/municipioSearch.js';
 import { errorServidor } from '../utils/http.js';
 import logger from '../utils/logger.js';
 
@@ -183,6 +185,19 @@ const resolverMuniId = (ubic, deptName, muniName) => {
   return hit?.id ?? null;
 };
 
+// Respaldo local de resolverMuniId para cuando el api-mdm no responde (p. ej.
+// con su certificado SSL vencido). Los ids de municipio del catálogo local
+// coinciden con los del API. El filtro `municipio` del api-ayuda compara el
+// nombre completo (sólo ignora tildes y mayúsculas), así que se manda la forma
+// larga del API ("santo tomas chichicastenango"), no la corta de la tabla.
+// Se descarta un municipio de otro departamento: el buscador cae a
+// coincidencias sin departamento y un filtro mal asignado vaciaría la tabla.
+const resolverMuniNombreLocal = (deptName, muniName) => {
+  const muniId = buscarMunicipioApiId(muniName, deptName);
+  const municipio = muniId == null ? null : municipioApiPorId(muniId);
+  return municipio && municipio.departamento === norm(deptName) ? municipio.nombre : null;
+};
+
 /* ── Establecimientos del API de ayuda (estadisticasEstablecimientos) ──────
    Una sola llamada devuelve los totales del país (o del departamento filtrado)
    y la lista completa. El filtro es por NOMBRE de departamento. Los campos por
@@ -217,8 +232,9 @@ const AYUDA_LISTA_FIELDS = `
  *     (`totalEstablecimientos`, estudiantes, hombres y mujeres) ya vienen
  *     calculados sobre el subconjunto que coincide.
  *
- * Nota: entre los intervenidos, todos están dotados y conectados, así que esos
- * dos filtros sólo cambian el resultado cuando `intervenida` está apagado.
+ * Nota: no todos los intervenidos están dotados ni conectados (en oct-2026, de
+ * 508 intervenidos, 203 dotados y 352 conectados), así que esos dos filtros sí
+ * acotan el resultado aunque `intervenida` esté encendido.
  */
 const fetchDesdeAyuda = async ({
   dept = null,
@@ -450,8 +466,10 @@ export const getEscuelasDotadas = async (req, res) => {
     const { dept, muni } = req.body || {};
     const pagina = clampPagina(req.body?.pagina);
     const tamanoPagina = clampTamano(req.body?.tamanoPagina);
-    // Por defecto sólo intervenidos; la tabla puede apagarlo para ver todos.
-    const intervenida = req.body?.intervenida === undefined ? true : soloSiTrue(req.body?.intervenida);
+    // Por ahora el tablero muestra SÓLO establecimientos intervenidos: se ignora
+    // lo que mande el cliente. Para volver a permitir ver todos, leer
+    // `req.body.intervenida` (null = todos) y reponer el switch en la tabla.
+    const intervenida = true;
     const dotado = soloSiTrue(req.body?.dotado);
     const conectividad = soloSiTrue(req.body?.conectividad);
     const codigoMineduc = limpiarCodigo(req.body?.codigoMineduc);
@@ -482,6 +500,7 @@ export const getEscuelasDotadas = async (req, res) => {
         const muniId = resolverMuniId(ubic, dept, muni);
         muniNombre = muniId != null ? (ubic.muniNombrePorId.get(muniId) ?? null) : null;
       }
+      if (!muniNombre) muniNombre = resolverMuniNombreLocal(dept, muni);
       if (!muniNombre) {
         // `muni` llega en el cuerpo de una ruta pública: va como argumento y no
         // dentro de la cadena de formato, para que no pueda colar %s y falsear
@@ -542,15 +561,22 @@ export const getEscuelasDotadas = async (req, res) => {
       const estudiantes = e.inscritos2026 ?? e.estudiantesInscritos ?? 0;
 
       const niveles = local?.nivel ? normalizeNiveles(local.nivel) : [];
+      // estadisticasEstablecimientos sólo da los ids. Los nombres salen del
+      // catálogo local por municipioId (no depende de la red: si el api-mdm
+      // falla, la tabla se quedaba sin departamento ni municipio); el api-mdm
+      // queda de respaldo para un municipio que el catálogo no tenga.
+      const ubicacion = resolverUbicacion(e.municipioId);
 
       return {
         id: e.id,
         nombreEscuela: e.nombre,
         codigoEscuela: e.codigoMineduc,
-        // estadisticasEstablecimientos sólo da los ids; el nombre viene de la
-        // tabla de referencia.
-        departamento: { nombre: ubic?.deptNombrePorId.get(e.departamentoId) ?? '' },
-        municipio: { nombre: ubic?.muniNombrePorId.get(e.municipioId) ?? '' },
+        departamento: {
+          nombre: ubicacion.departamento || (ubic?.deptNombrePorId.get(e.departamentoId) ?? ''),
+        },
+        municipio: {
+          nombre: ubicacion.municipio || (ubic?.muniNombrePorId.get(e.municipioId) ?? ''),
+        },
 
         poseeConectividad: e.poseeConectividad ?? false,
         velocidadConectividad: e.velocidadConectividad,

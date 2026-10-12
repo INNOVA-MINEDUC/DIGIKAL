@@ -30,8 +30,8 @@ onMounted(() => {
 
   const chart = root.container.children.push(
     am5map.MapChart.new(root, {
-      panX: "translateX",
-      panY: "translateY",
+      panX: "none",
+      panY: "none",
       // La rueda NO hace zoom: así capturarla no bloquea el scroll de la
       // página cuando el cursor está sobre el mapa. El zoom queda en los
       // botones +/- y en el clic sobre cada departamento.
@@ -80,7 +80,7 @@ onMounted(() => {
   })
 
   departamentosSeries.mapPolygons.template.states.create("hover", {
-    fill: am5.color("#03bfcb")
+    fill: am5.color("#1E5A7D")
   })
 
   const municipiosSeries = chart.series.push(
@@ -94,7 +94,7 @@ onMounted(() => {
   })
 
   municipiosSeries.mapPolygons.template.states.create("hover", {
-    fill: am5.color("#03bfcb")
+    fill: am5.color("#1E5A7D")
   })
 
   const municipioSeleccionadoSeries = chart.series.push(
@@ -108,7 +108,7 @@ onMounted(() => {
   })
 
   municipioSeleccionadoSeries.mapPolygons.template.states.create("hover", {
-    fill: am5.color("#03bfcb")
+    fill: am5.color("#1E5A7D")
   })
 
   const backContainer = chart.children.push(
