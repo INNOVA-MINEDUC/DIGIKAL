@@ -564,7 +564,7 @@
                de un toque en el móvil, pero el texto muestra la dirección
                completa: quien consulte desde un equipo sin cliente de correo
                configurado necesita poder copiarla. -->
-          <v-col cols="12">
+          <v-col cols="6">
             <div class="canal-atencion">
               <v-icon size="30" color="#003366">mdi-email-outline</v-icon>
               <div>
@@ -575,6 +575,25 @@
                 >ayuda@mineduc.edu.gt</a>
                 <div class="canal-atencion__ext">
                   Correo de ayuda · indique el código del establecimiento y el número de serie
+                </div>
+              </div>
+            </div>
+          </v-col>
+          <!-- WhatsApp. El enlace wa.me lleva el código de país (502) para que
+               abra el chat directo desde cualquier dispositivo. -->
+          <v-col cols="6">
+            <div class="canal-atencion">
+              <v-icon size="30" color="#003366">mdi-whatsapp</v-icon>
+              <div>
+                <div class="canal-atencion__etiqueta">Canal 4</div>
+                <a
+                  class="canal-atencion__correo"
+                  href="https://wa.me/50254116478"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >5411-6478</a>
+                <div class="canal-atencion__ext">
+                  WhatsApp · indique el código del establecimiento
                 </div>
               </div>
             </div>

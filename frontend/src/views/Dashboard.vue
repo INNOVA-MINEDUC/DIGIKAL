@@ -47,16 +47,10 @@
           <h3>Centros educativos conectados</h3>
           <p class="value">{{ formatNumber(totalInternet) }}</p>
         </div>
-      </div>
 
-      <div class="section" v-if="modelosEquipos.length">
-        <h2>Modelos de Equipo Dotados</h2>
-        <div class="modelos-grid">
-          <div class="modelo-card" v-for="m in modelosEquipos" :key="m.tipo + m.modelo">
-            <span class="modelo-tipo">{{ m.tipo }}</span>
-            <span class="modelo-nombre">{{ m.modelo }}</span>
-            <span class="modelo-cantidad">{{ formatNumber(m.cantidad) }}</span>
-          </div>
+        <div class="stat-card">
+          <h3>Equipos entregados</h3>
+          <p class="value">{{ formatNumber(totalEquipos) }}</p>
         </div>
       </div>
 
@@ -121,7 +115,6 @@ const totalEquipos = computed(() => store.totalEquipos)
 const totalInternet = computed(() => store.totalInternet)
 const establecimientosDotados = computed(() => store.establecimientosDotados)
 const estudiantesDotados = computed(() => store.estudiantesDotados)
-const modelosEquipos = computed(() => store.modelosEquipos)
 
 
 
@@ -237,41 +230,6 @@ const formatNumber = (num) => {
   margin-top: 4px;
   font-size: 12px;
   color: #888;
-}
-
-.modelos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-}
-
-.modelo-card {
-  background: white;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.modelo-tipo {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #03bfcb;
-  font-weight: 600;
-}
-
-.modelo-nombre {
-  font-size: 14px;
-  color: #333;
-}
-
-.modelo-cantidad {
-  font-size: 22px;
-  font-weight: bold;
-  color: #0d3b5d;
 }
 
 
