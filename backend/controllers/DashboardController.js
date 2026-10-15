@@ -261,6 +261,7 @@ const fetchDesdeAyuda = async ({
         tamanoPagina: $tamanoPagina
       }) {
         totalEstablecimientos totalEstudiantesInscritos2026 totalHombres totalMujeres
+        totalEquipos
         establecimientos { ${AYUDA_LISTA_FIELDS} }
       }
     }`,
@@ -613,6 +614,8 @@ export const getEscuelasDotadas = async (req, res) => {
         totalEstudiantesApi: stats?.totalEstudiantesInscritos2026 ?? null,
         totalHombresApi: stats?.totalHombres ?? 0,
         totalMujeresApi: stats?.totalMujeres ?? 0,
+        // Equipos: el API ya los cuenta sobre el filtro completo.
+        totalEquiposApi: stats?.totalEquipos ?? null,
       };
       guardarCacheDashboard(claveCache, cache);
     }
@@ -681,7 +684,8 @@ export const getEscuelasDotadas = async (req, res) => {
       totalMujeres: cache.totalMujeresApi ?? 0,
 
       establecimientosDotados: dotadas.length,
-      totalEquipos: escuelas.reduce((a, e) => a + e.cantidadEquipos, 0),
+      // El total de equipos sale del API; la suma de la BD local queda de respaldo.
+      totalEquipos: cache.totalEquiposApi ?? escuelas.reduce((a, e) => a + e.cantidadEquipos, 0),
       estudiantesDotados: dotadas.reduce((a, e) => a + e.inscritos2026, 0),
       modelosEquipos,
       nivelesDistribucion,
