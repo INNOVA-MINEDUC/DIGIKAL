@@ -72,6 +72,14 @@ const norm = (s) => {
 // Valores canónicos del sistema (enum NivelEstablecimiento del API MDM).
 const NIVELES_CANONICOS = ['PRE_PRIMARIA', 'PRIMARIA', 'BASICO', 'DIVERSIFICADO'];
 
+const ETIQUETAS_NIVEL = {
+  PRE_PRIMARIA: 'Pre-primaria',
+  PRIMARIA: 'Primaria',
+  BASICO: 'Básico',
+  DIVERSIFICADO: 'Diversificado',
+  SIN_NIVEL: 'Sin nivel',
+};
+
 // Normaliza cualquier grafía de nivel al valor del sistema. Acepta el array
 // que devuelve el API (["DIVERSIFICADO"]) o el string local ("Ciclo Básico").
 // Devuelve un array de niveles canónicos (una escuela puede tener varios).
@@ -210,6 +218,7 @@ const AYUDA_LISTA_FIELDS = `
   telefono correoElectronico latitud longitud opf dotado
   empresaConectividadId tipoConectividadId
   empresaConectividad { id nombre }
+  tipoConectividad { id nombre }
 `;
 
 /**
@@ -281,7 +290,8 @@ const fetchDesdeAyuda = async ({
   return data?.estadisticasEstablecimientos || null;
 };
 
-// Conservado sólo por si se necesita el fetch paginado del api-mdm en el futuro.
+// Listado paginado del api-mdm. Hoy sólo lo usa el catálogo de direcciones del
+// reporte de establecimientos (ver cargarCatalogoMdm), con sus propios campos.
 const ESTABLECIMIENTO_FIELDS = `
   id nombre codigoMineduc
   poseeConectividad velocidadConectividad fechaConexion
@@ -294,7 +304,7 @@ const ESTABLECIMIENTO_FIELDS = `
   empresaConectividad { id nombre }
 `;
 
-const fetchEstablecimientos = async (deptId, muniId) => {
+const fetchEstablecimientos = async (deptId, muniId, campos = ESTABLECIMIENTO_FIELDS) => {
   const todos = [];
 
   for (let pagina = 1; pagina <= MAX_PAGES; pagina++) {
@@ -303,7 +313,7 @@ const fetchEstablecimientos = async (deptId, muniId) => {
     if (muniId != null) filtros.push(`municipioId: ${muniId}`);
 
     const data = await gqlData(
-      `query { establecimientos(filtro: { ${filtros.join(', ')} }) { ${ESTABLECIMIENTO_FIELDS} } }`
+      `query { establecimientos(filtro: { ${filtros.join(', ')} }) { ${campos} } }`
     );
     const pagina_actual = data?.establecimientos || [];
     todos.push(...pagina_actual);
@@ -462,6 +472,135 @@ const guardarCacheDashboard = (clave, valor) => {
   cacheDashboard.set(clave, { ts: Date.now(), valor });
 };
 
+/**
+ * Conjunto COMPLETO de establecimientos de un filtro, ya cruzado con las
+ * dotaciones locales y mapeado al formato del tablero.
+ *
+ * Se trae sin paginar (pagina/tamanoPagina en null): así los KPIs
+ * (establecimientos, dotados, conectados, estudiantes) se calculan sobre todo
+ * el universo filtrado y son consistentes entre sí, en vez de reflejar sólo la
+ * página visible. La paginación de la tabla se hace luego en memoria.
+ *
+ * Lo usan el tablero público y el reporte de establecimientos de Dotaciones;
+ * con los mismos filtros comparten entrada de caché, y por eso sus cifras
+ * coinciden. `ubic` (tablas de referencia del api-mdm) es opcional.
+ */
+const cargarEscuelasMapeadas = async ({
+  ubic = null,
+  dept = null,
+  muni = null,
+  intervenida,
+  dotado = null,
+  conectividad = null,
+  codigoMineduc = null,
+  busqueda = null,
+}) => {
+  // Se cachea por clave de filtro (sin la paginación). La búsqueda por nombre
+  // SÍ entra en la clave: viaja al API, así que cada término trae un conjunto
+  // distinto y no puede compartir entrada de caché con otro.
+  const claveCache = JSON.stringify({
+    dept,
+    muni,
+    intervenida,
+    dotado,
+    conectividad,
+    codigoMineduc,
+    busqueda,
+  });
+  const enCache = leerCacheDashboard(claveCache);
+  if (enCache) return enCache;
+
+  const stats = await fetchDesdeAyuda({
+    dept,
+    muni,
+    intervenida,
+    dotado,
+    conectividad,
+    codigoMineduc,
+    nombre: busqueda,
+    pagina: null,
+    tamanoPagina: null,
+  });
+  const lista = stats?.establecimientos || [];
+
+  // La BD local puede estar caída o vacía: no debe tumbar los datos del API.
+  let dotacionesLocales = new Map();
+  try {
+    const codigos = lista.map((e) => e.codigoMineduc).filter(Boolean);
+    dotacionesLocales = await getDotacionesPorCodigo(codigos);
+  } catch (dbErr) {
+    logger.error('[Dashboard] No se pudieron leer dotaciones locales:', dbErr.message);
+  }
+
+  const mapeadas = lista.map((e) => {
+    const local = dotacionesLocales.get(e.codigoMineduc);
+    const equipos = local?.equipos ?? [];
+    const fechaDotacion = e.fechaDatacion ?? local?.fechaEntrega ?? null;
+    // El API de ayuda ya trae `dotado`; se combina con la señal local.
+    const dotado = Boolean(e.dotado) || fechaDotacion != null || equipos.length > 0;
+    const estudiantes = e.inscritos2026 ?? e.estudiantesInscritos ?? 0;
+
+    const niveles = local?.nivel ? normalizeNiveles(local.nivel) : [];
+    // estadisticasEstablecimientos sólo da los ids. Los nombres salen del
+    // catálogo local por municipioId (no depende de la red: si el api-mdm
+    // falla, la tabla se quedaba sin departamento ni municipio); el api-mdm
+    // queda de respaldo para un municipio que el catálogo no tenga.
+    const ubicacion = resolverUbicacion(e.municipioId);
+
+    return {
+      id: e.id,
+      nombreEscuela: e.nombre,
+      codigoEscuela: e.codigoMineduc,
+      departamento: {
+        nombre: ubicacion.departamento || (ubic?.deptNombrePorId.get(e.departamentoId) ?? ''),
+      },
+      municipio: {
+        nombre: ubicacion.municipio || (ubic?.muniNombrePorId.get(e.municipioId) ?? ''),
+      },
+
+      poseeConectividad: e.poseeConectividad ?? false,
+      velocidadConectividad: e.velocidadConectividad,
+      fechaConectividad: e.fechaConexion,
+      // El proveedor sale directo del API; la BD local queda como respaldo.
+      empresaInternet: e.empresaConectividad?.nombre ?? local?.internet?.empresa ?? null,
+      empresaConectividad: e.empresaConectividad ?? null,
+      empresaConectividadId: e.empresaConectividadId ?? null,
+      tipoConectividadId: e.tipoConectividadId ?? null,
+      tipoConectividad: e.tipoConectividad?.nombre ?? null,
+
+      dotado,
+      fechaDatacion: fechaDotacion,
+      equipos,
+      cantidadEquipos: equipos.length,
+
+      inscritos2026: estudiantes,
+      cantidadHombres: e.cantidadHombres ?? 0,
+      cantidadMujeres: e.cantidadMujeres ?? 0,
+
+      telefono: e.telefono,
+      correoElectronico: e.correoElectronico,
+      direccion: null,
+      latitud: e.latitud,
+      longitud: e.longitud,
+      nivel: niveles.join(', '),
+      niveles,
+      jornada: local?.jornada ?? null,
+      opf: e.opf,
+    };
+  });
+
+  const cache = {
+    escuelasMapeadas: mapeadas,
+    totalEstudiantesApi: stats?.totalEstudiantesInscritos2026 ?? null,
+    totalHombresApi: stats?.totalHombres ?? 0,
+    totalMujeresApi: stats?.totalMujeres ?? 0,
+    // Equipos: el API ya los cuenta sobre el filtro completo.
+    totalEquiposApi: stats?.totalEquipos ?? null,
+  };
+  guardarCacheDashboard(claveCache, cache);
+  return cache;
+};
+
 export const getEscuelasDotadas = async (req, res) => {
   try {
     const { dept, muni } = req.body || {};
@@ -510,12 +649,9 @@ export const getEscuelasDotadas = async (req, res) => {
       }
     }
 
-    // El conjunto completo mapeado se cachea por clave de filtro (sin la
-    // paginación, que se aplica en memoria más abajo). La búsqueda por nombre
-    // SÍ entra en la clave: ahora viaja al API, así que cada término trae un
-    // conjunto distinto y no puede compartir entrada de caché con otro.
-    const claveCache = JSON.stringify({
-      dept: dept ?? null,
+    const cache = await cargarEscuelasMapeadas({
+      ubic,
+      dept,
       muni: muniNombre,
       intervenida,
       dotado,
@@ -523,102 +659,6 @@ export const getEscuelasDotadas = async (req, res) => {
       codigoMineduc,
       busqueda,
     });
-    let cache = leerCacheDashboard(claveCache);
-
-    if (!cache) {
-      // Se trae el conjunto COMPLETO del filtro (sin paginar: pagina/tamanoPagina
-      // en null). Así los KPIs (establecimientos, dotados, conectados, estudiantes)
-      // se calculan sobre todo el universo filtrado y son consistentes entre sí,
-      // en vez de reflejar sólo la página visible. La paginación de la tabla se
-      // hace luego en memoria.
-      const stats = await fetchDesdeAyuda({
-        dept,
-        muni: muniNombre,
-        intervenida,
-        dotado,
-        conectividad,
-        codigoMineduc,
-        nombre: busqueda,
-        pagina: null,
-        tamanoPagina: null,
-      });
-      const lista = stats?.establecimientos || [];
-
-      // La BD local puede estar caída o vacía: no debe tumbar los datos del API.
-      let dotacionesLocales = new Map();
-      try {
-        const codigos = lista.map((e) => e.codigoMineduc).filter(Boolean);
-        dotacionesLocales = await getDotacionesPorCodigo(codigos);
-      } catch (dbErr) {
-        logger.error('[Dashboard] No se pudieron leer dotaciones locales:', dbErr.message);
-      }
-
-      const mapeadas = lista.map((e) => {
-      const local = dotacionesLocales.get(e.codigoMineduc);
-      const equipos = local?.equipos ?? [];
-      const fechaDotacion = e.fechaDatacion ?? local?.fechaEntrega ?? null;
-      // El API de ayuda ya trae `dotado`; se combina con la señal local.
-      const dotado = Boolean(e.dotado) || fechaDotacion != null || equipos.length > 0;
-      const estudiantes = e.inscritos2026 ?? e.estudiantesInscritos ?? 0;
-
-      const niveles = local?.nivel ? normalizeNiveles(local.nivel) : [];
-      // estadisticasEstablecimientos sólo da los ids. Los nombres salen del
-      // catálogo local por municipioId (no depende de la red: si el api-mdm
-      // falla, la tabla se quedaba sin departamento ni municipio); el api-mdm
-      // queda de respaldo para un municipio que el catálogo no tenga.
-      const ubicacion = resolverUbicacion(e.municipioId);
-
-      return {
-        id: e.id,
-        nombreEscuela: e.nombre,
-        codigoEscuela: e.codigoMineduc,
-        departamento: {
-          nombre: ubicacion.departamento || (ubic?.deptNombrePorId.get(e.departamentoId) ?? ''),
-        },
-        municipio: {
-          nombre: ubicacion.municipio || (ubic?.muniNombrePorId.get(e.municipioId) ?? ''),
-        },
-
-        poseeConectividad: e.poseeConectividad ?? false,
-        velocidadConectividad: e.velocidadConectividad,
-        fechaConectividad: e.fechaConexion,
-        // El proveedor sale directo del API; la BD local queda como respaldo.
-        empresaInternet: e.empresaConectividad?.nombre ?? local?.internet?.empresa ?? null,
-        empresaConectividad: e.empresaConectividad ?? null,
-        empresaConectividadId: e.empresaConectividadId ?? null,
-        tipoConectividadId: e.tipoConectividadId ?? null,
-
-        dotado,
-        fechaDatacion: fechaDotacion,
-        equipos,
-        cantidadEquipos: equipos.length,
-
-        inscritos2026: estudiantes,
-        cantidadHombres: e.cantidadHombres ?? 0,
-        cantidadMujeres: e.cantidadMujeres ?? 0,
-
-        telefono: e.telefono,
-        correoElectronico: e.correoElectronico,
-        direccion: null,
-        latitud: e.latitud,
-        longitud: e.longitud,
-        nivel: niveles.join(', '),
-        niveles,
-        jornada: local?.jornada ?? null,
-        opf: e.opf,
-      };
-      });
-
-      cache = {
-        escuelasMapeadas: mapeadas,
-        totalEstudiantesApi: stats?.totalEstudiantesInscritos2026 ?? null,
-        totalHombresApi: stats?.totalHombres ?? 0,
-        totalMujeresApi: stats?.totalMujeres ?? 0,
-        // Equipos: el API ya los cuenta sobre el filtro completo.
-        totalEquiposApi: stats?.totalEquipos ?? null,
-      };
-      guardarCacheDashboard(claveCache, cache);
-    }
 
     // El conjunto ya viene filtrado por el API (nombre incluido), así que los
     // KPIs y la paginación de abajo trabajan directo sobre él.
@@ -633,13 +673,6 @@ export const getEscuelasDotadas = async (req, res) => {
         conteoNiveles.set(nivel, (conteoNiveles.get(nivel) || 0) + 1);
       }
     }
-    const ETIQUETAS_NIVEL = {
-      PRE_PRIMARIA: 'Pre-primaria',
-      PRIMARIA: 'Primaria',
-      BASICO: 'Básico',
-      DIVERSIFICADO: 'Diversificado',
-      SIN_NIVEL: 'Sin nivel',
-    };
     const ordenNivel = [...NIVELES_CANONICOS, 'SIN_NIVEL'];
     const nivelesDistribucion = ordenNivel
       .filter((n) => conteoNiveles.has(n))
@@ -706,6 +739,97 @@ export const getEscuelasDotadas = async (req, res) => {
       ...EMPTY_RESPONSE,
       _warning: 'No fue posible obtener los datos en este momento.',
     });
+  }
+};
+
+/* ── Reporte de establecimientos dotados y conectados (vista Dotaciones) ────
+   Una fila por establecimiento con su estado de dotación y de conectividad.
+   El universo son los intervenidos, que en el API son justo la unión de
+   dotados y conectados (oct-2026: 223 dotados + 366 conectados − 51 con ambos
+   = 538). Se devuelve el conjunto entero y el front filtra (estado, ubicación,
+   proveedor, fechas) y arma el Excel, igual que con las dotaciones locales.  */
+
+// Dirección y nivel no vienen en estadisticasEstablecimientos; sólo en el
+// listado del api-mdm, que hay que recorrer entero (~11 mil filas, ~9 s). Son
+// datos de catálogo que casi no cambian, así que se cachean por horas. Se
+// guarda la promesa para que dos descargas a la vez no lo recorran dos veces.
+const CATALOGO_MDM_TTL_MS = 6 * 60 * 60 * 1000;
+let catalogoMdm = null; // { ts, promesa }
+
+const cargarCatalogoMdm = () => {
+  if (catalogoMdm && Date.now() - catalogoMdm.ts < CATALOGO_MDM_TTL_MS) return catalogoMdm.promesa;
+
+  const promesa = fetchEstablecimientos(null, null, 'id direccion nivel')
+    .then((lista) => new Map(lista.map((e) => [e.id, e])));
+  catalogoMdm = { ts: Date.now(), promesa };
+  // Un fallo no se queda en caché: la siguiente descarga lo vuelve a intentar.
+  promesa.catch(() => { catalogoMdm = null; });
+  return promesa;
+};
+
+// Las fechas del API llegan a medianoche UTC o a medianoche de Guatemala
+// (06:00Z): en ambos casos la parte de fecha del ISO es el día correcto. Las
+// locales ya vienen como 'YYYY-MM-DD'. Se devuelven así para que el front
+// compare rangos sin pelearse con zonas horarias.
+const soloFecha = (valor) => (valor ? String(valor).slice(0, 10) : null);
+
+export const getReporteEstablecimientos = async (req, res) => {
+  try {
+    const [ubic, catalogo] = await Promise.all([
+      cargarUbicaciones().catch(() => null),
+      // Sin el api-mdm el reporte sale igual, sólo sin dirección ni nivel.
+      cargarCatalogoMdm().catch((err) => {
+        logger.warn('[Reporte] Sin catálogo del api-mdm (dirección y nivel):', err.message);
+        return new Map();
+      }),
+    ]);
+    const { escuelasMapeadas } = await cargarEscuelasMapeadas({ ubic, intervenida: true });
+
+    const establecimientos = escuelasMapeadas
+      .filter((e) => e.dotado || e.poseeConectividad)
+      .map((e) => {
+        const mdm = catalogo.get(e.id);
+        const niveles = mdm?.nivel ? normalizeNiveles(mdm.nivel) : e.niveles;
+
+        return {
+          id: e.id,
+          codigo: e.codigoEscuela,
+          nombre: e.nombreEscuela,
+          departamento: e.departamento.nombre,
+          municipio: e.municipio.nombre,
+          direccion: mdm?.direccion ?? null,
+          nivel: niveles.map((n) => ETIQUETAS_NIVEL[n] || n).join(', '),
+
+          conectado: Boolean(e.poseeConectividad),
+          proveedor: e.empresaInternet,
+          tipoConectividad: e.tipoConectividad,
+          velocidad: e.velocidadConectividad ?? null,
+          fechaConexion: soloFecha(e.fechaConectividad),
+
+          dotado: e.dotado,
+          fechaDotacion: soloFecha(e.fechaDatacion),
+
+          inscritos: e.inscritos2026,
+          hombres: e.cantidadHombres,
+          mujeres: e.cantidadMujeres,
+
+          telefono: e.telefono,
+          correo: e.correoElectronico,
+          opf: e.opf,
+          latitud: e.latitud,
+          longitud: e.longitud,
+        };
+      });
+
+    return res.status(200).json({ establecimientos });
+  } catch (error) {
+    return errorServidor(
+      res,
+      '[Reporte] establecimientos dotados y conectados',
+      error,
+      'No fue posible consultar los establecimientos en el API',
+      502
+    );
   }
 };
 

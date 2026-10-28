@@ -108,6 +108,19 @@
           </div>
 
           <div class="cabecera__acciones">
+            <!-- Reporte aparte: una fila por establecimiento con su estado de
+                 dotación y conectividad, con datos del API del MINEDUC. Los
+                 botones Excel/PDF de al lado exportan las dotaciones locales. -->
+            <v-btn
+              variant="flat"
+              prepend-icon="mdi-school-outline"
+              class="text-none font-weight-bold rounded-lg cabecera__reporte"
+              style="background-color:#003366;color:#ffffff;"
+              :size="esMovil ? 'default' : 'large'"
+              @click="dialogReporte = true"
+            >
+              Dotados y conectados
+            </v-btn>
             <v-btn
               variant="outlined"
               color="#0094D3"
@@ -451,6 +464,8 @@
       </v-card>
     </v-dialog>
 
+    <ReporteEstablecimientos v-model="dialogReporte" />
+
   </v-container>
 </template>
 
@@ -459,6 +474,10 @@ import { ref, computed, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import api, { urlArchivo } from '@/helpers/api.js'
 import Swal from 'sweetalert2'
+import ReporteEstablecimientos from '@/components/ReporteEstablecimientos.vue'
+
+/** Diálogo del reporte de establecimientos dotados y conectados. */
+const dialogReporte = ref(false)
 
 /* El panel lateral es `cols="12" md="3"`, así que por debajo de 960 px deja de
    estar al lado y pasa a apilarse encima de la tabla. `smAndDown` marca
@@ -1313,6 +1332,7 @@ onMounted(() => {
 
 .cabecera__acciones {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
@@ -1517,6 +1537,12 @@ onMounted(() => {
   .cabecera__acciones > * {
     flex: 1 1 0;
     min-width: 0;
+  }
+
+  /* El del reporte de establecimientos tiene un texto largo: va en su propia
+     fila, y Excel y PDF debajo, a medias. */
+  .cabecera__acciones > .cabecera__reporte {
+    flex-basis: 100%;
   }
 
   .detalle-head {

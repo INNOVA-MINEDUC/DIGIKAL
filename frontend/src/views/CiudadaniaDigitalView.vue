@@ -564,7 +564,7 @@
                de un toque en el móvil, pero el texto muestra la dirección
                completa: quien consulte desde un equipo sin cliente de correo
                configurado necesita poder copiarla. -->
-          <v-col cols="6">
+          <v-col  cols="12" sm="6">
             <div class="canal-atencion">
               <v-icon size="30" color="#003366">mdi-email-outline</v-icon>
               <div>
@@ -581,7 +581,7 @@
           </v-col>
           <!-- WhatsApp. El enlace wa.me lleva el código de país (502) para que
                abra el chat directo desde cualquier dispositivo. -->
-          <v-col cols="6">
+          <v-col cols="12" sm="6">
             <div class="canal-atencion">
               <v-icon size="30" color="#003366">mdi-whatsapp</v-icon>
               <div>
