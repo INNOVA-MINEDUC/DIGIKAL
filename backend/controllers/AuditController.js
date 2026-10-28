@@ -57,20 +57,40 @@ const describirFiltros = (filtros) => {
   if (filtros.departamento) partes.push(`departamento ${filtros.departamento}`);
   if (filtros.municipio) partes.push(`municipio ${filtros.municipio}`);
   if (filtros.origen) partes.push(`origen ${filtros.origen}`);
+  // Reporte de establecimientos dotados y conectados.
+  if (filtros.estado) partes.push(`estado ${filtros.estado}`);
+  if (filtros.proveedor) partes.push(`proveedor ${filtros.proveedor}`);
+  if (filtros.tipoConectividad) partes.push(`conectividad ${filtros.tipoConectividad}`);
+  if (filtros.conexionDesde || filtros.conexionHasta) {
+    partes.push(`conexión del ${filtros.conexionDesde || "inicio"} al ${filtros.conexionHasta || "día de hoy"}`);
+  }
+  if (filtros.dotacionDesde || filtros.dotacionHasta) {
+    partes.push(`dotación del ${filtros.dotacionDesde || "inicio"} al ${filtros.dotacionHasta || "día de hoy"}`);
+  }
 
   return partes.length ? partes.join(", ") : "sin filtros";
 };
 
+// Reportes que se pueden descargar, para nombrarlos en la bitácora. Sin
+// `reporte` (o con uno desconocido) se asume el de dotaciones, el original.
+const REPORTES = {
+  dotaciones: "dotaciones",
+  establecimientos: "establecimientos dotados y conectados",
+};
+
 export const logDownload = async (req, res) => {
   try {
-    const { format, filtros } = req.body;
+    const { format, filtros, reporte } = req.body;
 
     const formato = String(format || "").toUpperCase() || "DESCONOCIDO";
+    // hasOwn: `reporte` lo manda el cliente, y con "constructor" la búsqueda
+    // directa devolvería lo heredado de Object.
+    const nombreReporte = Object.hasOwn(REPORTES, reporte ?? "") ? REPORTES[reporte] : REPORTES.dotaciones;
 
     await logAction(req, {
       action: "DATA_DOWNLOAD",
       module: "REPORTES",
-      description: `Descargó el reporte de dotaciones en ${formato} (${describirFiltros(filtros)})`,
+      description: `Descargó el reporte de ${nombreReporte} en ${formato} (${describirFiltros(filtros)})`,
     });
 
     res.status(201).json({ message: "Descarga registrada" });

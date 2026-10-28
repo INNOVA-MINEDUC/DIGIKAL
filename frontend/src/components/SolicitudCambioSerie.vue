@@ -13,7 +13,7 @@
     <v-card-text class="pa-4 pa-sm-6">
       <p class="text-body-2 mb-4">
         Si la serie que aparece registrada para una tableta no es la del equipo físico, puede
-        pedir que se corrija. La autoriza el <strong>director del establecimiento</strong>: hay que
+        pedir que se corrija. La autoriza el <strong>director del establecimiento</strong>:hay que
         adjuntar el documento <strong>firmado y sellado</strong> donde consta el número correcto.
         El cambio no se aplica hasta que personal de DIGECADE lo verifique.
       </p>

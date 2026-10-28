@@ -6,6 +6,7 @@ import {
   getDotaciones,
   agregarImagenes
 } from '../controllers/DotacionController.js';
+import { getReporteEstablecimientos } from '../controllers/DashboardController.js';
 import { apiLimiter, uploadLimiter } from '../middlewares/rateLimit.middleware.js';
 import { validarMetadatos, validarContenido } from '../utils/archivos.js';
 import { requireRoles } from '../middlewares/auth.middleware.js';
@@ -99,6 +100,15 @@ router.use(requireRoles(...ROLES_DOTACION));
 router.post('/', uploadLimiter, manejarSubida, verificarContenido, createDotacion);
 
 router.get('/', apiLimiter, getDotaciones);
+
+/**
+ * Reporte de establecimientos dotados y conectados, una fila por escuela.
+ *
+ * Los datos salen del API del MINEDUC (no de la base local), pero se sirven
+ * aquí y no en /dashboard porque llevan el directorio completo —contacto,
+ * coordenadas y fechas— y esa zona es pública.
+ */
+router.get('/establecimientos', apiLimiter, getReporteEstablecimientos);
 
 /**
  * Agregar fotos de evidencia a una dotación ya registrada.
